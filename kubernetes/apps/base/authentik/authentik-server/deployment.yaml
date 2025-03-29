@@ -42,7 +42,7 @@ spec:
               value: redis.redis
             - name: TZ
               value: Europe/London
-          image: ghcr.io/goauthentik/server:latest
+          image: ghcr.io/goauthentik/server:2025.2.3
           name: authentik-server
           ports:
             - containerPort: 9000

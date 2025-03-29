@@ -21,7 +21,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-        - image: phpmyadmin/phpmyadmin
+        - image: phpmyadmin/phpmyadmin:5.2.2
           name: phpmyadmin
           env:
             - name: UPLOAD_LIMIT

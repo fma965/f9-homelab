@@ -24,7 +24,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-      - image: docker.getoutline.com/outlinewiki/outline:latest
+      - image: outlinewiki/outline:0.82.0
         name: outline
         envFrom:
           - secretRef:

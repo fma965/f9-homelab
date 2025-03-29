@@ -23,7 +23,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-        - image: khairul169/garage-webui:latest
+        - image: khairul169/garage-webui:1.0.8
           name: garage-webui
           env:
           - name: API_BASE_URL

@@ -24,7 +24,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-      - image: vaultwarden/server:latest
+      - image: vaultwarden/server:1.33.2
         name: vaultwarden
         ports:
         - containerPort: 80
