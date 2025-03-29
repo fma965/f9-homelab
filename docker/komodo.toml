@@ -157,5 +157,5 @@ name = "f9-homelab"
 [resource_sync.config]
 repo = "fma965/f9-homelab"
 git_account = "fma965"
-resource_path = ["komodo.toml"]
+resource_path = ["docker/komodo.toml"]
 managed = true
