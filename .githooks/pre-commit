@@ -1,11 +1,7 @@
 #!/bin/sh
 
-# set -x  # Enable debug output
-
 # Debug: Print environment and basic info
 echo "=== Starting encryption script ==="
-echo "Working directory: $(pwd)"
-echo "Git root: $(git rev-parse --show-toplevel 2>/dev/null || echo 'Not in git repo')"
 
 # Define where your age public key for sops is stored
 AGE_KEY_FILE=".sops/age/public.key"
@@ -14,7 +10,6 @@ if [ ! -f "$AGE_KEY_FILE" ]; then
   exit 1
 fi
 PUBLIC_KEY=$(cat "$AGE_KEY_FILE")
-echo "Using public key: ${PUBLIC_KEY:0:20}..."  # Print first 20 chars of key
 
 # Function to compute SHA-256 hash of file content
 compute_hash() {
