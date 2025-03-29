@@ -12,6 +12,15 @@
     "github>fma965/f9-homelab//.renovate/meta.json5",
     "github>fma965/f9-homelab//.renovate/packageRules.json5",
   ],
+  ignorePaths: [
+    "infrastructure/tofu/main.tf",
+    "infrastructure/tofu/talos/providers.tf",
+    ".githooks/**",
+    ".github/**",
+    ".sops/**",
+    "**/*.sample.*",
+    "**/*.enc.*",
+  ],
   flux: {
     fileMatch: [
       "(?:^|/)gotk-components\\.ya?ml$",
@@ -36,4 +45,5 @@
   },
   fetchChangeLogs: "pr",
   prBodyTemplate: "{{{table}}}{{{notes}}}{{{changelogs}}}{{{controls}}}",
+
 }

@@ -28,13 +28,6 @@
                 "ghcr.io/ferretdb/ferretdb"
             ],
             enabled: false
-        },
-        {
-            matchFileNames: [
-                "infrastructure/tofu/main.tf",
-                "infrastructure/tofu/talos/providers.tf",
-            ],
-            enabled: false
         }
           
         // {
