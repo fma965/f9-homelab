@@ -12,12 +12,35 @@
     "github>fma965/f9-homelab//.github/renovate/meta.json5",
     "github>fma965/f9-homelab//.github/renovate/packageRules.json5",
   ],
-  kubernetes: {
-    fileMatch: ["kubernetes/.+\\.yaml$"]
-  },
   flux: {
-    fileMatch: ["kubernetes/.+\\.yaml$"]
+    fileMatch: ["kubernetes/clusters/.+\\.ya?ml$"]
   },
+  "helm-values": {
+    fileMatch: ["kubernetes/clusters/.+\\.ya?ml$","kubernetes/apps/.+\\.ya?ml$","kubernetes/infrastructure/.+\\.ya?ml$"]
+  },
+  kubernetes: {
+    fileMatch: ["kubernetes/clusters/.+\\.ya?ml$","kubernetes/apps/.+\\.ya?ml$","kubernetes/infrastructure/.+\\.ya?ml$"]
+  },
+  regexManagers: [
+    {
+      "description": "Match Helm values for non-standard yamls",
+      "fileMatch": "kubernetes/infrastructure/.+\\.ya?ml$",
+      "matchStringsStrategy": "any",
+      "matchStrings": [
+        "repository:\\s?\"?(?<depName>[^\\s\"]*)\"?\\s*?tag:\\s?\"?(?<currentValue>[^\\s\"]*)\"?"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "description": "Match Helm Releases for helm charts",
+      "fileMatch": ["kubernetes/apps/.+\\.ya?ml$","kubernetes/infrastructure/.+\\.ya?ml$"],
+      "matchStringsStrategy": "any",
+      "matchStrings": [
+        "chart:\\s?\"?(?<depName>[^\\s\"]*)\"?\\s*?version:\\s?\"?(?<currentValue>[^\\s\"]*)\"?"
+      ],
+      "datasourceTemplate": "helm"
+    }
+  ],
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
   suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
   // schedule: [
