@@ -24,7 +24,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-      - image: directus/directus:10
+      - image: directus/directus:11
         name: games-manager-backend
         ports:
         - containerPort: 8055
