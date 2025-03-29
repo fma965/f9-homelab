@@ -1,0 +1,21 @@
+# tofu/talos/machine-config/worker.yaml.tftpl
+machine:
+  network:
+    hostname: ${hostname}
+  nodeLabels:
+    topology.kubernetes.io/region: ${cluster_name}
+    topology.kubernetes.io/zone: ${node_name}
+    worker: "true"
+  kubelet:
+    extraMounts:
+      - destination: /var/lib/longhorn
+        type: bind
+        source: /var/lib/longhorn
+        options:
+          - bind
+          - rshared
+          - rw
+  disks:
+      - device: /dev/sdb # The name of the disk to use.
+        partitions:
+          - mountpoint: /var/lib/longhorn # Where to mount the partition.
