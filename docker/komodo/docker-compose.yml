@@ -106,9 +106,7 @@ services:
       ## or docker will get confused. See https://github.com/moghtech/komodo/discussions/180.
       ## Default: /etc/komodo.
       - ${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}:${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}
-      ## Mount the SOPS Age Key, must be mount to /root/.config/sops/age/keys.txt.
-      - ${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}/sops.key:/root/.config/sops/age/keys.txt
-      
+
 networks: 
   f9-nas:
     external: true
