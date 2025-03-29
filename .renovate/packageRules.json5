@@ -30,7 +30,7 @@
             enabled: false
         },
         {
-            matchFiles: [
+            matchFileNames: [
                 "infrastructure/tofu/main.tf",
                 "infrastructure/tofu/talos/providers.tf",
             ],
