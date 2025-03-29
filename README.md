@@ -89,7 +89,7 @@ Run the following script to decrypt and copy the Compose files to UnRaid
 (Make sure you have the [docker compose plugin](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager/) installed)
 ```bash
 chmod +x ./docker/restore-docker.sh
-./docker/restore-docker.sh
+./docker/restore-docker.sh root@unraidIP
 ```
 If you have lost the Komodo database also follow the below steps to reconfigure the GitOps sync
 1. Access the [Komodo WebUI](https://komodo.f9.casa)
@@ -108,38 +108,55 @@ Infrastructure is in [infrastructure](infrastructure)
 Docker is in [docker](docker)
 Kubernetes is in [kubernetes](kubernetes)
 ```
-───.githooks (git hooks)
-│   ├───commit-msg (ensures semantic commit messages)
-│   ├───post-checkout (ensures all enc files are decrypted)
-│   └───pre-commit (ensures all secret files are encrypted)
-───.github
-│   ├───renovate.json5 (renovatebot base config)
-│   └───renovate (renovatebot additional config)
-───.sops
-│   └───age (sops private/public key)
-├───docker (Docker GitOps with Komodo)
-│   ├───komodo (docker compose and env for komodo for unraid)
-│   ├───komodo.toml (config file for komodo, stores all my stack configuration and syncs etc)
-│   └───stacks (folder that contains all my docker stacks)
-├───infrastructure (Talos Linux IaC with Tofu)
-│   └───tofu
-│       ├───cilium
-│       ├───output
-│       ├───simplified
-│       └───talos
-│           ├───image
-│           ├───inline-manifests
-│           └───machine-config
-└───kubernetes (Kubernetes GitOps with FluxCD)
-    ├───apps (manifests / helmcharts)
-    │   └───base
-    ├───clusters
-    │   └───home
-    │       └───flux-system (FluxCD configuration)
-    └───infrastructure
-        ├───configs 
-        ├───controllers
-        └───databases
+📁 Repository Root
+│
+├───🔧 .githooks/                    # Git hook scripts
+│   ├───🐙 commit-msg                # Enforces semantic commit messages
+│   ├───🔓 post-checkout             # Auto-decrypts files after checkout
+│   └───🔐 pre-commit               # Ensures secrets are encrypted before commit
+│
+├───🤖 .github/                      # GitHub configurations
+│   ├───🔄 renovate.json5            # Base RenovateBot configuration
+│   └───📦 renovate/                 # Additional Renovate presets
+│
+├───🔑 .sops/age/                    # SOPS encryption keys
+│   ├───🗝️ private.key              # Age private key (gitignored)
+│   └───🔓 public.key               # Age public key
+│
+├───🐳 docker/                       # Docker/Compose configurations
+│   ├───🦎 komodo/                   # Komodo-specific files
+│   │   ├───📝 compose.yaml         # Main compose file
+│   │   └───🔒 secret.enc.env       # Encrypted environment variables
+│   │
+│   ├───⚙️ komodo.toml              # Komodo stack configuration
+│   └───📦 stacks/                  # All Docker stacks
+│       ├───📁 stack1/
+│       └───📁 stack2/
+│
+├───🖥️ infrastructure/              # Talos Linux IaC
+│   └───🚀 tofu/
+│       ├───🔗 cilium/               # Cilium CNI configs
+│       ├───📤 output/               # Tofu state/outputs
+│       ├───🔄 simplified/           # Simplified manifests
+│       └───🤖 talos/
+│           ├───🖼️ image/           # OS image configs
+│           ├───📜 inline-manifests/ # Embedded Kubernetes manifests
+│           └───⚙️ machine-config/   # Talos machine configs
+│
+└───☸️ kubernetes/                   # FluxCD GitOps
+    ├───📱 apps/                     # Application manifests
+    │   └───📌 base/                 # Base Kustomizations
+    │
+    ├───🏠 clusters/
+    │   └───home/
+    │       └───🌀 flux-system/       # Flux bootstrap configs
+    │           ├───📜 gotk-components.yaml
+    │           └───📜 gotk-sync.yaml
+    │
+    └───🛠️ infrastructure/
+        ├───⚙️ configs/              # Cluster configs
+        ├───🎮 controllers/          # Custom controllers
+        └───🗃️ databases/           # Database operators
 ```
 
 ## Footnotes
