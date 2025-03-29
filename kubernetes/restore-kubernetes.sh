@@ -23,10 +23,10 @@ done
 # Execute workflow
 # Apply with confirmation (unless --auto-approve)
 if [ "$AUTO_APPROVE" = false ]; then
-    read -p $'\e[35m❓ Apply Kubernetes FluxCD Configuration? (y/n):  \e[0m' -n 1 -r
+    read -p $'\e[35m Apply Kubernetes FluxCD Configuration? (y/n):  \e[0m' -n 1 -r
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        color_echo "34" "⚠️ Apply cancelled."
+        color_echo "34" "Apply cancelled."
         exit 0
     fi
 fi
@@ -35,8 +35,8 @@ color_echo "34" "Creating flux-system namespace ..."
 NAMESPACE="flux-system"
 kubectl create namespace "$NAMESPACE" --dry-run=client -o yaml | kubectl apply -f -
 
-color_echo "34" "Creating sops-age secret in flux-system namespace from SOPSKEY ..."
-kubectl create secret generic sops-age -n flux-system --from-file=age.agekey=$SOPSKEY -o yaml --dry-run=client | kubectl apply -f -
+color_echo "34" "Creating sops-age secret in flux-system namespace from $SOPS_AGE_KEY_FILE ..."
+kubectl create secret generic sops-age -n flux-system --from-file=age.agekey=$SOPS_AGE_KEY_FILE -o yaml --dry-run=client | kubectl apply -f -
 
 color_echo "34" "Bootstrapping FluxCD ..."
 flux bootstrap github \
@@ -68,9 +68,9 @@ color_echo "34" "In the UI, Click on "Backups", Select all volumes, "Restore fro
 
 REPLY=""
 while ! [[ $REPLY =~ ^[Yy]$ ]]; do
-    read -p $'\e[35m❓ Have you restored your Longhorn volume?? (y/n):  \e[0m' -n 1 -r
+    read -p $'\e[35m Have you restored your Longhorn volume?? (y/n):  \e[0m' -n 1 -r
     echo
-    [[ ! $REPLY =~ ^[Yy]$ ]] && color_echo "34" "⚠️ Once the volumes have finished being restored, please confirm with 'Y' to proceed."
+    [[ ! $REPLY =~ ^[Yy]$ ]] && color_echo "34" "Once the volumes have finished being restored, please confirm with 'Y' to proceed."
 done
 
 color_echo "34" "Resuming FluxCD Infra-Databses and Apps now that longhorn volumes have been restored ..."

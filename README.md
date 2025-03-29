@@ -72,9 +72,9 @@ chmod +x ./infrastructure/restore-infrastructure.sh
 Optionally add `--dry-run`/`-d` to test it, or if you are feeling brave `--auto-approve`/`-y` to skip confirmation prompts
 
 ### Restoring Kubernetes
-Export your SOPSKEY and if you do not wish to enter your GitHub Token later export that aswell
+Export your SOPS_AGE_KEY_FILE and if you do not wish to enter your GitHub Token later export that aswell
 ```bash
-export SOPSKEY=$PWD/.sops/age/private.key
+export SOPS_AGE_KEY_FILE=$PWD/.sops/age/private.key
 export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxx`
 ```
 Run the following script to initiate the FluxCD kubernetes GitOps process
@@ -85,16 +85,23 @@ chmod +x ./kubernetes/restore-kubernetes.sh
 At a certain point during the script, it will ask you to "Access Longhorn at: http://localhost:8080" follow the steps
 
 ### Restoring Docker
-[TBC]
-1. Navigate to "Servers" and Delete the existing Server.
-2. Navigate to "Settings" > "Providers" and add a Github.com Account using your token
-3. Navigate to "Syncs" and Create a New Resource Sync called "f9-homelab"
-4. Set the Mode to "Git Repo", Repo to "fma965/f9-homelab"
-5. Set the Account to "fma965"
-6. Add 2 Resource Paths, "komodo" and "services"
-7. Enable "Delete Unmatched Resources"
-8. Click "Save", Click "Refresh" and the "Execute"
-9. Go to "Procedure", Click "f9-homelab"
+Run the following script to decrypt and copy the Compose files to UnRaid
+(Make sure you have the [docker compose plugin](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager/) installed)
+```bash
+chmod +x ./docker/restore-docker.sh
+./docker/restore-docker.sh
+```
+If you have lost the Komodo database also follow the below steps to reconfigure the GitOps sync
+1. Access the [Komodo WebUI](https://komodo.f9.casa)
+2. Navigate to "Servers" and Delete the existing Server.
+3. Navigate to "Settings" > "Providers" and add a Github.com Account using your token
+4. Navigate to "Syncs" and Create a New Resource Sync called "f9-homelab"
+5. Set the Mode to "Git Repo", Repo to "fma965/f9-homelab"
+6. Set the Account to "fma965"
+7. Add the following resource path `docker/komodo.toml`
+8. Enable "Delete Unmatched Resources" and "Managed"
+9. Make sure only "Sync Resources" is checked under the Include section
+10. Click "Save", Click "Refresh" and the "Execute"
 
 ## Git Repo Structure
 Infrastructure is in [infrastructure](infrastructure)
