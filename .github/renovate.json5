@@ -13,10 +13,18 @@
     "github>fma965/f9-homelab//.github/renovate/packageRules.json5",
   ],
   flux: {
-    fileMatch: ["(?:^|/)gotk-components\\.ya?ml$", "kubernetes/apps/(.+/)helmrelease\\.ya?ml$", "kubernetes/infrastructure/controllers/.+\\.ya?ml$"],
+    fileMatch: [
+      "(?:^|/)gotk-components\\.ya?ml$",
+      "kubernetes/apps/(.+/)helmrelease\\.ya?ml$",
+      "kubernetes/infrastructure/controllers/.+\\.ya?ml$"
+    ]
   },
   kubernetes: {
-    fileMatch: ["kubernetes/clusters/.+\\.ya?ml$","kubernetes/apps/.+\\.ya?ml$","kubernetes/infrastructure/.+\\.ya?ml$"]
+    fileMatch: [
+      "kubernetes/clusters/.+\\.ya?ml$",
+      "kubernetes/apps/(.+/)deployment\\.ya?ml$",
+      "kubernetes/infrastructure/databases/.+\\.ya?ml$"
+    ]
   },
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
   suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
