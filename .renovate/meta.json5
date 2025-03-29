@@ -1,0 +1,52 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  ignorePaths: [
+    "komodo/**",
+    ".archived/**",
+    "**/*.sops.*",
+    "**/archive/**",
+    "**/resources/**"
+  ],
+  packageRules: [
+    /* Ignore latest and localhost tags */
+    {
+      matchDatasources: ["docker"],
+      matchCurrentVersion: "/localhost|latest/",
+      enabled: false,
+    },
+    /* plex */
+    {
+      matchPackagePatterns: [".*\\/plex"],
+      versioning: "loose",
+      changelogUrl: "https://forums.plex.tv/t/plex-media-server/30447",
+    },
+    /* prowlarr */
+    {
+      matchPackagePatterns: [".*\\/prowlarr"],
+      changelogUrl: "https://github.com/Prowlarr/Prowlarr/releases",
+    },
+    /* renovate */
+    {
+      matchPackagePatterns: [".*\\/renovate"],
+      sourceUrl: "https://github.com/renovatebot/renovate",
+    },
+    /* radarr */
+    {
+      matchPackagePatterns: [".*\\/radarr"],
+      versioning: "regex:^version-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$",
+      changelogUrl: "https://github.com/Radarr/Radarr/releases",
+    },
+    /* sonarr */
+    {
+      matchPackagePatterns: [".*\\/sonarr"],
+      versioning: "regex:^version-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$",
+      changelogUrl: "https://services.sonarr.tv/v1/update/stable/changes?version=4",
+    },
+    /* immich */
+    {
+      groupName: "Immich",
+      matchPackagePatterns: [".*\\/immich-.*"],
+      sourceUrl: "https://github.com/immich-app/immich",
+    },
+  ],
+}

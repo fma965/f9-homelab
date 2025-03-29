@@ -1,0 +1,40 @@
+{
+    $schema: "https://docs.renovatebot.com/renovate-schema.json",
+    packageRules: [
+        {
+        versioning: "regex:^(?:(?P<compatibility>.+)-)?v?(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)(?:\\.(?P<build>\\d+))?-?r?(?P<release>\\w+)?",
+        matchPackageNames: [
+            "/^ghcr.io\\/linuxserver\\//",
+            "/^lscr.io\\/linuxserver\\//",
+            "/^linuxserver\\//"
+        ]
+        },
+        {
+        versioning: "regex:^(?<compatibility>.*?)-(?<major>v?\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)[.-]*r?(?<build>\\d+)*-*r?(?<release>\\w+)*",
+        matchPackageNames: [
+            "/^ghcr.io\\/hotio\\//",
+            "/^hotio\\//"
+        ]
+        },
+        {
+        matchPackageNames: ["open-webui",],
+        allowedVersions: 'main',
+        commitMessageExtra: '(digest) to {{{newDigestShort}}}',
+        pinDigests: true,
+        addLabels: ['digest'],
+        },
+        {
+        "description": "Automatically merge minor and patch-level updates for all packages except Immich",
+        "matchUpdateTypes": [
+            "minor",
+            "patch",
+            "digest"
+        ],
+        "excludePackagePatterns": [
+            "^ghcr.io/imagegenius/immich"
+        ],
+        "automerge": true,
+        "automergeType": "branch",
+        }
+    ]
+}

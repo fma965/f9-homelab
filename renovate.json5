@@ -1,0 +1,29 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "config:recommended",
+    ":disableRateLimiting",
+    ":semanticCommits",
+    ":skipStatusChecks",
+    ":separateMajorReleases",
+    ":automergeBranch",
+    ":enableVulnerabilityAlertsWithLabel",
+    ":timezone(Europe/London)",
+    "github>fma965/f9-docker//.renovate/commitMessage.json5",
+    "github>fma965/f9-docker//.renovate/labels.json5",
+    "github>fma965/f9-docker//.renovate/semanticCommits.json5",
+    "github>fma965/f9-docker//.renovate/meta.json5",
+    "github>fma965/f9-docker//.renovate/packageRules.json5",
+  ],
+  dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
+  schedule: [
+    'after 3am and before 6am',
+  ],  
+  vulnerabilityAlerts: {
+    "labels": ['security'],
+    "automerge": true,
+  },
+  fetchChangeLogs: "pr",
+  prBodyTemplate: "{{{table}}}{{{notes}}}{{{changelogs}}}{{{controls}}}",
+}

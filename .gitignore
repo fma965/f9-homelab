@@ -1,0 +1,9 @@
+.sops/**
+infrastructure/tofu/.terraform
+infrastructure/tofu/output/**
+infrastructure/tofu/*.auto.tfvars
+infrastructure/tofu/terraform.tfstate
+infrastructure/tofu/terraform.log
+infrastructure/tofu/terraform.tfstate
+infrastructure/tofu/terraform.tfstate.backup
+infrastructure/tofu/start-time.txt
