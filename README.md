@@ -1,0 +1,139 @@
+# F9's Homelab Deployment
+
+## Summary
+This repo uses **IaC** and **GitOps** techniques to easily and securely (using **SOPS AGE**) deploy **Talos Linux**, **Kubernetes (K8S)** and **Docker** services with code.
+
+### Talos Linux IaC using Terraform/OpenTofu
+Located in the [infrastructure](infrastructure) folder
+- 3x Talos Control Plane VM Creation (Proxmox)
+- 3x Talos Worker VM Creation (Proxmox)
+- Talos Cluster configuration
+
+Based on [Stonegarden](https://blog.stonegarden.dev/articles/2024/08/talos-proxmox-tofu/) modified for my use.
+
+###  Kubernetes GitOps using FluxCD
+Located in the [kubernetes](kubernetes) folder
+- FluxCD powered GitOps deployment
+- Cert-Manager using LetsEncrypt with Cloudflare API authentication
+- Cilium load balancer
+- Traefik ingress
+- Longhorn
+- MariaDB (MySQl), Postgres and Redis databases
+
+The [kubernetes](kubernetes) folder of this repo mostly follows the FluxCD Mono Repo structure.
+
+### Docker GitOps using Komodo
+Located in the [docker](docker) folder
+- [Komodo](https://komo.do/) powered GitOps deployment
+
+As this runs on my UnRaid instance this is configured manually once the [Komodo Compose](docker/komodo/) file is up and running
+
+### AGE encrypted Secrets with SOPS
+All `*secret.enc.env` (docker) and `*secret.enc.yaml` (kubernetes) files are encrypted with SOPS using AGE.
+
+I have included `*secret.sample.yaml` and `*secret.enc.env` files which contain placeholder values to enhance the usability.
+
+## Pre-requisites
+### Clone the Repo
+`git clone https://github.com/fma965/f9-homelab`
+
+### Download CLI Tools
+Ensure you have installed in a WSL or Linux installation the following packages
+- [fluxcli](https://fluxcd.io/flux/cmd/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+- [talosctl](https://www.talos.dev/v1.9/talos-guides/install/talosctl/) 
+- [SOPS](https://github.com/getsops/sops/releases/latest)
+
+Windows users make sure SOPS is in your `PATH` (e.g. C:\Windows)
+### SOPS Age Public/Private Keys
+[AGE](https://github.com/FiloSottile/age) keys for SOPS to use need to be saved in the following structure from the root of this repo.
+`.sops/age/private.key` 
+`.sops/age/public.key` 
+(these are ignored by the .gitignore file)
+
+If you have lost these, perhaps they are stored in your password manager ;)
+
+### Configure your GitHooks
+Set your GitHooks to use `.githooks` with this command
+```
+git config --local core.hooksPath .githooks/
+chmod +x .githooks/*
+```
+This makes sure any filename with `secret.yaml` or `secret.env` in their name are encrypted with SOPS when commiting
+
+## Instructions
+### Restoring Infrastructure
+Run the following script to initiate Tofu and create the Talos Linux powered kubernetes cluster
+
+```bash
+chmod +x ./infrastructure/restore-infrastructure.sh
+./infrastructure/restore-infrastructure.sh
+```
+Optionally add `--dry-run`/`-d` to test it, or if you are feeling brave `--auto-approve`/`-y` to skip confirmation prompts
+
+### Restoring Kubernetes
+Export your SOPSKEY and if you do not wish to enter your GitHub Token later export that aswell
+```bash
+export SOPSKEY=$PWD/.sops/age/private.key
+export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxx`
+```
+Run the following script to initiate the FluxCD kubernetes GitOps process
+```bash
+chmod +x ./kubernetes/restore-kubernetes.sh
+./kubernetes/restore-kubernetes.sh
+```
+At a certain point during the script, it will ask you to "Access Longhorn at: http://localhost:8080" follow the steps
+
+### Restoring Docker
+[TBC]
+1. Navigate to "Servers" and Delete the existing Server.
+2. Navigate to "Settings" > "Providers" and add a Github.com Account using your token
+3. Navigate to "Syncs" and Create a New Resource Sync called "f9-homelab"
+4. Set the Mode to "Git Repo", Repo to "fma965/f9-homelab"
+5. Set the Account to "fma965"
+6. Add 2 Resource Paths, "komodo" and "services"
+7. Enable "Delete Unmatched Resources"
+8. Click "Save", Click "Refresh" and the "Execute"
+9. Go to "Procedure", Click "f9-homelab"
+
+## Git Repo Structure
+Infrastructure is in [infrastructure](infrastructure)
+Docker is in [docker](docker)
+Kubernetes is in [kubernetes](kubernetes)
+```
+───.githooks (git hooks)
+│   ├───commit-msg (ensures semantic commit messages)
+│   ├───post-checkout (ensures all enc files are decrypted)
+│   └───pre-commit (ensures all secret files are encrypted)
+───.github
+│   ├───renovate.json5 (renovatebot base config)
+│   └───renovate (renovatebot additional config)
+───.sops
+│   └───age (sops private/public key)
+├───docker (Docker GitOps with Komodo)
+│   ├───komodo (docker compose and env for komodo for unraid)
+│   ├───komodo.toml (config file for komodo, stores all my stack configuration and syncs etc)
+│   └───stacks (folder that contains all my docker stacks)
+├───infrastructure (Talos Linux IaC with Tofu)
+│   └───tofu
+│       ├───cilium
+│       ├───output
+│       ├───simplified
+│       └───talos
+│           ├───image
+│           ├───inline-manifests
+│           └───machine-config
+└───kubernetes (Kubernetes GitOps with FluxCD)
+    ├───apps (manifests / helmcharts)
+    │   └───base
+    ├───clusters
+    │   └───home
+    │       └───flux-system (FluxCD configuration)
+    └───infrastructure
+        ├───configs 
+        ├───controllers
+        └───databases
+```
+
+## Footnotes
+Check my [Wiki](https://wiki.f9.casa) for more details!
