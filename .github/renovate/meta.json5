@@ -1,11 +1,5 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  ignorePaths: [
-    "komodo/**",
-    ".archived/**",
-    "**/*.sops.*",
-    "**/archive/**",
-  ],
   packageRules: [
     /* Ignore latest and localhost tags */
     {

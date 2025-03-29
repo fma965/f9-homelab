@@ -22,6 +22,10 @@
       "addLabels": ["renovate/helm"]
     },
     {
+      "matchDatasources": ["kubernetes", "flux"],
+      "addLabels": ["renovate/kubernetes"]
+    },
+    {
       "matchDatasources": ["galaxy", "galaxy-collection"],
       "addLabels": ["renovate/ansible"]
     },

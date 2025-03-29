@@ -1,6 +1,9 @@
 {
-    $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  "packageRules": [
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  commitMessageTopic: "{{depName}}",
+  commitMessageExtra: "to {{newVersion}}",
+  commitMessageSuffix: "",
+  packageRules: [
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["major"],
@@ -41,6 +44,23 @@
       "matchUpdateTypes": ["patch"],
       "semanticCommitType": "fix",
       "semanticCommitScope": "helm"
+    },
+    {
+      "matchDatasources": ["kubernetes", "flux"],
+      "matchUpdateTypes": ["major"],
+      "commitMessagePrefix": "feat(kubernetes)!: "
+    },
+    {
+      "matchDatasources": ["kubernetes", "flux"],
+      "matchUpdateTypes": ["minor"],
+      "semanticCommitType": "feat",
+      "semanticCommitScope": "kubernetes"
+    },
+    {
+      "matchDatasources": ["kubernetes", "flux"],
+      "matchUpdateTypes": ["patch"],
+      "semanticCommitType": "fix",
+      "semanticCommitScope": "kubernetes"
     },
     {
       "matchDatasources": ["galaxy", "galaxy-collection"],
