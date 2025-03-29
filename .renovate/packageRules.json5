@@ -26,9 +26,10 @@
         },
         {
             matchPackageNames: [
-                "ghcr.io/ferretdb/ferretdb"
+                "ghcr.io/linuxserver/mariadb"
             ],
-            enabled: false
+            allowedVersions: "< 100.0.0"
+
         }
           
         // {
