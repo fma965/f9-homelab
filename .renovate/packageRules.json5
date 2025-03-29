@@ -3,6 +3,7 @@
     packageRules: [
         {
             versioning: "regex:^(?:(?P<compatibility>.+)-)?v?(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)(?:\\.(?P<build>\\d+))?-?r?(?P<release>\\w+)?",
+            matchDatasources: ["docker-compose", "docker"],
             matchPackageNames: [
                 "/^ghcr.io\\/linuxserver\\//",
                 "/^lscr.io\\/linuxserver\\//",
