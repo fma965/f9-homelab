@@ -17,12 +17,26 @@
             ]
         },
         {
-            matchPackageNames: ["open-webui",],
+            matchPackageNames: ["open-webui"],
             allowedVersions: 'main',
             commitMessageExtra: '(digest) to {{{newDigestShort}}}',
             pinDigests: true,
             addLabels: ['digest'],
         },
+        {
+            matchPackageNames: [
+                "ghcr.io/ferretdb/ferretdb"
+            ],
+            enabled: false
+        },
+        {
+            matchFiles: [
+                "infrastructure/tofu/main.tf",
+                "infrastructure/tofu/talos/providers.tf",
+            ],
+            enabled: false
+        }
+          
         // {
         // "description": "Automatically merge minor and patch-level updates for all packages except Immich",
         // "matchUpdateTypes": [
