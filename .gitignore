@@ -2,6 +2,7 @@
 infrastructure/tofu/.terraform
 infrastructure/tofu/output/**
 infrastructure/tofu/*.auto.tfvars
+!infrastructure/tofu/*.enc.auto.tfvars
 infrastructure/tofu/terraform.tfstate
 infrastructure/tofu/terraform.log
 infrastructure/tofu/terraform.tfstate
