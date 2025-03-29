@@ -5,7 +5,6 @@
     ".archived/**",
     "**/*.sops.*",
     "**/archive/**",
-    "**/resources/**"
   ],
   packageRules: [
     /* Ignore latest and localhost tags */

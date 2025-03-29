@@ -23,18 +23,18 @@
         pinDigests: true,
         addLabels: ['digest'],
         },
-        {
-        "description": "Automatically merge minor and patch-level updates for all packages except Immich",
-        "matchUpdateTypes": [
-            "minor",
-            "patch",
-            "digest"
-        ],
-        "excludePackagePatterns": [
-            "^ghcr.io/imagegenius/immich"
-        ],
-        "automerge": true,
-        "automergeType": "branch",
-        }
+        // {
+        // "description": "Automatically merge minor and patch-level updates for all packages except Immich",
+        // "matchUpdateTypes": [
+        //     "minor",
+        //     "patch",
+        //     "digest"
+        // ],
+        // "excludePackagePatterns": [
+        //     "^ghcr.io/imagegenius/immich"
+        // ],
+        // "automerge": true,
+        // "automergeType": "branch",
+        // }
     ]
 }

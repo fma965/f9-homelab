@@ -15,11 +15,14 @@
     "github>fma965/f9-homelab//.github/renovate/meta.json5",
     "github>fma965/f9-homelab//.github/renovate/packageRules.json5",
   ],
+  kubernetes: {
+    fileMatch: ["kubernetes/.+\\.yaml$"]
+  },
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
   suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
-  schedule: [
-    'after 3am and before 6am',
-  ],  
+  // schedule: [
+  //   'after 3am and before 6am',
+  // ],  
   vulnerabilityAlerts: {
     "labels": ['security'],
     "automerge": true,
