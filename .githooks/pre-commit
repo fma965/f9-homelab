@@ -38,7 +38,7 @@ encrypt_file() {
 }
 
 # Process both yaml and env files
-for ext in yaml env; do
+for ext in yaml env auto.tfvars; do
   # Find all *secret.$ext files that aren't already encrypted
   for file in $(git diff --cached --name-only | grep ".*secret\.$ext$" | grep -v "\.enc\.$ext$"); do
     current_hash=$(compute_hash "$file")

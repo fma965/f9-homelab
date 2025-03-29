@@ -10,7 +10,7 @@ if [ ! -f "$SOPS_AGE_KEY_FILE" ]; then
 fi
 
 # Define patterns for encrypted files to decrypt
-ENCRYPTED_PATTERNS=("*.enc.yaml" "*.enc.env")
+ENCRYPTED_PATTERNS=("*.enc.yaml" "*.enc.env", "*.enc.auto.tfvars")
 
 strip_hash_comment() {
   local file=$1
@@ -26,6 +26,8 @@ for pattern in "${ENCRYPTED_PATTERNS[@]}"; do
       DECRYPTED_FILE_NAME="${file%.enc.yaml}.yaml"
     elif [[ "$file" == *.enc.env ]]; then
       DECRYPTED_FILE_NAME="${file%.enc.env}.env"
+    elif [[ "$file" == *.enc.auto.tfvars ]]; then
+      DECRYPTED_FILE_NAME="${file%.enc.env}.auto.tfvars"
     else
       echo "Unsupported file type: $file"
       continue
