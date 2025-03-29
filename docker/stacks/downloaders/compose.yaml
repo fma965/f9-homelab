@@ -1,0 +1,65 @@
+services:
+  delugevpn:
+    container_name: "delugevpn"
+    environment:
+      PGID: "100"
+      PUID: "99"
+      UMASK: "002"
+      DEBUG: "false"
+      STRICT_PORT_FORWARD: "yes"
+      LAN_NETWORK: "192.168.0.0/16,10.0.0.0/16"
+      NAME_SERVERS: "84.200.69.80,37.235.1.174,1.1.1.1,37.235.1.177,84.200.70.40,1.0.0.1"
+      DELUGE_ENABLE_WEBUI_PASSWORD: "no"
+      TZ: "Europe/London"
+      VPN_ENABLED: "yes"
+      VPN_CLIENT: "wireguard"
+      VPN_INPUT_PORTS: "8080"
+      VPN_PROV: "pia"
+      ENABLE_PRIVOXY: "yes"
+      DELUGE_DAEMON_LOG_LEVEL: "info"
+      DELUGE_WEB_LOG_LEVEL: "info"
+      VPN_USER: "${PIA_USER}"
+      VPN_PASS: "${PIA_PASS}"
+    image: "binhex/arch-delugevpn:2.1.1-8-03"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/deluge-icon.png"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8112]/"
+    networks:
+      - "f9-nas"
+    ports:
+      - "58846:58846/tcp"
+      - "58946:58946/tcp"
+      - "58946:58946/udp"
+      - "8180:8080/tcp"
+      - "8112:8112/tcp"
+      - "8118:8118/tcp"
+    privileged: true
+    security_opt:
+      - "label=disable"
+    volumes:
+      - "/mnt/cache/appdata/deluge:/config"
+      - "/mnt/user/Media/Downloads:/downloads"
+
+  sabnzbd:
+    container_name: "sabnzbd"
+    environment:
+      HOST_CONTAINERNAME: "sabnzbd"
+      PUID: "99"
+      PGID: "100"
+      UMASK: "002"
+      TZ: "Europe/London"
+    image: "ghcr.io/hotio/sabnzbd:release-4.4.1"
+    labels:
+      net.unraid.docker.icon: "https://hotio.dev/webhook-avatars/sabnzbd.png"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8080]"
+    volumes:
+      - "/mnt/cache/appdata/sabnzbd:/config"
+      - "/mnt/user/Media/Downloads:/downloads"
+    network_mode: "service:delugevpn"
+
+networks: 
+  f9-nas:
+    external: true
+    name: "f9-nas"

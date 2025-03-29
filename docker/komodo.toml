@@ -1,0 +1,161 @@
+[[server]]
+name = "f9-nas"
+[server.config]
+address = "https://periphery:8120"
+enabled = true
+
+##
+
+[[stack]]
+name = "ai"
+[stack.config]
+server = "f9-nas"
+poll_for_updates = true
+auto_update = true
+run_directory = "docker/stacks/ai"
+git_account = "fma965"
+repo = "fma965/f9-homelab"
+pre_deploy.command = """
+bash ../../decrypt-secrets.sh
+"""
+
+##
+
+[[stack]]
+name = "arr"
+[stack.config]
+server = "f9-nas"
+poll_for_updates = true
+auto_update = true
+run_directory = "docker/stacks/arr"
+repo = "fma965/f9-homelab"
+
+##
+
+[[stack]]
+name = "backup"
+[stack.config]
+server = "f9-nas"
+poll_for_updates = true
+auto_update = true
+run_directory = "docker/stacks/backup"
+git_account = "fma965"
+repo = "fma965/f9-homelab"
+
+##
+
+[[stack]]
+name = "downloaders"
+[stack.config]
+server = "f9-nas"
+poll_for_updates = true
+auto_update = true
+run_directory = "docker/stacks/downloaders"
+git_account = "fma965"
+repo = "fma965/f9-homelab"
+pre_deploy.command = """
+bash ../../decrypt-secrets.sh
+"""
+
+##
+
+[[stack]]
+name = "git"
+[stack.config]
+server = "f9-nas"
+poll_for_updates = true
+auto_update = true
+run_directory = "docker/stacks/git"
+git_account = "fma965"
+repo = "fma965/f9-homelab"
+
+##
+
+[[stack]]
+name = "media"
+[stack.config]
+server = "f9-nas"
+poll_for_updates = true
+auto_update = true
+run_directory = "docker/stacks/media"
+git_account = "fma965"
+repo = "fma965/f9-homelab"
+pre_deploy.command = """
+bash ../../decrypt-secrets.sh
+"""
+
+##
+
+[[stack]]
+name = "misc"
+[stack.config]
+server = "f9-nas"
+poll_for_updates = true
+auto_update = true
+run_directory = "docker/stacks/misc"
+git_account = "fma965"
+repo = "fma965/f9-homelab"
+pre_deploy.command = """
+bash ../../decrypt-secrets.sh
+"""
+
+##
+
+[[stack]]
+name = "monitoring"
+[stack.config]
+server = "f9-nas"
+poll_for_updates = true
+auto_update = true
+run_directory = "docker/stacks/monitoring"
+git_account = "fma965"
+repo = "fma965/f9-homelab"
+pre_deploy.command = """
+bash ../../decrypt-secrets.sh
+"""
+
+##
+
+[[procedure]]
+name = "f9-homelab"
+
+[[procedure.config.stage]]
+name = "Stage"
+enabled = true
+executions = [
+  { execution.type = "RunSync", execution.params.sync = "f9-homelab", enabled = true }
+]
+
+[[procedure.config.stage]]
+name = "Stage"
+enabled = true
+executions = [
+  { execution.type = "BatchDeployStackIfChanged", execution.params.pattern = "*", enabled = true }
+]
+
+##
+
+[[alerter]]
+name = "f9"
+[alerter.config]
+enabled = true
+endpoint.type = "Custom"
+endpoint.params.url = "http://komodo-discord-alerter:7000"
+
+##
+
+[[builder]]
+name = "local"
+[builder.config]
+type = "Server"
+params = {}
+
+##
+
+[[resource_sync]]
+name = "f9-homelab"
+[resource_sync.config]
+repo = "fma965/f9-homelab"
+git_account = "fma965"
+resource_path = ["komodo.toml"]
+managed = true

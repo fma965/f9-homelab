@@ -1,0 +1,181 @@
+services:
+  plex:
+    container_name: "plex"
+    devices:
+      - "/dev/dri:/dev/dri"
+    environment:
+      TZ: "Europe/London"
+      PUID: "99"
+      UMASK: "022"
+      PGID: "100"
+      NVIDIA_VISIBLE_DEVICES: "all"
+    image: "lscr.io/linuxserver/plex:1.41.5.9522-a96edc606-ls260"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/plex-logo.png"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "http://[IP]:[PORT:32400]/web/index.html"
+    networks:
+      - "f9-nas"
+    ports:
+      - "32400:32400/tcp"
+    volumes:
+      - "/mnt/cache/appdata/plex:/config"
+      - "/mnt/user/Media:/media"
+
+  jellyfin:
+    container_name: "jellyfin"
+    devices:
+      - "/dev/dri:/dev/dri"
+    environment:
+      PUID: "99"
+      PGID: "100"
+      UMASK: "022"
+      TZ: "Europe/London"
+    image: "ghcr.io/hotio/jellyfin:release-10.10.6"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/jellyfin-logo.png"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8096]"
+    networks:
+      - "f9-nas"
+    ports:
+      - "7359:7359/udp"
+      - "8096:8096/tcp"
+      - "8920:8920/tcp"
+    volumes:
+      - "/mnt/cache/appdata/jellyfin:/config"
+      - "/mnt/user/Media:/media"
+
+  jellyplex:
+    container_name: "jellyplex"
+    environment:
+      GENERATE_GUIDS: "True"
+      DRYRUN: "False"
+      PLEX_BASEURL: "http://plex:32400"
+      JELLYFIN_BASEURL: "http://jellyfin:8096"
+      SYNC_FROM_PLEX_TO_JELLYFIN: "True"
+      SYNC_FROM_JELLYFIN_TO_PLEX: "True"
+      GENERATE_LOCATIONS: "True"
+      TZ: "Europe/London"
+      PLEX_TOKEN: "${PLEX_TOKEN}"
+      JELLYFIN_TOKEN: "${JELLYFIN_TOKEN}"
+      USER_MAPPING: "${JELLYPLEX_USER_MAPPING}"
+    image: "luigi311/jellyplex-watched:7.0.2"
+    labels:
+      net.unraid.docker.managed: "komodo"
+    networks:
+      - "f9-nas"
+
+  isponsorblocktv:
+    container_name: "isponsorblocktv"
+    environment:
+      TZ: "Europe/London"
+    image: "dmunozv04/isponsorblocktv:v2.4.0"
+    labels:
+      net.unraid.docker.managed: "komodo"
+    network_mode: "host"
+    volumes:
+      - "/mnt/user/appdata/isponsorblocktv:/app/data"
+
+  minidlna:
+    container_name: "minidlna"
+    environment:
+      MINIDLNA_MEDIA_DIR: "/media"
+      TZ: "Europe/London"
+    hostname: "F9-NAS"
+    image: "vladgh/minidlna:1.3.5"
+    labels:
+      net.unraid.docker.managed: "komodo"
+    network_mode: "host"
+    volumes:
+      - "/mnt/user/FilmTV:/media"
+
+  frigate:
+    container_name: "frigate"
+    devices:
+      - "/dev/dri/renderD129:/dev/dri/renderD128"
+    environment:
+      LIBVA_DRIVER_NAME: "radeonsi"
+      TZ: "Europe/London"
+      NVIDIA_VISIBLE_DEVICES: "all"
+    image: "ghcr.io/blakeblackshear/frigate:0.15.0"
+    shm_size: "256mb"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/yayitazale/unraid-templates/main/frigate.png"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "http://[IP]:[PORT:5000]"
+    tmpfs:
+      - "/tmp/cache:size=1000000000"
+    networks:
+      - "f9-nas"
+    ports:
+      - "5000:5000/tcp"
+      - "8554:8554/tcp"
+      - "8555:8555/tcp"
+      - "8555:8555/udp"
+    restart: "unless-stopped"
+    volumes:
+      - "/etc/localtime:/etc/localtime"
+      - "/mnt/cache/appdata/frigate:/config"
+      - "/mnt/user/CCTV:/media"
+
+  immich:
+    container_name: "immich"
+    devices:
+      - "/dev/dri/renderD129:/dev/dri/renderD128"
+    environment:
+      PGID: "100"
+      DB_HOSTNAME: "10.0.10.201"
+      REDIS_PORT: "6379"
+      MACHINE_LEARNING_PORT: "3003"
+      DOCKER_MODS: "imagegenius/mods:universal-redis"
+      DB_USERNAME: "immich"
+      REDIS_HOSTNAME: "localhost"
+      DB_PORT: "5432"
+      MACHINE_LEARNING_HOST: "0.0.0.0"
+      TZ: "Europe/London"
+      HOST_CONTAINERNAME: "immich"
+      DB_DATABASE_NAME: "immich"
+      PUBLIC_IMMICH_SERVER_URL: "https://photos.f9.casa"
+      UMASK: "022"
+      MACHINE_LEARNING_WORKERS: "1"
+      PUID: "99"
+      DB_PASSWORD: "${IMMICH_DB_PASS}"
+    image: "ghcr.io/imagegenius/immich:1.130.3"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/imagegenius/templates/main/unraid/img/immich.png"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8080]"
+    networks:
+      - "f9-nas"
+    ports:
+      - "8082:8080/tcp"
+    volumes:
+      - "/mnt/cache/appdata/immich:/config"
+      - "/mnt/user/Photos:/photos"
+
+  zipline:
+    container_name: "zipline"
+    environment:
+      TZ: "Europe/London"
+      NODE_ENV: "production"
+      CORE_SECRET: "${ZIPLINE_CORE_SECRET}"
+      DATABASE_URL: "${ZIPLINE_DATABASE_URL}"
+    image: "ghcr.io/diced/zipline:4.0.1"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/ImSkully/unraid-templates/master/zipline/zipline.png"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "http://[IP]:[PORT:3000]"
+    networks:
+      - "f9-nas"
+    ports:
+      - "8092:3000/tcp"
+    volumes:
+      - "/mnt/user/appdata/zipline/public:/zipline/public"
+      - "/mnt/user/appdata/zipline/themes:/zipline/themes"
+      - "/mnt/user/appdata/zipline/uploads:/zipline/uploads"
+
+networks:
+  f9-nas:
+    external: true
+    name: "f9-nas"

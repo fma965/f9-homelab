@@ -1,0 +1,25 @@
+services:
+  cups:
+    container_name: "cups"
+    devices:
+      - "/dev/bus/usb/001/020:/dev/bus/usb/001/020"
+    environment:
+      TZ: "Europe/London"
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
+    image: "ydkn/cups:latest"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/josecoelho/unraid-templates/main/cups/cups.png"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "https://[IP]:[PORT:631]/"
+    network_mode: "bridge"
+    ports:
+      - "631:631/tcp"
+    restart: "always"
+    volumes:
+      - "/mnt/user/appdata/cups:/etc/cups"
+      - "/var/run/dbus:/var/run/dbus"
+
+networks:
+  f9-nas:
+    external: true
+    name: "f9-nas"

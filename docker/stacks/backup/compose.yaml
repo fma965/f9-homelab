@@ -1,0 +1,70 @@
+services:
+  backrest:
+    container_name: "backrest"
+    environment:
+      BACKREST_DATA: "/data"
+      BACKREST_CONFIG: "/config/config.json"
+      XDG_CACHE_HOME: "/cache"
+      TZ: "Europe/London"
+    image: "garethgeorge/backrest:v1.7.3"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/alex-red/unraid-ca-templates/master/templates/images/backrest-icon.png"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "http://[IP]:[PORT:9898]"
+    networks:
+      - "f9-nas"
+    ports:
+      - "9898:9898/tcp"
+    volumes:
+      - "/mnt/cache/appdata/backrest:/config"
+      - "/mnt/remotes:/repos"
+      - "/mnt/user/appdata/backrest/cache:/cache"
+      - "/mnt/user/appdata/backrest/data:/data"
+      - "/mnt:/mnt:ro"
+
+  garage:
+    container_name: "garage"
+    environment:
+      TZ: "Europe/London"
+    image: "dxflrs/garage:v1.1.0"
+    labels:
+      net.unraid.docker.managed: "komodo"
+    networks:
+      - "f9-nas"
+    ports:
+      - "3900:3900/tcp"
+      - "3901:3901/tcp"
+      - "3902:3902/tcp"
+      - "3903:3903/tcp"
+    volumes:
+      - "/mnt/cache/appdata/garage/garage.toml:/etc/garage.toml"
+      - "/mnt/cache/appdata/garage/meta:/meta"
+      - "/mnt/user/S3:/data"
+
+  proxmox-backup-server:
+    container_name: "proxmox-backup-server"
+    environment:
+      TZ: "Europe/London"
+    image: "ayufan/proxmox-backup-server:v3.3"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/devzwf/unraid-docker-templates/main/images/pbs-logo.jpg"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "https://[IP]:[PORT:8007]"
+    network_mode: "host"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    tmpfs:
+      - /run
+    volumes:
+      - "/mnt/user/PBS:/backups"
+      - "/mnt/user/appdata/pbs/etc:/etc/proxmox-backup"
+      - "/mnt/user/appdata/pbs/lib:/var/lib/proxmox-backup"
+      - "/mnt/user/appdata/pbs/logs:/var/log/proxmox-backup"
+      
+networks: 
+  f9-nas:
+    external: true
+    name: "f9-nas"

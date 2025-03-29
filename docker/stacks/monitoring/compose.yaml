@@ -1,0 +1,50 @@
+services:
+  netdata:
+    container_name: "netdata"
+    environment:
+      PGID: "100"
+      PUID: "99"
+      DO_NOT_TRACK: "1"
+      TZ: "Europe/London"
+      NETDATA_LISTENER_PORT: "19999"
+    expose:
+      - "19999/tcp"
+    hostname: "F9-NAS"
+    image: "netdata/netdata:v2.3"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/Data-Monkey/docker-templates/master/Data-Monkey/img/netdata.png"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "http://[IP]:[PORT:19999]"
+    network_mode: "host"
+    security_opt:
+      - "apparmor=unconfined"
+      - "label=disable"
+    volumes:
+      - "/etc/group:/host/etc/group:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/os-release:/host/etc/os-release:ro"
+      - "/etc/passwd:/host/etc/passwd:ro"
+      - "/mnt/user/appdata/netdata/cache:/var/cache/netdata"
+      - "/mnt/user/appdata/netdata/config:/etc/netdata"
+      - "/mnt/user/appdata/netdata/lib:/var/lib/netdata"
+      - "/proc:/host/proc:ro"
+      - "/run/dbus:/run/dbus:ro"
+      - "/sys:/host/sys:ro"
+      - "/var/log:/host/var/log:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  komodo-discord-alerter:
+    image: foxxmd/komodo-discord-alerter:0.0.6
+    restart: unless-stopped
+    environment:
+      TZ: Europe/London
+      DISCORD_WEBHOOK: "${DISCORD_WEBHOOK}"
+    ports:
+      - "7000:7000"
+    networks:
+      - "f9-nas"
+      
+networks:
+  f9-nas:
+    external: true
+    name: "f9-nas"

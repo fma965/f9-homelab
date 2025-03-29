@@ -1,0 +1,82 @@
+services:
+  sonarr:
+    container_name: "sonarr"
+    environment:
+      UMASK: "002"
+      TZ: Europe/London
+      PGID: "100"
+      PUID: "99"
+    image: "ghcr.io/hotio/sonarr:release-4.0.14.2939"
+    labels:
+      net.unraid.docker.icon: "https://hotio.dev/webhook-avatars/sonarr.png"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8989]"
+    networks:
+      - "f9-nas"
+    ports:
+      - "8989:8989/tcp"
+    volumes:
+      - "/mnt/cache/appdata/sonarr:/config"
+      - "/mnt/user/Media/Downloads:/downloads"
+      - "/mnt/user/Media/TV Shows:/tv"
+
+  radarr:
+    container_name: "radarr"
+    environment:
+      UMASK: "002"
+      TZ: Europe/London
+      PGID: "100"
+      PUID: "99"
+    image: "ghcr.io/hotio/radarr:release-5.21.1.9799"
+    labels:
+      net.unraid.docker.icon: "https://hotio.dev/webhook-avatars/radarr.png"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "http://[IP]:[PORT:7878]"
+    networks:
+      - "f9-nas"
+    ports:
+      - "7878:7878/tcp"
+    volumes:
+      - "/mnt/cache/appdata/radarr:/config"
+      - "/mnt/user/Media/Downloads:/downloads"
+      - "/mnt/user/Media/Movies:/movies"
+
+  prowlarr:
+    container_name: "prowlarr"
+    environment:
+      UMASK: "002"
+      TZ: Europe/London
+      PGID: "100"
+      PUID: "99"
+    image: "ghcr.io/hotio/prowlarr:release-1.32.2.4987"
+    labels:
+      net.unraid.docker.icon: "https://hotio.dev/webhook-avatars/prowlarr.png"
+      net.unraid.docker.managed: "komodo"
+      net.unraid.docker.webui: "http://[IP]:[PORT:9696]"
+    networks:
+      - "f9-nas"
+    ports:
+      - "9696:9696/tcp"
+    volumes:
+      - "/mnt/cache/appdata/prowlarr:/config"
+
+  recommendarr:
+    container_name: "recommendarr"
+    environment:
+      TZ: Europe/London
+      PORT: "3000"
+    image: "tannermiddleton/recommendarr:v1.3.0"
+    labels:
+      net.unraid.docker.icon: "https://github.com/fingerthief/recommendarr/blob/main/src/assets/logo.png"
+      net.unraid.docker.managed: "komodo"
+    networks:
+      - "f9-nas"
+    ports:
+      - "3000:3000/tcp"
+    volumes:
+      - "/mnt/user/appdata/recommendarr:/app/server/data"
+
+networks: 
+  f9-nas:
+    external: true
+    name: "f9-nas"
