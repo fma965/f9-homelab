@@ -6,7 +6,7 @@ if [ -z "$PERIPHERY_ROOT_DIRECTORY" ]; then
     exit 1
 fi
 
-export SOPS_AGE_KEY_FILE="$PERIPHERY_ROOT_DIRECTORY/sops.key"
+export SOPS_AGE_KEY_FILE="$PERIPHERY_ROOT_DIRECTORY/.sops.key"
 
 sops="$PERIPHERY_ROOT_DIRECTORY/sops"
 
