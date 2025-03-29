@@ -10,7 +10,7 @@ if [ ! -f "$SOPS_AGE_KEY_FILE" ]; then
 fi
 
 # Define patterns for encrypted files to decrypt
-ENCRYPTED_PATTERNS=("*.enc.yaml" "*.enc.env", "*.enc.auto.tfvars")
+ENCRYPTED_PATTERNS=("*.enc.yaml" "*.enc.env" "*.enc.auto.tfvars")
 
 strip_hash_comment() {
   local file=$1
