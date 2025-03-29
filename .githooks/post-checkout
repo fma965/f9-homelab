@@ -27,7 +27,7 @@ for pattern in "${ENCRYPTED_PATTERNS[@]}"; do
     elif [[ "$file" == *.enc.env ]]; then
       DECRYPTED_FILE_NAME="${file%.enc.env}.env"
     elif [[ "$file" == *.enc.auto.tfvars ]]; then
-      DECRYPTED_FILE_NAME="${file%.enc.env}.auto.tfvars"
+      DECRYPTED_FILE_NAME="${file%.enc.auto.tfvars}.auto.tfvars"
     else
       echo "Unsupported file type: $file"
       continue
