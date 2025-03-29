@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# set -x  # Enable debug output
+
+# Debug: Print environment and basic info
+echo "=== Starting encryption script ==="
+echo "Working directory: $(pwd)"
+echo "Git root: $(git rev-parse --show-toplevel 2>/dev/null || echo 'Not in git repo')"
+
 # Define where your age public key for sops is stored
 AGE_KEY_FILE=".sops/age/public.key"
 if [ ! -f "$AGE_KEY_FILE" ]; then
@@ -7,6 +14,7 @@ if [ ! -f "$AGE_KEY_FILE" ]; then
   exit 1
 fi
 PUBLIC_KEY=$(cat "$AGE_KEY_FILE")
+echo "Using public key: ${PUBLIC_KEY:0:20}..."  # Print first 20 chars of key
 
 # Function to compute SHA-256 hash of file content
 compute_hash() {
@@ -21,26 +29,45 @@ encrypt_file() {
   local sops_args="--encrypt --age $PUBLIC_KEY"
 
   # Add YAML-specific regex if needed
-  if [ "$ext" = "yaml" ]; then
+  if [ "$ext" = "yaml" ] || [ "$ext" = "yml" ]; then
     sops_args="$sops_args --encrypted-regex '^(data|stringData)$'"
   fi
 
-  # Encrypt and add hash comment
+  echo "Encrypting $file to $enc_file"
   if eval "sops $sops_args '$file'" > "$enc_file"; then
     local hash=$(compute_hash "$file")
     echo "# Hash: $hash" >> "$enc_file"
-    echo "Encrypted and updated: $enc_file"
+    echo "Successfully encrypted: $enc_file"
     git add "$enc_file"
     return 0
   else
+    echo "Failed to encrypt $file"
     return 1
   fi
 }
 
-# Process files matching our specific patterns
-for file in $(git diff --cached --name-only | grep -E '(.*secret\.yaml$|.*secret\.env$|.*\.auto\.tfvars$)'); do
+# Get list of staged files that match our patterns
+echo "=== Checking staged files ==="
+MATCHING_FILES=$(git diff --cached --name-only | grep -E '(.*secret\.yaml$|.*secret\.env$|.*\.auto\.tfvars$)')
+echo "Matched files:"
+echo "$MATCHING_FILES" | while read line; do
+  echo "- $line"
+done
+
+# Process matching files
+echo "=== Processing files ==="
+for file in $MATCHING_FILES; do
+  echo "Processing file: $file"
+  
   # Skip if file is already encrypted
   if [[ "$file" == *.enc.* ]]; then
+    echo "Skipping already encrypted file: $file"
+    continue
+  fi
+
+  # Verify file exists
+  if [ ! -f "$file" ]; then
+    echo "Warning: File $file is staged but doesn't exist in working directory"
     continue
   fi
 
@@ -57,6 +84,7 @@ for file in $(git diff --cached --name-only | grep -E '(.*secret\.yaml$|.*secret
   if [ -f "$enc_file" ]; then
     previous_hash=$(tail -n 1 "$enc_file" | grep '# Hash:' | cut -d' ' -f3)
     if [ "$current_hash" != "$previous_hash" ]; then
+      echo "File has changed, re-encrypting: $file"
       if ! encrypt_file "$file"; then
         echo "Failed to encrypt $file"
         continue
@@ -65,6 +93,7 @@ for file in $(git diff --cached --name-only | grep -E '(.*secret\.yaml$|.*secret
       echo "No changes detected in $file. Skipping encryption."
     fi
   else
+    echo "No existing encrypted file found, encrypting: $file"
     if ! encrypt_file "$file"; then
       echo "Failed to encrypt $file"
       continue
@@ -73,6 +102,8 @@ for file in $(git diff --cached --name-only | grep -E '(.*secret\.yaml$|.*secret
 
   # Unstage the plaintext file
   git reset HEAD -- "$file"
+  echo "Unstaged plaintext file: $file"
 done
 
+echo "=== Script completed ==="
 exit 0
