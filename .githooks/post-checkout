@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Define where your age private key for sops is stored - ensure this is SECURELY handled
 export SOPS_AGE_KEY_FILE="${PWD}/.sops/age/private.key"
