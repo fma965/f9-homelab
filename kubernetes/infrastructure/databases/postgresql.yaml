@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: postgresql
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/enforce-version: latest
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgresql
+spec:
+  capacity:
+    storage: 15Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: longhorn-static
+  csi:
+    driver: driver.longhorn.io
+    volumeHandle: postgresql
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgresql
+  namespace: postgresql
+spec:
+  storageClassName: longhorn-static
+  accessModes: [ "ReadWriteOnce" ]
+  resources:
+    requests:
+      storage: 15Gi
+  volumeName: postgresql
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: postgresql
+    app.kubernetes.io/instance: postgresql
+    app.kubernetes.io/name: postgresql
+  name: postgresql
+  namespace: postgresql
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+        app.kubernetes.io/name: postgresql
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+        - image: tensorchord/pgvecto-rs:pg16-v0.2.0
+          name: postgresql
+          ports:
+            - containerPort: 5432
+              hostPort: 5432
+              protocol: TCP
+          env:
+            - name: PGADMIN_CONFIG_SERVER_MODE
+              value: "false"
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_USER
+              value: admin
+            - name: TZ
+              value: Europe/London
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: data
+      hostname: postgresql
+      restartPolicy: Always
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: postgresql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: postgresql
+  name: postgresql
+  namespace: postgresql 
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 10.0.10.201
+  ports:
+    - name: "postgres"
+      port: 5432
+      targetPort: 5432
+  selector:
+    app: postgresql

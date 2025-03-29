@@ -1,0 +1,285 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: homepage
+  labels:
+    app: homepage
+data:
+  kubernetes.yaml: |
+    mode: cluster
+  settings.yaml: |
+    title: F9 - Mi Casa Es Tu Casa
+
+    background:
+      image: https://unsplash.it/2560/1440?random
+      blur: md # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
+      saturate: 50 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+      brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+      opacity: 50 # 0-100
+
+    hideVersion: true
+    iconStyle: flat
+    headerStyle: boxed
+
+    theme: dark
+    color: slate
+
+    quicklaunch:
+      searchDescriptions: true
+      hideInternetSearch: false
+      showSearchSuggestions: true
+      hideVisitURL: true
+
+    layout:
+      Media:
+        icon: mdi-play
+      Calendar:
+        icon: mdi-calendar
+        columns: 2
+      Media Management:
+        icon: mdi-multimedia
+      Downloaders:
+        icon: mdi-cloud-download
+      Networking:
+        icon: mdi-lan
+        style: row
+        columns: 2
+      Management:
+        icon: mdi-tools
+        style: row
+        columns: 3
+      Home Automation:
+        icon: mdi-home-automation
+        style: row
+        columns: 3
+      Authentication:
+        icon: mdi-shield-account
+      Monitoring:
+        icon: mdi-lan
+      Finance:
+        icon: mdi-cash
+  custom.css: ""
+  custom.js: ""
+  bookmarks.yaml: ""
+  services.yaml: |
+    - Networking:
+      - OpenWRT:
+          icon: openwrt.png
+          href: "{{HOMEPAGE_VAR_OPENWRT_URL}}"
+          description: OpenWRT Router
+          siteMonitor: "{{HOMEPAGE_VAR_OPENWRT_URL}}"
+          widget:
+            type: openwrt
+            url: "{{HOMEPAGE_VAR_OPENWRT_URL}}"
+            username: "{{HOMEPAGE_VAR_OPENWRT_USERNAME}}"
+            password: "{{HOMEPAGE_VAR_OPENWRT_PASSWORD}}"
+            interfaceName: eth0 # optional
+
+      - Adguard Home:
+          icon: adguard-home.png
+          href: "{{HOMEPAGE_VAR_ADGUARD_HREF}}"
+          description: AdBlock DNS Server
+          siteMonitor: "{{HOMEPAGE_VAR_ADGUARD_URL}}"
+          widget:
+            type: adguard
+            url: "{{HOMEPAGE_VAR_ADGUARD_URL}}"
+            username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}}"
+            password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}}"
+        
+    - Management:
+      - Proxmox (F9-HV1):
+          icon: proxmox.png
+          href: "{{HOMEPAGE_VAR_PROXMOX1_URL}}"
+          description: F9-HV1 Proxmox Node
+          siteMonitor: "{{HOMEPAGE_VAR_PROXMOX1_URL}}"
+          widget:
+            type: proxmox
+            url: "{{HOMEPAGE_VAR_PROXMOX1_URL}}"
+            username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
+            password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
+            node: F9-HV1
+
+      - Proxmox (F9-HV2):
+          icon: proxmox.png
+          href: "{{HOMEPAGE_VAR_PROXMOX2_URL}}"
+          description: F9-HV2 Proxmox Node
+          siteMonitor: "{{HOMEPAGE_VAR_PROXMOX2_URL}}"
+          widget:
+            type: proxmox
+            url: "{{HOMEPAGE_VAR_PROXMOX2_URL}}"
+            username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
+            password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
+            node: F9-HV2
+
+      - Proxmox (F9-HV3):
+          icon: proxmox.png
+          href: "{{HOMEPAGE_VAR_PROXMOX3_URL}}"
+          description: F9-HV3 Proxmox Node
+          siteMonitor: "{{HOMEPAGE_VAR_PROXMOX3_URL}}"
+          widget:
+            type: proxmox
+            url: "{{HOMEPAGE_VAR_PROXMOX3_URL}}"
+            username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
+            password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
+            node: F9-HV3
+
+    - Downloaders:
+      - DelugeVPN:
+          icon: deluge.png
+          href: "{{HOMEPAGE_VAR_DELUGE_HREF}}"
+          description: Torrent Client
+          siteMonitor: "{{HOMEPAGE_VAR_DELUGE_URL}}"
+          widget:
+            type: deluge
+            url: "{{HOMEPAGE_VAR_DELUGE_URL}}"
+            password: "{{HOMEPAGE_VAR_DELUGE_PASSWORD}}"
+
+      - SABnzbd:
+          icon: sabnzbd.png
+          href: "{{HOMEPAGE_VAR_SABNZBD_HREF}}"
+          description: Usenet Client
+          siteMonitor: "{{HOMEPAGE_VAR_SABNZBD_URL}}"
+          widget:
+            type: sabnzbd
+            url: "{{HOMEPAGE_VAR_SABNZBD_URL}}"
+            key: "{{HOMEPAGE_VAR_SABNZBD_KEY}}"
+
+    - Home Automation:
+      - Home Assistant:
+          icon: home-assistant.png
+          href: "{{HOMEPAGE_VAR_HOMEASSISTANT_HREF}}"
+          description: Home Automation
+          siteMonitor: "{{HOMEPAGE_VAR_HOMEASSISTANT_URL}}"
+          widget:
+            type: homeassistant
+            url: "{{HOMEPAGE_VAR_HOMEASSISTANT_URL}}"
+            key: "{{HOMEPAGE_VAR_HOMEASSISTANT_KEY}}"
+            custom:
+              - state: sensor.smart_electricity_meter_usage_today
+                label: Energy Usage Today
+              - state: sensor.smart_electricity_meter_cost_today
+                label: Energy Cost Today
+
+      - Frigate:
+          icon: frigate.png
+          href: "{{HOMEPAGE_VAR_FRIGATE_HREF}}"
+          description: CCTV Management
+          siteMonitor: "{{HOMEPAGE_VAR_FRIGATE_URL}}"
+          widget:
+            type: frigate
+            url: "{{HOMEPAGE_VAR_FRIGATE_URL}}"
+            enableRecentEvents: false
+            
+    - Calendar:
+        - Calendar:
+            name: 
+            widget:
+              type: calendar
+              view: agenda # optional - possible values monthly, agenda
+              maxEvents: 14 # optional - defaults to 10
+              previousDays: 3
+              showTime: true # optional - show time for event happening today - defaults to false
+              timezone: Europe/London # optional and only when timezone is not detected properly (slightly slower performance) - force timezone for ical events (if it's the same - no change, if missing or different in ical - will be converted to this timezone)
+              integrations: # optional
+                - type: sonarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr, lidarr, readarr, ical
+                  service_group: Media Management # group name where widget exists
+                  service_name: Sonarr # service name for that widget
+                  color: teal # optional - defaults to pre-defined color for the service (teal for sonarr)
+                - type: radarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr, lidarr, readarr, ical
+                  service_group: Media Management # group name where widget exists
+                  service_name: Radarr # service name for that widget
+                  color: amber # optional - defaults to pre-defined color for the service (teal for sonarr)
+    - Media Management:
+        - Sonarr:
+            icon: sonarr.png
+            href: "{{HOMEPAGE_VAR_SONARR_HREF}}"
+            description: TV Show Management
+            siteMonitor: "{{HOMEPAGE_VAR_SONARR_URL}}"
+            widget:
+              type: sonarr
+              url: "{{HOMEPAGE_VAR_SONARR_URL}}"
+              key: "{{HOMEPAGE_VAR_SONARR_KEY}}"
+        - Radarr:
+            icon: radarr.png
+            href: "{{HOMEPAGE_VAR_RADARR_HREF}}"
+            description: Movie Management
+            siteMonitor: "{{HOMEPAGE_VAR_RADARR_URL}}"
+            widget:
+              type: radarr
+              url: "{{HOMEPAGE_VAR_RADARR_URL}}"
+              key: "{{HOMEPAGE_VAR_RADARR_KEY}}"
+        - Prowlarr:
+            icon: prowlarr.png
+            href: "{{HOMEPAGE_VAR_PROWLARR_HREF}}"
+            description: Movie Management
+            siteMonitor: "{{HOMEPAGE_VAR_PROWLARR_URL}}"
+            widget:
+              type: prowlarr
+              url: "{{HOMEPAGE_VAR_PROWLARR_URL}}"
+              key: "{{HOMEPAGE_VAR_PROWLARR_KEY}}"
+
+    - Media:
+        - Plex:
+            icon: plex.png
+            href: "{{HOMEPAGE_VAR_PLEX_HREF}}"
+            description: Media Server
+            siteMonitor: "{{HOMEPAGE_VAR_PLEX_URL}}"
+            widget:
+              type: plex
+              url: "{{HOMEPAGE_VAR_PLEX_URL}}"
+              key: "{{HOMEPAGE_VAR_PLEX_KEY}}"    
+        - Jellyfin:
+            icon: jellyfin.png
+            href: "{{HOMEPAGE_VAR_JELLYFIN_HREF}}"
+            description: Media Server
+            siteMonitor: "{{HOMEPAGE_VAR_JELLYFIN_URL}}"
+            widget:
+              type: jellyfin
+              url: "{{HOMEPAGE_VAR_JELLYFIN_URL}}"
+              key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
+        - Immich:
+            icon: immich.png
+            href: "{{HOMEPAGE_VAR_IMMICH_HREF}}"
+            description: Image Library
+            siteMonitor: "{{HOMEPAGE_VAR_IMMICH_URL}}"
+            widget:
+              type: immich
+              url: "{{HOMEPAGE_VAR_IMMICH_URL}}"
+              key: "{{HOMEPAGE_VAR_IMMICH_KEY}}"
+              version: 2
+  widgets.yaml: |
+    - logo:
+        icon: "{{HOMEPAGE_VAR_LOGO}}"
+
+    - datetime:
+        text_size: 4xl
+        format:
+          timeStyle: short
+          hourCycle: h23
+
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+          label: "cluster"
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+
+    - resources:
+        backend: resources
+        expanded: true
+        cpu: true
+        memory: true
+
+    - search:
+        provider: google # google, duckduckgo, bing, baidu, brave or custom
+        focus: true # Optional, will set focus to the search bar on page load
+        showSearchSuggestions: true # Optional, will show search suggestions. Defaults to false
+        target: _blank # One of _self, _blank, _parent or _top
+  docker.yaml: ""

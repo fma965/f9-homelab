@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: redis
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/enforce-version: latest
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: redis
+    app.kubernetes.io/instance: redis
+    app.kubernetes.io/name: redis
+  name: redis
+  namespace: redis
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+        app.kubernetes.io/name: redis
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+        - image: bitnami/redis
+          name: redis
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+          ports:
+            - containerPort: 6379
+              hostPort: 6379
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: redis-secret          
+          env:
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "no"
+            - name: TZ
+              value: Europe/London
+      hostname: redis
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: redis
+  name: redis
+  namespace: redis 
+spec:
+  ports:
+    - name: "redis"
+      port: 6379
+      targetPort: 6379
+  selector:
+    app: redis

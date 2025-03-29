@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mirror-to-gitea
+    app.kubernetes.io/instance: mirror-to-gitea
+    app.kubernetes.io/name: mirror-to-gitea
+  name: mirror-to-gitea
+  namespace: git
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: mirror-to-gitea
+  template:
+    metadata:
+      labels:
+        app: mirror-to-gitea
+        app.kubernetes.io/name: mirror-to-gitea
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+      - image: jaedle/mirror-to-gitea:latest
+        name: mirror-to-gitea
+        envFrom:
+          - secretRef:
+              name: mirror-to-gitea-secret
+        env:
+        - name: GITHUB_USERNAME
+          value: "fma965"
+        - name: GITEA_URL
+          value: "https://git.f9.casa"
+        - name: MIRROR_PRIVATE_REPOSITORIES
+          value: "1"
+                                              

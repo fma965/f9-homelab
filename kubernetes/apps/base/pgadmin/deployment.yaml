@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pgadmin
+    app.kubernetes.io/instance: pgadmin
+    app.kubernetes.io/name: pgadmin
+  name: pgadmin
+  namespace: postgresql
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+        app.kubernetes.io/name: pgadmin
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+        - image: dpage/pgadmin4
+          name: pgadmin
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: PGADMIN_DEFAULT_EMAIL
+            - name: PGADMIN_DEFAULT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: PGADMIN_DEFAULT_PASSWORD
+            - name: PGADMIN_CONFIG_X_CONTENT_TYPE_OPTIONS
+              value: '""'
+            - name: PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION
+              value: "False"
+            - name: PGADMIN_CONFIG_X_XSS_PROTECTION
+              value: "0"
+          volumeMounts:
+            - mountPath: /var/lib/pgadmin
+              name: pgadmin
+      volumes:
+        - name: pgadmin
+          persistentVolumeClaim:
+            claimName: pgadmin

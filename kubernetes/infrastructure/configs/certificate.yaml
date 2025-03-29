@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: f9-casa
+  namespace: default
+spec:
+  commonName: '*.f9.casa'
+  dnsNames:
+  - f9.casa
+  - '*.f9.casa'
+  - '*.s3.f9.casa'
+  - '*.dev.f9.casa'
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt
+  secretName: f9-casa-tls

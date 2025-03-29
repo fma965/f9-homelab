@@ -1,0 +1,89 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: vikunja
+    app.kubernetes.io/instance: vikunja
+    app.kubernetes.io/name: vikunja
+  name: vikunja
+  namespace: vikunja
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: vikunja
+  template:
+    metadata:
+      labels:
+        app: vikunja
+        app.kubernetes.io/name: vikunja
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+      - image: vikunja/vikunja:latest
+        name: vikunja
+        ports:
+        - containerPort: 3456
+          name: web
+          protocol: TCP
+        envFrom:
+        - secretRef:
+            name: vikunja-secret
+        env:
+        - name: TZ
+          value: Europe/London
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: VIKUNJA_DATABASE_TYPE
+          value: postgres
+        - name: VIKUNJA_DATABASE_USER
+          value: vikunja
+        - name: VIKUNJA_DATABASE_DATABASE
+          value: vikunja
+        - name: VIKUNJA_REDIS_HOST
+          value: redis.redis:6379
+        - name: VIKUNJA_DATABASE_HOST
+          value: postgresql.postgresql
+        - name: VIKUNJA_SERVICE_PUBLICURL
+          value: https://todo.f9.casa/
+        - name: VIKUNJA_AUTH_LOCAL
+          value: "false"
+        - name: VIKUNJA_MAILER_ENABLED
+          value: "true"
+        - name: VIKUNJA_LOG_LEVEL
+          value: "DEBUG"
+        # - name: VIKUNJA_AUTH_OPENID_PROVIDERS
+        #   value: "AUTHENTIK"
+        # - name: VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHENTIK_NAME
+        #   value: "F9 Casa"
+        # - name: VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHENTIK_AUTHURL
+        #   value: "https://auth.f9.casa/application/o/vikunja/"
+        # - name: VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHENTIK_LOGOUTURL
+        #   value: "https://auth.f9.casa/application/o/vikunja/end-session/"
+        - name: VIKUNJA_METRICS_ENABLED
+          value: "true"
+        volumeMounts:
+        - mountPath: "/etc/vikunja"
+          readOnly: false
+          name: data
+          subPath: data
+        - mountPath: "/app/vikunja/files"
+          readOnly: false
+          name: data
+          subPath: files
+        - mountPath: "/etc/vikunja/config.yml"
+          name: vikunja-config-secret
+          subPath: config.yml
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: vikunja
+        - name: vikunja-config-secret
+          secret:
+            secretName: vikunja-config-secret

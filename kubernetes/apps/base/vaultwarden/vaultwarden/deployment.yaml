@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: vaultwarden
+    app.kubernetes.io/instance: vaultwarden
+    app.kubernetes.io/name: vaultwarden
+  name: vaultwarden
+  namespace: vaultwarden
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: vaultwarden
+  template:
+    metadata:
+      labels:
+        app: vaultwarden
+        app.kubernetes.io/name: vaultwarden
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+      - image: vaultwarden/server:latest
+        name: vaultwarden
+        ports:
+        - containerPort: 80
+          name: web
+          protocol: TCP
+        envFrom:
+          - secretRef:
+              name: vaultwarden-secret
+        env:
+        - name: TZ
+          value: Europe/London
+        - name: EXPERIMENTAL_CLIENT_FEATURE_FLAGS
+          value: ssh-key-vault-item,ssh-agent
+        volumeMounts:
+        - mountPath: "/data"
+          readOnly: false
+          name: data
+        - mountPath: "/data/config.json"
+          name: vaultwarden-config
+          subPath: config.json
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: vaultwarden
+        - name: vaultwarden-config
+          configMap:
+            name: vaultwarden-config

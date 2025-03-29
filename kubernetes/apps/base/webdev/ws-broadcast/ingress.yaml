@@ -1,0 +1,20 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ws-broadcast
+  namespace: webdev
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`games.f9.casa`) && PathPrefix(`/ws`)
+      kind: Rule
+      services:
+        - name: ws-broadcast
+          port: 13370
+      middlewares:
+        - name: default-headers
+          namespace: default

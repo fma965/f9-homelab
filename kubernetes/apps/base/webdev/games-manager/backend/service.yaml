@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: games-manager-backend
+  name: games-manager-backend
+  namespace: webdev
+spec:
+  ports:
+  - name: "web"
+    port: 8055
+    targetPort: 8055
+  selector:
+    app: games-manager-backend

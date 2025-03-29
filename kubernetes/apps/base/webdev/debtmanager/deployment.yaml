@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: debtmanager
+    app.kubernetes.io/instance: debtmanager
+    app.kubernetes.io/name: debtmanager
+  name: debtmanager
+  namespace: webdev
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: debtmanager
+  template:
+    metadata:
+      labels:
+        app: debtmanager
+        app.kubernetes.io/name: debtmanager
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+      - image: ghcr.io/fma965/debt-manager:latest
+        name: debtmanager
+        ports:
+        - containerPort: 81
+          hostPort: 81
+          protocol: TCP
+        - containerPort: 80
+          hostPort: 80
+          protocol: TCP
+        envFrom:
+        - secretRef:
+            name: debtmanager-secret
+        env:
+        - name: DB_HOST
+          value: mariadb.mariadb
+        - name: DB_USER
+          value: debtmanager
+        - name: DB_NAME
+          value: debtmanager
+        # - name: DEBUG
+        #   value: "true"

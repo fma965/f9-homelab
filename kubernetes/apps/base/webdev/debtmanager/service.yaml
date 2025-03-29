@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: debtmanager
+  name: debtmanager
+  namespace: webdev
+spec:
+  ports:
+  - name: "api"
+    port: 81
+    targetPort: 81
+  - name: "web"
+    port: 80
+    targetPort: 80
+  selector:
+    app: debtmanager

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: phpmyadmin
+    app.kubernetes.io/instance: phpmyadmin
+    app.kubernetes.io/name: phpmyadmin
+  name: phpmyadmin
+  namespace: mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpmyadmin
+  template:
+    metadata:
+      labels:
+        app: phpmyadmin
+        app.kubernetes.io/name: phpmyadmin
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+        - image: phpmyadmin/phpmyadmin
+          name: phpmyadmin
+          env:
+            - name: UPLOAD_LIMIT
+              value: "500M"
+            - name: PGID
+              value: "1000"
+            - name:  UMASK
+              value: "022"
+            - name:  TZ
+              value: "Europe/London"
+            - name:  PMA_USER
+              value: "pma"
+            - name:  PMA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: PMA_PASSWORD
+            - name:  PUID
+              value: "1000"
+            - name:  PMA_ABSOLUTE_URI
+              value: "https://phpmyadmin.f9.casa/"
+            - name:  MYSQL_USER
+              value: "root"
+            - name:  PMA_HOST
+              value: "mariadb.mariadb"
+            - name:  PMA_PORT
+              value: "3306"
+            - name:  MAX_EXECUTION_TIME
+              value: "600"
+            - name:  MEMORY_LIMIT
+              value: "512M"

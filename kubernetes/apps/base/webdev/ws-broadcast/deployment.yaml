@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ws-broadcast
+    app.kubernetes.io/instance: ws-broadcast
+    app.kubernetes.io/name: ws-broadcast
+  name: ws-broadcast
+  namespace: webdev
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: ws-broadcast
+  template:
+    metadata:
+      labels:
+        app: ws-broadcast
+        app.kubernetes.io/name: ws-broadcast
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+      - image: hprivakos/ws-broadcast
+        name: ws-broadcast
+        ports:
+        - containerPort: 13370
+          hostPort: 13370
+          protocol: TCP

@@ -1,0 +1,86 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dbbackup
+    app.kubernetes.io/instance: dbbackup
+    app.kubernetes.io/name: dbbackup
+  name: dbbackup
+  namespace: backup
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: dbbackup
+  template:
+    metadata:
+      labels:
+        app: dbbackup
+        app.kubernetes.io/name: dbbackup
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+      - image: tiredofit/db-backup:latest
+        name: dbbackup
+        envFrom:
+          - secretRef:
+              name: dbbackup-secret
+        env:
+        - name: CONTAINER_ENABLE_MONITORING
+          value: "FALSE"
+        - name: DEFAULT_CREATE_LATEST_SYMLINK
+          value: "FALSE"
+        - name: DEFAULT_BACKUP_BEGIN
+          value: 0 1 * * 0
+        - name: DEFAULT_CLEANUP_TIME
+          value: "10080"
+        - name: DEFAULT_BACKUP_LOCATION
+          value: "S3"
+        - name: DEFAULT_S3_BUCKET
+          value: "f9-k3s-longhorn"
+        - name: DEFAULT_S3_PATH
+          value: "database"
+        - name: DEFAULT_S3_KEY_ID
+          value: "f9-k3s-longhorn"
+        - name: DEFAULT_S3_REGION	
+          value: "eu-west-2"
+        - name: DEFAULT_S3_HOST	
+          value: "s3.f9.casa"
+        - name: DEFAULT_S3_CERT_SKIP_VERIFY
+          value: "FALSE"       
+        - name: TZ
+          value: Europe/London
+        - name: ENABLE_NOTIFICATIONS	
+          value: "TRUE"
+        - name: NOTIFICATION_TYPE	
+          value: "EMAIL"
+        - name: SMTP_HOST	
+          value: "10.0.10.254"
+        - name: SMTP_PORT	
+          value: "25"          
+        - name: DB01_HOST
+          value: mariadb.mariadb
+        - name: DB01_NAME
+          value: ALL
+        - name: DB01_TYPE
+          value: mysql
+        - name: DB01_USER
+          value: backup
+        - name: DB01_SPLIT_DB
+          value: "TRUE"      
+        - name: DB01_MYSQL_EVENTS
+          value: "FALSE"
+        - name: DB02_HOST
+          value: postgresql.postgresql
+        - name: DB02_NAME
+          value: ALL
+        - name: DB02_TYPE
+          value: pgsql
+        - name: DB02_USER
+          value: admin
+        - name: DB02_SPLIT_DB
+          value: "TRUE"            

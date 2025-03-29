@@ -1,0 +1,69 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: panel
+    app.kubernetes.io/instance: panel
+    app.kubernetes.io/name: panel
+  name: panel
+  namespace: pterodactyl
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: panel
+  template:
+    metadata:
+      labels:
+        app: panel
+        app.kubernetes.io/name: panel
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+      - image: ghcr.io/pterodactyl/panel:latest
+        name: panel
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        - containerPort: 443
+          name: https
+          protocol: TCP
+        envFrom:
+          - secretRef:
+              name: pterodactyl-secret
+        env:
+        - name: APP_URL
+          value: "https://gameservers.f9.casa"
+        - name: APP_TIMEZONE
+          value: Europe/London
+        - name: CACHE_DRIVER
+          value: redis         
+        - name: SESSION_DRIVER
+          value: redis                
+        - name: QUEUE_DRIVER
+          value: redis                   
+        - name: REDIS_HOST
+          value: redis.redis      
+        - name: DB_HOST
+          value: mariadb.mariadb                    
+        - name: DB_PORT
+          value: "3306" 
+        - name: DB_DATABASE
+          value: pterodactyl
+        - name: DB_USERNAME
+          value: pterodactyl
+      hostAliases:
+      - ip: "10.0.10.31"
+        hostnames:
+        - "01.gameservers.f9.casa"
+      - ip: "10.0.10.32"
+        hostnames:
+        - "02.gameservers.f9.casa"
+      - ip: "10.0.10.33"
+        hostnames:
+        - "03.gameservers.f9.casa"

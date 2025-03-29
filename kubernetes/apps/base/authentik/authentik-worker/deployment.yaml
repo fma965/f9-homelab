@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: authentik-worker
+    app.kubernetes.io/instance: authentik-worker
+    app.kubernetes.io/name: authentik-worker
+  name: authentik-worker
+  namespace: authentik
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: authentik-worker
+  template:
+    metadata:
+      labels:
+        app: authentik-worker
+        app.kubernetes.io/name: authentik-worker
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+        - args:
+            - worker
+          envFrom:
+            - secretRef:
+                name: authentik-secret
+          env:
+            - name: AUTHENTIK_ERROR_REPORTING__ENABLED
+              value: "false"
+            - name: AUTHENTIK_POSTGRESQL__HOST
+              value: postgresql.postgresql
+            - name: AUTHENTIK_POSTGRESQL__NAME
+              value: authentik
+            - name: AUTHENTIK_POSTGRESQL__USER
+              value: authentik
+            - name: AUTHENTIK_REDIS__HOST
+              value: redis.redis
+            - name: TZ
+              value: Europe/London
+          image: ghcr.io/goauthentik/server:latest
+          name: authentik-worker
+          volumeMounts:
+            - mountPath: /backups
+              name: config
+              subPath: backups
+            - mountPath: /media
+              name: config
+              subPath: media
+            - mountPath: /certs
+              name: config
+              subPath: certs
+            - mountPath: /templates
+              name: config
+              subPath: templates
+      restartPolicy: Always
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: authentik

@@ -1,0 +1,11 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: panel-headers
+  namespace: pterodactyl
+spec:
+  headers:
+    accessControlAllowOriginList:
+      - "https://01.gameservers.f9.casa"
+      - "https://02.gameservers.f9.casa"
+      - "https://03.gameservers.f9.casa"

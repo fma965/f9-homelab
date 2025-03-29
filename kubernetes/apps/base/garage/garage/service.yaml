@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: garage-webui
+  name: garage-webui
+  namespace: garage
+spec:
+  ports:
+    - name: "garage-webui"
+      port: 3909
+      targetPort: 3909
+  selector:
+    app: garage-webui

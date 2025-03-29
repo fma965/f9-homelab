@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ws-broadcast
+  name: ws-broadcast
+  namespace: webdev
+spec:
+  ports:
+  - name: "web"
+    port: 13370
+    targetPort: 13370
+  selector:
+    app: ws-broadcast

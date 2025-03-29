@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: homepage
+  name: homepage
+  namespace: homepage 
+spec:
+  ports:
+  - name: web-tcp
+    port: 3000
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: homepage

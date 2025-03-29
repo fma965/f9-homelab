@@ -1,0 +1,22 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: games-manager-frontend
+  namespace: webdev
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`games.f9.casa`)
+      kind: Rule
+      services:
+        - name: games-manager-frontend
+          port: 80
+      middlewares:
+        - name: default-headers
+          namespace: default
+        - name: authentik
+          namespace: authentik

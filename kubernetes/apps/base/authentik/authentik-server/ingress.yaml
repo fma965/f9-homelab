@@ -1,0 +1,28 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: authentik-server
+  namespace: authentik
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`auth.f9.casa`)
+      kind: Rule
+      services:
+        - name: authentik-server
+          port: 9000
+      middlewares:
+        - name: default-headers
+          namespace: default
+          
+    - match: HostRegexp(`^.+\.f9\.casa$`) && PathPrefix(`/outpost.goauthentik.io/`)
+      kind: Rule
+      priority: 15
+      services:
+        - name: authentik-server
+          port: 9000
+

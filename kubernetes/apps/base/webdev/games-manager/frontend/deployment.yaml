@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: games-manager-frontend
+    app.kubernetes.io/instance: games-manager-frontend
+    app.kubernetes.io/name: games-manager-frontend
+  name: games-manager-frontend
+  namespace: webdev
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: games-manager-frontend
+  template:
+    metadata:
+      labels:
+        app: games-manager-frontend
+        app.kubernetes.io/name: games-manager-frontend
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+      - image: ghcr.io/fma965/games-manager-frontend:latest
+        name: games-manager-frontend
+        ports:
+        - containerPort: 80
+          hostPort: 80
+          protocol: TCP
+        envFrom:
+        - secretRef:
+            name: games-manager-frontend-secret
+        env:
+        - name: APP_HOST
+          value: "https://games.f9.casa"
+        - name: APP_BACKEND
+          value: "https://gamesdb.f9.casa"
+        # - name: DEBUG
+        #   value: "true"

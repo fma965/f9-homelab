@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: garage-webui
+    app.kubernetes.io/instance: garage-webui
+    app.kubernetes.io/name: garage-webui
+  name: garage-webui
+  namespace: garage
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: garage-webui
+  template:
+    metadata:
+      labels:
+        app: garage-webui
+        app.kubernetes.io/name: garage-webui
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+        - image: khairul169/garage-webui:latest
+          name: garage-webui
+          env:
+          - name: API_BASE_URL
+            value: "http://192.168.1.3:3903"
+          - name: S3_ENDPOINT_URL
+            value: "http://192.168.1.3:3900"
+          - name: S3_REGION
+            value: "eu-west-2"
+          - name: API_ADMIN_KEY
+            valueFrom:
+              secretKeyRef:
+                name: garage-webui-secret
+                key: API_ADMIN_KEY
+                

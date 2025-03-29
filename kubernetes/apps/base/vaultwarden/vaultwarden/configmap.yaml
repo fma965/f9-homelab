@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vaultwarden-config
+  namespace: vaultwarden
+  labels:
+    app: vaultwarden
+data:
+  config.json: |
+    {
+      "domain": "https://pw.f9.casa",
+      "sends_allowed": true,
+      "incomplete_2fa_time_limit": 3,
+      "disable_icon_download": false,
+      "signups_allowed": false,
+      "signups_verify": false,
+      "signups_verify_resend_time": 3600,
+      "signups_verify_resend_limit": 6,
+      "invitations_allowed": false,
+      "emergency_access_allowed": true,
+      "email_change_allowed": true,
+      "password_iterations": 600000,
+      "password_hints_allowed": true,
+      "show_password_hint": false,
+      "invitation_org_name": "F9 Password Management",
+      "ip_header": "X-Real-IP",
+      "icon_redirect_code": 302,
+      "icon_cache_ttl": 2592000,
+      "icon_cache_negttl": 259200,
+      "icon_download_timeout": 10,
+      "icon_blacklist_non_global_ips": true,
+      "disable_2fa_remember": false,
+      "authenticator_disable_time_drift": false,
+      "require_device_email": true,
+      "reload_templates": false,
+      "log_timestamp_format": "%Y-%m-%d %H:%M:%S.%3f",
+      "admin_session_lifetime": 20,
+      "_enable_yubico": true,
+      "_enable_duo": true,
+      "_enable_smtp": true,
+      "use_sendmail": false,
+      "smtp_host": "192.168.1.1",
+      "smtp_security": "off",
+      "smtp_port": 25,
+      "smtp_from_name": "Vaultwarden",
+      "smtp_timeout": 15,
+      "smtp_embed_images": true,
+      "smtp_accept_invalid_certs": false,
+      "smtp_accept_invalid_hostnames": false,
+      "_enable_email_2fa": true,
+      "email_token_size": 6,
+      "email_expiration_time": 600,
+      "email_attempts_limit": 3
+    }
