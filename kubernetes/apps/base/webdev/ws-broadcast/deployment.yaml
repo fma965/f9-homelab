@@ -24,7 +24,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-      - image: hprivakos/ws-broadcast
+      - image: hprivakos/ws-broadcast:latest
         name: ws-broadcast
         ports:
         - containerPort: 13370

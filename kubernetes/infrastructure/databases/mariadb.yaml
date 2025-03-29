@@ -60,7 +60,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-        - image: lscr.io/linuxserver/mariadb
+        - image: ghcr.io/linuxserver/mariadb:11.4.5
           name: mariadb
           ports:
             - containerPort: 3306
