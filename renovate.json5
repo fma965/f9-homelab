@@ -7,10 +7,10 @@
     ":automergeBranch",
     ":enableVulnerabilityAlertsWithLabel",
     ":timezone(Europe/London)",
-    "github>fma965/f9-homelab//.github/renovate/labels.json5",
-    "github>fma965/f9-homelab//.github/renovate/semanticCommits.json5",
-    "github>fma965/f9-homelab//.github/renovate/meta.json5",
-    "github>fma965/f9-homelab//.github/renovate/packageRules.json5",
+    "github>fma965/f9-homelab//.renovate/labels.json5",
+    "github>fma965/f9-homelab//.renovate/semanticCommits.json5",
+    "github>fma965/f9-homelab//.renovate/meta.json5",
+    "github>fma965/f9-homelab//.renovate/packageRules.json5",
   ],
   flux: {
     fileMatch: [
@@ -21,7 +21,6 @@
   },
   kubernetes: {
     fileMatch: [
-      "kubernetes/clusters/.+\\.ya?ml$",
       "kubernetes/apps/(.+/)deployment\\.ya?ml$",
       "kubernetes/infrastructure/databases/.+\\.ya?ml$"
     ]
