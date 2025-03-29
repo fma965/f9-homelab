@@ -116,8 +116,10 @@ Kubernetes is in [kubernetes](kubernetes)
 │   └───🔐 pre-commit               # Ensures secrets are encrypted before commit
 │
 ├───🤖 .github/                      # GitHub configurations
-│   ├───🔄 renovate.json5            # Base RenovateBot configuration
-│   └───📦 renovate/                 # Additional Renovate presets
+│
+├───🔄 renovate.json5               # Base RenovateBot configuration
+├───🔄 .renovate/                   # Additional RenovateBot configuration
+│
 │
 ├───🔑 .sops/age/                    # SOPS encryption keys
 │   ├───🗝️ private.key              # Age private key (gitignored)
