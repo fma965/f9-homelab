@@ -92,9 +92,11 @@ At a certain point during the script, it will ask you to "Access Longhorn at: ht
 If you are unable to access the S3 backup target, we may just need to force a upgrade of the cilium helmrelease for some reason, to do this i simply make a edit of the helmrelease in k9s/lens and then that causes it to be upgraded.
 `helm upgrade cilium cilium/cilium --force --reuse-values -n kube-system`
 
+If that doesn't work using k9s edit the helmrelease of cilium and toggle the gatewayAPI value, save, then toggle it back to true again.
+
 Approximate restore time: **Less than 30 Minutes** 
 
-(**5 Minutes** to Longhorn step, **10-15 Minutes** to restore volumes, and another **5 Minutes** to restore apps)
+(**5 Minutes** for initial deployment, **8 Minutes** to restore volumes, and another **5 Minutes** to restore apps)
 
 ### Restoring Docker
 Run the following script to decrypt and copy the Compose files to UnRaid
