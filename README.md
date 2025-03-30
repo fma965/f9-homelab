@@ -66,9 +66,9 @@ This makes sure any filename with `secret.yaml` or `secret.env` in their name ar
 Run the following script to initiate Tofu and create the Talos Linux powered kubernetes cluster
 
 ```bash
-rm /infrastructure/tofu/output/* # WARNING! This will delete your old kube-config and talos-confg
-rm /infrastructure/tofu/terraform.tfstate # WARNING! This will delete state
-rm /infrastructure/tofu/terraform.tfstate.backup # WARNING! This will delete state
+rm infrastructure/tofu/output/* # WARNING! This will delete your old kube-config and talos-confg
+rm infrastructure/tofu/terraform.tfstate # WARNING! This will delete state
+rm infrastructure/tofu/terraform.tfstate.backup # WARNING! This will delete state
 chmod +x ./infrastructure/restore-infrastructure.sh
 ./infrastructure/restore-infrastructure.sh
 ```
