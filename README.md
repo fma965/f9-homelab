@@ -66,10 +66,15 @@ This makes sure any filename with `secret.yaml` or `secret.env` in their name ar
 Run the following script to initiate Tofu and create the Talos Linux powered kubernetes cluster
 
 ```bash
+rm /infrastructure/tofu/output/* # WARNING! This will delete your old kube-config and talos-confg
+rm /infrastructure/tofu/terraform.tfstate # WARNING! This will delete state
+rm /infrastructure/tofu/terraform.tfstate.backup # WARNING! This will delete state
 chmod +x ./infrastructure/restore-infrastructure.sh
 ./infrastructure/restore-infrastructure.sh
 ```
 Optionally add `--dry-run`/`-d` to test it, or if you are feeling brave `--auto-approve`/`-y` to skip confirmation prompts
+
+Approximate restore time: **4 Minutes**
 
 ### Restoring Kubernetes
 Export your SOPS_AGE_KEY_FILE and if you do not wish to enter your GitHub Token later export that aswell
@@ -83,6 +88,13 @@ chmod +x ./kubernetes/restore-kubernetes.sh
 ./kubernetes/restore-kubernetes.sh
 ```
 At a certain point during the script, it will ask you to "Access Longhorn at: http://localhost:8080" follow the steps
+
+If you are unable to access the S3 backup target, we may just need to force a upgrade of the cilium helmrelease for some reason, to do this i simply make a edit of the helmrelease in k9s/lens and then that causes it to be upgraded.
+`helm upgrade cilium cilium/cilium --force --reuse-values -n kube-system`
+
+Approximate restore time: **Less than 30 Minutes** 
+
+(**5 Minutes** to Longhorn step, **10-15 Minutes** to restore volumes, and another **5 Minutes** to restore apps)
 
 ### Restoring Docker
 Run the following script to decrypt and copy the Compose files to UnRaid
