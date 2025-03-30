@@ -36,7 +36,7 @@ spec:
 
     additionalArguments:
       - "--serversTransport.insecureSkipVerify=true"
-      - "--log.level=WARN"
+      - "--log.level=DEBEUG"
       - "--accesslog=true"
       - "--providers.file.directory=/providers"
       - "--providers.file.watch=true"
