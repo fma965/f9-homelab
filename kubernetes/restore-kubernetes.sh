@@ -52,6 +52,11 @@ color_echo "34" "Suspending FluxCD Infra-Databses and Apps to allow restoring of
 flux suspend kustomization infra-databases
 flux suspend kustomization apps
 
+color_echo "34" "Waiting for Traefik Crowdsec Bounder Middleware to be created so it can be temporarily disabled..."
+until kubectl patch middleware bouncer -n traefik \
+  --type='merge' \
+  -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": false}}}}'; do sleep 3; done
+
 color_echo "34" "Waiting for Longhorn endpoint to become available ..."
 until kubectl -n longhorn-system get endpoints longhorn-frontend \
       -o jsonpath='{.subsets[*].addresses[*].ip}' | grep -q .
@@ -77,5 +82,10 @@ color_echo "34" "Resuming FluxCD Infra-Databses and Apps now that longhorn volum
 kill $PF_PID
 flux resume kustomization infra-databases
 flux resume kustomization apps
+
+color_echo "34" "Reneabled the Traefik Crowdsec Bouncer Middlware ..."
+kubectl patch middleware bouncer -n traefik \
+  --type='merge' \
+  -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": true}}}}'
 
 color_echo "34" "✅ FluxCD should now be completing the deployment and soon your Kubenetes configuration should be restored!"

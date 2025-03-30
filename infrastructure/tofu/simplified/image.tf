@@ -22,7 +22,8 @@ resource "proxmox_virtual_environment_download_file" "this" {
   content_type            = "iso"
   datastore_id            = "local"
   decompression_algorithm = "gz"
-  overwrite               = false
+  overwrite               = true
+  overwrite_unmanaged     = true
 
   url       = "${local.factory_url}/image/${local.schematic_id}/${local.version}/${local.platform}-${local.arch}.raw.gz"
   file_name = "talos-${local.schematic_id}-${local.version}-${local.platform}-${local.arch}.img"

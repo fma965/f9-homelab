@@ -35,6 +35,8 @@ variable "nodes" {
     vm_id         = number
     cpu           = number
     ram_dedicated = number
+    disk_size     = optional(number, 20)
+    longhorn_size = optional(number, 40)
     update = optional(bool, false)
     igpu = optional(bool, false)
   }))
