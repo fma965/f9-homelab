@@ -52,10 +52,13 @@ color_echo "34" "Suspending FluxCD Infra-Databses and Apps to allow restoring of
 flux suspend kustomization infra-databases
 flux suspend kustomization apps
 
-color_echo "34" "Waiting for Traefik Crowdsec Bounder Middleware to be created so it can be temporarily disabled..."
+color_echo "34" "Waiting for Traefik Crowdsec Bouncer Middleware to be created so it can be temporarily disabled..."
 until kubectl patch middleware bouncer -n traefik \
   --type='merge' \
   -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": false}}}}'; do sleep 3; done
+
+color_echo "34" "Waiting for Cert-Manager certificate to be issued..."
+kubectl wait --for=condition=Ready certificate/f9-casa -n default --timeout=5m
 
 color_echo "34" "Waiting for Longhorn endpoint to become available ..."
 until kubectl -n longhorn-system get endpoints longhorn-frontend \
