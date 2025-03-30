@@ -1,117 +1,117 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: cilium
-  namespace: kube-system
-spec:
-  interval: 24h
-  url: https://helm.cilium.io/
----
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
-metadata:
-  name: cilium
-  namespace: kube-system
-spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: cilium
-      version: "1.17.2"
-      sourceRef:
-        kind: HelmRepository
-        name: cilium
-        namespace: kube-system
-      interval: 12h
-  values:
-      cluster:
-        name: talos
-        id: 1
-
-      kubeProxyReplacement: true
-
-      # Talos specific
-      k8sServiceHost: localhost
-      k8sServicePort: 7445
-      securityContext:
-        capabilities:
-          ciliumAgent: [ CHOWN, KILL, NET_ADMIN, NET_RAW, IPC_LOCK, SYS_ADMIN, SYS_RESOURCE, DAC_OVERRIDE, FOWNER, SETGID, SETUID ]
-          cleanCiliumState: [ NET_ADMIN, SYS_ADMIN, SYS_RESOURCE ]
-
-      cgroup:
-        autoMount:
-          enabled: false
-        hostRoot: /sys/fs/cgroup
-
-      # https://docs.cilium.io/en/stable/network/concepts/ipam/
-      ipam:
-        mode: kubernetes
-
-      operator:
-        rollOutPods: true
-        resources:
-          limits:
-            cpu: 500m
-            memory: 256Mi
-          requests:
-            cpu: 50m
-            memory: 128Mi
-
-      # Roll out cilium agent pods automatically when ConfigMap is updated.
-      rollOutCiliumPods: true
-      resources:
-        limits:
-          cpu: 1000m
-          memory: 1Gi
-        requests:
-          cpu: 200m
-          memory: 512Mi
-
-      #debug:
-      #  enabled: true
-
-      # Increase rate limit when doing L2 announcements
-      k8sClientRateLimit:
-        qps: 20
-        burst: 100
-
-      l2announcements:
-        enabled: true
-
-      externalIPs:
-        enabled: true
-
-      enableCiliumEndpointSlice: true
-
-      loadBalancer:
-        # https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/#maglev-consistent-hashing
-        algorithm: maglev
-
-      gatewayAPI:
-        enabled: true
-      envoy:
-        securityContext:
-          capabilities:
-            keepCapNetBindService: true
-            envoy: [ NET_ADMIN, PERFMON, BPF ]
-
-# ---
-# # kubernetes/cilium/announce.yaml
-# apiVersion: cilium.io/v2alpha1
-# kind: CiliumL2AnnouncementPolicy
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: HelmRepository
 # metadata:
-#   name: default-l2-announcement-policy
+#   name: cilium
 #   namespace: kube-system
 # spec:
-#   externalIPs: true
-#   loadBalancerIPs: true
+#   interval: 24h
+#   url: https://helm.cilium.io/
 # ---
-# # kubernetes/cilium/ip-pool.yaml
-# apiVersion: cilium.io/v2alpha1
-# kind: CiliumLoadBalancerIPPool
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
 # metadata:
-#   name: ip-pool
+#   name: cilium
+#   namespace: kube-system
 # spec:
-#   blocks:
-#     - start: 10.0.10.200
-#       stop: 10.0.10.250
+#   interval: 30m
+#   chart:
+#     spec:
+#       chart: cilium
+#       version: "1.17.2"
+#       sourceRef:
+#         kind: HelmRepository
+#         name: cilium
+#         namespace: kube-system
+#       interval: 12h
+#   values:
+#       cluster:
+#         name: talos
+#         id: 1
+
+#       kubeProxyReplacement: true
+
+#       # Talos specific
+#       k8sServiceHost: localhost
+#       k8sServicePort: 7445
+#       securityContext:
+#         capabilities:
+#           ciliumAgent: [ CHOWN, KILL, NET_ADMIN, NET_RAW, IPC_LOCK, SYS_ADMIN, SYS_RESOURCE, DAC_OVERRIDE, FOWNER, SETGID, SETUID ]
+#           cleanCiliumState: [ NET_ADMIN, SYS_ADMIN, SYS_RESOURCE ]
+
+#       cgroup:
+#         autoMount:
+#           enabled: false
+#         hostRoot: /sys/fs/cgroup
+
+#       # https://docs.cilium.io/en/stable/network/concepts/ipam/
+#       ipam:
+#         mode: kubernetes
+
+#       operator:
+#         rollOutPods: true
+#         resources:
+#           limits:
+#             cpu: 500m
+#             memory: 256Mi
+#           requests:
+#             cpu: 50m
+#             memory: 128Mi
+
+#       # Roll out cilium agent pods automatically when ConfigMap is updated.
+#       rollOutCiliumPods: true
+#       resources:
+#         limits:
+#           cpu: 1000m
+#           memory: 1Gi
+#         requests:
+#           cpu: 200m
+#           memory: 512Mi
+
+#       #debug:
+#       #  enabled: true
+
+#       # Increase rate limit when doing L2 announcements
+#       k8sClientRateLimit:
+#         qps: 20
+#         burst: 100
+
+#       l2announcements:
+#         enabled: true
+
+#       externalIPs:
+#         enabled: true
+
+#       enableCiliumEndpointSlice: true
+
+#       loadBalancer:
+#         # https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/#maglev-consistent-hashing
+#         algorithm: maglev
+
+#       gatewayAPI:
+#         enabled: false
+#       envoy:
+#         securityContext:
+#           capabilities:
+#             keepCapNetBindService: true
+#             envoy: [ NET_ADMIN, PERFMON, BPF ]
+
+---
+# kubernetes/cilium/announce.yaml
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: default-l2-announcement-policy
+  namespace: kube-system
+spec:
+  externalIPs: true
+  loadBalancerIPs: true
+---
+# kubernetes/cilium/ip-pool.yaml
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: ip-pool
+spec:
+  blocks:
+    - start: 10.0.10.200
+      stop: 10.0.10.250
