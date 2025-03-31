@@ -78,7 +78,10 @@ REPLY=""
 while ! [[ $REPLY =~ ^[Yy]$ ]]; do
     read -p $'\e[35m Have you restored your Longhorn volume?? (y/n):  \e[0m' -n 1 -r
     echo
-    [[ ! $REPLY =~ ^[Yy]$ ]] && color_echo "34" "Once the volumes have finished being restored, please confirm with 'Y' to proceed."
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+      color_echo "34" "Once the volumes have finished being restored, please confirm with 'Y' to proceed."
+      kubectl patch middleware bouncer -n traefik --type='merge' -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": false}}}}' > /dev/null
+    fi
 done
 
 color_echo "34" "Resuming FluxCD Infra-Databses and Apps now that longhorn volumes have been restored ..."
