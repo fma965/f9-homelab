@@ -6,6 +6,5 @@ resources:
   - secret.enc.yaml
   - helmrepository.yaml
   - helmrelease.yaml
-  - service.yaml
   - ingress.yaml
   - middleware.yaml
