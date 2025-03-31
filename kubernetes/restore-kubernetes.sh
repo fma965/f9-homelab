@@ -53,12 +53,15 @@ flux suspend kustomization infra-databases
 flux suspend kustomization apps
 
 color_echo "34" "Waiting for Traefik Crowdsec Bouncer Middleware to be created so it can be temporarily disabled..."
+until kubectl patch middleware bouncer -n traefik \
+  --type='merge' \
+  -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": false}}}}'; do sleep 3; done
 # Run the patch command in a loop in the background
 (
   while true; do
     kubectl patch middleware bouncer -n traefik \
       --type='merge' \
-      -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": false}}}}'
+      -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": false}}}}' > /dev/null
     sleep 1
   done
 ) &
