@@ -87,12 +87,7 @@ Run the following script to initiate the FluxCD kubernetes GitOps process
 chmod +x ./kubernetes/restore-kubernetes.sh
 ./kubernetes/restore-kubernetes.sh
 ```
-At a certain point during the script, it will ask you to "Access Longhorn at: http://localhost:8080" follow the steps
-
-If you are unable to access the S3 backup target, we may just need to force a upgrade of the cilium helmrelease for some reason, to do this i simply make a edit of the helmrelease in k9s/lens and then that causes it to be upgraded.
-`helm upgrade cilium cilium/cilium --force --reuse-values -n kube-system`
-
-If that doesn't work using k9s edit the helmrelease of cilium and toggle the gatewayAPI value, save, then toggle it back to true again.
+At a certain point during the script, it will ask you to "Access Longhorn at: http://localhost:8080" follow the steps displayed
 
 Approximate restore time: **Less than 30 Minutes** 
 
