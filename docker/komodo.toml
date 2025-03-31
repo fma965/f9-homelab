@@ -10,8 +10,8 @@ enabled = true
 name = "ai"
 [stack.config]
 server = "f9-nas"
-poll_for_updates = true
-auto_update = true
+poll_for_updates = false
+auto_update = false
 run_directory = "docker/stacks/ai"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
@@ -25,8 +25,8 @@ bash ../../decrypt-secrets.sh
 name = "arr"
 [stack.config]
 server = "f9-nas"
-poll_for_updates = true
-auto_update = true
+poll_for_updates = false
+auto_update = false
 run_directory = "docker/stacks/arr"
 repo = "fma965/f9-homelab"
 
@@ -36,8 +36,8 @@ repo = "fma965/f9-homelab"
 name = "backup"
 [stack.config]
 server = "f9-nas"
-poll_for_updates = true
-auto_update = true
+poll_for_updates = false
+auto_update = false
 run_directory = "docker/stacks/backup"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
@@ -48,8 +48,8 @@ repo = "fma965/f9-homelab"
 name = "downloaders"
 [stack.config]
 server = "f9-nas"
-poll_for_updates = true
-auto_update = true
+poll_for_updates = false
+auto_update = false
 run_directory = "docker/stacks/downloaders"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
@@ -63,8 +63,8 @@ bash ../../decrypt-secrets.sh
 name = "git"
 [stack.config]
 server = "f9-nas"
-poll_for_updates = true
-auto_update = true
+poll_for_updates = false
+auto_update = false
 run_directory = "docker/stacks/git"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
@@ -75,8 +75,8 @@ repo = "fma965/f9-homelab"
 name = "media"
 [stack.config]
 server = "f9-nas"
-poll_for_updates = true
-auto_update = true
+poll_for_updates = false
+auto_update = false
 run_directory = "docker/stacks/media"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
@@ -90,8 +90,8 @@ bash ../../decrypt-secrets.sh
 name = "misc"
 [stack.config]
 server = "f9-nas"
-poll_for_updates = true
-auto_update = true
+poll_for_updates = false
+auto_update = false
 run_directory = "docker/stacks/misc"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
@@ -105,8 +105,8 @@ bash ../../decrypt-secrets.sh
 name = "monitoring"
 [stack.config]
 server = "f9-nas"
-poll_for_updates = true
-auto_update = true
+poll_for_updates = false
+auto_update = false
 run_directory = "docker/stacks/monitoring"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
