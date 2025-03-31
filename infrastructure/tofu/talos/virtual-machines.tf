@@ -30,7 +30,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   network_device {
     bridge      = "vmbr0"
     mac_address = each.value.mac_address
-    vlan_id     = 10
+    vlan_id     = try(each.value.vlan_id, null)
   }
 
   disk {

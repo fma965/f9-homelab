@@ -39,6 +39,8 @@ variable "nodes" {
     longhorn_size = optional(number, 40)
     update = optional(bool, false)
     igpu = optional(bool, false)
+    vlan_id = optional(number, null)
+    
   }))
 }
 

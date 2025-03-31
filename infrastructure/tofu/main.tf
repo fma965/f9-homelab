@@ -34,6 +34,7 @@ module "talos" {
       cpu           = 4
       ram_dedicated = 4096
       disk_size     = 20
+      vlan_id       = 10
     }
     "k8s-cp-02" = {
       host_node     = "F9-HV2"
@@ -44,6 +45,7 @@ module "talos" {
       cpu           = 4
       ram_dedicated = 4096
       disk_size     = 20
+      vlan_id       = 10
     }
     "k8s-cp-03" = {
       host_node     = "F9-HV3"
@@ -54,6 +56,7 @@ module "talos" {
       cpu           = 4
       ram_dedicated = 4096
       disk_size     = 20
+      vlan_id       = 10
     }
     "k8s-worker-01" = {
       host_node     = "F9-HV1"
@@ -66,6 +69,7 @@ module "talos" {
       igpu          = false
       disk_size     = 30
       longhorn_size = 40
+      vlan_id       = 10
     }
     "k8s-worker-02" = {
       host_node     = "F9-HV2"
@@ -78,6 +82,7 @@ module "talos" {
       igpu          = false
       disk_size     = 30
       longhorn_size = 40
+      vlan_id       = 10
     }
     "k8s-worker-03" = {
       host_node     = "F9-HV3"
@@ -90,6 +95,7 @@ module "talos" {
       igpu          = false
       disk_size     = 30
       longhorn_size = 40
+      vlan_id       = 10
     }
   }
 }
