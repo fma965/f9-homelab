@@ -41,21 +41,21 @@ fi
 # Execute workflow
 cd "$(dirname "${BASH_SOURCE[0]}")"/tofu
 
-# color_echo "34"  "Initializing OpenTofu..."
-# tofu init -input=false
+color_echo "34"  "Initializing OpenTofu..."
+tofu init -input=false
 
-# color_echo "34"  "Generating plan..."
-# tofu plan -input=false
+color_echo "34"  "Generating plan..."
+tofu plan -input=false
 
 
-# if [ "$AUTO_APPROVE" = true ]; then
-#     color_echo "34"  "Auto-approve mode enabled. Proceeding without confirmation."
-#     tofu apply -input=false -auto-approve
-# else
-#     color_echo "34"  "Manual approval required. Proceeding with confirmation."
-#     tofu apply -input=false
-# fi
-# color_echo "34" "Applying changes..."
+if [ "$AUTO_APPROVE" = true ]; then
+    color_echo "34"  "Auto-approve mode enabled. Proceeding without confirmation."
+    tofu apply -input=false -auto-approve
+else
+    color_echo "34"  "Manual approval required. Proceeding with confirmation."
+    tofu apply -input=false
+fi
+color_echo "34" "Applying changes..."
 export KUBECONFIG="$PWD/output/kube-config.yaml"
 echo export KUBECONFIG="$PWD/output/kube-config.yaml"
 color_echo "34" "✅ Talos Linux should now be up and running, if it's not it should be after a few minutes!"
