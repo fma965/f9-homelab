@@ -83,7 +83,7 @@ kubectl -n longhorn-system port-forward svc/longhorn-frontend 8080:80 > /dev/nul
 PF_PID=$!
 color_echo "34" "Port-forward running in background (PID: $PF_PID)"
 color_echo "34" "Access Longhorn at: http://localhost:8080"
-color_echo "34" "In the UI, Click on "Backups", Select all volumes, "Restore from last backup"."
+color_echo "34" "In the UI, Click on 'Backups', Select all volumes, 'Restore Latest Backup' and click 'OK'."
 
 REPLY=""
 while ! [[ $REPLY =~ ^[Yy]$ ]]; do
