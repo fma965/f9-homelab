@@ -9,7 +9,6 @@ spec:
   - f9.casa
   - '*.f9.casa'
   - '*.s3.f9.casa'
-  - '*.dev.f9.casa'
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt
