@@ -52,21 +52,21 @@ color_echo "34" "Suspending FluxCD Infra-Databses and Apps to allow restoring of
 flux suspend kustomization infra-databases
 flux suspend kustomization apps
 
-color_echo "34" "Waiting for Traefik Crowdsec Bouncer Middleware to be created so it can be temporarily disabled..."
-until kubectl patch middleware bouncer -n traefik \
-  --type='merge' \
-  -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": false}}}}'; do sleep 3; done
-# Run the patch command in a loop in the background
-(
-  while true; do
-    kubectl patch middleware bouncer -n traefik \
-      --type='merge' \
-      -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": false}}}}' > /dev/null
-    sleep 1
-  done
-) &
+# color_echo "34" "Waiting for Traefik Crowdsec Bouncer Middleware to be created so it can be temporarily disabled..."
+# until kubectl patch middleware bouncer -n traefik \
+#   --type='merge' \
+#   -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": false}}}}'; do sleep 3; done
+# # Run the patch command in a loop in the background
+# (
+#   while true; do
+#     kubectl patch middleware bouncer -n traefik \
+#       --type='merge' \
+#       -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": false}}}}' > /dev/null
+#     sleep 1
+#   done
+# ) &
 
-BOUNCER_PID=$!
+# BOUNCER_PID=$!
 
 color_echo "34" "Waiting for Cert-Manager certificate to be issued..."
 kubectl wait --for=condition=Ready certificate/f9-casa -n default --timeout=10m
@@ -99,10 +99,10 @@ kill $PF_PID
 flux resume kustomization infra-databases
 flux resume kustomization apps
 
-color_echo "34" "Reneabled the Traefik Crowdsec Bouncer Middlware ..."
-kill $BOUNCER_PID
-kubectl patch middleware bouncer -n traefik \
-  --type='merge' \
-  -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": true}}}}'
+# color_echo "34" "Reneabled the Traefik Crowdsec Bouncer Middlware ..."
+# kill $BOUNCER_PID
+# kubectl patch middleware bouncer -n traefik \
+#   --type='merge' \
+#   -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": true}}}}'
 
 color_echo "34" "✅ FluxCD should now be completing the deployment and soon your Kubenetes configuration should be restored!"

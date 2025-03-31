@@ -1,143 +1,143 @@
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
-metadata:
-  name: crowdsec
-  namespace: crowdsec
-spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: crowdsec
-      version: "v0.19.1"
-      sourceRef:
-        kind: HelmRepository
-        name: crowdsec
-        namespace: crowdsec
-      interval: 12h
-  values:
-    # for raw logs format: json or cri (docker|containerd)
-    container_runtime: containerd
-    agent:
-      # Specify each pod whose logs you want to process
-      acquisition:
-        # The namespace where the pod is located
-        - namespace: traefik
-          # The pod name
-          podName: traefik-*
-          # as in crowdsec configuration, we need to specify the program name to find a matching parser
-          program: traefik
-      env:
-        - name: PARSERS
-          value: "crowdsecurity/cri-logs crowdsecurity/whitelists"
-        - name: COLLECTIONS
-          value: "crowdsecurity/linux crowdsecurity/traefik firix/authentik Dominic-Wagner/vaultwarden"
-        - name: DISABLE_PARSERS
-          value: "crowdsecurity/whitelists"
-    config:
-      config.yaml.local: |
-        api:
-          server:
-            auto_registration: # Activate if not using TLS for authentication
-              enabled: true
-              token: "${REGISTRATION_TOKEN}" # /!\ Do not modify this variable (auto-generated and handled by the chart)
-              allowed_ranges: # /!\ Make sure to adapt to the pod IP ranges used by your cluster
-                - "127.0.0.1/32"
-                - "192.168.0.0/16"
-                - "10.0.0.0/8"
-                - "172.16.0.0/12"
-        db_config:
-          type:     postgresql
-          user:     crowdsec
-          password: ${DB_PASSWORD}
-          db_name:  crowdsec
-          host:     postgresql.postgresql
-          port:     5432
-          sslmode:  disable
-          flush:
-            agents_autodelete:
-              cert: 60m # This is TLS client authentication
-              login_password: 60m # This includes the auto registration token as well
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: crowdsec
+#   namespace: crowdsec
+# spec:
+#   interval: 30m
+#   chart:
+#     spec:
+#       chart: crowdsec
+#       version: "v0.19.1"
+#       sourceRef:
+#         kind: HelmRepository
+#         name: crowdsec
+#         namespace: crowdsec
+#       interval: 12h
+#   values:
+#     # for raw logs format: json or cri (docker|containerd)
+#     container_runtime: containerd
+#     agent:
+#       # Specify each pod whose logs you want to process
+#       acquisition:
+#         # The namespace where the pod is located
+#         - namespace: traefik
+#           # The pod name
+#           podName: traefik-*
+#           # as in crowdsec configuration, we need to specify the program name to find a matching parser
+#           program: traefik
+#       env:
+#         - name: PARSERS
+#           value: "crowdsecurity/cri-logs crowdsecurity/whitelists"
+#         - name: COLLECTIONS
+#           value: "crowdsecurity/linux crowdsecurity/traefik firix/authentik Dominic-Wagner/vaultwarden"
+#         - name: DISABLE_PARSERS
+#           value: "crowdsecurity/whitelists"
+#     config:
+#       config.yaml.local: |
+#         api:
+#           server:
+#             auto_registration: # Activate if not using TLS for authentication
+#               enabled: true
+#               token: "${REGISTRATION_TOKEN}" # /!\ Do not modify this variable (auto-generated and handled by the chart)
+#               allowed_ranges: # /!\ Make sure to adapt to the pod IP ranges used by your cluster
+#                 - "127.0.0.1/32"
+#                 - "192.168.0.0/16"
+#                 - "10.0.0.0/8"
+#                 - "172.16.0.0/12"
+#         db_config:
+#           type:     postgresql
+#           user:     crowdsec
+#           password: ${DB_PASSWORD}
+#           db_name:  crowdsec
+#           host:     postgresql.postgresql
+#           port:     5432
+#           sslmode:  disable
+#           flush:
+#             agents_autodelete:
+#               cert: 60m # This is TLS client authentication
+#               login_password: 60m # This includes the auto registration token as well
 
-      # profiles.yaml: |
-      #   name: default_ip_remediation
-      #   #debug: true
-      #   filters:
-      #   - Alert.Remediation == true && Alert.GetScope() == "Ip"
-      #   decisions:
-      #   - type: ban
-      #     duration: 4h
-      #   #duration_expr: Sprintf('%dh', (GetDecisionsCount(Alert.GetValue()) + 1) * 4)
-      #   notifications:
-      #   #   - slack_default  # Set the webhook in /etc/crowdsec/notifications/slack.yaml before enabling this.
-      #   #   - splunk_default # Set the splunk url and token in /etc/crowdsec/notifications/splunk.yaml before enabling this.
-      #     - http_default   # Set the required http parameters in /etc/crowdsec/notifications/http.yaml before enabling this.
-      #   #   - email_default  # Set the required email parameters in /etc/crowdsec/notifications/email.yaml before enabling this.
+#       # profiles.yaml: |
+#       #   name: default_ip_remediation
+#       #   #debug: true
+#       #   filters:
+#       #   - Alert.Remediation == true && Alert.GetScope() == "Ip"
+#       #   decisions:
+#       #   - type: ban
+#       #     duration: 4h
+#       #   #duration_expr: Sprintf('%dh', (GetDecisionsCount(Alert.GetValue()) + 1) * 4)
+#       #   notifications:
+#       #   #   - slack_default  # Set the webhook in /etc/crowdsec/notifications/slack.yaml before enabling this.
+#       #   #   - splunk_default # Set the splunk url and token in /etc/crowdsec/notifications/splunk.yaml before enabling this.
+#       #     - http_default   # Set the required http parameters in /etc/crowdsec/notifications/http.yaml before enabling this.
+#       #   #   - email_default  # Set the required email parameters in /etc/crowdsec/notifications/email.yaml before enabling this.
 
-      # notifications: 
-      #   http.yaml: |
-      #     type: http          # Don't change
-      #     name: http_default # Must match the registered plugin in the profile
+#       # notifications: 
+#       #   http.yaml: |
+#       #     type: http          # Don't change
+#       #     name: http_default # Must match the registered plugin in the profile
 
-      #     # One of "trace", "debug", "info", "warn", "error", "off"
-      #     log_level: info
+#       #     # One of "trace", "debug", "info", "warn", "error", "off"
+#       #     log_level: info
 
-      #     # group_wait:         # Time to wait collecting alerts before relaying a message to this plugin, eg "30s"
-      #     # group_threshold:    # Amount of alerts that triggers a message before <group_wait> has expired, eg "10"
-      #     # max_retry:          # Number of attempts to relay messages to plugins in case of error
-      #     # timeout:            # Time to wait for response from the plugin before considering the attempt a failure, eg "10s"
+#       #     # group_wait:         # Time to wait collecting alerts before relaying a message to this plugin, eg "30s"
+#       #     # group_threshold:    # Amount of alerts that triggers a message before <group_wait> has expired, eg "10"
+#       #     # max_retry:          # Number of attempts to relay messages to plugins in case of error
+#       #     # timeout:            # Time to wait for response from the plugin before considering the attempt a failure, eg "10s"
 
-      #     #-------------------------
-      #     # plugin-specific options
+#       #     #-------------------------
+#       #     # plugin-specific options
 
-      #     # The following template receives a list of models.Alert objects
-      #     # The output goes in the http request body
-      #     format: |
-      #       {{ range . -}}
-      #       {{ $alert := . -}}
-      #       {
-      #         "extras": {
-      #           "client::display": {
-      #           "contentType": "text/markdown"
-      #         }
-      #       },
-      #       "priority": 3,
-      #       {{range .Decisions -}}
-      #       "title": "{{.Type }} {{ .Value }} for {{.Duration}}",
-      #       "message": "{{.Scenario}}  \n\n[crowdsec cti](https://app.crowdsec.net/cti/{{.Value -}})  \n\n[shodan](https://shodan.io/host/{{.Value -}})"
-      #       {{end -}}
-      #       }
-      #       {{ end -}}
+#       #     # The following template receives a list of models.Alert objects
+#       #     # The output goes in the http request body
+#       #     format: |
+#       #       {{ range . -}}
+#       #       {{ $alert := . -}}
+#       #       {
+#       #         "extras": {
+#       #           "client::display": {
+#       #           "contentType": "text/markdown"
+#       #         }
+#       #       },
+#       #       "priority": 3,
+#       #       {{range .Decisions -}}
+#       #       "title": "{{.Type }} {{ .Value }} for {{.Duration}}",
+#       #       "message": "{{.Scenario}}  \n\n[crowdsec cti](https://app.crowdsec.net/cti/{{.Value -}})  \n\n[shodan](https://shodan.io/host/{{.Value -}})"
+#       #       {{end -}}
+#       #       }
+#       #       {{ end -}}
 
-      #     # The plugin will make requests to this url, eg:  https://www.example.com/
-      #     url: https://gotify.YOUR-DOMAIN.COM/message
+#       #     # The plugin will make requests to this url, eg:  https://www.example.com/
+#       #     url: https://gotify.YOUR-DOMAIN.COM/message
 
-      #     # Any of the http verbs: "POST", "GET", "PUT"...
-      #     method: POST
+#       #     # Any of the http verbs: "POST", "GET", "PUT"...
+#       #     method: POST
 
-      #     headers:
-      #       X-Gotify-Key: YOUR-KEY
-      #       Content-Type: application/json
-      #       skip_tls_verification: true
+#       #     headers:
+#       #       X-Gotify-Key: YOUR-KEY
+#       #       Content-Type: application/json
+#       #       skip_tls_verification: true
 
-    lapi:
-      replicas: 3
-      persistentVolume:
-        config: 
-          enabled: false
-        data:
-          enabled: false
-      env:
-        # To enroll the Security Engine to the console
-        - name: ENROLL_KEY
-          value: "cltlvno6u0000l9087tnvut22"
-        - name: ENROLL_INSTANCE_NAME
-          value: "f9-k8s"
-        - name: ENROLL_TAGS
-          value: "k8s linux"
-        - name: BOUNCER_KEY_traefik
-          value: "mysecretkey12345"
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: crowdsec-secret
-              key: DB_PASSWORD
+#     lapi:
+#       replicas: 3
+#       persistentVolume:
+#         config: 
+#           enabled: false
+#         data:
+#           enabled: false
+#       env:
+#         # To enroll the Security Engine to the console
+#         - name: ENROLL_KEY
+#           value: "cltlvno6u0000l9087tnvut22"
+#         - name: ENROLL_INSTANCE_NAME
+#           value: "f9-k8s"
+#         - name: ENROLL_TAGS
+#           value: "k8s linux"
+#         - name: BOUNCER_KEY_traefik
+#           value: "mysecretkey12345"
+#         - name: DB_PASSWORD
+#           valueFrom:
+#             secretKeyRef:
+#               name: crowdsec-secret
+#               key: DB_PASSWORD
