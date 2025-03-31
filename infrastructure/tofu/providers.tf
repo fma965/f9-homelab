@@ -7,7 +7,7 @@ terraform {
     }
     proxmox = {
       source  = "bpg/proxmox"
-      version = "0.61.1"
+      version = "0.74.1"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
