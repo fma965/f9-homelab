@@ -6,4 +6,4 @@ resources:
   - cilium-l2.yaml
   - ingress-traefik.yaml  
   - longhorn.yaml
-  - cilium.yaml
+  - cilium-helm.yaml
