@@ -24,6 +24,11 @@ spec:
         name: "authentik"
       redis:
         host: "redis.redis"
+    server:
+      ingress:
+        enabled: true
+        hosts:
+          - auth.f9.casa
       volumes:
         - name: config
           persistentVolumeClaim:
@@ -41,11 +46,7 @@ spec:
         - mountPath: /templates
           name: config
           subPath: templates
-    server:
-      ingress:
-        enabled: true
-        hosts:
-          - auth.f9.casa
+    worker:
       volumes:
         - name: config
           persistentVolumeClaim:
