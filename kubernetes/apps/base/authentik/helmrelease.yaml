@@ -1,18 +1,18 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: crowdsec
-  namespace: crowdsec
+  name: authentik
+  namespace: authentik
 spec:
   interval: 30m
   chart:
     spec:
-      chart: crowdsec
-      version: "v0.19.1"
+      chart: authentik
+      version: "2025.2.3"
       sourceRef:
         kind: HelmRepository
-        name: crowdsec
-        namespace: crowdsec
+        name: authentik
+        namespace: authentik
       interval: 12h
   values:
     authentik:
