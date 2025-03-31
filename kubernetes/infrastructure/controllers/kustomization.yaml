@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - cert-manager.yaml
   - providers-traefik-secret.enc.yaml
-  - cilium.yaml
+  - cilium-l2.yaml
   - ingress-traefik.yaml  
   - longhorn.yaml
+  - cilium.yaml
