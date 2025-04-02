@@ -11,3 +11,4 @@ spec:
       crowdsecLapiScheme: http
       crowdsecLapiHost: crowdsec-service.crowdsec:8080
       crowdsecLapiKey: Afnc!v*5BVAe2wHAXV25VC4y
+      ForwardedHeadersCustomName: X-Real-Ip
