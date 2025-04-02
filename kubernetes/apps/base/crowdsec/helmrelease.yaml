@@ -71,10 +71,7 @@ spec:
       # -- Persistent volume for config folder. Stores e.g. online api credentials
       config:
         enabled: true
-        accessModes:
-          - ReadWriteMany
         existingClaim: "crowdsec"
-        size: 100Mi
   # Secret values
   valuesFrom:
   - kind: Secret
