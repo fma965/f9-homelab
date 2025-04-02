@@ -63,8 +63,8 @@ spec:
       persistentVolume:
         # -- Persistent volume for config folder. Stores e.g. online api credentials
         config:
-          enabled: true
-          existingClaim: "crowdsec"
+          enabled: false
+          # existingClaim: "crowdsec"
         data:
           enabled: false
   # Secret values
