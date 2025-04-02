@@ -61,17 +61,12 @@ spec:
     lapi:
       replicas: 3
       persistentVolume:
-        config: 
+        # -- Persistent volume for config folder. Stores e.g. online api credentials
+        config:
           enabled: true
+          existingClaim: "crowdsec"
         data:
           enabled: false
-
-    # -- Enable persistent volumes
-    persistentVolume:
-      # -- Persistent volume for config folder. Stores e.g. online api credentials
-      config:
-        enabled: true
-        existingClaim: "crowdsec"
   # Secret values
   valuesFrom:
   - kind: Secret
