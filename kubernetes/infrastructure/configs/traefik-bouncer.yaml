@@ -10,4 +10,4 @@ spec:
       crowdsecMode: stream
       crowdsecLapiScheme: http
       crowdsecLapiHost: crowdsec-service.crowdsec:8080
-      crowdsecLapiKey: mysecretkey12345
+      crowdsecLapiKey: Afnc!v*5BVAe2wHAXV25VC4y
