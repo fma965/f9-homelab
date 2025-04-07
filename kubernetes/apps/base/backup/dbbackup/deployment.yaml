@@ -45,7 +45,7 @@ spec:
         - name: DEFAULT_S3_PATH
           value: "database"
         - name: DEFAULT_S3_KEY_ID
-          value: "f9-k3s-longhorn"
+          value: "GKf8fd7c0c4b2154db65b84098"
         - name: DEFAULT_S3_REGION	
           value: "eu-west-2"
         - name: DEFAULT_S3_HOST	
