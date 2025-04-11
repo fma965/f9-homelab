@@ -48,7 +48,7 @@ services:
       TZ: Europe/London
       PGID: "100"
       PUID: "99"
-    image: "ghcr.io/hotio/prowlarr:release-1.32.2.4987"
+    image: "ghcr.io/hotio/prowlarr:release-1.33.3.5008"
     labels:
       net.unraid.docker.icon: "https://hotio.dev/webhook-avatars/prowlarr.png"
       net.unraid.docker.managed: "komodo"
