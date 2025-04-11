@@ -39,6 +39,8 @@ services:
     environment:
       TZ: Europe/London
       DISCORD_WEBHOOK: "${DISCORD_WEBHOOK}"
+      UNRESOLVED_TIMEOUT_TYPES: "ServerCpu,StackStateChange,ContainerStateChange"
+      UNRESOLVED_TIMEOUT: "60000"
     ports:
       - "7000:7000"
     networks:
