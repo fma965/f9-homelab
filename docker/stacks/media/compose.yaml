@@ -31,7 +31,7 @@ services:
       PGID: "100"
       UMASK: "022"
       TZ: "Europe/London"
-    image: "ghcr.io/hotio/jellyfin:release-10.10.6"
+    image: "ghcr.io/hotio/jellyfin:release-10.10.7"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/jellyfin-logo.png"
       net.unraid.docker.managed: "komodo"
