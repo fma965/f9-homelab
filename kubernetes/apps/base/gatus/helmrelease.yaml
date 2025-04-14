@@ -29,4 +29,3 @@ spec:
   - kind: Secret
     name: gatus-secret
     valuesKey: values.yaml # or specific key
-    targetPath: ""  # Merge at root level
