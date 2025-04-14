@@ -37,18 +37,19 @@
             allowedVersions: "< 100.0.0"
         },
           
-        // {
-        // "description": "Automatically merge minor and patch-level updates for all packages except Immich",
-        // "matchUpdateTypes": [
-        //     "minor",
-        //     "patch",
-        //     "digest"
-        // ],
-        // "excludePackagePatterns": [
-        //     "^ghcr.io/imagegenius/immich"
-        // ],
-        // "automerge": true,
-        // "automergeType": "branch",
-        // }
+        {
+            "description": "Automatically merge minor and patch-level updates for all Docker (and kubernets app manifests) and Helm packages",
+            "matchDatasources": [
+                "helm",
+                "docker,
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch",
+                "digest"
+            ],
+            "automerge": true,
+            "automergeType": "branch",
+        }
     ]
 }
