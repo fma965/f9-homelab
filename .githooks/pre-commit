@@ -34,10 +34,12 @@ encrypt_file() {
     echo "# Hash: $hash" >> "$enc_file"
     echo "Successfully encrypted: $enc_file"
     git add "$enc_file"
-    return 0
+    git reset HEAD -- "$file"
+    echo "Unstaged plaintext file: $file"
   else
-    echo "Failed to encrypt $file"
-    return 1
+    echo "Failed to encrypt $file aborting commit to prevent secret leak"
+    git reset HEAD -- "$file"
+    exit 1
   fi
 }
 
@@ -80,24 +82,16 @@ for file in $MATCHING_FILES; do
     previous_hash=$(tail -n 1 "$enc_file" | grep '# Hash:' | cut -d' ' -f3)
     if [ "$current_hash" != "$previous_hash" ]; then
       echo "File has changed, re-encrypting: $file"
-      if ! encrypt_file "$file"; then
-        echo "Failed to encrypt $file"
-        continue
-      fi
+      encrypt_file "$file"
     else
       echo "No changes detected in $file. Skipping encryption."
+      git reset HEAD -- "$file"
+      echo "Unstaged plaintext file: $file"
     fi
   else
     echo "No existing encrypted file found, encrypting: $file"
-    if ! encrypt_file "$file"; then
-      echo "Failed to encrypt $file"
-      continue
-    fi
+    encrypt_file "$file"
   fi
-
-  # Unstage the plaintext file
-  git reset HEAD -- "$file"
-  echo "Unstaged plaintext file: $file"
 done
 
 echo "=== Script completed ==="
