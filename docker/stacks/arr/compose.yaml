@@ -65,7 +65,7 @@ services:
     environment:
       TZ: Europe/London
       PORT: "3000"
-    image: "tannermiddleton/recommendarr:v1.4.0"
+    image: "tannermiddleton/recommendarr:v1.4.4"
     labels:
       net.unraid.docker.icon: "https://github.com/fingerthief/recommendarr/blob/main/src/assets/logo.png"
       net.unraid.docker.managed: "komodo"
