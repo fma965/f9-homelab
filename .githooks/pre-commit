@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Debug: Print environment and basic info
 echo "=== Starting encryption script ==="
