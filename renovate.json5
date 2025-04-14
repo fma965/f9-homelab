@@ -5,6 +5,7 @@
     ":disableRateLimiting",
     ":separateMajorReleases",
     ":automergeBranch",
+    ":skipStatusChecks",
     ":enableVulnerabilityAlertsWithLabel",
     ":timezone(Europe/London)",
     "github>fma965/f9-homelab//.renovate/labels.json5",
