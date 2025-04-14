@@ -5,3 +5,4 @@ resources:
   - secret.enc.yaml
   - helmrepository.yaml
   - helmrelease.yaml
+  - ingress.yaml

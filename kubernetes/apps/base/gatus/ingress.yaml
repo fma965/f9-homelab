@@ -10,7 +10,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`gatus.f9.casa`)
+    - match: Host(`status.f9.casa`)
       kind: Rule
       services:
         - name: gatus
