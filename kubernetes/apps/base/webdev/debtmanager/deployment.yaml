@@ -24,7 +24,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-      - image: ghcr.io/fma965/debt-manager:latest
+      - image: ghcr.io/fma965/debt-manager:v1.0.0
         name: debtmanager
         ports:
         - containerPort: 81

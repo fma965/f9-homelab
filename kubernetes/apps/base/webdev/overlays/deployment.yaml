@@ -24,7 +24,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-      - image: ghcr.io/fma965/obs-overlays:latest
+      - image: ghcr.io/fma965/obs-overlays:v1.0.0
         name: overlays
         envFrom:
         - secretRef:

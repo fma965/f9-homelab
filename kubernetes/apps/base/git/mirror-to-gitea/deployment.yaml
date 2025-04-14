@@ -24,7 +24,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-      - image: jaedle/mirror-to-gitea:latest
+      - image: jaedle/mirror-to-gitea:2.0.1
         name: mirror-to-gitea
         envFrom:
           - secretRef:
