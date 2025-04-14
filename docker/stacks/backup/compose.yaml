@@ -42,16 +42,20 @@ services:
       - "/mnt/user/S3:/data"
 
   garage-webui:
-    image: khairul169/garage-webui:1.0.8
     container_name: garage-webui
-    volumes:
-      - "/mnt/cache/appdata/garage/garage.toml:/etc/garage.toml:ro"
-    ports:
-      - 3909:3909
     environment:
       API_BASE_URL: "http://garage:3903"
       S3_ENDPOINT_URL: "http://garage:3900"
       S3_REGION: "eu-west-2"
+    image: khairul169/garage-webui:1.0.8
+    labels:
+      net.unraid.docker.managed: "komodo"
+    networks:
+      - "f9-nas"
+    volumes:
+      - "/mnt/cache/appdata/garage/garage.toml:/etc/garage.toml:ro"
+    ports:
+      - 3909:3909
 
   proxmox-backup-server:
     container_name: "proxmox-backup-server"
