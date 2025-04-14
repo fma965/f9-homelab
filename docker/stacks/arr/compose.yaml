@@ -6,6 +6,12 @@ services:
       TZ: Europe/London
       PGID: "100"
       PUID: "99"
+      SONARR__POSTGRES__HOST: "10.0.10.201"
+      SONARR__POSTGRES__PORT: "5432"
+      SONARR__POSTGRES__USER: "sonarr"
+      SONARR__POSTGRES__PASSWORD: "${SONARR__POSTGRES__PASSWORD}"
+      SONARR__AUTH__APIKEY: "${SONARR__AUTH__APIKEY}"
+      SONARR__AUTH__METHOD: "External"
     image: "ghcr.io/hotio/sonarr:release-4.0.14.2939"
     labels:
       net.unraid.docker.icon: "https://hotio.dev/webhook-avatars/sonarr.png"
@@ -27,6 +33,12 @@ services:
       TZ: Europe/London
       PGID: "100"
       PUID: "99"
+      RADARR__POSTGRES__HOST: "10.0.10.201"
+      RADARR__POSTGRES__PORT: "5432"
+      RADARR__POSTGRES__USER: "radarr"
+      RADARR__POSTGRES__PASSWORD: "${RADARR__POSTGRES__PASSWORD}"
+      RADARR__AUTH__APIKEY: "${RADARR__AUTH__APIKEY}"
+      RADARR__AUTH__METHOD: "External"
     image: "ghcr.io/hotio/radarr:release-5.21.1.9799"
     labels:
       net.unraid.docker.icon: "https://hotio.dev/webhook-avatars/radarr.png"
@@ -48,6 +60,12 @@ services:
       TZ: Europe/London
       PGID: "100"
       PUID: "99"
+      PROWLARR__POSTGRES__HOST: "10.0.10.201"
+      PROWLARR__POSTGRES__PORT: "5432"
+      PROWLARR__POSTGRES__USER: "prowlarr"
+      PROWLARR__POSTGRES__PASSWORD: "${PROWLARR__POSTGRES__PASSWORD}"
+      PROWLARR__AUTH__APIKEY: "${PROWLARR__AUTH__APIKEY}"
+      PROWLARR__AUTH__METHOD: "External"
     image: "ghcr.io/hotio/prowlarr:release-1.33.3.5008"
     labels:
       net.unraid.docker.icon: "https://hotio.dev/webhook-avatars/prowlarr.png"
