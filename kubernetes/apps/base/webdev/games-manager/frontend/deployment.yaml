@@ -24,7 +24,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-      - image: ghcr.io/fma965/games-manager-frontend@sha256:0355155a6e896f9b2a35dde9d3447694f6568ca666678c5b44dcc4c674f35ce7
+      - image: ghcr.io/fma965/games-manager-frontend@sha256:f5fd3c132891c70c5edf701b3470ea8e834d326c836c4cc817775d489118e9d1
         name: games-manager-frontend
         ports:
         - containerPort: 80
