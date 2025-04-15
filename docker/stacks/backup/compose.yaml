@@ -47,7 +47,7 @@ services:
       API_BASE_URL: "http://garage:3903"
       S3_ENDPOINT_URL: "http://garage:3900"
       S3_REGION: "eu-west-2"
-    image: khairul169/garage-webui:1.0.8-59e68
+    image: khairul169/garage-webui:1.0.9
     labels:
       net.unraid.docker.managed: "komodo"
     networks:
