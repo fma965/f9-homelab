@@ -170,6 +170,7 @@ Kubernetes is in [kubernetes](kubernetes)
     │
     └── ♻️ flux/                   # FluxCD configurations
         └── 🏭 cluster/            # Primary cluster sync definition
+```
 
 ## Footnotes
 Check my [Wiki](https://wiki.f9.casa) for more details!
