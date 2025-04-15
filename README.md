@@ -126,24 +126,24 @@ Kubernetes is in [kubernetes](kubernetes)
 │       ├── 🤖 ai/                 # AI/ML workloads (LLMs, vector databases)
 │       ├── 🎬 arr/                # *Arr media suite + related tools
 │       ├── 💾 backup/             # Backup solutions (Restic, Proxmox Backup Server, GarageHQ)
-│       ├── ⏬ downloaders/         # Download clients
+│       ├── ⏬ downloaders/        # Download clients
 │       ├── ⎇ git/                 # Git management (Forgejo)
 │       ├── 📺 media/              # Plex/Jellyfin + media processors
 │       ├── 🧩 misc/               # Miscellaneous utilities
 │       └── 📊 monitoring/         # Observability tools
 │
-├── 🏗️ infrastructure/            # Infrastructure as Code
+├── 🏗️ infrastructure/             # Infrastructure as Code
 │   └── 📁 tofu/                   # OpenTofu (Terraform-compatible)
 │       ├── 🌐 cilium/             # Cilium CNI networking configs
 │       ├── 📤 output/             # Terraform state outputs
 │       ├── 🧩 simplified/         # Simplified configurations
 │       └── 🤖 talos/              # Talos Linux (Kubernetes OS) configs
 │
-└── ☸️ kubernetes/                # Kubernetes cluster management
+└── ☸️ kubernetes/                 # Kubernetes cluster management
     ├── 📱 apps/                   # End-user applications
     │   ├── 🔐 authentik/          # SSO and identity provider
     │   ├── 💾 backup/             # Backup operators
-    │   ├── 🛡️ crowdsec/          # Security monitoring system
+    │   ├── 🛡️ crowdsec/           # Security monitoring system
     │   ├── 🟢 gatus/              # Automated status pages
     │   ├── ⎇ git/                 # GitOps tools (e.g. gitea-mirror)
     │   ├── 🏠 homepage/           # Homelab dashboard
@@ -154,22 +154,22 @@ Kubernetes is in [kubernetes](kubernetes)
     │   ├── 🔑 vaultwarden/        # Password manager
     │   └── 🌐 webdev/             # Custom WebDev Applications
     │
-    ├── ⚙️ core/                  # Critical cluster components
+    ├── ⚙️ core/                   # Critical cluster components
     │   ├── 📜 cert-manager/       # Automated TLS certificates
     │   ├── 🌐 cilium/             # Network policy and service mesh
     │   ├── ♻️ flux-system/        # GitOps control plane
     │   ├── 💽 longhorn/           # Distributed block storage
     │   └── 🚪 traefik/            # Ingress controller
     │
-    ├── 📜 crds/                  # Custom Resource Definitions
+    ├── 📜 crds/                   # Custom Resource Definitions
     │
-    ├── 🗃️ databases/             # Stateful data services
+    ├── 🗃️ databases/              # Stateful data services
     │   ├── 🐬 mariadb/            # MySQL-compatible databases
     │   ├── 🐘 postgres/           # PostgreSQL clusters
     │   └── 🟥 redis/              # In-memory caching
     │
-    └── ♻️ flux/                  # FluxCD configurations
-        └── 🏭 cluster/           # Primary cluster sync definition
+    └── ♻️ flux/                   # FluxCD configurations
+        └── 🏭 cluster/            # Primary cluster sync definition
 
 ## Footnotes
 Check my [Wiki](https://wiki.f9.casa) for more details!
