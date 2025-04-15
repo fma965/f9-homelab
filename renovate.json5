@@ -4,7 +4,6 @@
     "config:recommended",
     ":disableRateLimiting",
     ":separateMajorReleases",
-    ":automergeBranch",
     ":skipStatusChecks",
     ":enableVulnerabilityAlertsWithLabel",
     ":timezone(Europe/London)",

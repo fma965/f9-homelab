@@ -8,7 +8,6 @@ spec:
   chart:
     spec:
       chart: authentik
-      # renovate: datasource=helm depName=authentik repository=https://charts.goauthentik.io
       version: "2025.2.4"
       sourceRef:
         kind: HelmRepository

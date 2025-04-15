@@ -50,6 +50,18 @@
             ],
             "minimumReleaseAge": "3 days",
             "automerge": true,
+            "automergeType": "pr",
+            "ignoreTests": false,
+        },
+        {
+            "description": "Automatically merge all updates to own packages",
+            "matchDatasources": [
+                "docker"
+            ],
+            matchPackageNames: [
+                "/^ghcr.io\\/fma965\\//",
+            ]
+            "automerge": true,
             "automergeType": "branch",
         }
     ]
