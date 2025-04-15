@@ -56,7 +56,7 @@
             description: "Automatically merge all updates to own packages",
             matchPackageNames: [
                 "/^ghcr.io\\/fma965\\//",
-            ]
+            ],
             automerge: true,
             automergeType: "branch",
         }
