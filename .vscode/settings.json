@@ -1,0 +1,46 @@
+{
+    "editor.bracketPairColorization.enabled": true,
+    "editor.fontFamily": "FiraCode Nerd Font",
+    "editor.fontLigatures": true,
+    "editor.guides.bracketPairs": true,
+    "editor.guides.bracketPairsHorizontal": true,
+    "editor.guides.highlightActiveBracketPair": true,
+    "editor.hover.delay": 1500,
+    "editor.rulers": [100],
+    "editor.stickyScroll.enabled": false,
+    "explorer.autoReveal": false,
+    "files.associations": {
+      "**/*.json5": "json5"
+    },
+    "files.trimTrailingWhitespace": true,
+    "material-icon-theme.files.associations": {
+      "*.sops.*": "lock",
+      "helmfile.yaml": "helm",
+      "kubeconfig": "kubernetes",
+      "talosconfig": "kubernetes"
+    },
+    "material-icon-theme.folders.associations": {
+      // top level
+      ".github/workflows": "ci",
+      ".private": "archive",
+      ".renovate": "robot",
+      "flux": "pipe",
+      "talos": "linux",
+      "infrastructure": "shared",
+      "tofu": "terraform",
+
+      // namespaces
+      "cert-manager": "guard",
+      "default": "home",
+      "flux-system": "pipe",
+      "traefik": "public",
+      "kube-system": "kubernetes",
+      "network": "connection",
+      "observability": "event",
+      "longhorn": "aws",
+    },
+    "yaml.schemaStore.enable": true,
+    "yaml.schemas": {
+      "kubernetes": "./kubernetes/**/*.yaml"
+    }
+  }
