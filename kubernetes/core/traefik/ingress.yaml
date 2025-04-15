@@ -1,0 +1,38 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard
+  namespace: default
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`traefik.f9.casa`)
+      kind: Rule
+      middlewares:
+        - name: authentik
+          namespace: authentik
+        - name: default-headers
+          namespace: default
+      services:
+        - name: api@internal
+          kind: TraefikService
+  tls:
+    secretName: f9-casa-tls
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+    name: cloudflare
+    namespace: traefik
+spec:
+    plugin:
+        cloudflarewarp:
+            disableDefault: "false"
+            trustip:
+              - 10.0.0.0/8
+              - 172.16.0.0/12
+              - 192.168.0.0/16
+              - 65.109.70.17/32

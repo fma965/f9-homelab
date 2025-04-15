@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mariadb
+    app.kubernetes.io/instance: mariadb
+    app.kubernetes.io/name: mariadb
+  name: mariadb
+  namespace: mariadb
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+        app.kubernetes.io/name: mariadb
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+        - image: ghcr.io/linuxserver/mariadb:11.4.5
+          name: mariadb
+          ports:
+            - containerPort: 3306
+              hostPort: 3306
+              protocol: TCP
+          env:
+            - name: PGID
+              value: "1000"
+            - name: UMASK
+              value: "022"
+            - name: PUID
+              value: "1000"
+            - name: TZ
+              value: Europe/London
+          volumeMounts:
+            - mountPath: /config
+              name: data
+      hostname: mariadb
+      restartPolicy: Always
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: mariadb

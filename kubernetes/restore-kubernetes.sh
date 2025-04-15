@@ -44,12 +44,12 @@ flux bootstrap github \
     --owner=fma965 \
     --repository=f9-homelab \
     --branch=main \
-    --path=./kubernetes/clusters/home \
+    --path=./kubernetes/flux/cluster \
     --personal \
     --private=false \
 
-color_echo "34" "Suspending FluxCD Infra-Databses and Apps to allow restoring of longhorn volumes ..."
-flux suspend kustomization infra-databases
+color_echo "34" "Suspending FluxCD Databases and Apps to allow restoring of longhorn volumes ..."
+flux suspend kustomization databases
 flux suspend kustomization apps
 
 # color_echo "34" "Waiting for Traefik Crowdsec Bouncer Middleware to be created so it can be temporarily disabled..."
@@ -94,9 +94,9 @@ while ! [[ $REPLY =~ ^[Yy]$ ]]; do
     fi
 done
 
-color_echo "34" "Resuming FluxCD Infra-Databses and Apps now that longhorn volumes have been restored ..."
+color_echo "34" "Resuming FluxCD Databases and Apps now that longhorn volumes have been restored ..."
 kill $PF_PID
-flux resume kustomization infra-databases
+flux resume kustomization databases
 flux resume kustomization apps
 
 # color_echo "34" "Reneabled the Traefik Crowdsec Bouncer Middlware ..."

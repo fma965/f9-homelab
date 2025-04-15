@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: postgresql
+    app.kubernetes.io/instance: postgresql
+    app.kubernetes.io/name: postgresql
+  name: postgresql
+  namespace: postgresql
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+        app.kubernetes.io/name: postgresql
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+        - image: tensorchord/pgvecto-rs:pg16-v0.2.0
+          name: postgresql
+          ports:
+            - containerPort: 5432
+              hostPort: 5432
+              protocol: TCP
+          env:
+            - name: PGADMIN_CONFIG_SERVER_MODE
+              value: "false"
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_USER
+              value: admin
+            - name: TZ
+              value: Europe/London
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: data
+      hostname: postgresql
+      restartPolicy: Always
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: postgresql
