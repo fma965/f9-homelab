@@ -5,6 +5,4 @@ resources:
   - providers-traefik-secret.enc.yaml
   - helmrepository.yaml
   - helmrelease.yaml
-  - tlsstore.yaml
-  - middleware.yaml
   - ingress.yaml
