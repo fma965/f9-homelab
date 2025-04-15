@@ -1,11 +1,13 @@
 /.private/
 *.crt
 *.key
+.decrypted~*
 .DS_Store
 Thumbs.db
 infrastructure/tofu/.terraform
 infrastructure/tofu/output/**
 infrastructure/tofu/terraform.*
 infrastructure/tofu/start-time.txt
-*.secret.yaml
-*.secret.env
+*secret.yaml
+*secret.yml
+*secret.env
