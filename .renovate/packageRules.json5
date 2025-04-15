@@ -59,6 +59,7 @@
             ],
             automerge: true,
             automergeType: "branch",
+            ignoreTests: true,
         }
     ]
 }
