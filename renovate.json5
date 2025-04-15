@@ -11,6 +11,7 @@
     "github>fma965/f9-homelab//.renovate/labels.json5",
     "github>fma965/f9-homelab//.renovate/semanticCommits.json5",
     "github>fma965/f9-homelab//.renovate/meta.json5",
+    "github>fma965/f9-homelab//.renovate/customManagers.json5",
     "github>fma965/f9-homelab//.renovate/packageRules.json5",
   ],
   ignorePaths: [
