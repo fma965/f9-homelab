@@ -26,6 +26,7 @@
   flux: {
     fileMatch: [
       "(?:^|/)gotk-components\\.ya?ml$",
+      "kubernetes/apps/(.+/)helmrepository\\.ya?ml$",
       "kubernetes/apps/(.+/)helmrelease\\.ya?ml$",
       "kubernetes/infrastructure/controllers/.+\\.ya?ml$"
     ]
