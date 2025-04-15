@@ -1,65 +1,65 @@
 {
-    $schema: "https://docs.renovatebot.com/renovate-schema.json",
-    packageRules: [
-        {
-            versioning: "regex:^(?:(?P<compatibility>.+)-)?v?(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)(?:\\.(?P<build>\\d+))?-?r?(?P<release>\\w+)?",
-            matchDatasources: ["docker-compose", "docker"],
-            matchPackageNames: [
-                "/^ghcr.io\\/linuxserver\\//",
-                "/^lscr.io\\/linuxserver\\//",
-                "/^linuxserver\\//"
-            ]
-        },
-        {
-            versioning: "regex:^(?<compatibility>.*?)-(?<major>v?\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)[.-]*r?(?<build>\\d+)*-*r?(?<release>\\w+)*",
-            matchPackageNames: [
-                "/^ghcr.io\\/hotio\\//",
-                "/^hotio\\//"
-            ]
-        },
-        {
-            matchPackageNames: ["open-webui"],
-            allowedVersions: 'main',
-            commitMessageExtra: '(digest) to {{{newDigestShort}}}',
-            pinDigests: true,
-            addLabels: ['digest'],
-        },
-        {
-            matchPackageNames: [
-                "ghcr.io/ferretdb/ferretdb"
-            ],
-            enabled: false
-        },
-        {
-            matchPackageNames: [
-                "ghcr.io/linuxserver/mariadb"
-            ],
-            allowedVersions: "< 100.0.0"
-        },
-        {
-            description: "Automatically merge minor and patch-level updates for all Docker (and kubernets app manifests) and Helm packages",
-            matchDatasources: [
-                "helm",
-                "docker"
-            ],
-            matchUpdateTypes: [
-                "minor",
-                "patch",
-                "digest"
-            ],
-            minimumReleaseAge: "3 days",
-            automerge: true,
-            automergeType: "pr",
-            ignoreTests: false
-        },
-        {
-            description: "Automatically merge all updates to own packages",
-            matchPackageNames: [
-                "/^ghcr.io\\/fma965\\//",
-            ],
-            automerge: true,
-            automergeType: "branch",
-            ignoreTests: true,
-        }
-    ]
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      versioning: "regex:^(?:(?P<compatibility>.+)-)?v?(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)(?:\\.(?P<build>\\d+))?-?r?(?P<release>\\w+)?",
+      matchDatasources: ["docker-compose", "docker"],
+      matchPackageNames: [
+          "/^ghcr.io\\/linuxserver\\//",
+          "/^lscr.io\\/linuxserver\\//",
+          "/^linuxserver\\//"
+      ]
+    },
+    {
+      versioning: "regex:^(?<compatibility>.*?)-(?<major>v?\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)[.-]*r?(?<build>\\d+)*-*r?(?<release>\\w+)*",
+      matchPackageNames: [
+          "/^ghcr.io\\/hotio\\//",
+          "/^hotio\\//"
+      ]
+    },
+    {
+      matchPackageNames: ["open-webui"],
+      allowedVersions: 'main',
+      commitMessageExtra: '(digest) to {{{newDigestShort}}}',
+      pinDigests: true,
+      addLabels: ['digest'],
+    },
+    {
+      matchPackageNames: [
+          "ghcr.io/ferretdb/ferretdb"
+      ],
+      enabled: false
+    },
+    {
+      matchPackageNames: [
+          "ghcr.io/linuxserver/mariadb"
+      ],
+      allowedVersions: "< 100.0.0"
+    },
+    {
+      description: "Automatically merge minor and patch-level updates for all Docker (and kubernets app manifests) and Helm packages",
+      matchDatasources: [
+          "helm",
+          "docker"
+      ],
+      matchUpdateTypes: [
+          "minor",
+          "patch",
+          "digest"
+      ],
+      minimumReleaseAge: "3 days",
+      automerge: true,
+      automergeType: "pr",
+      ignoreTests: false
+    },
+    {
+      description: "Automatically merge all updates to own packages",
+      matchPackageNames: [
+          "/^ghcr.io\\/fma965\\//",
+      ],
+      automerge: true,
+      automergeType: "branch",
+      ignoreTests: true,
+    }
+  ]
 }

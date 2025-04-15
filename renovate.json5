@@ -2,6 +2,7 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
     "config:recommended",
+    "docker:enableMajor",
     ":disableRateLimiting",
     ":separateMajorReleases",
     ":skipStatusChecks",
@@ -9,7 +10,6 @@
     ":timezone(Europe/London)",
     "github>fma965/f9-homelab//.renovate/labels.json5",
     "github>fma965/f9-homelab//.renovate/semanticCommits.json5",
-    "github>fma965/f9-homelab//.renovate/meta.json5",
     "github>fma965/f9-homelab//.renovate/packageRules.json5",
   ],
   ignorePaths: [
@@ -19,33 +19,17 @@
     ".github/**",
     ".sops/**",
     "**/*.sample.*",
-    "**/*.enc.*",
     "**/*.sops.*",
   ],
   flux: {
-    fileMatch: [
-      "(?:^|/)gotk-components\\.ya?ml$",
-      "kubernetes/apps/(.+/)helmrepository\\.ya?ml$",
-      "kubernetes/apps/(.+/)helmrelease\\.ya?ml$",
-      "kubernetes/infrastructure/controllers/.+\\.ya?ml$"
-    ]
+    fileMatch: ["(^|/)kubernetes/.+\\.ya?ml$"]
+  },
+  "helm-values": {
+    fileMatch: ["(^|/)kubernetes/.+\\.ya?ml$"]
   },
   kubernetes: {
-    fileMatch: [
-      "kubernetes/apps/(.+/)deployment\\.ya?ml$",
-      "kubernetes/infrastructure/databases/.+\\.ya?ml$"
-    ]
+    fileMatch: ["(^|/)kubernetes/.+\\.ya?ml$"]
   },
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
   suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
-  // schedule: [
-  //   'after 3am and before 6am',
-  // ],  
-  vulnerabilityAlerts: {
-    "labels": ['security'],
-    "automerge": true,
-  },
-  fetchChangeLogs: "pr",
-  prBodyTemplate: "{{{table}}}{{{notes}}}{{{changelogs}}}{{{controls}}}",
-
 }
