@@ -16,7 +16,7 @@ spec:
       interval: 12h
   values:
     crds:
-      enabled: true
+      enabled: false
     replicaCount: 3
     extraArgs:
       - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
