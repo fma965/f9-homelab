@@ -29,9 +29,9 @@ Located in the [docker](docker) folder
 As this runs on my UnRaid instance this is configured manually once the [Komodo Compose](docker/komodo/) file is up and running
 
 ### AGE encrypted Secrets with SOPS
-All `*secret.enc.env` (docker) and `*secret.enc.yaml` (kubernetes) files are encrypted with SOPS using AGE.
+All `*secret.sops.env` (docker) and `*secret.sops.yaml` (kubernetes) files are encrypted with SOPS using AGE.
 
-I have included `*secret.sample.yaml` and `*secret.enc.env` files which contain placeholder values to enhance the usability.
+I have included `*secret.sample.yaml` and `*secret.sops.env` files which contain placeholder values to enhance the usability.
 
 ## Pre-requisites
 ### Clone the Repo
@@ -137,7 +137,7 @@ Kubernetes is in [kubernetes](kubernetes)
 ├───🐳 docker/                       # Docker/Compose configurations
 │   ├───🦎 komodo/                   # Komodo-specific files
 │   │   ├───📝 compose.yaml         # Main compose file
-│   │   └───🔒 secret.enc.env       # Encrypted environment variables
+│   │   └───🔒 secret.sops.env       # Encrypted environment variables
 │   │
 │   ├───⚙️ komodo.toml              # Komodo stack configuration
 │   └───📦 stacks/                  # All Docker stacks

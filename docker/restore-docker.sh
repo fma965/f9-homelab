@@ -40,7 +40,7 @@ color_echo "34" "=== Komodo Deployment ==="
 
 # 1. Decrypt secrets
 color_echo "34" "Decrypting secrets..."
-sops --decrypt docker/komodo/secret.enc.env > docker/komodo/.env || {
+sops --decrypt docker/komodo/secret.sops.env > docker/komodo/.env || {
   color_echo "31" "Decryption failed"; exit 1
 }
 

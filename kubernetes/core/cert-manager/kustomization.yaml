@@ -4,6 +4,6 @@ resources:
   - namespace.yaml
   - helmrepository.yaml
   - helmrelease.yaml
-  - cloudflare-secret.enc.yaml
+  - cloudflare-secret.sops.yaml
   - cluster-issuers.yaml
   - certificate.yaml

@@ -20,7 +20,7 @@ compute_hash() {
 encrypt_file() {
   local file=$1
   local ext=${file##*.}
-  local enc_file="${file%.$ext}.enc.$ext"
+  local enc_file="${file%.$ext}.sops.$ext"
   local sops_args="--encrypt --age $PUBLIC_KEY"
 
   # Add YAML-specific regex if needed
@@ -57,7 +57,7 @@ for file in $MATCHING_FILES; do
   echo "Processing file: $file"
   
   # Skip if file is already encrypted
-  if [[ "$file" == *.enc.* ]]; then
+  if [[ "$file" == *.sops.* ]]; then
     echo "Skipping already encrypted file: $file"
     continue
   fi
@@ -73,9 +73,9 @@ for file in $MATCHING_FILES; do
   
   # Determine encrypted filename
   if [[ "$file" == *.auto.tfvars ]]; then
-    enc_file="${file%.auto.tfvars}.enc.auto.tfvars"
+    enc_file="${file%.auto.tfvars}.sops.auto.tfvars"
   else
-    enc_file="${file%.$ext}.enc.$ext"
+    enc_file="${file%.$ext}.sops.$ext"
   fi
 
   if [ -f "$enc_file" ]; then

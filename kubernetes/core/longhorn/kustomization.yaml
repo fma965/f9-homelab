@@ -4,6 +4,6 @@ resources:
   - namespace.yaml
   - helmrepository.yaml
   - helmrelease.yaml
-  - secret.enc.yaml
+  - secret.sops.yaml
   - configmap.yaml
   - ingress.yaml
