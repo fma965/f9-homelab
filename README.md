@@ -117,58 +117,59 @@ Infrastructure is in [infrastructure](infrastructure)
 Docker is in [docker](docker)
 Kubernetes is in [kubernetes](kubernetes)
 ```
-📁 Repository Root
+# 🏠 Homelab Infrastructure Blueprint
+
+.
+├── 📁 docker/                     # Containerized services (non-Kubernetes)
+│   ├── 📁 komodo/                 # Unraid friendly Compose stack for Komodo
+│   └── 📁 stacks/                 # Docker Compose application stacks
+│       ├── 🤖 ai/                 # AI/ML workloads (LLMs, vector databases)
+│       ├── 🎬 arr/                # *Arr media suite + related tools
+│       ├── 💾 backup/             # Backup solutions (Restic, Proxmox Backup Server, GarageHQ)
+│       ├── ⏬ downloaders/         # Download clients
+│       ├── ⎇ git/                 # Git management (Forgejo)
+│       ├── 📺 media/              # Plex/Jellyfin + media processors
+│       ├── 🧩 misc/               # Miscellaneous utilities
+│       └── 📊 monitoring/         # Observability tools
 │
-├───🔧 .githooks/                    # Git hook scripts
-│   ├───🐙 commit-msg                # Enforces semantic commit messages
-│   ├───🔓 post-checkout             # Auto-decrypts files after checkout
-│   └───🔐 pre-commit               # Ensures secrets are encrypted before commit
+├── 🏗️ infrastructure/            # Infrastructure as Code
+│   └── 📁 tofu/                   # OpenTofu (Terraform-compatible)
+│       ├── 🌐 cilium/             # Cilium CNI networking configs
+│       ├── 📤 output/             # Terraform state outputs
+│       ├── 🧩 simplified/         # Simplified configurations
+│       └── 🤖 talos/              # Talos Linux (Kubernetes OS) configs
 │
-├───🤖 .github/                      # GitHub configurations
-│
-├───🔄 renovate.json5               # Base RenovateBot configuration
-├───🔄 .renovate/                   # Additional RenovateBot configuration
-│
-│
-├───🔑 .sops/age/                    # SOPS encryption keys
-│   ├───🗝️ private.key              # Age private key (gitignored)
-│   └───🔓 public.key               # Age public key
-│
-├───🐳 docker/                       # Docker/Compose configurations
-│   ├───🦎 komodo/                   # Komodo-specific files
-│   │   ├───📝 compose.yaml         # Main compose file
-│   │   └───🔒 secret.sops.env       # Encrypted environment variables
-│   │
-│   ├───⚙️ komodo.toml              # Komodo stack configuration
-│   └───📦 stacks/                  # All Docker stacks
-│       ├───📁 stack1/
-│       └───📁 stack2/
-│
-├───🖥️ infrastructure/              # Talos Linux IaC
-│   └───🚀 tofu/
-│       ├───🔗 cilium/               # Cilium CNI configs
-│       ├───📤 output/               # Tofu state/outputs
-│       ├───🔄 simplified/           # Simplified manifests
-│       └───🤖 talos/
-│           ├───🖼️ image/           # OS image configs
-│           ├───📜 inline-manifests/ # Embedded Kubernetes manifests
-│           └───⚙️ machine-config/   # Talos machine configs
-│
-└───☸️ kubernetes/                   # FluxCD GitOps
-    ├───📱 apps/                     # Application manifests
-    │   └───📌 base/                 # Base Kustomizations
+└── ☸️ kubernetes/                # Kubernetes cluster management
+    ├── 📱 apps/                   # End-user applications
+    │   ├── 🔐 authentik/          # SSO and identity provider
+    │   ├── 💾 backup/             # Backup operators
+    │   ├── 🛡️ crowdsec/          # Security monitoring system
+    │   ├── 🟢 gatus/              # Automated status pages
+    │   ├── ⎇ git/                 # GitOps tools (e.g. gitea-mirror)
+    │   ├── 🏠 homepage/           # Homelab dashboard
+    │   ├── 📚 outline/            # Internal knowledge management
+    │   ├── 🐘 pgadmin/            # PostgreSQL web interface
+    │   ├── 🐬 phpmyadmin/         # MySQL web interface
+    │   ├── 🎮 pterodactyl/        # Game server panel
+    │   ├── 🔑 vaultwarden/        # Password manager
+    │   └── 🌐 webdev/             # Custom WebDev Applications
     │
-    ├───🏠 clusters/
-    │   └───home/
-    │       └───🌀 flux-system/       # Flux bootstrap configs
-    │           ├───📜 gotk-components.yaml
-    │           └───📜 gotk-sync.yaml
+    ├── ⚙️ core/                  # Critical cluster components
+    │   ├── 📜 cert-manager/       # Automated TLS certificates
+    │   ├── 🌐 cilium/             # Network policy and service mesh
+    │   ├── ♻️ flux-system/        # GitOps control plane
+    │   ├── 💽 longhorn/           # Distributed block storage
+    │   └── 🚪 traefik/            # Ingress controller
     │
-    └───🛠️ infrastructure/
-        ├───⚙️ configs/              # Cluster configs
-        ├───🎮 controllers/          # Custom controllers
-        └───🗃️ databases/           # Database operators
-```
+    ├── 📜 crds/                  # Custom Resource Definitions
+    │
+    ├── 🗃️ databases/             # Stateful data services
+    │   ├── 🐬 mariadb/            # MySQL-compatible databases
+    │   ├── 🐘 postgres/           # PostgreSQL clusters
+    │   └── 🟥 redis/              # In-memory caching
+    │
+    └── ♻️ flux/                  # FluxCD configurations
+        └── 🏭 cluster/           # Primary cluster sync definition
 
 ## Footnotes
 Check my [Wiki](https://wiki.f9.casa) for more details!
