@@ -1,9 +1,11 @@
-.sops/**
+/.private/
+*.crt
+*.key
+.DS_Store
+Thumbs.db
 infrastructure/tofu/.terraform
 infrastructure/tofu/output/**
-infrastructure/tofu/terraform.tfstate
-infrastructure/tofu/terraform.log
-infrastructure/tofu/terraform.tfstate
-infrastructure/tofu/terraform.tfstate.backup
+infrastructure/tofu/terraform.*
 infrastructure/tofu/start-time.txt
-.githooks/post-checkout
+*.secret.yaml
+*.secret.env
