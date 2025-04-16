@@ -1,5 +1,5 @@
 ---
-# SOPS configuration derived from encryption script
+# SOPS configuration derived from encryption script #
 creation_rules:
   # Rule 1: Kubernetes secrets
   - path_regex: kubernetes/.+\.sops\.yaml
