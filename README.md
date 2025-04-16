@@ -163,8 +163,6 @@ Kubernetes is in [kubernetes](kubernetes)
     │   ├── 💽 longhorn/           # Distributed block storage
     │   └── 🚪 traefik/            # Ingress controller
     │
-    ├── 📜 crds/                   # Custom Resource Definitions
-    │
     ├── 🗃️ databases/              # Stateful data services
     │   ├── 🐬 mariadb/            # MySQL-compatible databases
     │   ├── 🐘 postgres/           # PostgreSQL clusters
