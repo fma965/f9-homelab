@@ -6,6 +6,9 @@ machine:
     topology.kubernetes.io/region: ${cluster_name}
     topology.kubernetes.io/zone: ${node_name}
     worker: "true"
+  features:
+    hostDNS:
+      forwardKubeDNSToHost: false
   kubelet:
     extraMounts:
       - destination: /var/lib/longhorn
