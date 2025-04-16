@@ -29,9 +29,9 @@ Located in the [docker](docker) folder
 As this runs on my UnRaid instance this is configured manually once the [Komodo Compose](docker/komodo/) file is up and running
 
 ### AGE encrypted Secrets with SOPS
-All `*secret.sops.env` (docker) and `*secret.sops.yaml` (kubernetes) files are encrypted with SOPS using AGE.
+All `*secret.sops*` files are encrypted with SOPS using AGE.
 
-I have included `*secret.sample.yaml` and `*secret.sops.env` files which contain placeholder values to enhance the usability.
+I have included `*secret.sample*` files which contain placeholder values for many services to enhance the usability.
 
 ## Pre-requisites
 ### Clone the Repo
@@ -41,14 +41,14 @@ I have included `*secret.sample.yaml` and `*secret.sops.env` files which contain
 Ensure you have installed in a WSL or Linux installation the following packages
 - [fluxcli](https://fluxcd.io/flux/cmd/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
-- [talosctl](https://www.talos.dev/v1.9/talos-guides/install/talosctl/) 
+- [talosctl](https://www.talos.dev/v1.9/talos-guides/install/talosctl/)
 - [SOPS](https://github.com/getsops/sops/releases/latest)
 
 Windows users make sure SOPS is in your `PATH` (e.g. C:\Windows)
 ### SOPS Age Public/Private Keys
 [AGE](https://github.com/FiloSottile/age) keys for SOPS to use need to be saved in the following structure from the root of this repo.
-`.sops/age/private.key` 
-`.sops/age/public.key` 
+`.sops/age/private.key`
+`.sops/age/public.key`
 (these are ignored by the .gitignore file)
 
 If you have lost these, perhaps they are stored in your password manager ;)
@@ -59,9 +59,16 @@ Set your GitHooks to use `.githooks` with this command
 git config --local core.hooksPath .githooks/
 chmod +x .githooks/*
 ```
-This makes sure any filename with `secret.yaml` or `secret.env` in their name are encrypted with SOPS when commiting
+This makes sure any commits enforce semantic commit messages
 
 ## Instructions
+### Prerequisites
+Export your SOPS_AGE_KEY_FILE and if you do not wish to enter your GitHub Token later export that aswell
+```bash
+export SOPS_AGE_KEY_FILE=$PWD/.sops/age/private.key
+export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxx`
+```
+
 ### Restoring Infrastructure
 Run the following script to initiate Tofu and create the Talos Linux powered kubernetes cluster
 
@@ -77,11 +84,6 @@ Optionally add `--dry-run`/`-d` to test it, or if you are feeling brave `--auto-
 Approximate restore time: **4 Minutes**
 
 ### Restoring Kubernetes
-Export your SOPS_AGE_KEY_FILE and if you do not wish to enter your GitHub Token later export that aswell
-```bash
-export SOPS_AGE_KEY_FILE=$PWD/.sops/age/private.key
-export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxx`
-```
 Run the following script to initiate the FluxCD kubernetes GitOps process
 ```bash
 chmod +x ./kubernetes/restore-kubernetes.sh
@@ -89,7 +91,7 @@ chmod +x ./kubernetes/restore-kubernetes.sh
 ```
 At a certain point during the script, it will ask you to "Access Longhorn at: http://localhost:8080" follow the steps displayed
 
-Approximate restore time: **Less than 30 Minutes** 
+Approximate restore time: **Less than 30 Minutes**
 
 (**5 Minutes** for initial deployment, **8 Minutes** to restore volumes, and another **5 Minutes** to restore apps)
 
