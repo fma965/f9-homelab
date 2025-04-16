@@ -2,8 +2,10 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: traefik
-components:
-  - ../../components/common
 resources:
-  - ./traefik/ks.yaml
+  - ./namespace.yaml
+  - ./helmrepository.yaml
+  - ./helmrelease.yaml
+  - ./secret.sops.yaml
+  - ./recurringjob.yaml
+  - ./ingress.yaml
