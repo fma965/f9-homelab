@@ -21,7 +21,6 @@ CONNECTION="$1"
 # Path configuration
 SOURCE_FOLDER="$(dirname "${BASH_SOURCE[0]}")/komodo"
 DEST_FOLDER="/boot/config/plugins/compose.manager/projects"
-export SOPS_AGE_KEY_FILE="${PWD}/.sops/age/private.key"
 
 # Master SSH connection setup
 setup_connection() {
