@@ -2,17 +2,17 @@
 # SOPS configuration derived from encryption script
 creation_rules:
   # Rule 1: Kubernetes secrets
-  # - path_regex: kubernetes/.+\.sops\.yaml
-  #   encrypted_regex: ^(data|stringData)$
-  #   mac_only_encrypted: true
-  #   age: age1j0nhr3qkvuf7sr60sk89p4g29dksqz3k66sttlrkp68fkud38qdse3gqgt
+  - path_regex: kubernetes/.+\.sops\.yaml
+    encrypted_regex: ^(data|stringData)$
+    mac_only_encrypted: true
+    age: age1j0nhr3qkvuf7sr60sk89p4g29dksqz3k66sttlrkp68fkud38qdse3gqgt
 
   # Rule 2: Environment files
   - path_regex: docker/.+\.sops\.env$
     age: age1j0nhr3qkvuf7sr60sk89p4g29dksqz3k66sttlrkp68fkud38qdse3gqgt
 
   # Rule 3: Terraform variables
-  - path_regex: .*\.auto\.tfvars$
+  - path_regex: infrastructure/tofu/.+\.sops\.auto\.tfvars$
     encrypted_regex: ^(.*)$  # Encrypt all values (not just data/stringData)
     tfvars: true  # Critical for Terraform files
     age: age1j0nhr3qkvuf7sr60sk89p4g29dksqz3k66sttlrkp68fkud38qdse3gqgt
