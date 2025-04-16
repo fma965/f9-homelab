@@ -13,7 +13,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./kubernetes/core
-  prune: true
+  prune: false
   wait: true
   decryption:
     provider: sops
