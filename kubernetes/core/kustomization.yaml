@@ -5,4 +5,4 @@ resources:
   - cert-manager/
   - traefik/
   - longhorn/
-  - cilium/
+  - kube-system/
