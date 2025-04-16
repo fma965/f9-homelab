@@ -5,5 +5,5 @@ resources:
   - helmrepository.yaml
   - helmrelease.yaml
   - secret.sops.yaml
-  - configmap.yaml
+  - recurringjob.yaml
   - ingress.yaml

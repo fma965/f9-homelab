@@ -14,3 +14,7 @@ spec:
         name: longhorn
         namespace: longhorn-system
       interval: 12h
+  values:
+    defaultBackupStore:
+      backupTarget: s3://f9-k3s-longhorn@eu-west-2/
+      backupTargetCredentialSecret: minio-longhorn-secret
