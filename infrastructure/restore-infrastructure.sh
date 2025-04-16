@@ -39,6 +39,7 @@ if [ "$DRY_RUN" = true ]; then
 fi
 
 # Execute workflow
+sops --decrypt --config .sops.yaml infrastructure/tofu/proxmox.sops.auto.tfvars > "infrastructure/tofu/proxmox.auto.tfvars"
 cd "$(dirname "${BASH_SOURCE[0]}")"/tofu
 
 color_echo "34"  "Initializing OpenTofu..."
