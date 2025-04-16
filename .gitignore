@@ -1,13 +1,26 @@
+# Exclude private folder
 /.private/
+
+# Exclude SOPS Age key
 *.crt
 *.key
-.decrypted~*
-.DS_Store
-Thumbs.db
+
+# Exclude various Tofu files
 infrastructure/tofu/.terraform
 infrastructure/tofu/output/**
 infrastructure/tofu/terraform.*
 infrastructure/tofu/start-time.txt
-*secret.yaml
-*secret.yml
-*secret.env
+
+# Exclude secrets
+*secret.*
+*.auto.tfvars
+!*.sops.auto.tfvars
+
+# Include secret samples
+!*secret.sample.*
+!*.sample.auto.tfvars
+
+# Remove junk files
+.decrypted~*
+.DS_Store
+Thumbs.db
