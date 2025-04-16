@@ -1,6 +1,4 @@
 # tofu/talos/variables.tf
-
-
 variable "cluster" {
   description = "Cluster configuration"
   type = object({
