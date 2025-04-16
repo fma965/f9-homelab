@@ -1,17 +1,5 @@
 # tofu/talos/variables.tf
-variable "image" {
-  description = "Talos image configuration"
-  type = object({
-    factory_url = optional(string, "https://factory.talos.dev")
-    schematic = string
-    version   = string
-    update_schematic = optional(string)
-    update_version = optional(string)
-    arch = optional(string, "amd64")
-    platform = optional(string, "nocloud")
-    proxmox_datastore = optional(string, "local")
-  })
-}
+
 
 variable "cluster" {
   description = "Cluster configuration"
@@ -19,7 +7,6 @@ variable "cluster" {
     name            = string
     endpoint        = string
     gateway         = string
-    talos_version   = string
     proxmox_cluster = string
   })
 }
@@ -40,14 +27,21 @@ variable "nodes" {
     update = optional(bool, false)
     igpu = optional(bool, false)
     vlan_id = optional(number, null)
-    
   }))
 }
 
-variable "cilium" {
-  description = "Cilium configuration"
+variable "image" {
   type = object({
-    values  = string
-    install = string
+    version           = optional(string, "v1.9.5")
+    extensions        = list(string)
+    platform          = optional(string, "nocloud")
+    arch              = optional(string, "amd64")
+    factory_url       = optional(string, "https://factory.talos.dev")
+    proxmox_datastore = optional(string, "local")
   })
+  description = "The Talos image factory configuration"
+  validation {
+    condition     = can(regex("^v(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)(?:-(?P<prerelease>(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$", var.image.version))
+    error_message = "Talos image version must follow semantic versioning format"
+  }
 }

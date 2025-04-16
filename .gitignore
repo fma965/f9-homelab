@@ -6,7 +6,7 @@
 *.key
 
 # Exclude various Tofu files
-infrastructure/tofu/.terraform
+infrastructure/tofu/.terraform*
 infrastructure/tofu/output/**
 infrastructure/tofu/terraform.*
 infrastructure/tofu/start-time.txt

@@ -5,7 +5,9 @@ output "client_configuration" {
 }
 
 output "kube_config" {
-  value     = data.talos_cluster_kubeconfig.this
+  value = {
+    kubeconfig_raw = talos_cluster_kubeconfig.this.kubeconfig_raw
+  }
   sensitive = true
 }
 

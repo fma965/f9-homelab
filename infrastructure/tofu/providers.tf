@@ -3,19 +3,19 @@ terraform {
   required_providers {
     talos = {
       source  = "siderolabs/talos"
-      version = "0.5.0"
+      version = "0.7.1"
     }
     proxmox = {
       source  = "bpg/proxmox"
-      version = "0.61.1"
+      version = "0.75.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "2.31.0"
+      version = "2.36.0"
     }
     restapi = {
       source  = "Mastercard/restapi"
-      version = "1.19.1"
+      version = "2.0.1"
     }
   }
 }
