@@ -68,10 +68,13 @@ flux suspend kustomization apps
 
 # BOUNCER_PID=$!
 
-color_echo "34" "Waiting for Cert-Manager certificate to be issued..."
-kubectl wait --for=condition=Ready certificate/f9-casa -n default --timeout=10m
+until kubectl wait --for=condition=Ready \
+  certificate/f9-casa -n default \
+  --timeout=10m 2>/dev/null; do
+  color_echo "34" "Waiting for Cert-Manager certificate to be issued..."
+  sleep 5
+done
 
-color_echo "34" "Waiting for Longhorn endpoint to become available ..."
 until kubectl -n longhorn-system get endpoints longhorn-frontend \
       -o jsonpath='{.subsets[*].addresses[*].ip}' | grep -q .
 do
