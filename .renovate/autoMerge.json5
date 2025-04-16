@@ -1,43 +1,43 @@
 {
-    $schema: "https://docs.renovatebot.com/renovate-schema.json",
-    packageRules: [
-      {
-        description: "Automatically merge minor and patch-level updates for all Docker (and kubernets app manifests) and Helm packages",
-        matchDatasources: [
-            "helm",
-            "docker"
-        ],
-        matchUpdateTypes: [
-            "minor",
-            "patch",
-            "digest"
-        ],
-        minimumReleaseAge: "3 days",
-        automerge: true,
-        automergeType: "pr",
-        ignoreTests: false
-      },
-      {
-        description: "Automatically merge all updates to own packages",
-        matchPackageNames: [
-            "/^ghcr.io\\/fma965\\//",
-        ],
-        automerge: true,
-        automergeType: "branch",
-        ignoreTests: true,
-      },
-      {
-        description: "Auto-merge GitHub Actions",
-        matchManagers: ["github-actions"],
-        automerge: true,
-        automergeType: "branch",
-        matchUpdateTypes: ["minor", "patch", "digest"],
-        minimumReleaseAge: "3 days",
-        ignoreTests: true,
-      },
-    ],
-    vulnerabilityAlerts: {
-        labels: ['security'],
-        automerge: true,
-      },
-  }
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      description: "Automatically merge minor and patch-level updates for all Docker (and kubernets app manifests) and Helm packages",
+      matchDatasources: [
+          "helm",
+          "docker"
+      ],
+      matchUpdateTypes: [
+          "minor",
+          "patch",
+          "digest"
+      ],
+      minimumReleaseAge: "3 days",
+      automerge: true,
+      automergeType: "pr",
+      ignoreTests: false
+    },
+    {
+      description: "Automatically merge all updates to own packages",
+      matchPackageNames: [
+          "/^ghcr.io\\/fma965\\//",
+      ],
+      automerge: true,
+      automergeType: "branch",
+      ignoreTests: true,
+    },
+    {
+      description: "Auto-merge GitHub Actions",
+      matchManagers: ["github-actions"],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      minimumReleaseAge: "3 days",
+      ignoreTests: true,
+    },
+  ],
+  vulnerabilityAlerts: {
+    labels: ['security'],
+    automerge: true,
+  },
+}
