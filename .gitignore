@@ -12,13 +12,11 @@ infrastructure/tofu/terraform.*
 infrastructure/tofu/start-time.txt
 
 # Exclude secrets
-*secret.*
+*secret.yaml
+*secret.env
+*secret.yaml
 *.auto.tfvars
 !*.sops.auto.tfvars
-
-# Include secret samples
-!*secret.sample.*
-!*.sample.auto.tfvars
 
 # Remove junk files
 .decrypted~*

@@ -9,6 +9,7 @@ creation_rules:
 
   # Rule 2: Environment files
   - path_regex: docker/.+\.sops\.env$
+    encrypted_regex: ^(.*)$  # Encrypt all content
     age: age1j0nhr3qkvuf7sr60sk89p4g29dksqz3k66sttlrkp68fkud38qdse3gqgt
 
   # Rule 3: Terraform variables
