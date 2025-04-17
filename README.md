@@ -1,176 +1,153 @@
-# F9's Homelab Deployment
+<div align="center">
 
-## Summary
-This repo uses **IaC** and **GitOps** techniques to easily and securely (using **SOPS AGE**) deploy **Talos Linux**, **Kubernetes (K8S)** and **Docker** services with code.
+<img src="https://i.imgur.com/29sG16L.png" align="center" width="175px" height="175px"/>
 
-### Talos Linux IaC using Terraform/OpenTofu
-Located in the [infrastructure](infrastructure) folder
-- 3x Talos Control Plane VM Creation (Proxmox)
-- 3x Talos Worker VM Creation (Proxmox)
-- Talos Cluster configuration
+### <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif" alt="🚀" width="16" height="16"> F9's Homelab <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f6a7/512.gif" alt="🚧" width="16" height="16">
 
-Based on [Stonegarden](https://blog.stonegarden.dev/articles/2024/08/talos-proxmox-tofu/) modified for my use.
+_... managed with Flux, Renovate, Komodo and GitHub Actions_ <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f916/512.gif" alt="🤖" width="16" height="16">
 
-###  Kubernetes GitOps using FluxCD
-Located in the [kubernetes](kubernetes) folder
-- FluxCD powered GitOps deployment
-- Cert-Manager using LetsEncrypt with Cloudflare API authentication
-- Cilium load balancer
-- Traefik ingress
-- Longhorn
-- MariaDB (MySQl), Postgres and Redis databases
+</div>
 
-The [kubernetes](kubernetes) folder of this repo mostly follows the FluxCD Mono Repo structure.
+---
 
-### Docker GitOps using Komodo
-Located in the [docker](docker) folder
-- [Komodo](https://komo.do/) powered GitOps deployment
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4a1/512.gif" alt="💡" width="20" height="20"> Overview
 
-As this runs on my UnRaid instance this is configured manually once the [Komodo Compose](docker/komodo/) file is up and running
+This is a mono repository for my entire _homelab_ configuration, including my Kubernetes cluster and Docker instance. It uses Infrastructure as Code (IaC) and GitOps practices as much as possible using tools like [Terraform](https://www.terraform.io/), [Kubernetes](https://kubernetes.io/), [Flux](https://github.com/fluxcd/flux2), [Renovate](https://github.com/renovatebot/renovate), [Komodo](https://github.com/moghtech/komodo), and [GitHub Actions](https://github.com/features/actions). All secrets are using _SOPS_ encryption and are stored in this repository
 
-### AGE encrypted Secrets with SOPS
-All `*secret.sops*` files are encrypted with SOPS using AGE.
+---
 
-I have included `*secret.sample*` files which contain placeholder values for many services to enhance the usability.
+## ⛵ Infrastructure
 
-## Pre-requisites
-### Clone the Repo
-`git clone https://github.com/fma965/f9-homelab`
+Using [OpenTofu](https://github.com/opentofu/opentofu) ([Terraform fork](https://github.com/hashicorp/terraform)) we can spin up any amount of Proxmox VM's with Kubernetes fully configured running on [Talos](https://github.com/siderolabs/talos).
 
-### Download CLI Tools
-Ensure you have installed in a WSL or Linux installation the following packages
+Refer to the [proxmox.sample.auto.tfvars.json](infrastructure/tofu/prod.sample.auto.tfvars.json) for configuration values
+
+### OpenTofu Providers
+- [siderolabs/talos](https://search.opentofu.org/provider/siderolabs/talos/latest): Manage Talos OS
+- [bpg/proxmox](https://search.opentofu.org/provider/bpg/proxmox/latest): Manage Proxmox nodes
+- [hashicorp/kubernetes](https://search.opentofu.org/provider/hashicorp/kubernetes/latest): Manage Kubernetes
+
+---
+
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f331/512.gif" alt="🌱" width="20" height="20"> Kubernetes
+
+My Kubernetes cluster is deployed with [Talos](https://www.talos.dev). This is a semi-hyper-converged cluster, workloads and block storage are sharing the same available resources on my nodes while I have a separate [Unraid](https://unraid.net/) server for NFS/SMB shares, bulk file storage and backups.
+
+### Core Components
+
+- [cert-manager](https://github.com/cert-manager/cert-manager): Creates SSL certificates for services in my cluster.
+- [cilium](https://github.com/cilium/cilium): eBPF-based networking for my workloads.
+- [traefik](https://github.com/traefik/traefik): Ingress provider
+- [longhorn](https://github.com/longhorn/longhorn): Distributed storage for peristent storage.
+- [sops](https://github.com/getsops/sops): Managed secrets for Kubernetes and Terraform/OpenTofu which are commited to Git.
+
+### GitOps
+
+[Flux](https://github.com/fluxcd/flux2) watches the clusters in my [kubernetes](./kubernetes/) folder (see Directories below) and makes the changes to my clusters based on the state of my Git repository.
+
+Unlike some other repos's i have set a up a few extra folders instead of just apps, components, flux, this is mostly to allow for easy restore of Longhorn volumes from S3 (local for now)
+
+Flux will first apply all resources in `kubernetes/core` then `kubernetes/databases` and then `kubernetes/apps`, if using the restore script, the process will be paused after `kubernetes/core` to allow restoring manually of Longhorn volumes
+
+For each of these folders Flux will recursively search it until it finds the most top level `kustomization.yaml` per directory and then apply all the resources listed in it. That aforementioned `kustomization.yaml` will generally only have a namespace resource and one or many Flux kustomizations (`ks.yaml`). Under the control of those Flux kustomizations there will be a `HelmRelease` or other resources related to the application which will be applied.
+
+[Renovate](https://github.com/renovatebot/renovate) watches my **entire** repository looking for dependency updates, when they are found a PR is automatically created. When some PRs are merged Flux applies the changes to my cluster.
+
+### Directories
+
+This Git repository contains the following directories under [Kubernetes](./kubernetes/).
+
+```sh
+📁 kubernetes
+├── 📁 apps              # applications
+├── 📁 databases      # databases
+├── 📁 core              # critical deployments (cilium, traefik, cert-manager, longhorn, etc.)
+├── 📁 components  # re-useable kustomize components
+└── 📁 flux               # flux system configuration
+```
+---
+
+## 🚀 Let's Go!
+### Pre-requisites
+#### Hardware
+- Proxmox Cluster
+#### Tools (TODO: Automate this)
 - [fluxcli](https://fluxcd.io/flux/cmd/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 - [talosctl](https://www.talos.dev/v1.9/talos-guides/install/talosctl/)
-- [SOPS](https://github.com/getsops/sops/releases/latest)
+- [SOPS](https://github.com/getsops/sops/releases/latest) (Windows user's ensure it's in your `PATH`)
+#### Credentials/Keys
+- [Github Access Token](https://github.com/settings/tokens) (`repo` permission is fine)
+- Proxmox SSH Credentials (e.g `root` / `password`)
+- SOPS Age Key (saved to `.age.key` - @fma965 check your password manager 😉)
 
-Windows users make sure SOPS is in your `PATH` (e.g. C:\Windows)
-### SOPS Age Public/Private Keys
-[AGE](https://github.com/FiloSottile/age) keys for SOPS to use need to be saved in the following structure from the root of this repo.
-`.sops/age/private.key`
-`.sops/age/public.key`
-(these are ignored by the .gitignore file)
+### Stage 1: Repository Preparation (Infrastructure)
 
-If you have lost these, perhaps they are stored in your password manager ;)
-
-### Configure your GitHooks
-Set your GitHooks to use `.githooks` with this command
-```
-git config --local core.hooksPath .githooks/
-chmod +x .githooks/*
-```
-This makes sure any commits enforce semantic commit messages
-
-## Instructions
-### Prerequisites
-Export your SOPS_AGE_KEY_FILE and if you do not wish to enter your GitHub Token later export that aswell
+1. Create a new repository by clicking the green `Use this template` button at the top of this page, then clone the new repo you just created and `cd` into it.
+> [!WARNING]
+> As this repository assumes it's for myself, there are many hardcoded domain name references currently set, I would recommend find and replacing all references of `f9.casa` with you own tld
+2. Ensure your `SOPS Age Key` is set correct in your `SOPS_AGE_KEY_FILE` env variable, for example with
 ```bash
-export SOPS_AGE_KEY_FILE=$PWD/.sops/age/private.key
-export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxx`
+export SOPS_AGE_KEY_FILE=$PWD/.age.key
 ```
+3. Copy `infrastructure/tofu/prod.sample.auto.tfvars.json` to `infrastructure/tofu/prod.auto.tfvars.json` and update the values to match your desired configuration, you can add or remove `nodes` as you see fit
 
-### Restoring Infrastructure
-Run the following script to initiate Tofu and create the Talos Linux powered kubernetes cluster
-
+4. Execute the [Infrastructure Bootstrap script](infrastructure/bootstrap.sh)
 ```bash
 rm infrastructure/tofu/output/* # WARNING! This will delete your old kube-config and talos-confg
 rm infrastructure/tofu/terraform.tfstate # WARNING! This will delete state
 rm infrastructure/tofu/terraform.tfstate.backup # WARNING! This will delete state
-chmod +x ./infrastructure/restore-infrastructure.sh
-./infrastructure/restore-infrastructure.sh
+chmod +x ./infrastructure/bootstrap.sh
+./infrastructure/bootstrap.sh
 ```
-Optionally add `--dry-run`/`-d` to test it, or if you are feeling brave `--auto-approve`/`-y` to skip confirmation prompts
+> [!TIP]
+> Optionally add `--dry-run/-d` to test it, or if you are feeling brave `--auto-approve/-y` to skip confirmation prompts
 
-Approximate restore time: **4 Minutes**
+> [!NOTE]
+> Approximate time to deploy: *5 Minutes* (assuming NVME storage)
 
-### Restoring Kubernetes
-Run the following script to initiate the FluxCD kubernetes GitOps process
+### Stage 2: FluxCD Deployment
+1. Ensure you have updated all your `*sops*` files in `kubernetes/**` to match your own values
+> [!NOTE]
+> Not many of them have sample files currently but eventually i will ensure every `*sops*` file has a matching `*sample*` file
+> [!TIP]
+> If you are using VSCode you should be able to automatically encrypt your *sops* files.
+
+2. Ensure the following enviroment variables are set to the correct values/paths `SOPS_AGE_KEY_FILE`, `GITHUB_TOKEN`, `KUBECONFIG`
 ```bash
-chmod +x ./kubernetes/restore-kubernetes.sh
-./kubernetes/restore-kubernetes.sh
+export SOPS_AGE_KEY_FILE=$PWD/.age.key
+export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxx
+export KUBECONFIG=$PWD/infrastructure/tofu/output/kube-config.yaml
 ```
-At a certain point during the script, it will ask you to "Access Longhorn at: http://localhost:8080" follow the steps displayed
-
-Approximate restore time: **Less than 30 Minutes**
-
-(**5 Minutes** for initial deployment, **8 Minutes** to restore volumes, and another **5 Minutes** to restore apps)
-
-### Restoring Docker
-Run the following script to decrypt and copy the Compose files to UnRaid
-(Make sure you have the [docker compose plugin](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager/) installed)
+3. Execute the [Kubernetes Bootstrap script](kubernetes/bootstrap.sh)
 ```bash
-chmod +x ./docker/restore-docker.sh
-./docker/restore-docker.sh root@unraidIP
+chmod +x ./kubernetes/bootstrap.sh
+./kubernetes/bootstrap.sh
 ```
-If you have lost the Komodo database also follow the below steps to reconfigure the GitOps sync
-1. Access the [Komodo WebUI](https://komodo.f9.casa)
-2. Navigate to "Servers" and Delete the existing Server.
-3. Navigate to "Settings" > "Providers" and add a Github.com Account using your token
-4. Navigate to "Syncs" and Create a New Resource Sync called "f9-homelab"
-5. Set the Mode to "Git Repo", Repo to "fma965/f9-homelab"
-6. Set the Account to "fma965"
-7. Add the following resource path `docker/komodo.toml`
-8. Enable "Delete Unmatched Resources" and "Managed"
-9. Make sure only "Sync Resources" is checked under the Include section
-10. Click "Save", Click "Refresh" and the "Execute"
+> [!TIP]
+> Optionally add `--restore/-r` to pause the script after longhorn is installed to manually restore volumes or if you are feeling brave `--auto-approve/-y` to skip confirmation prompts
 
-## Git Repo Structure
-Infrastructure is in [infrastructure](infrastructure)
-Docker is in [docker](docker)
-Kubernetes is in [kubernetes](kubernetes)
-```
-# 🏠 Homelab Infrastructure Blueprint
+> [!NOTE]
+> Approximate time to deploy: *10 Minutes* (assuming NVME storage, excluding Longhorn restore if applicable)
 
-.
-├── 📁 docker/                     # Containerized services (non-Kubernetes)
-│   ├── 📁 komodo/                 # Unraid friendly Compose stack for Komodo
-│   └── 📁 stacks/                 # Docker Compose application stacks
-│       ├── 🤖 ai/                 # AI/ML workloads (LLMs, vector databases)
-│       ├── 🎬 arr/                # *Arr media suite + related tools
-│       ├── 💾 backup/             # Backup solutions (Restic, Proxmox Backup Server, GarageHQ)
-│       ├── ⏬ downloaders/        # Download clients
-│       ├── ⎇ git/                 # Git management (Forgejo)
-│       ├── 📺 media/              # Plex/Jellyfin + media processors
-│       ├── 🧩 misc/               # Miscellaneous utilities
-│       └── 📊 monitoring/         # Observability tools
-│
-├── 🏗️ infrastructure/             # Infrastructure as Code
-│   └── 📁 tofu/                   # OpenTofu (Terraform-compatible)
-│       ├── 🌐 cilium/             # Cilium CNI networking configs
-│       ├── 📤 output/             # Terraform state outputs
-│       ├── 🧩 simplified/         # Simplified configurations
-│       └── 🤖 talos/              # Talos Linux (Kubernetes OS) configs
-│
-└── ☸️ kubernetes/                 # Kubernetes cluster management
-    ├── 📱 apps/                   # End-user applications
-    │   ├── 🔐 authentik/          # SSO and identity provider
-    │   ├── 💾 backup/             # Backup operators
-    │   ├── 🛡️ crowdsec/           # Security monitoring system
-    │   ├── 🟢 gatus/              # Automated status pages
-    │   ├── ⎇ git/                 # GitOps tools (e.g. gitea-mirror)
-    │   ├── 🏠 homepage/           # Homelab dashboard
-    │   ├── 📚 outline/            # Internal knowledge management
-    │   ├── 🐘 pgadmin/            # PostgreSQL web interface
-    │   ├── 🐬 phpmyadmin/         # MySQL web interface
-    │   ├── 🎮 pterodactyl/        # Game server panel
-    │   ├── 🔑 vaultwarden/        # Password manager
-    │   └── 🌐 webdev/             # Custom WebDev Applications
-    │
-    ├── ⚙️ core/                   # Critical cluster components
-    │   ├── 📜 cert-manager/       # Automated TLS certificates
-    │   ├── 🌐 cilium/             # Network policy and service mesh
-    │   ├── ♻️ flux-system/        # GitOps control plane
-    │   ├── 💽 longhorn/           # Distributed block storage
-    │   └── 🚪 traefik/            # Ingress controller
-    │
-    ├── 🗃️ databases/              # Stateful data services
-    │   ├── 🐬 mariadb/            # MySQL-compatible databases
-    │   ├── 🐘 postgres/           # PostgreSQL clusters
-    │   └── 🟥 redis/              # In-memory caching
-    │
-    └── ♻️ flux/                   # FluxCD configurations
-        └── 🏭 cluster/            # Primary cluster sync definition
-```
+---
 
-## Footnotes
-Check my [Wiki](https://wiki.f9.casa) for more details!
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f636_200d_1f32b_fe0f/512.gif" alt="😶" width="20" height="20"> Cloud Dependencies
+
+Most of my infrastructure and workloads are self-hosted and do not rely upon cloud services, some however do, here is a list of them. Note that some of these may not be part of this repo but rather just things that i also use in relation to it.
+
+| Service                                         | Use                                                               | Cost           |
+|-------------------------------------------------|-------------------------------------------------------------------|----------------|
+| [Cloudflare](https://www.cloudflare.com/)       | Domain                                                            | ~£6/yr         |
+| [GCP](https://cloud.google.com/)                | Voice interactions with Home Assistant over Google Assistant      | Free           |
+| [GitHub](https://github.com/)                   | Hosting this repository and continuous integration/deployments    | Free           |
+| [Discord](https://discord.com/)                 | Alerts and notifications                                          | Free           |
+
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙" width="20" height="20"> Wiki
+Check out my [Wiki](https://wiki.f9.casa/hardware/) to see more about my hardware and much more
+
+---
+
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f64f/512.gif" alt="🙏" width="20" height="20"> Gratitude and Thanks
+
+Thanks to the [Home Operations](https://discord.gg/home-operations) Discord community and [StoneGarden](https://blog.stonegarden.dev/articles/2024/08/talos-proxmox-tofu/) for the initial Proxmox Tofu code.
