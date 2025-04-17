@@ -36,7 +36,9 @@ NAMESPACE="flux-system"
 kubectl create namespace "$NAMESPACE" --dry-run=client -o yaml | kubectl apply -f -
 
 color_echo "34" "Creating sops-age secret in flux-system namespace from $SOPS_AGE_KEY_FILE ..."
-kubectl create secret generic sops-age -n flux-system --from-file=age.agekey=$SOPS_AGE_KEY_FILE -o yaml --dry-run=client | kubectl apply -f -
+kubectl create secret generic sops-age --from-file=age.agekey=$SOPS_AGE_KEY_FILE -o yaml --dry-run=client | kubectl apply -f -
+kubectl annotate secret sops-age -n flux-system reflector.v1.k8s.emberstack.com/reflection-allowed="true"
+kubectl annotate secret sops-age -n flux-system reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
 
 color_echo "34" "Bootstrapping FluxCD ..."
 flux bootstrap github \
