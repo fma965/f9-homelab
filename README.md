@@ -90,9 +90,8 @@ This Git repository contains the following directories under [Kubernetes](./kube
 
 ### Stage 2: Bootstrap Infrastructure
 Proxmox Talos VM's, Basic Kubernetes cluster with Cilium
-1. Ensure the following enviroment variables are set to the correct values/paths `SOPS_AGE_KEY_FILE`, `PROXMOX_VE_USERNAME`, `PROXMOX_VE_PASSWORD`
+1. Ensure the following enviroment variables are set to the correct values/paths `PROXMOX_VE_USERNAME`, `PROXMOX_VE_PASSWORD`
 ```bash
-export SOPS_AGE_KEY_FILE=$PWD/.age.key
 export PROXMOX_VE_USERNAME="root@pam"
 export PROXMOX_VE_PASSWORD="password"
 ```
@@ -127,7 +126,8 @@ export KUBECONFIG=$PWD/infrastructure/tofu/output/kube-config.yaml
 ```
 3. Execute the [Kubernetes Bootstrap script](kubernetes/bootstrap.sh)
 ```bash
-chmod +x ./kubernetes/bootstrap.sh && ./kubernetes/bootstrap.sh
+chmod +x ./kubernetes/bootstrap.sh
+./kubernetes/bootstrap.sh
 ```
 > [!TIP]
 > Optionally add `--restore/-r` to pause the script after longhorn is installed to manually restore volumes or if you are feeling brave `--auto-approve/-y` to skip confirmation prompts
