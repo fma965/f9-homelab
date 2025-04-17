@@ -16,11 +16,9 @@ This is a mono repository for my entire _homelab_ configuration, including my Ku
 
 ---
 
-## ⛵ Infrastructure
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙️" width="20" height="20"> Infrastructure
 
 Using [OpenTofu](https://github.com/opentofu/opentofu) ([Terraform fork](https://github.com/hashicorp/terraform)) we can spin up any amount of Proxmox VM's with Kubernetes fully configured running on [Talos](https://github.com/siderolabs/talos).
-
-Refer to the [proxmox.sample.auto.tfvars.json](infrastructure/tofu/prod.sample.auto.tfvars.json) for configuration values
 
 ### OpenTofu Providers
 - [siderolabs/talos](https://search.opentofu.org/provider/siderolabs/talos/latest): Manage Talos OS
@@ -53,21 +51,24 @@ For each of these folders Flux will recursively search it until it finds the mos
 
 [Renovate](https://github.com/renovatebot/renovate) watches my **entire** repository looking for dependency updates, when they are found a PR is automatically created. When some PRs are merged Flux applies the changes to my cluster.
 
-### Directories
-
-This Git repository contains the following directories under [Kubernetes](./kubernetes/).
-
-```sh
-📁 kubernetes
-├── 📁 apps              # applications
-├── 📁 databases         # databases
-├── 📁 core              # critical deployments (cilium, traefik, cert-manager, longhorn, etc.)
-├── 📁 components        # re-useable kustomize components
-└── 📁 flux              # flux system configuration
-```
 ---
 
-## 🚀 Let's Go!
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f42c/512.gif" alt="🐬" width="20" height="20"> Docker
+
+My Docker instance is running on my [Unraid](https://unraid.net/) server and managed by [Komodo](https://github.com/moghtech/komodo) with GitOps practices, it runs most things that require bulk storage such as [Jellyfin](https://github.com/jellyfin/jellyfin), [Frigate](https://github.com/blakeblackshear/frigate), [Immich](https://github.com/immich-app/immich), [*Arrs](https://wiki.servarr.com/) and AI workloads.
+
+These could run on my Kubernetes cluster but as they require bulk storage it seems a bit pointless when Unraid is able to do these things for me.
+
+### GitOps
+
+[Komodo](https://github.com/moghtech/komodo) watches my [docker](./docker/) folder (see Directories below) and makes the changes based on the state of my Git repository.
+
+Komodo is controlled mostly from a single file, the [komodo.toml](./docker/komodo.toml) file. This is the file that sets up al the stacks, from there it's just docker compose.yaml files
+
+---
+
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif" alt="🚀" width="20" height="20"> Let's Go!
+
 ### Pre-requisites
 #### Hardware
 - Proxmox Cluster
@@ -135,6 +136,102 @@ chmod +x ./kubernetes/bootstrap.sh
 > [!NOTE]
 > Approximate time to deploy: *10 Minutes* (assuming NVME storage, excluding Longhorn restore if applicable)
 
+### Stage 4: Bootstrap Docker Deployment
+> [!WARNING]
+> If you do not intend to use Docker skip this stage, this has only been tested on Unraid but it should be quite easily adaptable to other operating systems
+
+1. Ensure you have the [Docker Compose](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager/) plugin installed on Unraid
+
+2. Ensure the `SOPS_AGE_KEY_FILE` enviroment variable is set to the correct paths
+```bash
+export SOPS_AGE_KEY_FILE=$PWD/.age.key
+```
+
+3. Execute the [Docker Bootstrap script](docker/bootstrap.sh)
+> [!IMPORTANT]
+> replace `root@unraidIP` with your unraidIP
+```bash
+chmod +x ./docker/bootstrap.sh
+./docker/bootstrap.sh root@unraidIP
+```
+
+### Stage 5: Configuring Komodo (New Installs only)
+> [!NOTE]
+> If you have lost the Komodo database also follow the below steps to reconfigure the GitOps sync, adjust values to reflect your own configuration
+1. Access the [Komodo WebUI](https://komodo.f9.casa)
+2. Navigate to "Servers" and Delete the existing Server.
+3. Navigate to "Settings" > "Providers" and add a Github.com Account using your token
+4. Navigate to "Syncs" and Create a New Resource Sync called "f9-homelab"
+5. Set the Mode to "Git Repo", Repo to "fma965/f9-homelab"
+6. Set the Account to "fma965"
+7. Add the following resource path `docker/komodo.toml`
+8. Enable "Delete Unmatched Resources" and "Managed"
+9. Make sure only "Sync Resources" is checked under the Include section
+10. Click "Save", Click "Refresh" and the "Execute"
+
+---
+
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f52e/512.gif" alt="🔮" width="20" height="20"> Git Repo Structure
+
+<details>
+  <summary>Click here to the directories of this Git Repo with descriptions</summary>
+
+```sh
+.
+├── 📂 docker
+│   ├── 📂 komodo          # Docker development environment configurations
+│   └── 📂 stacks
+│       ├── 📂 ai          🤖 # AI/ML services (LLMs, vector DBs, etc.)
+│       ├── 📂 arr         🎬 # *ARR media stack (Sonarr/Radarr/Prowlarr)
+│       ├── 📂 backup      💾 # Backup solutions (Duplicati, Borg, etc.)
+│       ├── 📂 downloaders ⏬ # Download managers (qBittorrent, NZBGet)
+│       ├── 📂 git         ⎙  # Git services (Gitea, GitLab)
+│       ├── 📂 media       🎵 # Media processors (Handbrake, Tdarr)
+│       ├── 📂 misc        🎪 # Miscellaneous utilities
+│       └── 📂 monitoring  👁️ # Monitoring tools (Grafana, Prometheus)
+│
+├── 📂 infrastructure
+│   └── 📂 tofu
+│       ├── 📂 output      # Terraform output artifacts
+│       └── 📂 talos       🤖 # Talos Linux Kubernetes configurations
+│
+└── 📂 kubernetes
+    ├── 📂 apps
+    │   ├── 📂 authentik     🔐 # SSO and identity management
+    │   ├── 📂 backup        💾 # Kubernetes backup solutions (Velero, Kasten)
+    │   ├── 📂 crowdsec      🛡️ # Security and intrusion detection
+    │   ├── 📂 gatus         ❤️ # Service health monitoring
+    │   ├── 📂 git           ⎙  # Git management tools
+    │   ├── 📂 homepage      🏠 # Dashboard and landing page
+    │   ├── 📂 outline       📝 # Documentation/wiki system
+    │   ├── 📂 pgadmin       🐘 # PostgreSQL administration interface
+    │   ├── 📂 phpmyadmin    🐬 # MySQL/MariaDB administration interface
+    │   ├── 📂 pterodactyl   🦖 # Game server management panel
+    │   ├── 📂 vaultwarden   🔒 # Password manager
+    │   └── 📂 webdev        🌐 # Web development tools
+    │
+    ├── 📂 components
+    │   └── 📂 common       ⚙️ # Shared Kubernetes components
+    │
+    ├── 📂 core
+    │   ├── 📂 cert-manager 📜 # SSL certificate management
+    │   ├── 📂 kube-system  ⚙️ # Core Kubernetes system components
+    │   ├── 📂 longhorn-system 🦏 # Distributed block storage
+    │   └── 📂 traefik      🚦 # Ingress controller and reverse proxy
+    │
+    ├── 📂 databases
+    │   ├── 📂 mariadb      🐬 # MySQL-compatible databases
+    │   ├── 📂 postgres     🐘 # PostgreSQL databases
+    │   └── 📂 redis        🧠 # Redis key-value stores
+    │
+    └── 📂 flux
+        └── 📂 cluster      ⚡ # GitOps deployment configurations
+```
+
+</details>
+
+
+
 ---
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f636_200d_1f32b_fe0f/512.gif" alt="😶" width="20" height="20"> Cloud Dependencies
@@ -148,7 +245,7 @@ Most of my infrastructure and workloads are self-hosted and do not rely upon clo
 | [GitHub](https://github.com/)                   | Hosting this repository and continuous integration/deployments    | Free           |
 | [Discord](https://discord.com/)                 | Alerts and notifications                                          | Free           |
 
-## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙" width="20" height="20"> Wiki
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f393/512.gif" alt="🎓" width="20" height="20"> Wiki
 Check out my [Wiki](https://wiki.f9.casa/hardware/) to see more about my hardware and much more
 
 ---
