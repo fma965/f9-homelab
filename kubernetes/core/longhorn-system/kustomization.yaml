@@ -7,3 +7,14 @@ components:
   - ../../components/common
 resources:
   - ./longhorn/ks.yaml
+patches:
+  - patch: |-
+      - op: add
+        path: /metadata/labels/pod-security.kubernetes.io~1enforce
+        value: "privileged"
+      - op: add
+        path: /metadata/labels/pod-security.kubernetes.io~1enforce-version
+        value: "latest"
+    target:
+      kind: Namespace
+      name: longhorn-system
