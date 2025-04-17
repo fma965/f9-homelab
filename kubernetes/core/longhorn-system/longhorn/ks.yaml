@@ -26,3 +26,17 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+  patches:
+    - patch: |-
+        - op: add
+          path: /metadata/labels
+          value:
+            pod-security.kubernetes.io/enforce: privileged
+            pod-security.kubernetes.io/enforce-version: latest
+            pod-security.kubernetes.io/audit: privileged
+            pod-security.kubernetes.io/audit-version: latest
+            pod-security.kubernetes.io/warn: privileged
+            pod-security.kubernetes.io/warn-version: latest
+      target:
+        kind: Namespace
+        name: longhorn-system
