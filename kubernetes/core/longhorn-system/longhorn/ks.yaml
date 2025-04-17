@@ -8,6 +8,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: reflector
+      namespace: kube-system
   interval: 1h
   path: ./kubernetes/core/longhorn-system/longhorn/app
   prune: true
@@ -19,3 +22,7 @@ spec:
   targetNamespace: *namespace
   timeout: 5m
   wait: false
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
