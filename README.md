@@ -87,8 +87,11 @@ Komodo is controlled mostly from a single file, the [komodo.toml](./docker/komod
 1. Create a new repository by clicking the green `Use this template` button at the top of this page, then clone the new repo you just created and `cd` into it.
 > [!WARNING]
 > As this repository assumes it's for myself, there are many hardcoded domain name references currently set, I would recommend find and replacing all references of `f9.casa` with you own tld
-> Eventually I will fix this
-
+> Critical Files that will need updating are
+> - [cert-manager/clusterissuer.yaml](./kubernetes/core/cert-manager/cert-manager/app/clusterissuer.yaml)
+> - [cert-manager/cloudflare-secret.sops.yaml](./kubernetes/core/cert-manager/cert-manager/app/cloudflare-secret.sops.yaml)
+> - [traefik/certificate.yaml](./kubernetes/core/traefik/traefik/app/certificate.yaml)
+> Other files should be updated, but these ones will stop deployment working
 ### Stage 2: Bootstrap Infrastructure
 Proxmox Talos VM's, Basic Kubernetes cluster with Cilium
 1. Ensure the following enviroment variables are set to the correct values/paths `PROXMOX_VE_USERNAME`, `PROXMOX_VE_PASSWORD`
