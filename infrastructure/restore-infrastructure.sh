@@ -27,13 +27,13 @@ done
 
 # Dry-run: Simulate actions
 if [ "$DRY_RUN" = true ]; then
-    color_echo "34" "DRY RUN MODE: Simulating workflow"
-    color_echo "34" "-> Would run: tofu init -input=false"
-    color_echo "34" "-> Would run: tofu plan -input=false"
+    color_echo "46" "DRY RUN MODE: Simulating workflow"
+    color_echo "46" "-> Would run: tofu init -input=false"
+    color_echo "46" "-> Would run: tofu plan -input=false"
     if [ "$AUTO_APPROVE" = true ]; then
-        color_echo "34" "-> Would run: tofu apply -input=false  -auto-approve"
+        color_echo "46" "-> Would run: tofu apply -input=false  -auto-approve"
     else
-        color_echo "34" "-> Would run: tofu apply -input=false"
+        color_echo "46" "-> Would run: tofu apply -input=false"
     fi
     exit 0
 fi
@@ -42,21 +42,21 @@ fi
 sops --decrypt --config .sops.yaml infrastructure/tofu/prod.sops.auto.tfvars.json > "infrastructure/tofu/prod.auto.tfvars.json"
 cd "$(dirname "${BASH_SOURCE[0]}")"/tofu
 
-color_echo "34"  "Initializing OpenTofu..."
+color_echo "46"  "Initializing OpenTofu..."
 tofu init -input=false
 
-color_echo "34"  "Generating plan..."
+color_echo "46"  "Generating plan..."
 tofu plan -var-file="prod.auto.tfvars.json" -input=false
 
 
 if [ "$AUTO_APPROVE" = true ]; then
-    color_echo "34"  "Auto-approve mode enabled. Proceeding without confirmation."
+    color_echo "46"  "Auto-approve mode enabled. Proceeding without confirmation."
     tofu apply -var-file="prod.auto.tfvars.json" -input=false -auto-approve
 else
-    color_echo "34"  "Manual approval required. Proceeding with confirmation."
+    color_echo "46"  "Manual approval required. Proceeding with confirmation."
     tofu apply -var-file="prod.auto.tfvars.json" -input=false
 fi
-color_echo "34" "Applying changes..."
+color_echo "46" "Applying changes..."
 export KUBECONFIG="$PWD/output/kube-config.yaml"
 echo export KUBECONFIG="$PWD/output/kube-config.yaml"
-color_echo "34" "✅ Talos Linux should now be up and running, if it's not it should be after a few minutes!"
+color_echo "42" "✅ Talos Linux should now be up and running, if it's not it should be after a few minutes!"
