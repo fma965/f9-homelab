@@ -6,5 +6,4 @@ resources:
   - ./helmrepository.yaml
   - ./helmrelease.yaml
   - ./secret.sops.yaml
-  - ./recurringjob.yaml
   - ./ingress.yaml
