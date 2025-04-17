@@ -26,6 +26,11 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Execute workflow
+if [ -z "$GITHUB_OWNER" ] || [ -z "$GITHUB_REPO" ]; then
+    echo "Error: Owner and repository must be set!"
+    exit 1
+fi
+
 if [ "$RESTORE" = true ]; then
   color_echo "46" "Restore mode enabled, will suspend after core apps are applied"
 fi
@@ -50,8 +55,8 @@ kubectl create secret generic sops-age -n flux-system --from-file=age.agekey=$SO
 color_echo "46" "Bootstrapping FluxCD ..."
 flux bootstrap github \
     --token-auth \
-    --owner=fma965 \
-    --repository=f9-homelab \
+    --owner="${GITHUB_OWNER}" \
+    --repository="${GITHUB_REPO}" \
     --branch=main \
     --path=./kubernetes/flux/cluster \
     --personal \

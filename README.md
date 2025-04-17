@@ -125,11 +125,13 @@ chmod +x ./infrastructure/bootstrap.sh
 > [!TIP]
 > If you are using VSCode you should be able to automatically encrypt your *sops* files.
 
-2. Ensure the following enviroment variables are set to the correct values/paths `SOPS_AGE_KEY_FILE`, `GITHUB_TOKEN`, `KUBECONFIG`
+2. Ensure the following enviroment variables are set to the correct values/paths `SOPS_AGE_KEY_FILE`, `GITHUB_TOKEN`, `KUBECONFIG`, `GITHUB_OWNER`, `GITHUB_REPO`
 ```bash
 export SOPS_AGE_KEY_FILE=$PWD/.age.key
 export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxx
 export KUBECONFIG=$PWD/infrastructure/tofu/output/kube-config.yaml
+export GITHUB_OWNER="fma965" # replace with your github username
+export GITHUB_REPO="f9-homelab" # replace with your github repo name
 ```
 3. Execute the [Kubernetes Bootstrap script](kubernetes/bootstrap.sh)
 ```bash
