@@ -90,7 +90,7 @@ color_echo "46" "In the UI, Click on 'Backups', Select all volumes, 'Restore Lat
 
 REPLY=""
 while ! [[ $REPLY =~ ^[Yy]$ ]]; do
-    read -p $'\e[35m Have you restored your Longhorn volume? (y/n):  \e[0m' -n 1 -r
+    read -p $'\e[45m Have you restored your Longhorn volume? (y/n):  \e[0m' -n 1 -r
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
       color_echo "46" "Once the volumes have finished being restored or you are skipping restoring, type 'Y' to proceed."
