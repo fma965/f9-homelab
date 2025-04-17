@@ -22,18 +22,6 @@ CONNECTION="$1"
 SOURCE_FOLDER="$(dirname "${BASH_SOURCE[0]}")/komodo"
 DEST_FOLDER="/boot/config/plugins/compose.manager/projects"
 
-# Master SSH connection setup
-setup_connection() {
-  if ! ssh -q -o BatchMode=yes $SSH_OPTS "$CONNECTION" exit; then
-    color_echo "41" "🔑 Key auth failed - please enter SSH password once:"
-    # Establish master connection with single password prompt
-    if ! ssh $SSH_OPTS "$CONNECTION" true; then
-      color_echo "41" "Authentication failed"
-      exit 1
-    fi
-  fi
-}
-
 # Main workflow
 color_echo "46" "=== Komodo Deployment ==="
 
@@ -44,7 +32,14 @@ sops --decrypt docker/komodo/secret.sops.env > docker/komodo/.env || {
 }
 
 # 2. Setup connection (password prompt happens here if needed)
-setup_connection
+  if ! ssh -q -o BatchMode=yes $SSH_OPTS "$CONNECTION" exit; then
+    color_echo "41" "🔑 Key auth failed - please enter SSH password once:"
+    # Establish master connection with single password prompt
+    if ! ssh $SSH_OPTS "$CONNECTION" true; then
+      color_echo "41" "Authentication failed"
+      exit 1
+    fi
+  fi
 
 # 3. Copy files using existing connection
 color_echo "46" "Copying files to server..."
