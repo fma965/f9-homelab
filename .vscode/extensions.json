@@ -4,6 +4,7 @@
       "irongeek.vscode-env",
       "redhat.vscode-yaml",
       "signageos.signageos-vscode-sops",
-      "mikestead.dotenv"
+      "mikestead.dotenv",
+      "bierner.github-markdown-preview"
     ]
   }

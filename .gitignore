@@ -15,9 +15,6 @@ infrastructure/tofu/start-time.txt
 *secret.yaml
 *secret.env
 *secret.yaml
-*.auto.tfvars*
-!*.sops.auto.tfvars*
-!*.sample.auto.tfvars*
 
 # Remove junk files
 .decrypted~*

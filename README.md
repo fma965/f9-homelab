@@ -60,10 +60,10 @@ This Git repository contains the following directories under [Kubernetes](./kube
 ```sh
 📁 kubernetes
 ├── 📁 apps              # applications
-├── 📁 databases      # databases
+├── 📁 databases         # databases
 ├── 📁 core              # critical deployments (cilium, traefik, cert-manager, longhorn, etc.)
-├── 📁 components  # re-useable kustomize components
-└── 📁 flux               # flux system configuration
+├── 📁 components        # re-useable kustomize components
+└── 📁 flux              # flux system configuration
 ```
 ---
 
@@ -86,13 +86,19 @@ This Git repository contains the following directories under [Kubernetes](./kube
 1. Create a new repository by clicking the green `Use this template` button at the top of this page, then clone the new repo you just created and `cd` into it.
 > [!WARNING]
 > As this repository assumes it's for myself, there are many hardcoded domain name references currently set, I would recommend find and replacing all references of `f9.casa` with you own tld
-2. Ensure your `SOPS Age Key` is set correct in your `SOPS_AGE_KEY_FILE` env variable, for example with
+> Eventually I will fix this
+
+### Stage 2: Bootstrap Infrastructure
+Proxmox Talos VM's, Basic Kubernetes cluster with Cilium
+1. Ensure the following enviroment variables are set to the correct values/paths `SOPS_AGE_KEY_FILE`, `PROXMOX_VE_USERNAME`, `PROXMOX_VE_PASSWORD`
 ```bash
 export SOPS_AGE_KEY_FILE=$PWD/.age.key
+export PROXMOX_VE_USERNAME="root@pam"
+export PROXMOX_VE_PASSWORD="password"
 ```
-3. Copy `infrastructure/tofu/prod.sample.auto.tfvars.json` to `infrastructure/tofu/prod.auto.tfvars.json` and update the values to match your desired configuration, you can add or remove `nodes` as you see fit
+2. Edit the `infrastructure/tofu/prod.auto.tfvars` file to reflect your desired configuration, refer to comments for explanations of eaach variable
 
-4. Execute the [Infrastructure Bootstrap script](infrastructure/bootstrap.sh)
+3. Execute the [Infrastructure Bootstrap script](infrastructure/bootstrap.sh)
 ```bash
 rm infrastructure/tofu/output/* # WARNING! This will delete your old kube-config and talos-confg
 rm infrastructure/tofu/terraform.tfstate # WARNING! This will delete state
@@ -106,7 +112,7 @@ chmod +x ./infrastructure/bootstrap.sh
 > [!NOTE]
 > Approximate time to deploy: *5 Minutes* (assuming NVME storage)
 
-### Stage 2: FluxCD Deployment
+### Stage 3: Bootstrap FluxCD Deployment
 1. Ensure you have updated all your `*sops*` files in `kubernetes/**` to match your own values
 > [!NOTE]
 > Not many of them have sample files currently but eventually i will ensure every `*sops*` file has a matching `*sample*` file
@@ -121,8 +127,7 @@ export KUBECONFIG=$PWD/infrastructure/tofu/output/kube-config.yaml
 ```
 3. Execute the [Kubernetes Bootstrap script](kubernetes/bootstrap.sh)
 ```bash
-chmod +x ./kubernetes/bootstrap.sh
-./kubernetes/bootstrap.sh
+chmod +x ./kubernetes/bootstrap.sh && ./kubernetes/bootstrap.sh
 ```
 > [!TIP]
 > Optionally add `--restore/-r` to pause the script after longhorn is installed to manually restore volumes or if you are feeling brave `--auto-approve/-y` to skip confirmation prompts

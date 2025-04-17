@@ -5,7 +5,6 @@ variable "cluster" {
     name            = string
     endpoint        = string
     gateway         = string
-    proxmox_cluster = string
   })
 }
 
