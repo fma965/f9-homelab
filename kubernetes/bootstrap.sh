@@ -20,15 +20,19 @@ while [[ $# -gt 0 ]]; do
             ;;
         -r|--restore)
             RESTORE=true
-            shift 2
+            shift
             ;;
     esac
 done
 
 # Execute workflow
+if [ "$RESTORE" = true ]; then
+  color_echo "46" "Restore mode enabled, will suspend after core apps are applied"
+fi
+
 # Apply with confirmation (unless --auto-approve)
 if [ "$AUTO_APPROVE" = false ]; then
-    read -p $'\e[35m Apply Kubernetes FluxCD Configuration? (y/n):  \e[0m' -n 1 -r
+    read -p $'\e[45m Apply Kubernetes FluxCD Configuration? (y/n):  \e[0m' -n 1 -r
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
         color_echo "41" "Apply cancelled."
@@ -74,12 +78,21 @@ fi
 
   # BOUNCER_PID=$!
 
-  until kubectl wait --for=condition=Ready \
-    certificate/f9-casa -n traefik \
-    --timeout=10m 2>/dev/null; do
-    color_echo "46" "Waiting for Cert-Manager certificate to be issued..."
-    sleep 5
-  done
+until kubectl wait --for=condition=Ready \
+  certificate/f9-casa -n traefik \
+  --timeout=10m 2>/dev/null; do
+  color_echo "46" "Waiting for Cert-Manager certificate to be issued..."
+  sleep 5
+done
+
+until kubectl -n traefik get certificate f9-casa \
+        -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' | grep -q "True"
+do
+    color_echo "46" "Waiting for Cert-Manager certificate to be issued... (troubleshooting: `kubectl describe certificaterequest -n traefik`)"
+    sleep 15
+done
+color_echo "42" "Certificate is now ready!"
+
 if [ "$RESTORE" = true ]; then
   until kubectl -n longhorn-system get endpoints longhorn-frontend \
         -o jsonpath='{.subsets[*].addresses[*].ip}' | grep -q .
