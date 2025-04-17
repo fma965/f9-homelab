@@ -4,7 +4,7 @@ kind: IngressRoute
 metadata:
   name: debtmanager
   namespace: webdev
-  annotations: 
+  annotations:
     kubernetes.io/ingress.class: traefik-external
 spec:
   entryPoints:
@@ -17,7 +17,7 @@ spec:
           port: 80
       middlewares:
         - name: default-headers
-          namespace: default
+          namespace: traefik
     - match: Host(`api.f9.casa`)
       kind: Rule
       services:

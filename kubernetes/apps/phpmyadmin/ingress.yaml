@@ -4,7 +4,7 @@ kind: IngressRoute
 metadata:
   name: phpmyadmin
   namespace: mariadb
-  annotations: 
+  annotations:
     kubernetes.io/ingress.class: traefik-external
 spec:
   entryPoints:
@@ -17,6 +17,6 @@ spec:
           port: 80
       middlewares:
         - name: default-headers
-          namespace: default
+          namespace: traefik
         - name: authentik
           namespace: authentik
