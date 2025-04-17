@@ -2,7 +2,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: f9-casa
-  namespace: default
 spec:
   commonName: '*.f9.casa'
   dnsNames:

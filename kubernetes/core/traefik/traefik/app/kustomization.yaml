@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./providers-traefik-secret.sops.yaml
   - ./helmrelease.yaml
+  - ./certificate.yaml
   - ./tlsstore.yaml
   - ./middleware.yaml
   - ./ingress.yaml
