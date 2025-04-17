@@ -78,13 +78,6 @@ fi
 
   # BOUNCER_PID=$!
 
-until kubectl wait --for=condition=Ready \
-  certificate/f9-casa -n traefik \
-  --timeout=10m 2>/dev/null; do
-  color_echo "46" "Waiting for Cert-Manager certificate to be issued..."
-  sleep 5
-done
-
 until kubectl -n traefik get certificate f9-casa \
         -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' | grep -q "True"
 do
