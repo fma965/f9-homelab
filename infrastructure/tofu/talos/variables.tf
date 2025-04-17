@@ -1,10 +1,21 @@
 # tofu/talos/variables.tf
+variable "proxmox" {
+  type = object({
+    name         = string
+    cluster_name = string
+    endpoint     = string
+    insecure     = bool
+  })
+  sensitive = true
+}
+
 variable "cluster" {
   description = "Cluster configuration"
   type = object({
     name            = string
     endpoint        = string
     gateway         = string
+    vip             = string
   })
 }
 

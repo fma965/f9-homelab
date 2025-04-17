@@ -5,8 +5,6 @@ variable "proxmox" {
     cluster_name = string
     endpoint     = string
     insecure     = bool
-    username     = string
-    password     = string
   })
   sensitive = true
 }
@@ -17,6 +15,7 @@ variable "cluster" {
     name            = string
     endpoint        = string
     gateway         = string
+    vip             = string
   })
 }
 

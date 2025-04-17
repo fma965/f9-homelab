@@ -19,8 +19,6 @@ terraform {
 provider "proxmox" {
   endpoint = var.proxmox.endpoint
   insecure = var.proxmox.insecure
-  username = "${var.proxmox.username}@pam"
-  password = var.proxmox.password
 }
 
 provider "kubernetes" {

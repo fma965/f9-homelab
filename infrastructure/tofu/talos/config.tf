@@ -22,6 +22,7 @@ data "talos_machine_configuration" "this" {
       hostname       = each.key
       node_name      = each.value.host_node
       cluster_name   = var.proxmox.cluster_name
+      vip            = var.cluster.vip
       cilium_values  = file("${path.module}/inline-manifests/cilium-values.yaml")
       cilium_install = file("${path.module}/inline-manifests/cilium-install.yaml")
     })

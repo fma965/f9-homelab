@@ -39,24 +39,21 @@ if [ "$DRY_RUN" = true ]; then
 fi
 
 # Execute workflow
-if [ ! -f "infrastructure/tofu/prod.auto.tfvars.json" ]; then
-    sops --decrypt --config .sops.yaml infrastructure/tofu/prod.sops.auto.tfvars.json > "infrastructure/tofu/prod.auto.tfvars.json"
-fi
 cd "$(dirname "${BASH_SOURCE[0]}")"/tofu
 
 color_echo "46"  "Initializing OpenTofu..."
 tofu init -input=false
 
 color_echo "46"  "Generating plan..."
-tofu plan -var-file="prod.auto.tfvars.json" -input=false
+tofu plan -input=false
 
 
 if [ "$AUTO_APPROVE" = true ]; then
     color_echo "46"  "Auto-approve mode enabled. Proceeding without confirmation."
-    tofu apply -var-file="prod.auto.tfvars.json" -input=false -auto-approve
+    tofu apply -input=false -auto-approve
 else
     color_echo "46"  "Manual approval required. Proceeding with confirmation."
-    tofu apply -var-file="prod.auto.tfvars.json" -input=false
+    tofu apply -input=false
 fi
 color_echo "46" "Applying changes..."
 export KUBECONFIG="$PWD/output/kube-config.yaml"

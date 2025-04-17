@@ -1,3 +1,16 @@
+
+image = {
+  version      = "v1.9.5"  # Must follow semantic versioning
+  extensions   = ["i915-ucode", "intel-ucode", "qemu-guest-agent", "iscsi-tools", "util-linux-tools"] # Array of Talos extensions
+}
+
+cluster = {
+  name            = "F9"                    # Kubernetes cluster name
+  endpoint        = "10.0.10.101"           # Kubernetes controlplane IP
+  gateway         = "10.0.10.254"           # Gateway IP
+  vip             = "10.0.10.100"           # Control Plane VIP
+}
+
 proxmox = {
   cluster_name = "F9"                       # Name of your Proxmox cluster
   name         = "F9-HV1"                   # Name of one of your nodes
@@ -78,15 +91,4 @@ nodes = {
     longhorn_size = 40                      # Optional: Longhorn Storage Size
     vlan_id       = 10                      # Optional: VLAN ID
   }
-}
-
-cluster = {
-  name            = "talos"
-  endpoint        = "10.0.10.101"
-  gateway         = "10.0.10.254"
-}
-
-image = {
-  version      = "v1.9.5"  # Must follow semantic versioning
-  extensions   = ["i915-ucode", "intel-ucode", "qemu-guest-agent", "iscsi-tools", "util-linux-tools"]
 }

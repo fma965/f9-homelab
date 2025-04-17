@@ -4,4 +4,5 @@ module "talos" {
   image = var.image
   cluster = var.cluster
   nodes = var.nodes
+  proxmox = var.proxmox
 }

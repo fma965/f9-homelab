@@ -7,7 +7,7 @@ machine:
           physical: true
         dhcp: true
         vip:
-          ip: 10.0.10.100
+          ip: ${vip}
   nodeLabels:
     topology.kubernetes.io/region: ${cluster_name}
     topology.kubernetes.io/zone: ${node_name}
