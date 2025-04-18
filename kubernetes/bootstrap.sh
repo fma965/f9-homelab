@@ -83,10 +83,12 @@ fi
 
   # BOUNCER_PID=$!
 
-until kubectl -n traefik get certificate f9-casa \
+until kubectl -n traefik get certificate f9f-casa \
         -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' | grep -q "True"
 do
-    color_echo "46" "Waiting for Cert-Manager certificate to be issued... (troubleshooting: `kubectl describe certificaterequest -n traefik`)"
+    color_echo "46" "Waiting for Cert-Manager certificate to be issued..."
+    kubectl get events -n traefik --sort-by='.metadata.creationTimestamp' | tail -n 5
+    kubectl logs -n cert-manager -l app.kubernetes.io/component=controller | grep -i acme | tail -n 1
     sleep 15
 done
 color_echo "42" "Certificate is now ready!"
@@ -107,7 +109,7 @@ if [ "$RESTORE" = true ]; then
 
   REPLY=""
   while ! [[ $REPLY =~ ^[Yy]$ ]]; do
-      read -p $'\e[45m Have you restored your Longhorn volume? (y/n):  \e[0m' -n 1 -r
+      read -p $'\e[45mHave you restored your Longhorn volumes? (y/n):  \e[0m' -n 1 -r
       echo
       if [[ ! $REPLY =~ ^[Yy]$ ]]; then
         color_echo "46" "Once the volumes have finished being restored or you are skipping restoring, type 'Y' to proceed."
