@@ -13,7 +13,7 @@ creation_rules:
     age: age1j0nhr3qkvuf7sr60sk89p4g29dksqz3k66sttlrkp68fkud38qdse3gqgt
 
   # Rule 3: Terraform variables
-  - path_regex: infrastructure/tofu/.+\.sops\.auto\.tfvars\.json$
+  - path_regex: infrastructure/.+\.sops\.auto\.tfvars\.json$
     encrypted_regex: ^(.*)$  # Encrypt all values (not just data/stringData)
     tfvars: true  # Critical for Terraform files
     age: age1j0nhr3qkvuf7sr60sk89p4g29dksqz3k66sttlrkp68fkud38qdse3gqgt

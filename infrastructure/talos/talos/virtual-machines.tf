@@ -1,4 +1,4 @@
-# tofu/talos/virtual-machines.tf
+# talos/talos/virtual-machines.tf
 resource "proxmox_virtual_environment_vm" "this" {
   for_each = var.nodes
 

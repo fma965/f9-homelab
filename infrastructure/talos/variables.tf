@@ -1,4 +1,4 @@
-# tofu/variables.tf
+# talos/variables.tf
 variable "proxmox" {
   type = object({
     name         = string

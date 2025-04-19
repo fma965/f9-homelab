@@ -39,7 +39,7 @@ if [ "$DRY_RUN" = true ]; then
 fi
 
 # Execute workflow
-cd "$(dirname "${BASH_SOURCE[0]}")"/tofu
+cd "$(dirname "${BASH_SOURCE[0]}")"/talos
 
 color_echo "46"  "Initializing OpenTofu..."
 tofu init -input=false

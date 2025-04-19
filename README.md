@@ -95,22 +95,22 @@ Komodo is controlled mostly from a single file, the [komodo.toml](./docker/komod
 >
 > Other files should be updated, but these ones will stop deployment working
 
-### Stage 2: Bootstrap Infrastructure
+### Stage 2: Bootstrap Talos Infrastructure
 Proxmox Talos VM's, Basic Kubernetes cluster with Cilium
 1. Ensure the following enviroment variables are set to the correct values/paths `PROXMOX_VE_USERNAME`, `PROXMOX_VE_PASSWORD`
 ```bash
 export PROXMOX_VE_USERNAME="root@pam"
 export PROXMOX_VE_PASSWORD="password"
 ```
-2. Edit the `infrastructure/tofu/prod.auto.tfvars` file to reflect your desired configuration, refer to comments for explanations of eaach variable
+2. Edit the `infrastructure/talos/prod.auto.tfvars` file to reflect your desired configuration, refer to comments for explanations of eaach variable
 
-3. Execute the [Infrastructure Bootstrap script](infrastructure/bootstrap.sh)
+3. Execute the [Infrastructure Bootstrap script](infrastructure/talos/bootstrap.sh)
 ```bash
-rm infrastructure/tofu/output/* # WARNING! This will delete your old kube-config and talos-confg
-rm infrastructure/tofu/terraform.tfstate # WARNING! This will delete state
-rm infrastructure/tofu/terraform.tfstate.backup # WARNING! This will delete state
-chmod +x ./infrastructure/bootstrap.sh
-./infrastructure/bootstrap.sh
+rm infrastructure/talos/output/* # WARNING! This will delete your old kube-config and talos-confg
+rm infrastructure/talos/terraform.tfstate # WARNING! This will delete state
+rm infrastructure/talos/terraform.tfstate.backup # WARNING! This will delete state
+chmod +x ./infrastructure//talos/bootstrap.sh
+./infrastructure/talos/bootstrap.sh
 ```
 > [!TIP]
 > Optionally add `--dry-run/-d` to test it, or if you are feeling brave `--auto-approve/-y` to skip confirmation prompts
@@ -129,7 +129,7 @@ chmod +x ./infrastructure/bootstrap.sh
 ```bash
 export SOPS_AGE_KEY_FILE=$PWD/.age.key
 export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxx
-export KUBECONFIG=$PWD/infrastructure/tofu/output/kube-config.yaml
+export KUBECONFIG=$PWD/infrastructure/talos/output/kube-config.yaml
 export GITHUB_OWNER="fma965" # replace with your github username
 export GITHUB_REPO="f9-homelab" # replace with your github repo name
 ```
@@ -199,7 +199,7 @@ chmod +x ./docker/bootstrap.sh
 │       └── 📂 monitoring  👁️ # Monitoring tools (Grafana, Prometheus)
 │
 ├── 📂 infrastructure
-│   └── 📂 tofu
+│   └── 📂 talos
 │       ├── 📂 output      # Terraform output artifacts
 │       └── 📂 talos       🤖 # Talos Linux Kubernetes configurations
 │

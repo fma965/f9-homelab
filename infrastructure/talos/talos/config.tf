@@ -1,4 +1,4 @@
-# tofu/talos/talos-config.tf
+# talos/talos/talos-config.tf
 resource "talos_machine_secrets" "this" {
   talos_version = var.image.version
 }

@@ -1,4 +1,4 @@
-# tofu/output.tf
+# talos/output.tf
 resource "local_file" "machine_configs" {
   for_each        = module.talos.machine_config
   content         = each.value.machine_configuration

@@ -1,4 +1,4 @@
-# tofu/talos/output.tf
+# talos/talos/output.tf
 output "client_configuration" {
   value     = data.talos_client_configuration.this
   sensitive = true

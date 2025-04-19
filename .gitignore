@@ -5,11 +5,10 @@
 *.crt
 *.key
 
-# Exclude various Tofu files
-infrastructure/tofu/.terraform*
-infrastructure/tofu/output/**
-infrastructure/tofu/terraform.*
-infrastructure/tofu/start-time.txt
+# Exclude various Terraform/OpenTofu files
+*.terraform*
+*terraform.*
+*start-time.txt
 
 # Exclude secrets
 *secret.yaml
@@ -20,3 +19,6 @@ infrastructure/tofu/start-time.txt
 .decrypted~*
 .DS_Store
 Thumbs.db
+
+# Remove Talos OpenTofu output files
+infrastructure/talos/output/**

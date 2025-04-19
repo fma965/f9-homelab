@@ -1,4 +1,4 @@
-# tofu/main.tf
+# talos/main.tf
 module "talos" {
   source = "./talos"
   image = var.image

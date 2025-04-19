@@ -1,4 +1,4 @@
-# tofu/providers.tf
+# talos/providers.tf
 terraform {
   required_providers {
     talos = {

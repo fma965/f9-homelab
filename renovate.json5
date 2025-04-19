@@ -13,8 +13,8 @@
     "github>fma965/f9-homelab//.renovate/packageRules.json5",
   ],
   ignorePaths: [
-    "infrastructure/tofu/main.tf",
-    "infrastructure/tofu/talos/providers.tf",
+    "infrastructure/talos/main.tf",
+    "infrastructure/talos/talos/providers.tf",
     ".githooks/**",
     ".github/**",
     ".sops/**",

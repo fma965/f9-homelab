@@ -1,4 +1,4 @@
-# tofu/talos/providers.tf
+# talos/talos/providers.tf
 terraform {
   required_providers {
     proxmox = {
