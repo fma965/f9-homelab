@@ -13,6 +13,5 @@ spec:
       kind: Rule
       services:
         - name: webhook-receiver
-          kind: flux-system
   tls:
     secretName: letsencrypt-tls
