@@ -2,12 +2,8 @@
 web:
   port: ${WEB_PORT}
 storage:
-  type: postgres
-  path:
-    valueFrom:
-      secretKeyRef:
-        name: gatus-secret
-        key: PATH
+  type: sqlite
+  path: /config/sqlite.db
   caching: true
 metrics: true
 debug: false
