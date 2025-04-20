@@ -56,7 +56,15 @@ cluster:
   - https://raw.githubusercontent.com/traefik/traefik/v3.3/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
   # renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
   - https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.82.0/stripped-down-crds.yaml
-
+  apiServer:
+    admissionControl:
+      - name: PodSecurity
+        configuration:
+          exemptions:
+            namespaces:
+              - kube-system
+              - observability
+              - longhorn-system
   inlineManifests:
   - name: cilium-values
     contents: |
