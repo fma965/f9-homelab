@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: gatus
 spec:
-  accessModes: [ "ReadWriteMany" ]
+  accessModes: [ "ReadWriteOnce" ]
   resources:
     requests:
       storage: 2Gi
