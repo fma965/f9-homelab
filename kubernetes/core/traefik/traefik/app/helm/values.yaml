@@ -14,7 +14,8 @@ additionalArguments:
 deployment:
   enabled: true
   replicas: 3
-  annotations: {}
+  annotations:
+    reloader.stakater.com/auto: "true"
   podAnnotations: {}
   additionalContainers: []
   initContainers: []
