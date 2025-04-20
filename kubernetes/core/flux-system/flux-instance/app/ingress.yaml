@@ -13,3 +13,4 @@ spec:
       kind: Rule
       services:
         - name: webhook-receiver
+          port: 80
