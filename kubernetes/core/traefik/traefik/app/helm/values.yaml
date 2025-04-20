@@ -9,8 +9,8 @@ additionalArguments:
   - "--accesslog=true"
   - "--providers.file.directory=/providers"
   - "--providers.file.watch=true"
-  - "--entryPoints.web.http.middlewares=traefik-cloudflare@kubernetescrd,traefik-bouncer@kubernetescrd"
-  - "--entryPoints.websecure.http.middlewares=traefik-cloudflare@kubernetescrd,traefik-bouncer@kubernetescrd"
+  - "--entryPoints.web.http.middlewares=traefik-cloudflare@kubernetescrd"
+  - "--entryPoints.websecure.http.middlewares=traefik-cloudflare@kubernetescrd"
 deployment:
   enabled: true
   replicas: 3
