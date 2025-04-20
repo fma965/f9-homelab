@@ -17,6 +17,7 @@ spec:
     substitute:
       APP: kube-prometheus-stack
       GATUS_SUBDOMAIN: prometheus
+      GATUS_PATH: /-/health/ready/
   prune: true
   retryInterval: 2m
   sourceRef:
