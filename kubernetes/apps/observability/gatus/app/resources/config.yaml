@@ -2,7 +2,7 @@
 web:
   port: ${WEB_PORT}
 storage:
-  type: sqlite
+  type: postgres
   path:
     valueFrom:
       secretKeyRef:
