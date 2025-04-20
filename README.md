@@ -72,13 +72,12 @@ Komodo is controlled mostly from a single file, the [komodo.toml](./docker/komod
 ### Pre-requisites
 #### Hardware
 - Proxmox Cluster
-#### Tools (TODO: Automate this)
-- [fluxcli](https://fluxcd.io/flux/cmd/)
+#### Tools
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
-- [talosctl](https://www.talos.dev/v1.9/talos-guides/install/talosctl/)
 - [SOPS](https://github.com/getsops/sops/releases/latest) (Windows user's ensure it's in your `PATH`)
+- Optional: [talosctl](https://www.talos.dev/v1.9/talos-guides/install/talosctl/)
+- Optional: [fluxcli](https://fluxcd.io/flux/cmd/) (required if using `--restore`)
 #### Credentials/Keys
-- [Github Access Token](https://github.com/settings/tokens) (`repo` permission is fine)
 - Proxmox SSH Credentials (e.g `root` / `password`)
 - SOPS Age Key (saved to `.age.key` - @fma965 check your password manager 😉)
 
@@ -92,6 +91,7 @@ Komodo is controlled mostly from a single file, the [komodo.toml](./docker/komod
 > - [cert-manager/clusterissuer.yaml](./kubernetes/core/cert-manager/cert-manager/app/clusterissuer.yaml)
 > - [cert-manager/cloudflare-secret.sops.yaml](./kubernetes/core/cert-manager/cert-manager/app/cloudflare-secret.sops.yaml)
 > - [traefik/certificate.yaml](./kubernetes/core/traefik/traefik/app/certificate.yaml)
+> - [flux-instance/values.yaml](./kubernetes/core/flux-system/flux-instance/app/helm/values.yaml)
 >
 > Other files should be updated, but these ones will stop deployment working
 
@@ -125,13 +125,11 @@ chmod +x ./infrastructure//talos/bootstrap.sh
 > [!TIP]
 > If you are using VSCode you should be able to automatically encrypt your *sops* files.
 
-2. Ensure the following enviroment variables are set to the correct values/paths `SOPS_AGE_KEY_FILE`, `GITHUB_TOKEN`, `KUBECONFIG`, `GITHUB_OWNER`, `GITHUB_REPO`
+2. Ensure the following enviroment variables are set to the correct values/paths `SOPS_AGE_KEY_FILE`, `KUBECONFIG`, `GITHUB_OWNER`, `GITHUB_REPO`
 ```bash
 export SOPS_AGE_KEY_FILE=$PWD/.age.key
-export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxx
 export KUBECONFIG=$PWD/infrastructure/talos/output/kube-config.yaml
-export GITHUB_OWNER="fma965" # replace with your github username
-export GITHUB_REPO="f9-homelab" # replace with your github repo name
+export GITHUB_REPO="https://github.com/fma965/f9-homelab" # replace with your github repo url
 ```
 3. Execute the [Kubernetes Bootstrap script](kubernetes/bootstrap.sh)
 ```bash

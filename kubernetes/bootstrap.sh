@@ -26,8 +26,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Execute workflow
-if [ -z "$GITHUB_OWNER" ] || [ -z "$GITHUB_REPO" ]; then
-    echo "Error: Owner and repository must be set!"
+if [ -z "$GITHUB_REPO" ]; then
+    echo "Error: Repository URL must be set!"
     exit 1
 fi
 
@@ -52,15 +52,9 @@ kubectl create namespace "$NAMESPACE" --dry-run=client -o yaml | kubectl apply -
 color_echo "46" "Creating sops-age secret in flux-system namespace from $SOPS_AGE_KEY_FILE ..."
 kubectl create secret generic sops-age -n flux-system --from-file=age.agekey=$SOPS_AGE_KEY_FILE -o yaml --dry-run=client | kubectl apply -f -
 
-color_echo "46" "Bootstrapping FluxCD ..."
-flux bootstrap github \
-    --token-auth \
-    --owner="${GITHUB_OWNER}" \
-    --repository="${GITHUB_REPO}" \
-    --branch=main \
-    --path=./kubernetes/flux/cluster \
-    --personal \
-    --private=false \
+color_echo "46" "Bootstrapping FluxCD with Helm ..."
+helm install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator --version=0.19.0 --values=./kubernetes/core/flux-system/flux-operator/app/helm/values.yaml -n flux-system
+helm install flux-instance oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance --version=0.19.0 --values=./kubernetes/core/flux-system/flux-instance/app/helm/values.yaml -n flux-system --set instance.sync.url="${GITHUB_REPO}"
 
 if [ "$RESTORE" = true ]; then
   color_echo "46" "Suspending FluxCD Databases and Apps to allow restoring of longhorn volumes ..."
