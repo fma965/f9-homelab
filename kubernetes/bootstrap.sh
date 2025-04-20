@@ -83,13 +83,15 @@ fi
 
   # BOUNCER_PID=$!
 
-until kubectl -n traefik get certificate f9f-casa \
+
+until kubectl -n traefik get certificate letsencrypt \
         -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' | grep -q "True"
 do
     color_echo "46" "Waiting for Cert-Manager certificate to be issued..."
+    sleep 15
     kubectl get events -n traefik --sort-by='.metadata.creationTimestamp' | tail -n 5
     kubectl logs -n cert-manager -l app.kubernetes.io/component=controller | grep -i acme | tail -n 1
-    sleep 15
+
 done
 color_echo "42" "Certificate is now ready!"
 

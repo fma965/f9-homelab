@@ -5,4 +5,4 @@ metadata:
   namespace: default
 spec:
   defaultCertificate:
-    secretName: f9-casa-tls
+    secretName: letsencrypt-tls
