@@ -2,8 +2,8 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: gatus
-  namespace: gatus
+  name: prometheus
+  namespace: prometheus
   annotations:
     kubernetes.io/ingress.class: traefik-external
 spec:
