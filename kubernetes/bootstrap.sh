@@ -61,22 +61,6 @@ if [ "$RESTORE" = true ]; then
   flux suspend kustomization databases
   flux suspend kustomization apps
 fi
-  # color_echo "46" "Waiting for Traefik Crowdsec Bouncer Middleware to be created so it can be temporarily disabled..."
-  # until kubectl patch middleware bouncer -n traefik \
-  #   --type='merge' \
-  #   -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": false}}}}'; do sleep 3; done
-  # # Run the patch command in a loop in the background
-  # (
-  #   while true; do
-  #     kubectl patch middleware bouncer -n traefik \
-  #       --type='merge' \
-  #       -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": false}}}}' > /dev/null
-  #     sleep 1
-  #   done
-  # ) &
-
-  # BOUNCER_PID=$!
-
 
 until kubectl -n traefik get certificate letsencrypt \
         -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' | grep -q "True"
@@ -117,11 +101,5 @@ if [ "$RESTORE" = true ]; then
   flux resume kustomization databases
   flux resume kustomization apps
 fi
-
-# color_echo "46" "Reneabled the Traefik Crowdsec Bouncer Middlware ..."
-# kill $BOUNCER_PID
-# kubectl patch middleware bouncer -n traefik \
-#   --type='merge' \
-#   -p '{"spec": {"plugin": {"crowdsec-bouncer-traefik-plugin": {"enabled": true}}}}'
 
 color_echo "42" "✅ FluxCD should now be completing the deployment and soon your Kubenetes configuration should be restored!"
