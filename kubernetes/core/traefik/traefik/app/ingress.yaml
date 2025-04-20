@@ -20,4 +20,4 @@ spec:
         - name: api@internal
           kind: TraefikService
   tls:
-    secretName: f9-casa-tls
+    secretName: letsencrypt-tls
