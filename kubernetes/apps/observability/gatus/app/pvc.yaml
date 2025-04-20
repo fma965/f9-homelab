@@ -4,7 +4,7 @@ metadata:
   name: gatus
 spec:
   capacity:
-    storage: 5Gi
+    storage: 2Gi
   volumeMode: Filesystem
   accessModes: ["ReadWriteOnce"]
   persistentVolumeReclaimPolicy: Retain
@@ -21,6 +21,6 @@ spec:
   accessModes: [ "ReadWriteMany" ]
   resources:
     requests:
-      storage: 1Gi
+      storage: 2Gi
   volumeName: gatus
   storageClassName: longhorn-static
