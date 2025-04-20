@@ -27,6 +27,7 @@ nodes = {
     vm_id         = 801                     # VM ID
     cpu           = 4                       # CPU Cores
     ram_dedicated = 4096                    # RAM
+    datastore_id = "local-zfs"              # Primary Disk Data Store
     disk_size     = 20                      # Primary Disk Size
     vlan_id       = 10                      # Optional: VLAN ID
   }
@@ -38,6 +39,7 @@ nodes = {
     vm_id         = 802                     # VM ID
     cpu           = 4                       # CPU Cores
     ram_dedicated = 4096                    # RAM
+    datastore_id = "local-zfs"              # Primary Disk Data Store
     disk_size     = 20                      # Primary Disk Size
     vlan_id       = 10                      # Optional: VLAN ID
   }
@@ -49,6 +51,7 @@ nodes = {
     vm_id         = 803                     # VM ID
     cpu           = 4                       # CPU Cores
     ram_dedicated = 4096                    # RAM
+    datastore_id = "local-zfs"              # Primary Disk Data Store
     disk_size     = 20                      # Primary Disk Size
     vlan_id       = 10                      # Optional: VLAN ID
   }
@@ -60,9 +63,11 @@ nodes = {
     vm_id         = 811                     # VM ID
     cpu           = 4                       # CPU Cores
     ram_dedicated = 4096                    # RAM
+    datastore_id = "local-zfs"              # Primary Disk Data Store
     igpu          = false                   # GPU passthrough
     disk_size     = 30                      # Primary Disk Size
     longhorn_size = 40                      # Optional: Longhorn Storage Size
+    longhorn_datastore_id = "nvme"          # Optional: Longhorn Datastore
     vlan_id       = 10                      # Optional: VLAN ID
   }
   "k8s-worker-02" = {                       # VM name
@@ -73,9 +78,11 @@ nodes = {
     vm_id         = 812                     # VM ID
     cpu           = 4                       # CPU Cores
     ram_dedicated = 4096                    # RAM
+    datastore_id = "local-zfs"              # Primary Disk Data Store
     igpu          = false                   # GPU passthrough
     disk_size     = 30                      # Primary Disk Size
     longhorn_size = 40                      # Optional: Longhorn Storage Size
+    longhorn_datastore_id = "nvme"          # Optional: Longhorn Datastore
     vlan_id       = 10                      # Optional: VLAN ID
   }
   "k8s-worker-03" = {                       # VM name
@@ -86,9 +93,11 @@ nodes = {
     vm_id         = 813                     # VM ID
     cpu           = 4                       # CPU Cores
     ram_dedicated = 4096                    # RAM
+    datastore_id = "local-zfs"              # Primary Disk Data Store
     igpu          = false                   # GPU passthrough
     disk_size     = 30                      # Primary Disk Size
     longhorn_size = 40                      # Optional: Longhorn Storage Size
+    longhorn_datastore_id = "nvme"          # Optional: Longhorn Datastore
     vlan_id       = 10                      # Optional: VLAN ID
   }
 }

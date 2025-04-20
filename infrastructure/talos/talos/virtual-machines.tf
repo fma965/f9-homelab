@@ -49,7 +49,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   dynamic "disk" {
     for_each = each.value.machine_type == "worker" ? [1] : []
     content {
-      datastore_id = each.value.datastore_id
+      datastore_id = each.value.longhorn_datastore_id
       interface    = "scsi1"
       iothread     = true
       cache        = "writethrough"

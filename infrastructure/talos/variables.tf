@@ -32,6 +32,7 @@ variable "nodes" {
     ram_dedicated = number
     disk_size     = optional(number, 20)
     longhorn_size = optional(number, 40)
+    longhorn_datastore_id = optional(string, "local-zfs")
     update = optional(bool, false)
     igpu = optional(bool, false)
     vlan_id = optional(number, null)
