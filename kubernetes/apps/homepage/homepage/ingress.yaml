@@ -19,4 +19,4 @@ spec:
         - name: default-headers
           namespace: traefik
         - name: authentik
-          namespace: authentik
+          namespace: security

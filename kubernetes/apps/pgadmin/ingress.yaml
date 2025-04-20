@@ -4,7 +4,7 @@ kind: IngressRoute
 metadata:
   name: pgadmin
   namespace: postgresql
-  annotations: 
+  annotations:
     kubernetes.io/ingress.class: traefik-external
 spec:
   entryPoints:
@@ -17,4 +17,4 @@ spec:
           port: 80
       middlewares:
         - name: authentik
-          namespace: authentik
+          namespace: security
