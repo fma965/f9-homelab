@@ -9,12 +9,15 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/gatus/external
   interval: 1h
   path: ./kubernetes/apps/security/authentik/app
   postBuild:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: auth
+      GATUS_PATH: /-/health/ready/
   prune: true
   retryInterval: 2m
   sourceRef:
