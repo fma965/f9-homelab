@@ -1,0 +1,29 @@
+---
+web:
+  port: ${WEB_PORT}
+storage:
+  type: sqlite
+  path:
+    valueFrom:
+      secretKeyRef:
+        name: gatus-secret
+        key: PATH
+  caching: true
+metrics: true
+debug: false
+ui:
+  title: Status | Gatus
+  header: Status
+connectivity:
+  checker:
+    target: 1.1.1.1:53
+    interval: 1m
+endpoints:
+  - name: flux-webhook
+    group: external
+    url: https://flux-webhook.f9.casa
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == 404"
