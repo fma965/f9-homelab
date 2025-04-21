@@ -31,7 +31,7 @@ spec:
         namespace: ceph-csi
   values:
     csiConfig:
-      - clusterID: "80623424-559e-4e46-92b8-8ece0103a4d110.0.40.1" # From `ceph mon dump`
+      - clusterID: "80623424-559e-4e46-92b8-8ece0103a4d1" # From `ceph mon dump`
         monitors:
           - "10.0.40.1:6789" # Proxmox Ceph monitor IPs
           - "10.0.40.2:6789"
