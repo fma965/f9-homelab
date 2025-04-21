@@ -56,10 +56,10 @@ parameters:
   pool: "k8s"
   imageFeatures: layering
   csi.storage.k8s.io/provisioner-secret-name: ceph-rbd-secret
-  csi.storage.k8s.io/provisioner-secret-namespace: ceph-csi-rbd
+  csi.storage.k8s.io/provisioner-secret-namespace: ceph-csi
   csi.storage.k8s.io/node-stage-secret-name: ceph-rbd-secret
-  csi.storage.k8s.io/node-stage-secret-namespace: ceph-csi-rbd
+  csi.storage.k8s.io/node-stage-secret-namespace: ceph-csi
   csi.storage.k8s.io/controller-expand-secret-name: ceph-rbd-secret
-  csi.storage.k8s.io/controller-expand-secret-namespace: ceph-csi-rbd
+  csi.storage.k8s.io/controller-expand-secret-namespace: ceph-csi
 reclaimPolicy: Retain
 allowVolumeExpansion: true
