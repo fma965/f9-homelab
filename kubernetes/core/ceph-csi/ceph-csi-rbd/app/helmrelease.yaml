@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: ceph-csi-rbd
+  name: ceph-csi
 spec:
   interval: 5m
   url: https://ceph.github.io/csi-charts
@@ -28,7 +28,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: ceph-csi
-        namespace: flux-system
+        namespace: ceph-csi
   values:
     csiConfig:
       - clusterID: "80623424-559e-4e46-92b8-8ece0103a4d110.0.40.1" # From `ceph mon dump`
