@@ -1,0 +1,65 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: ceph-csi
+spec:
+  interval: 5m
+  url: https://ceph.github.io/csi-charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ceph-csi-rbd
+spec:
+  interval: 5m
+  install:
+    crds: Create
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: ceph-csi-rbd
+      version: "3.14.0"
+      sourceRef:
+        kind: HelmRepository
+        name: ceph-csi
+        namespace: flux-system
+  values:
+    csiConfig:
+      - clusterID: "80623424-559e-4e46-92b8-8ece0103a4d110.0.40.1" # From `ceph mon dump`
+        monitors:
+          - "10.0.40.1:6789" # Proxmox Ceph monitor IPs
+          - "10.0.40.2:6789"
+          - "10.0.40.3:6789"
+    rbac:
+      create: true
+    storageClass:
+      create: false
+    secret:
+      name: csi-rbd-secret
+      create: false
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ceph-rbd
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: rbd.csi.ceph.com
+parameters:
+  clusterID: "80623424-559e-4e46-92b8-8ece0103a4d1"
+  pool: "k8s"
+  imageFeatures: layering
+  csi.storage.k8s.io/provisioner-secret-name: ceph-rbd-secret
+  csi.storage.k8s.io/provisioner-secret-namespace: ceph-csi-rbd
+  csi.storage.k8s.io/node-stage-secret-name: ceph-rbd-secret
+  csi.storage.k8s.io/node-stage-secret-namespace: ceph-csi-rbd
+  csi.storage.k8s.io/controller-expand-secret-name: ceph-rbd-secret
+  csi.storage.k8s.io/controller-expand-secret-namespace: ceph-csi-rbd
+reclaimPolicy: Retain
+allowVolumeExpansion: true
