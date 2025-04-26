@@ -12,6 +12,7 @@
     "github>fma965/f9-homelab//.renovate/semanticCommits.json5",
     "github>fma965/f9-homelab//.renovate/packageRules.json5",
     "github>fma965/f9-homelab//.renovate/customManagers.json5",
+    "github>fma965/f9-homelab//.renovate/autoMerge.json5",
   ],
   ignorePaths: [
     "infrastructure/talos/main.tf",
