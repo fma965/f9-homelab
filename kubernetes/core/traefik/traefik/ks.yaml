@@ -8,9 +8,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  # dependsOn:
-  #   - name: reflector
-  #     namespace: kube-system
   interval: 1h
   path: ./kubernetes/core/traefik/traefik/app
   prune: true
@@ -21,7 +18,7 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: false
+  wait: true
   decryption:
     provider: sops
     secretRef:
