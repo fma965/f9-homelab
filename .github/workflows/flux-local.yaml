@@ -39,6 +39,7 @@ jobs:
             --all-namespaces
             --enable-helm
             --path /github/workspace/kubernetes/flux/cluster
+            --api-versions=monitoring.coreos.com/v1
             --verbose
   diff:
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
