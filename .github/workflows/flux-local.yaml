@@ -30,11 +30,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Delete Secret Sample Files
-        run: |
-          find /github/workspace/kubernetes -name "secret.sample.yaml" -type f -delete
-          find /github/workspace/kubernetes -name "*secret.sample.yaml" -type f -delete
-        continue-on-error: true
+      # - name: Delete Secret Sample Files
+      #   run: |
+      #     find /github/workspace/kubernetes -name "secret.sample.yaml" -type f -delete
+      #     find /github/workspace/kubernetes -name "*secret.sample.yaml" -type f -delete
+      #   continue-on-error: true
 
       - name: Run flux-local test
         uses: docker://ghcr.io/allenporter/flux-local:v7.3.0
