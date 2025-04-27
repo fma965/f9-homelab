@@ -71,17 +71,11 @@ service:
 
 metrics:
   prometheus:
-    entryPoint: metrics
     service:
       enabled: true
-    ##  enable optional CRDs for Prometheus Operator
-    ##
+    disableAPICheck: false
     serviceMonitor:
       enabled: true
-      additionalLabels:
-        foo: bar
-      namespace: "networking"
-      namespaceSelector: {}
       metricRelabelings:
         - sourceLabels: [__name__]
           separator: ;
@@ -96,13 +90,13 @@ metrics:
           replacement: $1
           action: replace
       jobLabel: traefik
-      scrapeInterval: 30s
-      scrapeTimeout: 5s
+      interval: 30s
       honorLabels: true
+    headerLabels:
+      user_id: X-User-Id
+      tenant: X-Tenant
     prometheusRule:
       enabled: true
-      additionalLabels: {}
-      namespace: "networking"
       rules:
         - alert: TraefikDown
           expr: up{job="traefik"} == 0
