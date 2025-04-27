@@ -31,58 +31,54 @@ spec:
     remediation:
       retries: 3
   values:
+    global:
+      podAnnotations:
+        secret.reloader.stakater.com/reload: &secret authentik-secret
+      deploymentStrategy:
+        type: RollingUpdate
+      env:
+        - name: AUTHENTIK_POSTGRESQL__HOST
+          value: postgresql.postgresql
+        - name: AUTHENTIK_POSTGRESQL__NAME
+          value: authentik
+        - name: AUTHENTIK_POSTGRESQL__USER
+          value: authentik
+      envFrom:
+        - secretRef:
+            name: *secret
+
+    redis:
+      enabled: true
+
+    server:
+      replicas: 1
+      resources:
+        requests:
+          cpu: 50m
+          memory: 500Mi
+        limits:
+          memory: 800Mi
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+
+    worker:
+      replicas: 1
+      resources:
+        requests:
+          cpu: 50m
+          memory: 500Mi
+        limits:
+          memory: 1200Mi
+
     authentik:
+      log_level: debug
+      redis:
+        host: redis.redis.svc.cluster.local
       error_reporting:
         enabled: false
-      postgresql:
-        host: "postgresql.postgresql"
-        user: *app
-        name: *app
-      redis:
-        host: "redis.redis"
-    server:
-      ingress:
+
+    prometheus:
+      rules:
         enabled: true
-        hosts:
-          - auth.f9.casa
-      volumes:
-        - name: config
-          persistentVolumeClaim:
-            claimName: authentik
-      volumeMounts:
-        - mountPath: /backups
-          name: config
-          subPath: backups
-        - mountPath: /media
-          name: config
-          subPath: media
-        - mountPath: /certs
-          name: config
-          subPath: certs
-        - mountPath: /templates
-          name: config
-          subPath: templates
-    worker:
-      volumes:
-        - name: config
-          persistentVolumeClaim:
-            claimName: authentik
-      volumeMounts:
-        - mountPath: /backups
-          name: config
-          subPath: backups
-        - mountPath: /media
-          name: config
-          subPath: media
-        - mountPath: /certs
-          name: config
-          subPath: certs
-        - mountPath: /templates
-          name: config
-          subPath: templates
-  # Secret values
-  valuesFrom:
-  - kind: Secret
-    name: authentik-secret
-    valuesKey: values.yaml # or specific key
-    optional: false
