@@ -6,7 +6,7 @@ services:
     environment:
       TZ: "Europe/London"
       ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
-    image: "ydkn/cups@sha256:b22b5b60dc365ef0311ddbd5f096bfbab71e7dcaf75bed899492e7035fde87e3"
+    image: "ydkn/cups@sha256:c468e71cf42f91cd4067678e42ba0ab6ed25bb511e91ffed1f7224f854b48274"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/josecoelho/unraid-templates/main/cups/cups.png"
       net.unraid.docker.managed: "komodo"
