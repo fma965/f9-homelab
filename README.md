@@ -39,6 +39,10 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev). This is a
 - [longhorn](https://github.com/longhorn/longhorn): Distributed storage for peristent storage.
 - [sops](https://github.com/getsops/sops): Managed secrets for Kubernetes and Terraform/OpenTofu which are commited to Git.
 
+WIP
+- [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets using [1Password Connect](https://github.com/1Password/connect).
+- [ceph-csi](https://github.com/ceph/ceph-csi): Distributed block storage for peristent storage using external ceph provider (proxmox)
+
 ### GitOps
 
 [Flux](https://github.com/fluxcd/flux2) watches the clusters in my [kubernetes](./kubernetes/) folder (see Directories below) and makes the changes to my clusters based on the state of my Git repository.
@@ -243,6 +247,7 @@ Most of my infrastructure and workloads are self-hosted and do not rely upon clo
 
 | Service                                         | Use                                                               | Cost           |
 |-------------------------------------------------|-------------------------------------------------------------------|----------------|
+| [1Password](https://1password.com/)             | Secrets with [External Secrets](https://external-secrets.io/)     | ~$40/yr        |
 | [Cloudflare](https://www.cloudflare.com/)       | Domain                                                            | ~£6/yr         |
 | [GCP](https://cloud.google.com/)                | Voice interactions with Home Assistant over Google Assistant      | Free           |
 | [GitHub](https://github.com/)                   | Hosting this repository and continuous integration/deployments    | Free           |
