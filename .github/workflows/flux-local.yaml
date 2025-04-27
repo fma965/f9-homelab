@@ -1,3 +1,4 @@
+---
 name: Flux Local
 
 on:
@@ -30,14 +31,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      # - name: Delete Secret Sample Files
-      #   run: |
-      #     find /github/workspace/kubernetes -name "secret.sample.yaml" -type f -delete
-      #     find /github/workspace/kubernetes -name "*secret.sample.yaml" -type f -delete
-      #   continue-on-error: true
-
       - name: Run flux-local test
-        uses: docker://ghcr.io/allenporter/flux-local:v7.3.0
+        uses: docker://ghcr.io/allenporter/flux-local:v7.4.0
         with:
           args: >-
             test
@@ -45,7 +40,6 @@ jobs:
             --enable-helm
             --path /github/workspace/kubernetes/flux/cluster
             --verbose
-
   diff:
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
     needs: filter
@@ -71,7 +65,7 @@ jobs:
           path: default
 
       - name: Run flux-local diff
-        uses: docker://ghcr.io/allenporter/flux-local:v7.3.0
+        uses: docker://ghcr.io/allenporter/flux-local:v7.4.0
         with:
           args: >-
             diff ${{ matrix.resource }}
@@ -83,14 +77,12 @@ jobs:
             --all-namespaces
             --sources "flux-system"
             --output-file diff.patch
-
       - name: Generate Diff
         id: diff
         run: |
           echo 'diff<<EOF' >> $GITHUB_OUTPUT
           cat diff.patch >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
-
       - if: ${{ steps.diff.outputs.diff != '' }}
         name: Generate Token
         uses: actions/create-github-app-token@3ff1caaa28b64c9cc276ce0a02e2ff584f3900c5 # v2.0.2
@@ -109,7 +101,6 @@ jobs:
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
-
   success:
     if: ${{ !cancelled() }}
     needs: ["test", "diff"]
