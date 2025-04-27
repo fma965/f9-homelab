@@ -56,6 +56,8 @@ cluster:
   - https://raw.githubusercontent.com/traefik/traefik/v3.3/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
   # renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
   - https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.82.0/stripped-down-crds.yaml
+  # renovate: datasource=github-releases depName=external-secrets/external-secrets
+  - https://github.com/external-secrets/external-secrets/raw/v0.16.1/deploy/crds/bundle.yaml
   apiServer:
     admissionControl:
       - name: PodSecurity
