@@ -23,7 +23,7 @@ services:
       - FERRETDB_POSTGRESQL_URL=postgres://10.0.10.201:5432/komodo
   
   core:
-    image: ghcr.io/moghtech/komodo-core:1.17.3
+    image: ghcr.io/moghtech/komodo-core:1.17.4
     labels:
       komodo.skip: # Prevent Komodo from stopping with StopAllContainers
     restart: unless-stopped
