@@ -102,12 +102,20 @@ jobs:
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
+
   success:
     if: ${{ !cancelled() }}
     needs: ["test", "diff"]
     name: Flux Local - Success
     runs-on: ubuntu-latest
     steps:
+      - name: Any jobs failed?
+        if: ${{ contains(needs.*.result, 'failure') }}
+        uses: lacherogwu/failed-jobs-discord-notification-action@v1
+        with:
+          discord_webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          needs_json: ${{ toJSON(needs) }}
+
       - name: Any jobs failed?
         if: ${{ contains(needs.*.result, 'failure') }}
         run: exit 1
