@@ -121,7 +121,7 @@ chmod +x ./infrastructure//talos/bootstrap.sh
 ### Stage 3: Bootstrap FluxCD Deployment
 1. Ensure you have updated all your `*sops*` files in `kubernetes/**` to match your own values
 > [!NOTE]
-> Not many of them have sample files currently but eventually i will ensure every `*sops*` file has a matching `*sample*` file
+> Not many of them have sample files currently but eventually i will ensure every `*sops*` file has a matching `*.sample` file
 > [!TIP]
 > If you are using VSCode you should be able to automatically encrypt your *sops* files.
 

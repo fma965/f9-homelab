@@ -20,7 +20,7 @@
     ".githooks/**",
     ".github/**",
     ".sops/**",
-    "**/*.sample.*",
+    "**/*.sample",
     "**/*.sops.*",
   ],
   flux: {
