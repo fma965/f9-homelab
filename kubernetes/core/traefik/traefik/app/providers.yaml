@@ -1,0 +1,424 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: traefik-providers
+    namespace: traefik
+stringData:
+    delugevpn.yaml: |-
+        http:
+          routers:
+            delugevpn:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`torrents.f9.casa`)"
+              tls:
+              service: delugevpn
+              middlewares: security-authentik@kubernetescrd
+
+          services:
+            delugevpn:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:8112"
+    homeassistant.yaml: |-
+        http:
+          routers:
+            homeassistant:
+              entryPoints:
+                - "websecure"
+              rule: "Host(`home.f9.casa`)"
+              tls: {}
+              service: homeassistant
+              middlewares: security-authentik@kubernetescrd
+          services:
+            homeassistant:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.2:8123"
+    sabnzbd.yaml: |-
+        http:
+          routers:
+            sabnzbd:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`sabnzbd.f9.casa`)"
+              tls:
+              service: sabnzbd
+              middlewares: security-authentik@kubernetescrd
+          services:
+            sabnzbd:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:8180"
+    unraid.yaml: |-
+        http:
+          routers:
+            unraid:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`unraid.f9.casa`)"
+              tls:
+              service: unraid
+              middlewares: security-authentik@kubernetescrd
+          services:
+            unraid:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3"
+    s3.yaml: |-
+        http:
+          routers:
+            s3:
+              entryPoints:
+                - "websecure"
+              rule: Host(`s3.f9.casa`) || HostRegexp(`^.+\.s3\.f9\.casa$`)
+              tls: {}
+              service: s3
+          services:
+            s3:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:3900"
+    garage-webui.yaml: |-
+        http:
+          routers:
+            garage-webui:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`garage.f9.casa`)"
+              tls:
+              service: garage-webui
+              middlewares: security-authentik@kubernetescrd
+          services:
+            garage-webui:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:3909"
+    adguardhome.yaml: |-
+        http:
+          routers:
+            adguardhome:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`adguard.f9.casa`)"
+              tls:
+              service: adguardhome
+              middlewares: security-authentik@kubernetescrd
+          services:
+            adguardhome:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.1:8080"
+    plex.yaml: |-
+        http:
+          routers:
+            plex:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`plex.f9.casa`)"
+              tls:
+              service: plex
+
+          services:
+            plex:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:32400"
+    jellyfin.yaml: |-
+        http:
+          routers:
+            jellyfin:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`jellyfin.f9.casa`)"
+              tls:
+              service: jellyfin
+
+          services:
+            jellyfin:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:8096"
+    radarr.yaml: |-
+        http:
+          routers:
+            radarr:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`radarr.f9.casa`)"
+              tls:
+              service: radarr
+              middlewares: security-authentik@kubernetescrd
+
+          services:
+            radarr:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:7878"
+    recommendarr.yaml: |-
+        http:
+          routers:
+            recommendarr:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`recommendarr.f9.casa`)"
+              tls:
+              service: recommendarr
+              middlewares: security-authentik@kubernetescrd
+
+          services:
+            recommendarr:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:3000"
+    sonarr.yaml: |-
+        http:
+          routers:
+            sonarr:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`sonarr.f9.casa`)"
+              tls:
+              service: sonarr
+              middlewares: security-authentik@kubernetescrd
+
+          services:
+            sonarr:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:8989"
+    prowlarr.yaml: |-
+        http:
+          routers:
+            prowlarr:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`prowlarr.f9.casa`)"
+              tls:
+              service: prowlarr
+              middlewares: security-authentik@kubernetescrd
+
+          services:
+            prowlarr:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:9696"
+    frigate.yaml: |-
+        http:
+          routers:
+            frigate:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`cctv.f9.casa`)"
+              tls:
+              service: frigate
+              middlewares: security-authentik@kubernetescrd
+
+          services:
+            frigate:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:5000"
+    immich.yaml: |-
+        http:
+          routers:
+            immich:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`photos.f9.casa`)"
+              tls:
+              service: immich
+
+          services:
+            immich:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:8082"
+    zipline.yaml: |-
+        http:
+          routers:
+            zipline:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`i.f9.casa`)"
+              tls:
+              service: zipline
+
+          services:
+            zipline:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:8092"
+    proxmox-hv1.yaml: |-
+        http:
+          routers:
+            proxmox-hv1:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`hv1.f9.casa`)"
+              tls:
+              service: proxmox-hv1
+          services:
+            proxmox-hv1:
+              loadBalancer:
+                servers:
+                  - url: "https://10.0.40.1:8006"
+    proxmox-hv2.yaml: |-
+        http:
+          routers:
+            proxmox-hv2:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`hv2.f9.casa`)"
+              tls:
+              service: proxmox-hv2
+          services:
+            proxmox-hv2:
+              loadBalancer:
+                servers:
+                  - url: "https://10.0.40.2:8006"
+    proxmox-hv3.yaml: |-
+        http:
+          routers:
+            proxmox-hv3:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`hv3.f9.casa`)"
+              tls:
+              service: proxmox-hv3
+          services:
+            proxmox-hv3:
+              loadBalancer:
+                servers:
+                  - url: "https://10.0.40.3:8006"
+    proxmox-backup-server.yaml: |-
+        http:
+          routers:
+            pbs:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`pbs.f9.casa`)"
+              tls:
+              service: pbs
+          services:
+            pbs:
+              loadBalancer:
+                servers:
+                  - url: "https://192.168.1.3:8007"
+    minecraft.yaml: |-
+        http:
+          routers:
+            minecraft:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`mc.f9.casa`)"
+              tls:
+              service: minecraft
+          services:
+            minecraft:
+              loadBalancer:
+                servers:
+                  - url: "http://10.0.10.32:8100"
+    openwebui.yaml: |-
+        http:
+          routers:
+            openwebui:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`chat.f9.casa`)"
+              tls:
+              service: openwebui
+          services:
+            openwebui:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:8480"
+    forgeui.yaml: |-
+        http:
+          routers:
+            forgeui:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`sd.f9.casa`)"
+              tls:
+              service: forgeui
+              middlewares: security-authentik@kubernetescrd
+          services:
+            forgeui:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:7400"
+    backrest.yaml: |-
+        http:
+          routers:
+            backrest:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`backup.f9.casa`)"
+              tls:
+              service: backrest
+              middlewares: security-authentik@kubernetescrd
+          services:
+            backrest:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:9898"
+    forgejo.yaml: |-
+        http:
+          routers:
+            forgejo:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`git.f9.casa`)"
+              tls:
+              service: forgejo
+          services:
+            forgejo:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:3001"
+    remote.yaml: |-
+        http:
+          routers:
+            remote:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`remote.f9.casa`)"
+              tls:
+              service: remote
+          services:
+            remote:
+              loadBalancer:
+                servers:
+                  - url: "http://10.0.10.10:80"
+    nanokvm.yaml: |-
+        http:
+          routers:
+            nanokvm:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`kvm.f9.casa`)"
+              tls:
+              service: nanokvm
+              middlewares: security-authentik@kubernetescrd
+
+          services:
+            nanokvm:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.30.10:80"
+    komodo.yaml: |-
+        http:
+          routers:
+            komodo:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`komodo.f9.casa`)"
+              tls:
+              service: komodo
+
+          services:
+            komodo:
+              loadBalancer:
+                servers:
+                  - url: "http://192.168.1.3:9120"

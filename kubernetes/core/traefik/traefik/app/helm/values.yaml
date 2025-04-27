@@ -20,12 +20,12 @@ deployment:
   additionalContainers: []
   initContainers: []
   additionalVolumes:
-  - name: traefik-providers-secret
-    secret:
-      secretName: traefik-providers-secret
+    - name: traefik-providers
+      configMap:
+        name: traefik-providers
 
 additionalVolumeMounts:
-  - name: traefik-providers-secret
+  - name: traefik-providers
     mountPath: /providers
 
 ports:
