@@ -14,7 +14,7 @@ spec:
     name: flux-system
   path: ./kubernetes/core
   prune: false
-  wait: true
+  wait: false
   decryption:
     provider: sops
     secretRef:
@@ -36,7 +36,7 @@ spec:
     name: flux-system
   path: ./kubernetes/databases
   prune: false
-  wait: true
+  wait: false
   decryption:
     provider: sops
     secretRef:
