@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
     name: traefik-providers
     namespace: traefik
-stringData:
+data:
     delugevpn.yaml: |-
         http:
           routers:
