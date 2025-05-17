@@ -39,7 +39,7 @@ services:
       RADARR__POSTGRES__PASSWORD: "${RADARR__POSTGRES__PASSWORD}"
       RADARR__AUTH__APIKEY: "${RADARR__AUTH__APIKEY}"
       RADARR__AUTH__METHOD: "External"
-    image: "ghcr.io/hotio/radarr:release-5.22.4.9896"
+    image: "ghcr.io/hotio/radarr:release-5.23.3.9987"
     labels:
       net.unraid.docker.icon: "https://hotio.dev/webhook-avatars/radarr.png"
       net.unraid.docker.managed: "komodo"
