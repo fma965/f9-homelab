@@ -101,7 +101,7 @@ jobs:
   #         message: |
   #           ```diff
   #           ${{ steps.diff.outputs.diff }}
-            ```
+  #          ```
 
   success:
     if: ${{ !cancelled() }}
