@@ -65,20 +65,19 @@ jobs:
           ref: "${{ github.event.repository.default_branch }}"
           path: default
 
-      - name: Run flux-local diff
-        uses: docker://ghcr.io/allenporter/flux-local:v7.4.0
-        with:
-          args: >-
-            diff ${{ matrix.resource }}
-            --unified 6
-            --path /github/workspace/pull/kubernetes/flux/cluster
-            --path-orig /github/workspace/default/kubernetes/flux/cluster
-            --api-versions=monitoring.coreos.com/v1
-            --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
-            --limit-bytes 10000
-            --all-namespaces
-            --sources "flux-system"
-            --output-file diff.patch
+      # - name: Run flux-local diff
+      #   uses: docker://ghcr.io/allenporter/flux-local:v7.4.0
+      #   with:
+      #     args: >-
+      #       diff ${{ matrix.resource }}
+      #       --unified 6
+      #       --path /github/workspace/pull/kubernetes/flux/cluster
+      #       --path-orig /github/workspace/default/kubernetes/flux/cluster
+      #       --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
+      #       --limit-bytes 10000
+      #       --all-namespaces
+      #       --sources "flux-system"
+      #       --output-file diff.patch
       - name: Generate Diff
         id: diff
         run: |
