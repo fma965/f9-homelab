@@ -17,7 +17,7 @@ services:
       OLLAMA_HOST: "0.0.0.0:11434"
     expose:
       - 11434/tcp
-    image: ollama/ollama:0.6.8
+    image: ollama/ollama:0.7.0
     labels:
       net.unraid.docker.icon: https://ollama.ai/public/ollama.png
       net.unraid.docker.managed: komodo
