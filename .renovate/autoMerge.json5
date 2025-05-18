@@ -13,7 +13,7 @@
           "digest"
       ],
       minimumReleaseAge: "3 days",
-      automerge: true,
+      automerge: tre,
       automergeType: "pr",
       ignoreTests: false
     },

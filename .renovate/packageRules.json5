@@ -35,31 +35,6 @@
           "ghcr.io/linuxserver/mariadb"
       ],
       allowedVersions: "< 100.0.0"
-    },
-    {
-      description: "Automatically merge minor and patch-level updates for all Docker (and kubernets app manifests) and Helm packages",
-      matchDatasources: [
-          "helm",
-          "docker"
-      ],
-      matchUpdateTypes: [
-          "minor",
-          "patch",
-          "digest"
-      ],
-      minimumReleaseAge: "3 days",
-      automerge: true,
-      automergeType: "pr",
-      ignoreTests: false
-    },
-    {
-      description: "Automatically merge all updates to own packages",
-      matchPackageNames: [
-          "/^ghcr.io\\/fma965\\//",
-      ],
-      automerge: true,
-      automergeType: "branch",
-      ignoreTests: true,
     }
   ]
 }
