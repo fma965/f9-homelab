@@ -9,7 +9,7 @@ services:
       UMASK: "022"
       PGID: "100"
       NVIDIA_VISIBLE_DEVICES: "all"
-    image: "lscr.io/linuxserver/plex:1.41.6.9685-d301f511a-ls262"
+    image: "lscr.io/linuxserver/plex:1.41.7.9799-5bce000f7-ls265"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/plex-logo.png"
       net.unraid.docker.managed: "komodo"
