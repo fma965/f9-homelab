@@ -60,7 +60,7 @@ services:
       PLEX_TOKEN: "${PLEX_TOKEN}"
       JELLYFIN_TOKEN: "${JELLYFIN_TOKEN}"
       USER_MAPPING: "${JELLYPLEX_USER_MAPPING}"
-    image: "luigi311/jellyplex-watched:7.0.3"
+    image: "luigi311/jellyplex-watched:7.0.4"
     labels:
       net.unraid.docker.managed: "komodo"
     networks:
