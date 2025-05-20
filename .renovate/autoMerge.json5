@@ -13,7 +13,7 @@
           "digest"
       ],
       minimumReleaseAge: "3 days",
-      automerge: tre,
+      automerge: true,
       automergeType: "pr",
       ignoreTests: false
     },
@@ -34,10 +34,10 @@
       matchUpdateTypes: ["minor", "patch", "digest"],
       minimumReleaseAge: "3 days",
       ignoreTests: true,
-    },
+    }
   ],
   vulnerabilityAlerts: {
     labels: ['security'],
     automerge: true,
-  },
+  }
 }
