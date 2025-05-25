@@ -16,8 +16,6 @@ spec:
         - name: panel
           port: 80
       middlewares:
-        - name: gameserver-headers
-          namespace: traefik
         - name: panel-headers
           namespace: pterodactyl
 
