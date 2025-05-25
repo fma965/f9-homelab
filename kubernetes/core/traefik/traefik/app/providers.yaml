@@ -431,6 +431,7 @@ data:
               rule: "Host (`02.gameservers.f9.casa`)"
               tls:
               service: gameservers-02
+              middlewares: traefik-gameserverheaders@kubernetescrd
           services:
             gameservers-02:
               loadBalancer:
