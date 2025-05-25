@@ -13,3 +13,11 @@ spec:
     customFrameOptionsValue: SAMEORIGIN
     customRequestHeaders:
       X-Forwarded-Proto: https
+  plugin:
+      cloudflarewarp:
+          disableDefault: "false"
+          trustip:
+            - 10.0.0.0/8
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+            - 65.109.70.17/32
