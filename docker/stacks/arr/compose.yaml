@@ -66,7 +66,7 @@ services:
       PROWLARR__POSTGRES__PASSWORD: "${PROWLARR__POSTGRES__PASSWORD}"
       PROWLARR__AUTH__APIKEY: "${PROWLARR__AUTH__APIKEY}"
       PROWLARR__AUTH__METHOD: "External"
-    image: "ghcr.io/hotio/prowlarr:release-1.35.1.5034"
+    image: "ghcr.io/hotio/prowlarr:release-1.36.3.5071"
     labels:
       net.unraid.docker.icon: "https://hotio.dev/webhook-avatars/prowlarr.png"
       net.unraid.docker.managed: "komodo"
