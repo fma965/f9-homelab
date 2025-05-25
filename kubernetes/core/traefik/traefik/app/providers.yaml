@@ -430,7 +430,7 @@ data:
                 - "websecure"
               rule: "Host (`02.gameservers.f9.casa`)"
               tls:
-              service: unraid
+              service: gameservers-02
           services:
             gameservers-02:
               loadBalancer:
