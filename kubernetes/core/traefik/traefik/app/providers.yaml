@@ -435,4 +435,4 @@ data:
             gameservers-02:
               loadBalancer:
                 servers:
-                  - url: "10.0.10.32:8080"
+                  - url: "http://10.0.10.32:8080"
