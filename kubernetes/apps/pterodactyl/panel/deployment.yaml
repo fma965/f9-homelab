@@ -59,13 +59,13 @@ spec:
           value: pterodactyl
         - name: APP_CORS_ALLOWED_ORIGINS
           value: "*"
-      hostAliases:
-      - ip: "10.0.10.31"
-        hostnames:
-        - "01.gameservers.f9.casa"
-      - ip: "10.0.10.32"
-        hostnames:
-        - "02.gameservers.f9.casa"
-      - ip: "10.0.10.33"
-        hostnames:
-        - "03.gameservers.f9.casa"
+      # hostAliases:
+      # - ip: "10.0.10.31"
+      #   hostnames:
+      #   - "01.gameservers.f9.casa"
+      # - ip: "10.0.10.32"
+      #   hostnames:
+      #   - "02.gameservers.f9.casa"
+      # - ip: "10.0.10.33"
+      #   hostnames:
+      #   - "03.gameservers.f9.casa"
