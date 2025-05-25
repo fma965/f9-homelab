@@ -422,3 +422,17 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://192.168.1.3:9120"
+    02.gameservers.f9.casa.yaml: |-
+        http:
+          routers:
+            gameservers-02:
+              entryPoints:
+                - "websecure"
+              rule: "Host (`02.gameservers.f9.casa`)"
+              tls:
+              service: unraid
+          services:
+            gameservers-02:
+              loadBalancer:
+                servers:
+                  - url: "10.0.10.32:8080"
