@@ -42,21 +42,23 @@ spec:
         - name: APP_TIMEZONE
           value: Europe/London
         - name: CACHE_DRIVER
-          value: redis         
+          value: redis
         - name: SESSION_DRIVER
-          value: redis                
+          value: redis
         - name: QUEUE_DRIVER
-          value: redis                   
+          value: redis
         - name: REDIS_HOST
-          value: redis.redis      
+          value: redis.redis
         - name: DB_HOST
-          value: mariadb.mariadb                    
+          value: mariadb.mariadb
         - name: DB_PORT
-          value: "3306" 
+          value: "3306"
         - name: DB_DATABASE
           value: pterodactyl
         - name: DB_USERNAME
           value: pterodactyl
+        - name: APP_CORS_ALLOWED_ORIGINS
+          value: "*"
       hostAliases:
       - ip: "10.0.10.31"
         hostnames:
