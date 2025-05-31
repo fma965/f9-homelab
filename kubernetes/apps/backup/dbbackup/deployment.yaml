@@ -24,7 +24,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-      - image: tiredofit/db-backup:4.1.18
+      - image: tiredofit/db-backup:4.1.19
         name: dbbackup
         envFrom:
           - secretRef:
