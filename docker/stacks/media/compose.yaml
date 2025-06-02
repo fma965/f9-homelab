@@ -70,7 +70,7 @@ services:
     container_name: "isponsorblocktv"
     environment:
       TZ: "Europe/London"
-    image: "dmunozv04/isponsorblocktv:v2.5.1"
+    image: "dmunozv04/isponsorblocktv:v2.5.2"
     labels:
       net.unraid.docker.managed: "komodo"
     network_mode: "host"
