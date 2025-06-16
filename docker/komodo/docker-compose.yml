@@ -77,7 +77,7 @@ services:
   ## or deploy the Periphery binary with systemd using 
   ## https://github.com/moghtech/komodo/tree/main/scripts
   periphery:
-    image: ghcr.io/moghtech/komodo-periphery:1.18.2
+    image: ghcr.io/moghtech/komodo-periphery:1.18.3
     labels:
       komodo.skip: # Prevent Komodo from stopping with StopAllContainers
     restart: unless-stopped
