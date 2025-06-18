@@ -24,7 +24,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-      - image: ghcr.io/pterodactyl/panel:v1.11.10
+      - image: ghcr.io/pterodactyl/panel:v1.11.11
         name: panel
         ports:
         - containerPort: 80
