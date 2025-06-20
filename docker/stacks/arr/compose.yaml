@@ -12,7 +12,7 @@ services:
       SONARR__POSTGRES__PASSWORD: "${SONARR__POSTGRES__PASSWORD}"
       SONARR__AUTH__APIKEY: "${SONARR__AUTH__APIKEY}"
       SONARR__AUTH__METHOD: "External"
-    image: "ghcr.io/hotio/sonarr:release-4.0.14.2939"
+    image: "ghcr.io/hotio/sonarr:release-4.0.15.2941"
     labels:
       net.unraid.docker.icon: "https://hotio.dev/webhook-avatars/sonarr.png"
       net.unraid.docker.managed: "komodo"
