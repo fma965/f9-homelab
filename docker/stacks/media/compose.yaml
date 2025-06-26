@@ -93,7 +93,7 @@ services:
   frigate:
     container_name: "frigate"
     devices:
-      - "/dev/dri/renderD129:/dev/dri/renderD128"
+      - "/dev/dri:/dev/dri"
     environment:
       LIBVA_DRIVER_NAME: "radeonsi"
       TZ: "Europe/London"
@@ -122,7 +122,7 @@ services:
   immich:
     container_name: "immich"
     devices:
-      - "/dev/dri/renderD129:/dev/dri/renderD128"
+      - "/dev/dri:/dev/dri"
     environment:
       PGID: "100"
       DB_HOSTNAME: "10.0.10.201"
