@@ -29,7 +29,7 @@ services:
     environment:
       OP_CONNECT_HOST: "http://onepassword-connect-api:8080"
       OP_VAULT: "f2u5nxk33cn6z4lpc2detpgjfi"
-      OP_SERVICE_ACCOUNT_TOKEN: "${OP_SESSION}"
+      OP_SERVICE_ACCOUNT_TOKEN: "${OP_SERVICE_ACCOUNT_TOKEN}"
       KOMODO_HOST: "http://192.168.1.3:9120"
       KOMODO_API_KEY: "K-78PLR50F1I3o4dHoEIuG58P6Cg4URwS0FpgJNhTp"
       KOMODO_API_SECRET: "${KOMODO_API_SECRET}"
