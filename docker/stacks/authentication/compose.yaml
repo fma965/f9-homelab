@@ -23,7 +23,17 @@ services:
       - data:/config
     labels:
       net.unraid.docker.managed: "komodo"
-
+  onepassword-komodo:
+    container_name: onepassword-komodo
+    image: ghcr.io/0dragosh/komodo-op:0.1.2
+    environment:
+      OP_VAULT: "f2u5nxk33cn6z4lpc2detpgjfi"
+      OP_SERVICE_ACCOUNT_TOKEN: "${OP_SESSION}"
+      KOMODO_HOST: "http://192.168.1.3:9120"
+      KOMODO_API_KEY: "K-78PLR50F1I3o4dHoEIuG58P6Cg4URwS0FpgJNhTp"
+      KOMODO_API_SECRET: "${KOMODO_API_SECRET}"
+    labels:
+      net.unraid.docker.managed: "komodo"
 volumes:
   data:
     driver: local
