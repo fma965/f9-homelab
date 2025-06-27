@@ -2,7 +2,7 @@ services:
   cups:
     container_name: "cups"
     devices:
-      - "/dev/bus/usb/001/020:/dev/bus/usb/001/020"
+      - "/dev/bus/usb/001/023:/dev/bus/usb/001/023"
     environment:
       TZ: "Europe/London"
       ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
