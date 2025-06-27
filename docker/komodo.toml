@@ -119,6 +119,20 @@ bash ../../decrypt-secrets.sh
 
 ##
 
+[[stack]]
+name = "authentication"
+[stack.config]
+server = "f9-nas"
+poll_for_updates = false
+auto_update = false
+run_directory = "docker/stacks/authentication"
+repo = "fma965/f9-homelab"
+pre_deploy.command = """
+bash ../../decrypt-secrets.sh
+"""
+
+##
+
 [[procedure]]
 name = "f9-homelab"
 
