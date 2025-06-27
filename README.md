@@ -217,7 +217,6 @@ chmod +x ./docker/bootstrap.sh
     │   ├── 📂 pgadmin       🐘 # PostgreSQL administration interface
     │   ├── 📂 phpmyadmin    🐬 # MySQL/MariaDB administration interface
     │   ├── 📂 pterodactyl   🦖 # Game server management panel
-    │   ├── 📂 vaultwarden   🔒 # Password manager
     │   └── 📂 webdev        🌐 # Web development tools
     │
     ├── 📂 components
