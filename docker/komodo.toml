@@ -52,9 +52,6 @@ server = "f9-nas"
 run_directory = "docker/stacks/downloaders"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
-pre_deploy.command = """
-# bash ../../decrypt-secrets.sh
-"""
 environment = """
 PIA_USER = [[OP__KOMODO__DOWNLOADERS__PIA_USER]]
 PIA_PASS = [[OP__KOMODO__DOWNLOADERS__PIA_PASS]]
