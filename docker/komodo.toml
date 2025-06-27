@@ -79,8 +79,13 @@ server = "f9-nas"
 run_directory = "docker/stacks/media"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
-pre_deploy.command = """
-bash ../../decrypt-secrets.sh
+environment = """
+PLEX_TOKEN=[[OP__KOMODO__MEDIA__PLEX_TOKEN]]
+JELLYFIN_TOKEN=[[OP__KOMODO__MEDIA__JELLYFIN_TOKEN]]
+JELLYPLEX_USER_MAPPING=[[OP__KOMODO__MEDIA__JELLYPLEX_USER_MAPPING]]
+IMMICH_DB_PASS=[[OP__KOMODO__MEDIA__IMMICH_DB_PASS]]
+ZIPLINE_CORE_SECRET=[[OP__KOMODO__MEDIA__ZIPLINE_CORE_SECRET]]
+ZIPLINE_DATABASE_URL=[[OP__KOMODO__MEDIA__ZIPLINE_DATABASE_URL]]
 """
 
 ##
@@ -92,8 +97,8 @@ server = "f9-nas"
 run_directory = "docker/stacks/misc"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
-pre_deploy.command = """
-bash ../../decrypt-secrets.sh
+environment = """
+ADMIN_PASSWORD=[[OP__KOMODO__MISC__ADMIN_PASSWORD]]
 """
 
 ##
@@ -105,8 +110,8 @@ server = "f9-nas"
 run_directory = "docker/stacks/monitoring"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
-pre_deploy.command = """
-bash ../../decrypt-secrets.sh
+environment = """
+DISCORD_WEBHOOK=[[OP__KOMODO__MONITORING__DISCORD_WEBHOOK]]
 """
 
 ##
