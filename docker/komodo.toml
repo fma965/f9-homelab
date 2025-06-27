@@ -6,18 +6,18 @@ enabled = true
 
 ##
 
-[[stack]]
-name = "ai"
-[stack.config]
-server = "f9-nas"
-poll_for_updates = false
-auto_update = false
-run_directory = "docker/stacks/ai"
-git_account = "fma965"
-repo = "fma965/f9-homelab"
-pre_deploy.command = """
-bash ../../decrypt-secrets.sh
-"""
+# [[stack]]
+# name = "ai"
+# [stack.config]
+# server = "f9-nas"
+# poll_for_updates = false
+# auto_update = false
+# run_directory = "docker/stacks/ai"
+# git_account = "fma965"
+# repo = "fma965/f9-homelab"
+# pre_deploy.command = """
+# bash ../../decrypt-secrets.sh
+# """
 
 ##
 
