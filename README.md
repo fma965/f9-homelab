@@ -12,7 +12,7 @@ _... managed with Flux, Renovate, Komodo and GitHub Actions_ <img src="https://f
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4a1/512.gif" alt="💡" width="20" height="20"> Overview
 
-This is a mono repository for my entire _homelab_ configuration, including my Kubernetes cluster and Docker instance. It uses Infrastructure as Code (IaC) and GitOps practices as much as possible using tools like [Terraform](https://www.terraform.io/), [Kubernetes](https://kubernetes.io/), [Flux](https://github.com/fluxcd/flux2), [Renovate](https://github.com/renovatebot/renovate), [Komodo](https://github.com/moghtech/komodo), and [GitHub Actions](https://github.com/features/actions). All secrets are using _SOPS_ encryption and are stored in this repository
+This is a mono repository for my entire _homelab_ configuration, including my Kubernetes cluster and Docker instance. It uses Infrastructure as Code (IaC) and GitOps practices as much as possible using tools like [Terraform](https://www.terraform.io/), [Kubernetes](https://kubernetes.io/), [Flux](https://github.com/fluxcd/flux2), [Renovate](https://github.com/renovatebot/renovate), [Komodo](https://github.com/moghtech/komodo), and [GitHub Actions](https://github.com/features/actions). All secrets are using 1Password Connect or if that isn't possible _SOPS_ encryption.
 
 ---
 
@@ -36,11 +36,11 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev). This is a
 - [cert-manager](https://github.com/cert-manager/cert-manager): Creates SSL certificates for services in my cluster.
 - [cilium](https://github.com/cilium/cilium): eBPF-based networking for my workloads.
 - [traefik](https://github.com/traefik/traefik): Ingress provider
-- [longhorn](https://github.com/longhorn/longhorn): Distributed storage for peristent storage.
+- [longhorn](https://github.com/longhorn/longhorn): Distributed storage for peristent storage. to be replaced with ceph-csi
+- [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets using [1Password Connect](https://github.com/1Password/connect).
 - [sops](https://github.com/getsops/sops): Managed secrets for Kubernetes and Terraform/OpenTofu which are commited to Git.
 
 WIP
-- [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets using [1Password Connect](https://github.com/1Password/connect).
 - [ceph-csi](https://github.com/ceph/ceph-csi): Distributed block storage for peristent storage using external ceph provider (proxmox)
 
 ### GitOps
