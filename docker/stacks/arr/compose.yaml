@@ -23,7 +23,7 @@ services:
       - "8989:8989/tcp"
     volumes:
       - "/mnt/cache/appdata/sonarr:/config"
-      - "/mnt/user/Media/Downloads:/downloads"
+      - "/mnt/user/Downloads:/downloads"
       - "/mnt/user/Media/TV Shows:/tv"
 
   radarr:
@@ -50,7 +50,7 @@ services:
       - "7878:7878/tcp"
     volumes:
       - "/mnt/cache/appdata/radarr:/config"
-      - "/mnt/user/Media/Downloads:/downloads"
+      - "/mnt/user/Downloads:/downloads"
       - "/mnt/user/Media/Movies:/movies"
 
   prowlarr:
@@ -94,7 +94,7 @@ services:
     volumes:
       - "/mnt/user/appdata/recommendarr:/app/server/data"
 
-networks: 
+networks:
   f9-nas:
     external: true
     name: "f9-nas"

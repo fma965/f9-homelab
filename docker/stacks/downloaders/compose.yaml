@@ -39,7 +39,7 @@ services:
       - "label=disable"
     volumes:
       - "/mnt/cache/appdata/deluge:/config"
-      - "/mnt/user/Media/Downloads:/downloads"
+      - "/mnt/user/Downloads:/downloads"
 
   sabnzbd:
     container_name: "sabnzbd"
@@ -56,10 +56,10 @@ services:
       net.unraid.docker.webui: "http://[IP]:[PORT:8080]"
     volumes:
       - "/mnt/cache/appdata/sabnzbd:/config"
-      - "/mnt/user/Media/Downloads:/downloads"
+      - "/mnt/user/Downloads:/downloads"
     network_mode: "service:delugevpn"
 
-networks: 
+networks:
   f9-nas:
     external: true
     name: "f9-nas"
