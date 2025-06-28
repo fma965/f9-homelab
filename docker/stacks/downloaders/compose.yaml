@@ -59,7 +59,7 @@ services:
       - "/mnt/user/Downloads:/downloads"
     network_mode: "service:delugevpn"
 
-networks:
+networks: 
   f9-nas:
     external: true
     name: "f9-nas"
