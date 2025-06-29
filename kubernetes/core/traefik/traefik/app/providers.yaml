@@ -212,7 +212,9 @@ data:
               rule: "Host (`cctv.f9.casa`)"
               tls:
               service: frigate
-              middlewares: security-authentik@kubernetescrd
+              middlewares:
+                - security-authentik@kubernetescrd
+                - traefik-default-headers@kubernetescrd
 
           services:
             frigate:
