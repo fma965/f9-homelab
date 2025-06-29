@@ -117,7 +117,7 @@ services:
     volumes:
       - "/etc/localtime:/etc/localtime"
       - "/mnt/cache/appdata/frigate:/config"
-      - "/mnt/user/CCTV:/media"
+      - "/mnt/disks/Frigate:/media"
 
   immich:
     container_name: "immich"
