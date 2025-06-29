@@ -13,7 +13,9 @@ data:
               rule: "Host (`torrents.f9.casa`)"
               tls:
               service: delugevpn
-              middlewares: security-authentik@kubernetescrd
+              middlewares:
+                - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
 
           services:
             delugevpn:
@@ -29,7 +31,9 @@ data:
               rule: "Host(`home.f9.casa`)"
               tls: {}
               service: homeassistant
-              middlewares: security-authentik@kubernetescrd
+              middlewares:
+                - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
           services:
             homeassistant:
               loadBalancer:
@@ -44,7 +48,9 @@ data:
               rule: "Host (`sabnzbd.f9.casa`)"
               tls:
               service: sabnzbd
-              middlewares: security-authentik@kubernetescrd
+              middlewares:
+                - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
           services:
             sabnzbd:
               loadBalancer:
@@ -59,7 +65,9 @@ data:
               rule: "Host (`unraid.f9.casa`)"
               tls:
               service: unraid
-              middlewares: security-authentik@kubernetescrd
+              middlewares:
+                - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
           services:
             unraid:
               loadBalancer:
@@ -74,6 +82,7 @@ data:
               rule: Host(`s3.f9.casa`) || HostRegexp(`^.+\.s3\.f9\.casa$`)
               tls: {}
               service: s3
+              middlewares: traefik-default-headers@kubernetescrd
           services:
             s3:
               loadBalancer:
@@ -88,7 +97,9 @@ data:
               rule: "Host (`garage.f9.casa`)"
               tls:
               service: garage-webui
-              middlewares: security-authentik@kubernetescrd
+              middlewares:
+                - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
           services:
             garage-webui:
               loadBalancer:
@@ -103,7 +114,9 @@ data:
               rule: "Host (`adguard.f9.casa`)"
               tls:
               service: adguardhome
-              middlewares: security-authentik@kubernetescrd
+              middlewares:
+                - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
           services:
             adguardhome:
               loadBalancer:
@@ -118,6 +131,7 @@ data:
               rule: "Host (`plex.f9.casa`)"
               tls:
               service: plex
+              middlewares: traefik-default-headers@kubernetescrd
 
           services:
             plex:
@@ -133,6 +147,7 @@ data:
               rule: "Host (`jellyfin.f9.casa`)"
               tls:
               service: jellyfin
+              middlewares: traefik-default-headers@kubernetescrd
 
           services:
             jellyfin:
@@ -148,7 +163,9 @@ data:
               rule: "Host (`radarr.f9.casa`)"
               tls:
               service: radarr
-              middlewares: security-authentik@kubernetescrd
+              middlewares:
+                - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
 
           services:
             radarr:
@@ -164,7 +181,9 @@ data:
               rule: "Host (`recommendarr.f9.casa`)"
               tls:
               service: recommendarr
-              middlewares: security-authentik@kubernetescrd
+              middlewares:
+                - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
 
           services:
             recommendarr:
@@ -180,7 +199,9 @@ data:
               rule: "Host (`sonarr.f9.casa`)"
               tls:
               service: sonarr
-              middlewares: security-authentik@kubernetescrd
+              middlewares:
+                - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
 
           services:
             sonarr:
@@ -196,7 +217,9 @@ data:
               rule: "Host (`prowlarr.f9.casa`)"
               tls:
               service: prowlarr
-              middlewares: security-authentik@kubernetescrd
+              middlewares:
+                - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
 
           services:
             prowlarr:
@@ -213,8 +236,8 @@ data:
               tls:
               service: frigate
               middlewares:
-                - security-authentik@kubernetescrd
                 - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
 
           services:
             frigate:
@@ -230,7 +253,7 @@ data:
               rule: "Host (`photos.f9.casa`)"
               tls:
               service: immich
-
+              middlewares: traefik-default-headers@kubernetescrd
           services:
             immich:
               loadBalancer:
@@ -245,7 +268,7 @@ data:
               rule: "Host (`i.f9.casa`)"
               tls:
               service: zipline
-
+              middlewares: traefik-default-headers@kubernetescrd
           services:
             zipline:
               loadBalancer:
@@ -260,6 +283,7 @@ data:
               rule: "Host (`hv1.f9.casa`)"
               tls:
               service: proxmox-hv1
+              middlewares: traefik-default-headers@kubernetescrd
           services:
             proxmox-hv1:
               loadBalancer:
@@ -274,6 +298,7 @@ data:
               rule: "Host (`hv2.f9.casa`)"
               tls:
               service: proxmox-hv2
+              middlewares: traefik-default-headers@kubernetescrd
           services:
             proxmox-hv2:
               loadBalancer:
@@ -288,6 +313,7 @@ data:
               rule: "Host (`hv3.f9.casa`)"
               tls:
               service: proxmox-hv3
+              middlewares: traefik-default-headers@kubernetescrd
           services:
             proxmox-hv3:
               loadBalancer:
@@ -302,6 +328,7 @@ data:
               rule: "Host (`pbs.f9.casa`)"
               tls:
               service: pbs
+              middlewares: traefik-default-headers@kubernetescrd
           services:
             pbs:
               loadBalancer:
@@ -316,6 +343,7 @@ data:
               rule: "Host (`mc.f9.casa`)"
               tls:
               service: minecraft
+              middlewares: traefik-default-headers@kubernetescrd
           services:
             minecraft:
               loadBalancer:
@@ -330,6 +358,7 @@ data:
               rule: "Host (`chat.f9.casa`)"
               tls:
               service: openwebui
+              middlewares: traefik-default-headers@kubernetescrd
           services:
             openwebui:
               loadBalancer:
@@ -344,7 +373,9 @@ data:
               rule: "Host (`sd.f9.casa`)"
               tls:
               service: forgeui
-              middlewares: security-authentik@kubernetescrd
+              middlewares:
+                - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
           services:
             forgeui:
               loadBalancer:
@@ -359,7 +390,9 @@ data:
               rule: "Host (`backup.f9.casa`)"
               tls:
               service: backrest
-              middlewares: security-authentik@kubernetescrd
+              middlewares:
+                - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
           services:
             backrest:
               loadBalancer:
@@ -374,6 +407,7 @@ data:
               rule: "Host (`git.f9.casa`)"
               tls:
               service: forgejo
+              middlewares: traefik-default-headers@kubernetescrd
           services:
             forgejo:
               loadBalancer:
@@ -388,6 +422,7 @@ data:
               rule: "Host (`remote.f9.casa`)"
               tls:
               service: remote
+              middlewares: traefik-default-headers@kubernetescrd
           services:
             remote:
               loadBalancer:
@@ -402,8 +437,9 @@ data:
               rule: "Host (`kvm.f9.casa`)"
               tls:
               service: nanokvm
-              middlewares: security-authentik@kubernetescrd
-
+              middlewares:
+                - traefik-default-headers@kubernetescrd
+                - security-authentik@kubernetescrd
           services:
             nanokvm:
               loadBalancer:
@@ -418,7 +454,7 @@ data:
               rule: "Host (`komodo.f9.casa`)"
               tls:
               service: komodo
-
+              middlewares: traefik-default-headers@kubernetescrd
           services:
             komodo:
               loadBalancer:
