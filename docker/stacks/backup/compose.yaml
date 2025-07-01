@@ -75,7 +75,7 @@ services:
     tmpfs:
       - /run
     volumes:
-      - "/mnt/user/PBS:/backups"
+      - "/mnt/zfs/PBS:/backups"
       - "/mnt/user/appdata/pbs/etc:/etc/proxmox-backup"
       - "/mnt/user/appdata/pbs/lib:/var/lib/proxmox-backup"
       - "/mnt/user/appdata/pbs/logs:/var/log/proxmox-backup"
