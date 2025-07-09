@@ -49,7 +49,7 @@ services:
       PGID: "100"
       UMASK: "002"
       TZ: "Europe/London"
-    image: "ghcr.io/hotio/sabnzbd:release-4.5.1"
+    image: "ghcr.io/hotio/sabnzbd:release-4.5.2"
     labels:
       net.unraid.docker.icon: "https://hotio.dev/webhook-avatars/sabnzbd.png"
       net.unraid.docker.managed: "komodo"
