@@ -3,7 +3,7 @@ services:
     container_name: "forgejo"
     environment:
       TZ: "Europe/London"
-    image: "codeberg.org/forgejo/forgejo:11.0.2"
+    image: "codeberg.org/forgejo/forgejo:11.0.3"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/selfhosters/unRAID-CA-templates/master/templates/img/forgejo.png"
       net.unraid.docker.managed: "komodo"
