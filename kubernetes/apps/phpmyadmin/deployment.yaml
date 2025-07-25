@@ -37,7 +37,7 @@ spec:
             - name:  PMA_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mariadb-secret
+                  name: phpmyadmin-secret
                   key: PMA_PASSWORD
             - name:  PUID
               value: "1000"
