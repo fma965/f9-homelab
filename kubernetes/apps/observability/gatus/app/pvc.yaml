@@ -1,34 +1,7 @@
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: gatus
-spec:
-  capacity:
-    storage: 2Gi
-  volumeMode: Filesystem
-  accessModes: ["ReadWriteOnce"]
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: longhorn-static
-  csi:
-    driver: driver.longhorn.io
-    volumeHandle: gatus
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: gatus
-spec:
-  accessModes: [ "ReadWriteOnce" ]
-  resources:
-    requests:
-      storage: 2Gi
-  volumeName: gatus
-  storageClassName: longhorn-static
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: gatus-ceph
+  name: ${APP}
 spec:
   accessModes: ["ReadWriteOnce"]
   volumeMode: Filesystem
