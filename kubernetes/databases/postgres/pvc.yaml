@@ -26,3 +26,16 @@ spec:
     requests:
       storage: 15Gi
   volumeName: postgresql
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgresql-ceph
+  namespace: postgresql
+spec:
+  accessModes: ["ReadWriteOnce"]
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 15Gi
+  storageClassName: ceph-block

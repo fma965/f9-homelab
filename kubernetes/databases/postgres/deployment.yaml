@@ -44,11 +44,17 @@ spec:
             - name: TZ
               value: Europe/London
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
+            #- mountPath: /var/lib/postgresql/data
+            - mountPath: /old_config
               name: data
+            - mountPath: /new_config
+              name: ceph
       hostname: postgresql
       restartPolicy: Always
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: postgresql
+        - name: ceph
+          persistentVolumeClaim:
+            claimName: postgresql-ceph
