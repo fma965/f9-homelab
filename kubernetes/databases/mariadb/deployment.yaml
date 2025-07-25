@@ -39,7 +39,7 @@ spec:
             - name: TZ
               value: Europe/London
           volumeMounts:
-            - mountPath: /new_config
+            - mountPath: /config
               name: ceph
             - mountPath: /old_config
               name: data
