@@ -107,7 +107,7 @@ spec:
       name: gatus
     persistence:
       config:
-        existingClaim: gatus
+        existingClaim: gatus-ceph
       config-file:
         type: configMap
         name: gatus-configmap
