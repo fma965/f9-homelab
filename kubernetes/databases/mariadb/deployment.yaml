@@ -39,7 +39,9 @@ spec:
             - name: TZ
               value: Europe/London
           volumeMounts:
-            - mountPath: /config
+            - mountPath: /new_config
+              name: ceph
+            - mountPath: /old_config
               name: data
       hostname: mariadb
       restartPolicy: Always
@@ -47,3 +49,6 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: mariadb
+        - name: ceph
+          persistentVolumeClaim:
+            claimName: mariadb-ceph
