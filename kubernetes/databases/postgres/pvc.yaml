@@ -1,33 +1,4 @@
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: postgresql
-spec:
-  capacity:
-    storage: 15Gi
-  volumeMode: Filesystem
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: longhorn-static
-  csi:
-    driver: driver.longhorn.io
-    volumeHandle: postgresql
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgresql
-  namespace: postgresql
-spec:
-  storageClassName: longhorn-static
-  accessModes: [ "ReadWriteOnce" ]
-  resources:
-    requests:
-      storage: 15Gi
-  volumeName: postgresql
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgresql-ceph
