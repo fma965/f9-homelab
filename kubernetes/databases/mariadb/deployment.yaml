@@ -40,7 +40,7 @@ spec:
               value: Europe/London
           volumeMounts:
             - mountPath: /config
-              name: ceph
+              name: data
       hostname: mariadb
       restartPolicy: Always
       volumes:
