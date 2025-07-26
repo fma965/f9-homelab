@@ -69,7 +69,7 @@ upgradeCRDsJob:
   # Extra volumeMounts for the Upgrade CRDs Job. Optional.
   extraVolumeMounts: []
   # Extra key/value pairs to be used as environment variables. Optional.
-  extraEnvVars: {}
+  extraEnvVars: []
 
 # Configure the dnsPolicy of the Velero deployment
 # See: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
@@ -430,7 +430,7 @@ configuration:
   extraArgs: []
 
   # additional key/value pairs to be used as environment variables such as "AWS_CLUSTER_NAME: 'yourcluster.domain.tld'"
-  extraEnvVars: {}
+  extraEnvVars: []
 
   # Set true for backup all pod volumes without having to apply annotation on the pod when used file system backup Default: false.
   defaultVolumesToFsBackup:
@@ -491,7 +491,7 @@ credentials:
   #    aws_access_key_id=<REDACTED>
   #    aws_secret_access_key=<REDACTED>
   # additional key/value pairs to be used as environment variables such as "DIGITALOCEAN_TOKEN: <your-key>". Values will be stored in the secret.
-  extraEnvVars: {}
+  extraEnvVars: []
   # Name of a pre-existing secret (if any) in the Velero namespace
   # that will be used to load environment variables into velero and node-agent.
   # Secret should be in format - https://kubernetes.io/docs/concepts/configuration/secret/#use-case-as-container-environment-variables
