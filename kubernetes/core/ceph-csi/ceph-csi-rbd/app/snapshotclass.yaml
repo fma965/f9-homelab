@@ -18,6 +18,6 @@ parameters:
   # If omitted, defaults to "csi-snap-".
   # snapshotNamePrefix: "foo-bar-"
 
-  csi.storage.k8s.io/snapshotter-secret-name: csi-rbd-secret
-  csi.storage.k8s.io/snapshotter-secret-namespace: default
+  csi.storage.k8s.io/snapshotter-secret-name: ceph-block-secret
+  csi.storage.k8s.io/snapshotter-secret-namespace: ceph-csi
 deletionPolicy: Delete
