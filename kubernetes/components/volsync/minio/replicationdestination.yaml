@@ -9,11 +9,11 @@ spec:
     manual: restore-once
   restic:
     repository: "${APP}-volsync-secret"
-    copyMethod: Snapshot # must be Snapshot
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-ceph-block}"
-    storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
-    accessModes: ["${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"]
-    capacity: "${VOLSYNC_CAPACITY}"
+    copyMethod: Snapshot
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
+    storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
+    accessModes: ["${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"]
+    capacity: "${VOLSYNC_CAPACITY:=5Gi}"
     moverSecurityContext:
       runAsUser: ${VOLSYNC_PUID:=1000}
       runAsGroup: ${VOLSYNC_PGID:=1000}

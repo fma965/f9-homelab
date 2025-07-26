@@ -7,17 +7,18 @@ metadata:
 spec:
   sourcePVC: "${APP}"
   trigger:
-    schedule: 0 3 * * *
+    schedule: "2 * * * *"
   restic:
-    copyMethod: "${VOLSYNC_COPYMETHOD:-Snapshot}"
-    pruneIntervalDays: 7
+    copyMethod: "${VOLSYNC_COPYMETHOD:=Snapshot}"
+    pruneIntervalDays: 14
     repository: "${APP}-volsync-secret"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-ceph-block}"
-    storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
-    accessModes: ["${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"]
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
+    storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
+    accessModes: ["${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}"]
     moverSecurityContext:
       runAsUser: ${VOLSYNC_PUID:=1000}
       runAsGroup: ${VOLSYNC_PGID:=1000}
       fsGroup: ${VOLSYNC_PGID:=1000}
     retain:
-      daily: 10
+      hourly: 24
+      daily: 7
