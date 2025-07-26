@@ -2,6 +2,22 @@
 ##
 ## Configuration settings that directly affect the Velero deployment YAML.
 ##
+namespace:
+  labels:
+    # Enforce Pod Security Standards with Namespace Labels
+    # https://kubernetes.io/docs/tasks/configure-pod-container/enforce-standards-namespace-labels/
+    - key: pod-security.kubernetes.io/enforce
+      value: privileged
+    - key: pod-security.kubernetes.io/enforce-version
+      value: latest
+    - key: pod-security.kubernetes.io/audit
+      value: privileged
+    - key: pod-security.kubernetes.io/audit-version
+      value: latest
+    - key: pod-security.kubernetes.io/warn
+      value: privileged
+    - key: pod-security.kubernetes.io/warn-version
+      value: latest
 
 # Details of the container image to use in the Velero deployment & daemonset (if
 # enabling node-agent). Required.
