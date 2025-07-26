@@ -6,4 +6,5 @@ namespace: velero
 components:
   - ../../components/common
 resources:
+  - ./namespace.yaml
   - ./velero/ks.yaml
