@@ -9,9 +9,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: volsync
-      namespace: volsync
   components:
     - ../../../../components/volsync
   interval: 1h
