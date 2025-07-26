@@ -13,7 +13,7 @@ spec:
     - name: snapshot-controller
       namespace: kube-system
   interval: 1h
-  path: ./kubernetes/apps/volsync/volsync/app
+  path: ./kubernetes/core/volsync/volsync/app
   postBuild:
     substitute:
       APP: *app
