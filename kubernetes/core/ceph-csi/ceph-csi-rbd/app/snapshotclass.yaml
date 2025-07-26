@@ -2,7 +2,7 @@
 apiVersion: snapshot.storage.k8s.io/v1
 kind: VolumeSnapshotClass
 metadata:
-  name: csi-rbdplugin-snapclass
+  name: csi-ceph-blockpool
 driver: rbd.csi.ceph.com
 parameters:
   # String representing a Ceph cluster to provision storage snapshot from.
