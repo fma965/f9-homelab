@@ -161,7 +161,7 @@ services:
       NODE_ENV: "production"
       CORE_SECRET: "${ZIPLINE_CORE_SECRET}"
       DATABASE_URL: "${ZIPLINE_DATABASE_URL}"
-    image: "ghcr.io/diced/zipline:4.2.0"
+    image: "ghcr.io/diced/zipline:4.2.1"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/ImSkully/unraid-templates/master/zipline/zipline.png"
       net.unraid.docker.managed: "komodo"
