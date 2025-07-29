@@ -83,7 +83,7 @@ services:
       PUID: "99"
       PGID: "100"
       NVIDIA_DRIVER_CAPABILITIES: "all"
-    image: holaflenain/stable-diffusion:3.4.0
+    image: holaflenain/stable-diffusion:3.5.0
     labels:
       net.unraid.docker.icon: https://github.com/superboki/ressources/blob/6e39a0d104bf2c2de286743bf60b46134c3f043d/stable-diffusion-advanced/stable-diffusion-advanced.png?raw=true
       net.unraid.docker.managed: komodo
