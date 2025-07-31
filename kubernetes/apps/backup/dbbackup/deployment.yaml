@@ -46,22 +46,22 @@ spec:
           value: "database"
         - name: DEFAULT_S3_KEY_ID
           value: "GKf8fd7c0c4b2154db65b84098"
-        - name: DEFAULT_S3_REGION	
+        - name: DEFAULT_S3_REGION
           value: "eu-west-2"
-        - name: DEFAULT_S3_HOST	
+        - name: DEFAULT_S3_HOST
           value: "s3.f9.casa"
         - name: DEFAULT_S3_CERT_SKIP_VERIFY
-          value: "FALSE"       
+          value: "FALSE"
         - name: TZ
           value: Europe/London
-        - name: ENABLE_NOTIFICATIONS	
+        - name: ENABLE_NOTIFICATIONS
           value: "TRUE"
-        - name: NOTIFICATION_TYPE	
+        - name: NOTIFICATION_TYPE
           value: "EMAIL"
-        - name: SMTP_HOST	
+        - name: SMTP_HOST
           value: "10.0.10.254"
-        - name: SMTP_PORT	
-          value: "25"          
+        - name: SMTP_PORT
+          value: "25"
         - name: DB01_HOST
           value: mariadb.mariadb
         - name: DB01_NAME
@@ -71,7 +71,7 @@ spec:
         - name: DB01_USER
           value: backup
         - name: DB01_SPLIT_DB
-          value: "TRUE"      
+          value: "TRUE"
         - name: DB01_MYSQL_EVENTS
           value: "FALSE"
         - name: DB02_HOST
@@ -83,4 +83,4 @@ spec:
         - name: DB02_USER
           value: admin
         - name: DB02_SPLIT_DB
-          value: "TRUE"            
+          value: "TRUE"

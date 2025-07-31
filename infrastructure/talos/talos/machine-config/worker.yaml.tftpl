@@ -9,16 +9,3 @@ machine:
   features:
     hostDNS:
       forwardKubeDNSToHost: false
-  kubelet:
-    extraMounts:
-      - destination: /var/lib/longhorn
-        type: bind
-        source: /var/lib/longhorn
-        options:
-          - bind
-          - rshared
-          - rw
-  disks:
-      - device: /dev/sdb # The name of the disk to use.
-        partitions:
-          - mountpoint: /var/lib/longhorn # Where to mount the partition.

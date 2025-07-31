@@ -36,7 +36,7 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev). This is a
 - [cert-manager](https://github.com/cert-manager/cert-manager): Creates SSL certificates for services in my cluster.
 - [cilium](https://github.com/cilium/cilium): eBPF-based networking for my workloads.
 - [traefik](https://github.com/traefik/traefik): Ingress provider
-- [longhorn](https://github.com/longhorn/longhorn): Distributed storage for peristent storage. to be replaced with ceph-csi
+- [ceph-csi](https://github.com/ceph/ceph-csi): Distributed storage provider for peristent storage using Proxmox's CEPH
 - [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets using [1Password Connect](https://github.com/1Password/connect).
 - [sops](https://github.com/getsops/sops): Managed secrets for Kubernetes and Terraform/OpenTofu which are commited to Git.
 
@@ -47,9 +47,7 @@ WIP
 
 [Flux](https://github.com/fluxcd/flux2) watches the clusters in my [kubernetes](./kubernetes/) folder (see Directories below) and makes the changes to my clusters based on the state of my Git repository.
 
-Unlike some other repos's i have set a up a few extra folders instead of just apps, components, flux, this is mostly to allow for easy restore of Longhorn volumes from S3 (local for now)
-
-Flux will first apply all resources in `kubernetes/core` then `kubernetes/databases` and then `kubernetes/apps`, if using the restore script, the process will be paused after `kubernetes/core` to allow restoring manually of Longhorn volumes
+Flux will first apply all resources in `kubernetes/core` then `kubernetes/databases` and then `kubernetes/apps`
 
 For each of these folders Flux will recursively search it until it finds the most top level `kustomization.yaml` per directory and then apply all the resources listed in it. That aforementioned `kustomization.yaml` will generally only have a namespace resource and one or many Flux kustomizations (`ks.yaml`). Under the control of those Flux kustomizations there will be a `HelmRelease` or other resources related to the application which will be applied.
 
@@ -141,10 +139,10 @@ chmod +x ./kubernetes/bootstrap.sh
 ./kubernetes/bootstrap.sh
 ```
 > [!TIP]
-> Optionally add `--restore/-r` to pause the script after longhorn is installed to manually restore volumes or if you are feeling brave `--auto-approve/-y` to skip confirmation prompts
+> Optionally if you are feeling brave `--auto-approve/-y` to skip confirmation prompts
 
 > [!NOTE]
-> Approximate time to deploy: *10 Minutes* (assuming NVME storage, excluding Longhorn restore if applicable)
+> Approximate time to deploy: *10 Minutes* (assuming NVME storage, excluding PV restore if applicable)
 
 ### Stage 4: Bootstrap Docker Deployment
 > [!WARNING]
@@ -230,7 +228,6 @@ replacing the IP and vX.X.X with the relevant information
     ├── 📂 core
     │   ├── 📂 cert-manager 📜 # SSL certificate management
     │   ├── 📂 kube-system  ⚙️ # Core Kubernetes system components
-    │   ├── 📂 longhorn-system 🦏 # Distributed block storage
     │   └── 📂 traefik      🚦 # Ingress controller and reverse proxy
     │
     ├── 📂 databases

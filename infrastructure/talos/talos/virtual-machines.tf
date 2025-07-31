@@ -45,20 +45,20 @@ resource "proxmox_virtual_environment_vm" "this" {
     file_id      = proxmox_virtual_environment_download_file.this[each.value.host_node].id
   }
 
-    # Add a second disk for worker nodes
-  dynamic "disk" {
-    for_each = each.value.machine_type == "worker" ? [1] : []
-    content {
-      datastore_id = each.value.longhorn_datastore_id
-      interface    = "scsi1"
-      iothread     = true
-      cache        = "writethrough"
-      discard      = "on"
-      ssd          = true
-      file_format  = "raw"
-      size         = each.value.longhorn_size # Adjust the size as needed
-    }
-  }
+  #   # Add a second disk for worker nodes
+  # dynamic "disk" {
+  #   for_each = each.value.machine_type == "worker" ? [1] : []
+  #   content {
+  #     datastore_id = each.value.longhorn_datastore_id
+  #     interface    = "scsi1"
+  #     iothread     = true
+  #     cache        = "writethrough"
+  #     discard      = "on"
+  #     ssd          = true
+  #     file_format  = "raw"
+  #     size         = each.value.longhorn_size # Adjust the size as needed
+  #   }
+  # }
 
   boot_order = ["scsi0"]
 
