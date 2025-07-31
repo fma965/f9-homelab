@@ -13,7 +13,7 @@ services:
       net.unraid.docker.managed: "komodo"
   onepassword-connect-sync:
     container_name: onepassword-connect-sync
-    image: 1password/connect-sync:1.7.3
+    image: 1password/connect-sync:1.7.4
     environment:
       XDG_DATA_HOME: /config
       OP_SESSION: "${OP_SESSION}"
