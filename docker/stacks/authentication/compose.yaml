@@ -1,7 +1,7 @@
 services:
   onepassword-connect-api:
     container_name: onepassword-connect-api
-    image: 1password/connect-api:1.7.3
+    image: 1password/connect-api:1.7.4
     environment:
       XDG_DATA_HOME: /config
       OP_SESSION: "${OP_SESSION}"
