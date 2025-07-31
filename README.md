@@ -179,6 +179,11 @@ chmod +x ./docker/bootstrap.sh
 9. Make sure only "Sync Resources" is checked under the Include section
 10. Click "Save", Click "Refresh" and the "Execute"
 
+
+### Notes
+- To upgrade Talos run the following command
+`talosctl upgrade --nodes 10.0.10.X --image factory.talos.dev/installer/eed1860a28ccc6fdb77f1f41ab0ae2a20c19bc6101618d416d5d72ec919bf679:vX.X.X --wait`
+replacing the IP and vX.X.X with the relevant information
 ---
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f52e/512.gif" alt="🔮" width="20" height="20"> Git Repo Structure
