@@ -1,6 +1,6 @@
 
 image = {
-  version      = "v1.9.5"  # Must follow semantic versioning
+  version      = "v1.10.6"  # Must follow semantic versioning
   extensions   = ["i915-ucode", "intel-ucode", "qemu-guest-agent", "iscsi-tools", "util-linux-tools"] # Array of Talos extensions
 }
 
