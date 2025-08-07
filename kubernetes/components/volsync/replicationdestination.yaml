@@ -21,6 +21,3 @@ spec:
       fsGroup: ${VOLSYNC_PGID:=1000}
     cleanupCachePVC: true
     cleanupTempPVC: true
-    moverPodConfig:
-      nodeSelector:
-        worker: "true"
