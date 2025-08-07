@@ -12,7 +12,7 @@ spec:
   components:
     - ../../../../components/volsync
   interval: 1h
-  path: ./kubernetes/apps/observability/gatus/app
+  path: ./kubernetes/apps/postgresql/pgadmin/app
   postBuild:
     substitute:
       APP: *app
