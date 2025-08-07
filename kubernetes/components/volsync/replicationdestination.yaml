@@ -4,7 +4,7 @@ metadata:
    name: "${APP}-dst"
 spec:
   trigger:
-    manual: restore
+    manual: restore-once
   kopia:
     destinationPVC: "${APP}"
     repository: "${APP}-volsync-secret"
