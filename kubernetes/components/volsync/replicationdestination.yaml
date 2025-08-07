@@ -19,3 +19,5 @@ spec:
       fsGroup: ${VOLSYNC_PGID:=1000}
     cleanupCachePVC: true
     cleanupTempPVC: true
+    nodeSelector:
+      worker: "true"
