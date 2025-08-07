@@ -8,9 +8,8 @@ spec:
   trigger:
     manual: restore-once
   kopia:
-    destinationPVC: "${APP}"
     repository: "${APP}-volsync-secret"
-    copyMethod: Direct
+    copyMethod: Snapshot
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
     storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
     accessModes: ["${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"]
