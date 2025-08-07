@@ -11,7 +11,7 @@ spec:
     operation: copy
   ref:
     tag: 0.13.0
-  url: oci://ghcr.io/home-operations/charts-mirror/volsync
+  url: oci://ghcr.io/perfectra1n/volsync
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -39,3 +39,36 @@ spec:
       runAsNonRoot: true
       runAsUser: 1000
       runAsGroup: 1000
+    image:
+      repository: ghcr.io/perfectra1n/volsync
+      tag: "0.15.7"
+      image: ""
+    kopia:
+      repository: ghcr.io/perfectra1n/volsync
+      tag: "0.15.7"
+      image: ""
+    rclone:
+      repository: ghcr.io/perfectra1n/volsync
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: "0.15.1"
+      image: ""
+    restic:
+      repository: ghcr.io/perfectra1n/volsync
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: "0.15.1"
+      image: ""
+    rsync:
+      repository: ghcr.io/perfectra1n/volsync
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: "0.15.1"
+      image: ""
+    rsync-tls:
+      repository: ghcr.io/perfectra1n/volsync
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: "0.15.1"
+      image: ""
+    syncthing:
+      repository: ghcr.io/perfectra1n/volsync
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: "0.15.1"
+      image: ""
