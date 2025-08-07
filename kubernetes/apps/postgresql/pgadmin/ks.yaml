@@ -26,3 +26,7 @@ spec:
   targetNamespace: *namespace
   timeout: 5m
   wait: false
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
