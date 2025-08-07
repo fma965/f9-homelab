@@ -24,3 +24,5 @@ spec:
     compression: zstd
     parallelism: 2
     copyMethod: Snapshot
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
+    storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
