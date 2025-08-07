@@ -11,17 +11,16 @@ spec:
   # Optional: Uncomment to enable manual trigger
   # trigger:
   #   manual: true
-  restic:
-    copyMethod: "${VOLSYNC_COPYMETHOD:=Snapshot}"
-    pruneIntervalDays: 14
+  kopia:
+    maintenanceIntervalDays: 7
     repository: "${APP}-volsync-secret"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
-    storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
-    accessModes: ["${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}"]
     moverSecurityContext:
-      runAsUser: ${VOLSYNC_PUID:=1000}
-      runAsGroup: ${VOLSYNC_PGID:=1000}
-      fsGroup: ${VOLSYNC_PGID:=1000}
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
     retain:
       hourly: 24
       daily: 7
+    compression: zstd
+    parallelism: 2
+    copyMethod: Clone
