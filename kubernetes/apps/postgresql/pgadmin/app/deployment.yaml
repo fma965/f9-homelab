@@ -28,17 +28,10 @@ spec:
           securityContext:
             runAsUser: 0
             runAsGroup: 0
+          envFrom:
+            - secretRef:
+                name: pgadmin-secret
           env:
-            - name: PGADMIN_DEFAULT_EMAIL
-              valueFrom:
-                secretKeyRef:
-                  name: pgadmin-secret
-                  key: PGADMIN_DEFAULT_EMAIL
-            - name: PGADMIN_DEFAULT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: pgadmin-secret
-                  key: PGADMIN_DEFAULT_PASSWORD
             - name: PGADMIN_CONFIG_X_CONTENT_TYPE_OPTIONS
               value: '""'
             - name: PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION
