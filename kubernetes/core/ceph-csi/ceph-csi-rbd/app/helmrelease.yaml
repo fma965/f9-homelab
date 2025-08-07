@@ -62,4 +62,5 @@ parameters:
   csi.storage.k8s.io/controller-expand-secret-name: ceph-block-secret
   csi.storage.k8s.io/controller-expand-secret-namespace: ceph-csi
 reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
 allowVolumeExpansion: true
