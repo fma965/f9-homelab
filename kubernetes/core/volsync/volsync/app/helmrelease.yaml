@@ -4,7 +4,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: volsync-fork
-  namespace: volsync-system
+  namespace: volsync
 spec:
   interval: 5m
   url: https://perfectra1n.github.io/volsync/charts
@@ -22,7 +22,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: volsync-fork
-        namespace: volsync-system
+        namespace: volsync
   install:
     remediation:
       retries: -1
