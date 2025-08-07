@@ -32,12 +32,12 @@ spec:
             - name: PGADMIN_DEFAULT_EMAIL
               valueFrom:
                 secretKeyRef:
-                  name: postgresql-secret
+                  name: pgadmin-secret
                   key: PGADMIN_DEFAULT_EMAIL
             - name: PGADMIN_DEFAULT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgresql-secret
+                  name: pgadmin-secret
                   key: PGADMIN_DEFAULT_PASSWORD
             - name: PGADMIN_CONFIG_X_CONTENT_TYPE_OPTIONS
               value: '""'
