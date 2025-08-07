@@ -23,4 +23,4 @@ spec:
       daily: 7
     compression: zstd
     parallelism: 2
-    copyMethod: Clone
+    copyMethod: Snapshot
