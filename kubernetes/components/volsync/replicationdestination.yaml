@@ -9,3 +9,14 @@ spec:
     destinationPVC: "${APP}"
     repository: "${APP}-volsync-secret"
     copyMethod: Direct
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
+    storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
+    accessModes: ["${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"]
+    capacity: "${VOLSYNC_CAPACITY:=5Gi}"
+    moverSecurityContext:
+      runAsUser: ${VOLSYNC_PUID:=1000}
+      runAsGroup: ${VOLSYNC_PGID:=1000}
+      fsGroup: ${VOLSYNC_PGID:=1000}
+    enableFileDeletion: true
+    cleanupCachePVC: true
+    cleanupTempPVC: true
