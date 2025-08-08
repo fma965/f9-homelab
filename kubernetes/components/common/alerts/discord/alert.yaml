@@ -24,4 +24,5 @@ spec:
     - "error.*lookup raw\\.githubusercontent\\.com"
     - "dial.*tcp.*timeout"
     - "waiting.*socket"
+    - "Dependencies do not meet ready condition, retrying in 5s"
   suspend: false
