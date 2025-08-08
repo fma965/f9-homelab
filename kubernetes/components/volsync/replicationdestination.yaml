@@ -1,22 +1,36 @@
----
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationdestination_v1alpha1.json
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
-   name: "${APP}-bootstrap"
-spec:
-  trigger:
-    manual: restore-once
-  kopia:
-    repository: "${APP}-volsync-secret"
-    username: "${APP}"
-    hostname: "${NAMESPACE}"
-    copyMethod: Direct
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
-    storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
-    accessModes: ["${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"]
-    capacity: "${VOLSYNC_CAPACITY:=5Gi}"
-    moverSecurityContext:
-      runAsUser: ${VOLSYNC_PUID:=1000}
-      runAsGroup: ${VOLSYNC_PGID:=1000}
-      fsGroup: ${VOLSYNC_PGID:=1000}
+# ---
+# # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationdestination_v1alpha1.json
+# apiVersion: volsync.backube/v1alpha1
+# kind: ReplicationDestination
+# metadata:
+#    name: "${APP}-bootstrap"
+# spec:
+#   trigger:
+#     manual: restore-once
+#   # kopia:
+#   #   repository: "${APP}-volsync-secret"
+#   #   username: "${APP}"
+#   #   hostname: "${NAMESPACE}"
+#   #   copyMethod: Direct
+#   #   volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
+#   #   storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
+#   #   accessModes: ["${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"]
+#   #   capacity: "${VOLSYNC_CAPACITY:=5Gi}"
+#   #   moverSecurityContext:
+#   #     runAsUser: ${VOLSYNC_PUID:=1000}
+#   #     runAsGroup: ${VOLSYNC_PGID:=1000}
+#   #     fsGroup: ${VOLSYNC_PGID:=1000}
+#   restic:
+#     repository: "${APP}-volsync-secret"
+#     copyMethod: Snapshot
+#     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
+#     storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
+#     accessModes: ["${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"]
+#     capacity: "${VOLSYNC_CAPACITY:=5Gi}"
+#     moverSecurityContext:
+#       runAsUser: ${VOLSYNC_PUID:=1000}
+#       runAsGroup: ${VOLSYNC_PGID:=1000}
+#       fsGroup: ${VOLSYNC_PGID:=1000}
+#     enableFileDeletion: true
+#     cleanupCachePVC: true
+#     cleanupTempPVC: true

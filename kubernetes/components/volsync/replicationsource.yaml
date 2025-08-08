@@ -11,11 +11,32 @@ spec:
   # Optional: Uncomment to enable manual trigger
   # trigger:
   #   manual: true
-  kopia:
-    username: "${APP}"
-    hostname: "${NAMESPACE}"
-    maintenanceIntervalDays: 7
+  # kopia:
+  #   username: "${APP}"
+  #   hostname: "${NAMESPACE}"
+  #   maintenanceIntervalDays: 7
+  #   repository: "${APP}-volsync-secret"
+  #   moverSecurityContext:
+  #     runAsUser: ${VOLSYNC_PUID:=1000}
+  #     runAsGroup: ${VOLSYNC_PGID:=1000}
+  #     fsGroup: ${VOLSYNC_PGID:=1000}
+  #   retain:
+  #     hourly: 24
+  #     daily: 7
+  #   compression: zstd
+  #   parallelism: 2
+  #   copyMethod: Clone
+  #   volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
+  #   storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
+  #   accessModes: ["${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"]
+  restic:
+    copyMethod: "${VOLSYNC_COPYMETHOD:=Snapshot}"
+    pruneIntervalDays: 14
     repository: "${APP}-volsync-secret"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
+    cacheAccessModes: ["${VOLSYNC_CACHE_ACCESSMODES:=ReadWriteOnce}"]
+    storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
+    accessModes: ["${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}"]
     moverSecurityContext:
       runAsUser: ${VOLSYNC_PUID:=1000}
       runAsGroup: ${VOLSYNC_PGID:=1000}
@@ -23,9 +44,3 @@ spec:
     retain:
       hourly: 24
       daily: 7
-    compression: zstd
-    parallelism: 2
-    copyMethod: Clone
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
-    storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
-    accessModes: ["${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"]
