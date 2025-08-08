@@ -59,13 +59,7 @@ cluster:
   # renovate: datasource=github-releases depName=external-secrets/external-secrets
   - https://github.com/external-secrets/external-secrets/raw/v0.16.1/deploy/crds/bundle.yaml
   apiServer:
-    admissionControl:
-      - name: PodSecurity
-        configuration:
-          exemptions:
-            namespaces:
-              - kube-system
-              - observability
+    disablePodSecurityPolicy: true
   inlineManifests:
   - name: cilium-values
     contents: |
