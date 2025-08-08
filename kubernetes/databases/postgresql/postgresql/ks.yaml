@@ -10,8 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/volsync-backuponly
-    # - ../../../../components/volsync
+    - ../../../../components/volsync
   interval: 1h
   path: ./kubernetes/databases/postgresql/postgresql/app
   postBuild:
