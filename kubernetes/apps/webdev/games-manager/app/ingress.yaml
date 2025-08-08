@@ -2,8 +2,7 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: games-manager-frontend
-  namespace: webdev
+  name: games-manager
   annotations:
     kubernetes.io/ingress.class: traefik-external
 spec:
@@ -13,10 +12,18 @@ spec:
     - match: Host(`games.f9.casa`)
       kind: Rule
       services:
-        - name: games-manager-frontend
+        - name: games-manager
           port: 80
       middlewares:
         - name: default-headers
           namespace: traefik
         - name: authentik
           namespace: security
+    - match: Host(`gamesdb.f9.casa`)
+      kind: Rule
+      services:
+        - name: games-manager
+          port: 8055
+      middlewares:
+        - name: default-headers
+          namespace: traefik

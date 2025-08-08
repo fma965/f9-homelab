@@ -3,27 +3,42 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: games-manager-backend
-    app.kubernetes.io/instance: games-manager-backend
-    app.kubernetes.io/name: games-manager-backend
-  name: games-manager-backend
-  namespace: webdev
+    app: games-manager
+    app.kubernetes.io/instance: games-manager
+    app.kubernetes.io/name: games-manager
+  name: games-manager
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: games-manager-backend
+      app: games-manager
   template:
     metadata:
       labels:
-        app: games-manager-backend
-        app.kubernetes.io/name: games-manager-backend
+        app: games-manager
+        app.kubernetes.io/name: games-manager
     spec:
       nodeSelector:
         worker: "true"
       containers:
+      - image: ghcr.io/fma965/games-manager-frontend:v1.0.2
+        name: games-manager-frontend
+        ports:
+        - containerPort: 80
+          hostPort: 80
+          protocol: TCP
+        envFrom:
+        - secretRef:
+            name: games-manager-secret
+        env:
+        - name: APP_HOST
+          value: "https://games.f9.casa"
+        - name: APP_BACKEND
+          value: "https://gamesdb.f9.casa"
+        # - name: DEBUG
+        #   value: "true"
       - image: directus/directus:11
         name: games-manager-backend
         ports:
@@ -32,7 +47,7 @@ spec:
           protocol: TCP
         envFrom:
         - secretRef:
-            name: games-manager-backend-secret
+            name: games-manager-secret
         env:
         - name: AUTH_AUTHENTIK_ALLOW_PUBLIC_REGISTRATION
           value: "true"

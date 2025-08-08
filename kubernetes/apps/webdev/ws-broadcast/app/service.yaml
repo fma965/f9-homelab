@@ -5,7 +5,6 @@ metadata:
   labels:
     app: ws-broadcast
   name: ws-broadcast
-  namespace: webdev
 spec:
   ports:
   - name: "web"

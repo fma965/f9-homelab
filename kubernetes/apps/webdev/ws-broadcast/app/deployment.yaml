@@ -7,7 +7,6 @@ metadata:
     app.kubernetes.io/instance: ws-broadcast
     app.kubernetes.io/name: ws-broadcast
   name: ws-broadcast
-  namespace: webdev
 spec:
   replicas: 1
   strategy:
