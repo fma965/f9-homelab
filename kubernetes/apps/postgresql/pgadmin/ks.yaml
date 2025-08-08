@@ -15,6 +15,10 @@ spec:
   dependsOn:
     - name: volsync
       namespace: volsync
+    - name: onepassword-store
+      namespace: external-secrets
+    - name: postgresql
+      namespace: postgresql
   interval: 1h
   path: ./kubernetes/apps/postgresql/pgadmin/app
   postBuild:
