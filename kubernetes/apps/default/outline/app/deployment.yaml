@@ -7,7 +7,6 @@ metadata:
     app.kubernetes.io/instance: outline
     app.kubernetes.io/name: outline
   name: outline
-  namespace: outline
 spec:
   replicas: 1
   strategy:
@@ -26,6 +25,13 @@ spec:
       containers:
       - image: outlinewiki/outline:0.85.1
         name: outline
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
         envFrom:
           - secretRef:
               name: outline-secret
