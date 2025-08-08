@@ -26,6 +26,13 @@ spec:
       containers:
       - image: ghcr.io/fma965/debt-manager:v1.0.0
         name: debtmanager
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
         ports:
         - containerPort: 81
           hostPort: 81
