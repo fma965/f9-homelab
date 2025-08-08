@@ -9,7 +9,7 @@ spec:
     manual: restore-once
   kopia:
     repository: "${APP}-volsync-secret"
-    copyMethod: Snapshot
+    copyMethod: Direct
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
     storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
     accessModes: ["${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"]
@@ -18,5 +18,3 @@ spec:
       runAsUser: ${VOLSYNC_PUID:=1000}
       runAsGroup: ${VOLSYNC_PGID:=1000}
       fsGroup: ${VOLSYNC_PGID:=1000}
-    cleanupCachePVC: true
-    cleanupTempPVC: true
