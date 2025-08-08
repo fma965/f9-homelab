@@ -10,6 +10,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: ceph-csi-rbd
+      namespace: ceph-csi
     - name: snapshot-controller
       namespace: kube-system
   interval: 1h
