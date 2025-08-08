@@ -26,7 +26,7 @@ spec:
         worker: "true"
       containers:
         - name: homepage
-          image: ghcr.io/gethomepage/homepage:v1.4.3
+          image: ghcr.io/gethomepage/homepage:v1.4.4
           resources:
             requests:
               memory: 128Mi
