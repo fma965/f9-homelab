@@ -1,48 +1,3 @@
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app: games-manager-frontend
-    app.kubernetes.io/instance: games-manager-frontend
-    app.kubernetes.io/name: games-manager-frontend
-  name: games-manager-frontend
-spec:
-  replicas: 1
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app: games-manager-frontend
-  template:
-    metadata:
-      labels:
-        app: games-manager-frontend
-        app.kubernetes.io/name: games-manager-frontend
-    spec:
-      nodeSelector:
-        worker: "true"
-      containers:
-      - image: ghcr.io/fma965/games-manager-frontend:v1.0.2
-        name: games-manager-frontend
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "250m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
-        envFrom:
-        - secretRef:
-            name: games-manager-secret
-        env:
-        - name: APP_HOST
-          value: "https://games.f9.casa"
-        - name: APP_BACKEND
-          value: "https://gamesdb.f9.casa"
-        # - name: DEBUG
-        #   value: "true"
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -71,7 +26,7 @@ spec:
         name: games-manager-backend
         envFrom:
         - secretRef:
-            name: games-manager-secret
+            name: games-manager-backend-secret
         env:
         - name: AUTH_AUTHENTIK_ALLOW_PUBLIC_REGISTRATION
           value: "true"
