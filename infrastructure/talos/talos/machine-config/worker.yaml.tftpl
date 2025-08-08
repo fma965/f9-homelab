@@ -15,5 +15,5 @@ kind: UserVolumeConfig
 name: local-hostpath
 provisioning:
   diskSelector:
-    match: !system_disk
+     match: true && !system_disk
   minSize: 20GB
