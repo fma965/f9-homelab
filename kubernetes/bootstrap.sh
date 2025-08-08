@@ -53,53 +53,53 @@ color_echo "46" "Creating sops-age secret in flux-system namespace from $SOPS_AG
 kubectl create secret generic sops-age -n flux-system --from-file=age.agekey=$SOPS_AGE_KEY_FILE -o yaml --dry-run=client | kubectl apply -f -
 
 color_echo "46" "Bootstrapping FluxCD with Helm ..."
-helm install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator --version=0.19.0 --values=./kubernetes/core/flux-system/flux-operator/app/helm/values.yaml -n flux-system
-helm install flux-instance oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance --version=0.19.0 --values=./kubernetes/core/flux-system/flux-instance/app/helm/values.yaml -n flux-system --set instance.sync.url="${GITHUB_REPO}"
+helm install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator --version=0.19.0 --values=./kubernetes/apps/flux-system/flux-operator/app/helm/values.yaml -n flux-system
+helm install flux-instance oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance --version=0.19.0 --values=./kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml -n flux-system --set instance.sync.url="${GITHUB_REPO}"
 
-if [ "$RESTORE" = true ]; then
-  color_echo "46" "Suspending FluxCD Databases and Apps to allow restoring of longhorn volumes ..."
-  flux suspend kustomization databases
-  flux suspend kustomization apps
-fi
+# if [ "$RESTORE" = true ]; then
+#   color_echo "46" "Suspending FluxCD Databases and Apps to allow restoring of longhorn volumes ..."
+#   flux suspend kustomization databases
+#   flux suspend kustomization apps
+# fi
 
-until kubectl -n traefik get certificate letsencrypt \
-        -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' | grep -q "True"
-do
-    color_echo "46" "Waiting for Cert-Manager certificate to be issued..."
-    sleep 15
-    kubectl get events -n traefik --sort-by='.metadata.creationTimestamp' | tail -n 5
-    kubectl logs -n cert-manager -l app.kubernetes.io/component=controller | grep -i acme | tail -n 1
+# until kubectl -n traefik get certificate letsencrypt \
+#         -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' | grep -q "True"
+# do
+#     color_echo "46" "Waiting for Cert-Manager certificate to be issued..."
+#     sleep 15
+#     kubectl get events -n traefik --sort-by='.metadata.creationTimestamp' | tail -n 5
+#     kubectl logs -n cert-manager -l app.kubernetes.io/component=controller | grep -i acme | tail -n 1
 
-done
-color_echo "42" "Certificate is now ready!"
+# done
+# color_echo "42" "Certificate is now ready!"
 
-if [ "$RESTORE" = true ]; then
-  until kubectl -n longhorn-system get endpoints longhorn-frontend \
-        -o jsonpath='{.subsets[*].addresses[*].ip}' | grep -q .
-  do
-    color_echo "46" "Waiting for Longhorn endpoint to become available ..."
-    sleep 5
-  done
+# if [ "$RESTORE" = true ]; then
+#   until kubectl -n longhorn-system get endpoints longhorn-frontend \
+#         -o jsonpath='{.subsets[*].addresses[*].ip}' | grep -q .
+#   do
+#     color_echo "46" "Waiting for Longhorn endpoint to become available ..."
+#     sleep 5
+#   done
 
-  kubectl -n longhorn-system port-forward svc/longhorn-frontend 8080:80 > /dev/null &
-  PF_PID=$!
-  color_echo "46" "Port-forward running in background (PID: $PF_PID)"
-  color_echo "46" "Access Longhorn at: http://localhost:8080"
-  color_echo "46" "In the UI, Click on 'Backups', Select all volumes, 'Restore Latest Backup' and click 'OK'."
+#   kubectl -n longhorn-system port-forward svc/longhorn-frontend 8080:80 > /dev/null &
+#   PF_PID=$!
+#   color_echo "46" "Port-forward running in background (PID: $PF_PID)"
+#   color_echo "46" "Access Longhorn at: http://localhost:8080"
+#   color_echo "46" "In the UI, Click on 'Backups', Select all volumes, 'Restore Latest Backup' and click 'OK'."
 
-  REPLY=""
-  while ! [[ $REPLY =~ ^[Yy]$ ]]; do
-      read -p $'\e[45mHave you restored your Longhorn volumes? (y/n):  \e[0m' -n 1 -r
-      echo
-      if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        color_echo "46" "Once the volumes have finished being restored or you are skipping restoring, type 'Y' to proceed."
-      fi
-  done
+#   REPLY=""
+#   while ! [[ $REPLY =~ ^[Yy]$ ]]; do
+#       read -p $'\e[45mHave you restored your Longhorn volumes? (y/n):  \e[0m' -n 1 -r
+#       echo
+#       if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+#         color_echo "46" "Once the volumes have finished being restored or you are skipping restoring, type 'Y' to proceed."
+#       fi
+#   done
 
-  color_echo "46" "Resuming FluxCD Databases and Apps now that longhorn volumes have been restored ..."
-  kill $PF_PID
-  flux resume kustomization databases
-  flux resume kustomization apps
-fi
+#   color_echo "46" "Resuming FluxCD Databases and Apps now that longhorn volumes have been restored ..."
+#   kill $PF_PID
+#   flux resume kustomization databases
+#   flux resume kustomization apps
+# fi
 
 color_echo "42" "✅ FluxCD should now be completing the deployment and soon your Kubenetes configuration should be restored!"
