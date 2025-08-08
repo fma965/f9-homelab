@@ -37,6 +37,7 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev). This is a
 - [cilium](https://github.com/cilium/cilium): eBPF-based networking for my workloads.
 - [traefik](https://github.com/traefik/traefik): Ingress provider
 - [ceph-csi](https://github.com/ceph/ceph-csi): Distributed storage provider for peristent storage using Proxmox's CEPH
+- [volsync](https://github.com/backube/volsync): Asynchronous data replication for Kubernetes volumes to S3 (GarageHQ)
 - [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets using [1Password Connect](https://github.com/1Password/connect).
 - [sops](https://github.com/getsops/sops): Managed secrets for Kubernetes and Terraform/OpenTofu which are commited to Git.
 
