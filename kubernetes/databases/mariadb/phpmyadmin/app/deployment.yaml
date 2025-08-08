@@ -6,7 +6,6 @@ metadata:
     app.kubernetes.io/instance: phpmyadmin
     app.kubernetes.io/name: phpmyadmin
   name: phpmyadmin
-  namespace: mariadb
 spec:
   replicas: 1
   selector:
@@ -23,6 +22,13 @@ spec:
       containers:
         - image: phpmyadmin/phpmyadmin:5.2.2
           name: phpmyadmin
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
           env:
             - name: UPLOAD_LIMIT
               value: "500M"
