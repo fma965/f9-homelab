@@ -12,6 +12,8 @@ spec:
   # trigger:
   #   manual: true
   kopia:
+    username: "${APP}"
+    hostname: "${NAMESPACE}"
     maintenanceIntervalDays: 7
     repository: "${APP}-volsync-secret"
     moverSecurityContext:

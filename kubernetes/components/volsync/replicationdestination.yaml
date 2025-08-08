@@ -9,6 +9,8 @@
 #     manual: restore-once
 #   kopia:
 #     repository: "${APP}-volsync-secret"
+#     username: "${APP}"
+#     hostname: "${NAMESPACE}"
 #     copyMethod: Direct
 #     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
 #     storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
