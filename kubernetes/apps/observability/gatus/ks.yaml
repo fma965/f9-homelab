@@ -16,6 +16,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      NAMESPACE: *namespace
       GATUS_SUBDOMAIN: status
       VOLSYNC_CAPACITY: 2Gi
   prune: true
