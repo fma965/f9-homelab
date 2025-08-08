@@ -7,7 +7,6 @@ metadata:
     app.kubernetes.io/instance: panel
     app.kubernetes.io/name: panel
   name: panel
-  namespace: pterodactyl
 spec:
   replicas: 1
   strategy:
@@ -26,6 +25,13 @@ spec:
       containers:
       - image: ghcr.io/pterodactyl/panel:v1.11.11
         name: panel
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
         ports:
         - containerPort: 80
           name: http

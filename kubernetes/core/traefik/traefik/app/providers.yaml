@@ -469,7 +469,7 @@ data:
               rule: "Host (`01.gameservers.f9.casa`)"
               tls:
               service: gameservers-01
-              middlewares: traefik-gameserverheaders@kubernetescrd
+              middlewares: game-gameserverheaders@kubernetescrd
           services:
             gameservers-01:
               loadBalancer:
@@ -484,7 +484,7 @@ data:
               rule: "Host (`02.gameservers.f9.casa`)"
               tls:
               service: gameservers-02
-              middlewares: traefik-gameserverheaders@kubernetescrd
+              middlewares: game-gameserverheaders@kubernetescrd
           services:
             gameservers-02:
               loadBalancer:
@@ -499,7 +499,7 @@ data:
               rule: "Host (`03.gameservers.f9.casa`)"
               tls:
               service: gameservers-03
-              middlewares: traefik-gameserverheaders@kubernetescrd
+              middlewares: game-gameserverheaders@kubernetescrd
           services:
             gameservers-03:
               loadBalancer:
