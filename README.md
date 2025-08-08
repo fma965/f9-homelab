@@ -40,16 +40,13 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev). This is a
 - [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets using [1Password Connect](https://github.com/1Password/connect).
 - [sops](https://github.com/getsops/sops): Managed secrets for Kubernetes and Terraform/OpenTofu which are commited to Git.
 
-WIP
-- [ceph-csi](https://github.com/ceph/ceph-csi): Distributed block storage for peristent storage using external ceph provider (proxmox)
-
 ### GitOps
 
 [Flux](https://github.com/fluxcd/flux2) watches the clusters in my [kubernetes](./kubernetes/) folder (see Directories below) and makes the changes to my clusters based on the state of my Git repository.
 
-Flux will first apply all resources in `kubernetes/core` then `kubernetes/databases` and then `kubernetes/apps`
+Flux will apply all in `kubernetes/apps`
 
-For each of these folders Flux will recursively search it until it finds the most top level `kustomization.yaml` per directory and then apply all the resources listed in it. That aforementioned `kustomization.yaml` will generally only have a namespace resource and one or many Flux kustomizations (`ks.yaml`). Under the control of those Flux kustomizations there will be a `HelmRelease` or other resources related to the application which will be applied.
+Flux will recursively search sub folders until it finds the most top level `kustomization.yaml` per directory and then apply all the resources listed in it. That aforementioned `kustomization.yaml` will generally only have a namespace resource and one or many Flux kustomizations (`ks.yaml`). Under the control of those Flux kustomizations there will be a `HelmRelease` or other resources related to the application which will be applied.
 
 [Renovate](https://github.com/renovatebot/renovate) watches my **entire** repository looking for dependency updates, when they are found a PR is automatically created. When some PRs are merged Flux applies the changes to my cluster.
 
@@ -192,51 +189,51 @@ replacing the IP and vX.X.X with the relevant information
 ```sh
 .
 ├── 📂 docker
-│   ├── 📂 komodo          # Docker development environment configurations
+│   ├── 📂 komodo                # Docker development environment configurations
 │   └── 📂 stacks
-│       ├── 📂 ai          🤖 # AI/ML services (LLMs, vector DBs, etc.)
-│       ├── 📂 arr         🎬 # *ARR media stack (Sonarr/Radarr/Prowlarr)
-│       ├── 📂 backup      💾 # Backup solutions (Duplicati, Borg, etc.)
-│       ├── 📂 downloaders ⏬ # Download managers (qBittorrent, NZBGet)
-│       ├── 📂 git         ⎙  # Git services (Gitea, GitLab)
-│       ├── 📂 media       🎵 # Media processors (Handbrake, Tdarr)
-│       ├── 📂 misc        🎪 # Miscellaneous utilities
-│       └── 📂 monitoring  👁️ # Monitoring tools (Grafana, Prometheus)
+│       ├── 📂 ai                  🤖 # AI/ML services (LLMs, vector DBs, etc.)
+│       ├── 📂 arr                 🎬 # *ARR media stack (Sonarr/Radarr/Prowlarr)
+│       ├── 📂 authentication      🔐 # Authentication services (Authentik, etc.)
+│       ├── 📂 backup              💾 # Backup solutions (Duplicati, Borg, etc.)
+│       ├── 📂 downloaders         ⏬ # Download managers (qBittorrent, NZBGet)
+│       ├── 📂 git                 ⎙ # Git services (Gitea, GitLab)
+│       ├── 📂 media               🎵 # Media processors (Handbrake, Tdarr)
+│       ├── 📂 misc                🎪 # Miscellaneous utilities
+│       └── 📂 monitoring          👁️ # Monitoring tools (Grafana, Prometheus)
 │
 ├── 📂 infrastructure
 │   └── 📂 talos
-│       ├── 📂 output      # Terraform output artifacts
-│       └── 📂 talos       🤖 # Talos Linux Kubernetes configurations
+│       ├── 📂 output              # Terraform output artifacts
+│       └── 📂 talos               🤖 # Talos Linux Kubernetes configurations
 │
 └── 📂 kubernetes
     ├── 📂 apps
-    │   ├── 📂 authentik     🔐 # SSO and identity management
-    │   ├── 📂 backup        💾 # Kubernetes backup solutions (Velero, Kasten)
-    │   ├── 📂 crowdsec      🛡️ # Security and intrusion detection
-    │   ├── 📂 gatus         ❤️ # Service health monitoring
-    │   ├── 📂 git           ⎙  # Git management tools
-    │   ├── 📂 homepage      🏠 # Dashboard and landing page
-    │   ├── 📂 outline       📝 # Documentation/wiki system
-    │   ├── 📂 pgadmin       🐘 # PostgreSQL administration interface
-    │   ├── 📂 phpmyadmin    🐬 # MySQL/MariaDB administration interface
-    │   ├── 📂 pterodactyl   🦖 # Game server management panel
-    │   └── 📂 webdev        🌐 # Web development tools
-    │
+    │   ├── 📂 backup              💾 # Backup solutions
+    │   ├── 📂 ceph-csi            💾 # Ceph CSI storage driver
+    │   ├── 📂 cert-manager        📜 # SSL certificate management
+    │   ├── 📂 default             🏠 # Dashboard and landing page
+    │   ├── 📂 external-secrets    🤫 # External secret management
+    │   ├── 📂 flux-system         ⚡ # GitOps management (FluxCD)
+    │   ├── 📂 game                🦖 # Game servers
+    │   ├── 📂 git                 ⎙ # Git services
+    │   ├── 📂 kube-system         ⚙️ # Core Kubernetes system components
+    │   ├── 📂 mariadb             🐬 # MySQL-compatible databases
+    │   ├── 📂 observability       👁️ # Monitoring and logging stack
+    │   ├── 📂 openebs-system      💾 # Container Attached Storage (OpenEBS)
+    │   ├── 📂 postgresql          🐘 # PostgreSQL databases
+    │   ├── 📂 redis               🧠 # Redis key-value stores
+    │   ├── 📂 security            🛡️ # Security tools
+    │   ├── 📂 system-upgrade      ⬆️ # Kubernetes node upgrade controller
+    │   ├── 📂 traefik             🚦 # Ingress controller and reverse proxy
+    │   ├── 📂 volsync             🔄 # Volume snapshot and replication
+    │   └── 📂 webdev              🌐 # Web development projects
     ├── 📂 components
-    │   └── 📂 common       ⚙️ # Shared Kubernetes components
-    │
-    ├── 📂 core
-    │   ├── 📂 cert-manager 📜 # SSL certificate management
-    │   ├── 📂 kube-system  ⚙️ # Core Kubernetes system components
-    │   └── 📂 traefik      🚦 # Ingress controller and reverse proxy
-    │
-    ├── 📂 databases
-    │   ├── 📂 mariadb      🐬 # MySQL-compatible databases
-    │   ├── 📂 postgres     🐘 # PostgreSQL databases
-    │   └── 📂 redis        🧠 # Redis key-value stores
-    │
+    │   ├── 📂 common             ⚙️ # Shared Kubernetes components
+    │   ├── 📂 gatus
+    │   ├── 📂 volsync
+    │   └── 📂 volsync-backuponly
     └── 📂 flux
-        └── 📂 cluster      ⚡ # GitOps deployment configurations
+        └── 📂 cluster             ⚡ # GitOps cluster definitions
 ```
 </details>
 
