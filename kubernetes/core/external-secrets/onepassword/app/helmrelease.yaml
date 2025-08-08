@@ -65,7 +65,7 @@ spec:
             memory: 64M
         httpPort: 8081
       serviceType: ClusterIP
-      credentialsName: op-credentials
+      credentialsName: onepassword-secret
       credentialsKey: 1password-credentials.json
       probes:
         liveness: true
