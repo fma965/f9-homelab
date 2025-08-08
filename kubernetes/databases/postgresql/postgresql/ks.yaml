@@ -10,9 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/volsync/externalsecret.yaml
-    - ../../../../components/volsync/pvc.yaml
-    - ../../../../components/volsync/replicationsource.yaml
+    - ../../../../components/volsync-backuponly
     # - ../../../../components/volsync
   interval: 1h
   path: ./kubernetes/databases/postgresql/postgresql/app
