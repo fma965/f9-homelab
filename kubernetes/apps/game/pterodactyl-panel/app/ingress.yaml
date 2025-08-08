@@ -16,5 +16,5 @@ spec:
           port: 80
       middlewares:
         - name: panel-headers
-          namespace: pterodactyl
+          namespace: game
 
