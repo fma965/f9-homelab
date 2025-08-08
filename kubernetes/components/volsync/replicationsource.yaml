@@ -25,7 +25,7 @@ spec:
       daily: 7
     compression: zstd
     parallelism: 2
-    copyMethod: Snapshot
+    copyMethod: Clone
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
     storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
     accessModes: ["${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"]
