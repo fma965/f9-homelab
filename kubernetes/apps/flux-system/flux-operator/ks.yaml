@@ -3,17 +3,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app flux-instance
+  name: &app flux-operator
   namespace: &namespace flux-system
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: flux-operator
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: *app
       namespace: *namespace
   interval: 1h
-  path: ./kubernetes/core/flux-system/flux-instance/app
+  path: ./kubernetes/apps/flux-system/flux-operator/app
   prune: true
   retryInterval: 2m
   sourceRef:
@@ -22,8 +24,3 @@ spec:
     namespace: flux-system
   targetNamespace: flux-system
   timeout: 5m
-  wait: false
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age

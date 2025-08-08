@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  path: ./kubernetes/core/ceph-csi/ceph-csi-rbd/app
+  path: ./kubernetes/apps/ceph-csi/ceph-csi-rbd/app
   postBuild:
     substitute:
       APP: *app
