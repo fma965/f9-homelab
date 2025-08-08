@@ -12,7 +12,7 @@ spec:
     - match: Host(`games.f9.casa`)
       kind: Rule
       services:
-        - name: games-manager
+        - name: games-manager-frontend
           port: 80
       middlewares:
         - name: default-headers
@@ -22,7 +22,7 @@ spec:
     - match: Host(`gamesdb.f9.casa`)
       kind: Rule
       services:
-        - name: games-manager
+        - name: games-manager-backend
           port: 8055
       middlewares:
         - name: default-headers

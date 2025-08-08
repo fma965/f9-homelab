@@ -3,10 +3,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: games-manager
-    app.kubernetes.io/instance: games-manager
-    app.kubernetes.io/name: games-manager
-  name: games-manager
+    app: games-manager-frontend
+    app.kubernetes.io/instance: games-manager-frontend
+    app.kubernetes.io/name: games-manager-frontend
+  name: games-manager-frontend
 spec:
   replicas: 1
   strategy:
@@ -46,7 +46,32 @@ spec:
           value: "https://gamesdb.f9.casa"
         # - name: DEBUG
         #   value: "true"
-      - image: directus/directus:11.10.0
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: games-manager-backend
+    app.kubernetes.io/instance: games-manager-backend
+    app.kubernetes.io/name: games-manager-backend
+  name: games-manager-backend
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: games-manager-backend
+  template:
+    metadata:
+      labels:
+        app: games-manager-backend
+        app.kubernetes.io/name: games-manager-backend
+    spec:
+      nodeSelector:
+        worker: "true"
+      containers:
+      - image: directus/directus:11
         name: games-manager-backend
         ports:
         - containerPort: 8055
