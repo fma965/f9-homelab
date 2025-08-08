@@ -7,7 +7,6 @@ metadata:
     app.kubernetes.io/instance: homepage
     app.kubernetes.io/name: homepage
   name: homepage
-  namespace: homepage
 spec:
   replicas: 1
   selector:

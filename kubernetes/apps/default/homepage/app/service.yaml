@@ -5,7 +5,6 @@ metadata:
   labels:
     app: homepage
   name: homepage
-  namespace: homepage 
 spec:
   ports:
   - name: web-tcp
