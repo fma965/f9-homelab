@@ -45,7 +45,7 @@ spec:
       image: ""
     kopia:
       repository: ghcr.io/perfectra1n/volsync
-      tag: "0.15.7"
+      tag: "0.15.15"
       image: ""
     rclone:
       repository: ghcr.io/perfectra1n/volsync
