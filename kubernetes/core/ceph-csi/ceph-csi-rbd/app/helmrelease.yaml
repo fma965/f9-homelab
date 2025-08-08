@@ -61,5 +61,5 @@ parameters:
   csi.storage.k8s.io/node-stage-secret-namespace: ceph-csi
   csi.storage.k8s.io/controller-expand-secret-name: ceph-block-secret
   csi.storage.k8s.io/controller-expand-secret-namespace: ceph-csi
-reclaimPolicy: Retain
+reclaimPolicy: Delete
 allowVolumeExpansion: true
