@@ -1,3 +1,4 @@
+---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -10,6 +11,9 @@ spec:
       app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/core/ceph-csi/ceph-csi-rbd/app
+  postBuild:
+    substitute:
+      APP: *app
   prune: true
   retryInterval: 2m
   sourceRef:
@@ -19,7 +23,3 @@ spec:
   targetNamespace: *namespace
   timeout: 5m
   wait: false
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
