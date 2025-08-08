@@ -25,10 +25,6 @@ spec:
       containers:
         - image: tensorchord/pgvecto-rs:pg16-v0.2.0
           name: postgresql
-          ports:
-            - containerPort: 5432
-              hostPort: 5432
-              protocol: TCP
           env:
             - name: PGADMIN_CONFIG_SERVER_MODE
               value: "false"
