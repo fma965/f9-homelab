@@ -193,11 +193,11 @@ replacing the IP and vX.X.X with the relevant information
 │   └── 📂 stacks
 │       ├── 📂 ai                  🤖 # AI/ML services (LLMs, vector DBs, etc.)
 │       ├── 📂 arr                 🎬 # *ARR media stack (Sonarr/Radarr/Prowlarr)
-│       ├── 📂 authentication      🔐 # Authentication services (Authentik, etc.)
-│       ├── 📂 backup              💾 # Backup solutions (Duplicati, Borg, etc.)
-│       ├── 📂 downloaders         ⏬ # Download managers (qBittorrent, NZBGet)
-│       ├── 📂 git                 ⎙ # Git services (Gitea, GitLab)
-│       ├── 📂 media               🎵 # Media processors (Handbrake, Tdarr)
+│       ├── 📂 authentication      🔐 # Authentication services
+│       ├── 📂 backup              💾 # Backup solutions
+│       ├── 📂 downloaders         ⏬ # Download managers (Deluge, NZBGet)
+│       ├── 📂 git                 ⎙ # Git services (Gitea [Frogejo])
+│       ├── 📂 media               🎵 # Media players
 │       ├── 📂 misc                🎪 # Miscellaneous utilities
 │       └── 📂 monitoring          👁️ # Monitoring tools (Grafana, Prometheus)
 │
