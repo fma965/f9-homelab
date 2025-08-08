@@ -11,7 +11,7 @@ spec:
     repository: "${APP}-volsync-secret"
     username: "${APP}"
     hostname: "${NAMESPACE}"
-    copyMethod: Direct
+    copyMethod: "${VOLSYNC_COPYMETHOD:-Snapshot}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
     storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
     accessModes: ["${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"]
