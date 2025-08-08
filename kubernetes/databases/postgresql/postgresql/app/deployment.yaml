@@ -47,4 +47,4 @@ spec:
       volumes:
         - name: ceph
           persistentVolumeClaim:
-            claimName: postgresql-ceph
+            claimName: postgresql
