@@ -3,19 +3,24 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app phpmyadmin
-  namespace: &namespace mariadb
+  name: &app pgadmin
+  namespace: &namespace postgresql
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   components:
+    - ../../../../components/volsync
     - ../../../../components/gatus/external
   interval: 1h
-  path: ./kubernetes/databases/mariadb/phpmyadmin/app
+  path: ./kubernetes/apps/postgresql/pgadmin/app
   postBuild:
     substitute:
       APP: *app
+      NAMESPACE: *namespace
+      VOLSYNC_CAPACITY: 1Gi
+      VOLSYNC_PUID: "5050"
+      VOLSYNC_PGID: "5050"
   prune: true
   retryInterval: 2m
   sourceRef:

@@ -3,8 +3,8 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app mariadb
-  namespace: &namespace mariadb
+  name: &app postgresql
+  namespace: &namespace postgresql
 spec:
   commonMetadata:
     labels:
@@ -12,11 +12,11 @@ spec:
   components:
     - ../../../../components/volsync
   interval: 1h
-  path: ./kubernetes/databases/mariadb/mariadb/app
+  path: ./kubernetes/apps/postgresql/postgresql/app
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 5Gi
+      VOLSYNC_CAPACITY: 15Gi
   prune: true
   retryInterval: 2m
   sourceRef:

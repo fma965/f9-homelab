@@ -3,20 +3,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app postgresql
-  namespace: &namespace postgresql
+  name: &app redis
+  namespace: &namespace redis
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/volsync
   interval: 1h
-  path: ./kubernetes/databases/postgresql/postgresql/app
+  path: ./kubernetes/apps/redis/redis/app
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 15Gi
   prune: true
   retryInterval: 2m
   sourceRef:

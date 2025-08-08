@@ -37,6 +37,13 @@ spec:
               value: "False"
             - name: PGADMIN_CONFIG_X_XSS_PROTECTION
               value: "0"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
           volumeMounts:
             - mountPath: /var/lib/pgadmin
               name: pgadmin
