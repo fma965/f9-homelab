@@ -8,6 +8,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: cilium
+      namespace: kube-system
+    - name: cert-manager
+      namespace: cert-manager
   interval: 1h
   path: ./kubernetes/apps/traefik/traefik/app
   prune: true
@@ -19,7 +24,3 @@ spec:
   targetNamespace: *namespace
   timeout: 5m
   wait: true
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
