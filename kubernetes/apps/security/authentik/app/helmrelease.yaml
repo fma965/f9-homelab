@@ -47,9 +47,6 @@ spec:
         - secretRef:
             name: *secret
 
-    redis:
-      enabled: true
-
     server:
       replicas: 1
       resources:
