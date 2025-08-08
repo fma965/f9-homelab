@@ -32,9 +32,16 @@ spec:
             - containerPort: 6379
               hostPort: 6379
               protocol: TCP
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
           envFrom:
             - secretRef:
-                name: redis-secret          
+                name: redis-secret
           env:
             - name: ALLOW_EMPTY_PASSWORD
               value: "no"
