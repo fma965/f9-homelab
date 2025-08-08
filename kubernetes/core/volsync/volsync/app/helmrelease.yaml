@@ -41,7 +41,7 @@ spec:
       runAsGroup: 1000
     image:
       repository: ghcr.io/perfectra1n/volsync
-      tag: "0.15.11"
+      tag: "0.15.15"
       image: ""
     kopia:
       repository: ghcr.io/perfectra1n/volsync
