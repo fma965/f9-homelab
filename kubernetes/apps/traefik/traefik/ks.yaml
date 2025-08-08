@@ -9,7 +9,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  path: ./kubernetes/core/traefik/traefik/app
+  path: ./kubernetes/apps/traefik/traefik/app
   prune: true
   retryInterval: 2m
   sourceRef:

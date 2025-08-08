@@ -90,10 +90,10 @@ Komodo is controlled mostly from a single file, the [komodo.toml](./docker/komod
 > As this repository assumes it's for myself, there are many hardcoded domain name references currently set, I would recommend find and replacing all references of `f9.casa` with your own tld, you will ofcourse also need to update any secret files with your own values.
 >
 > Critical Files that will need updating are
-> - [cert-manager/clusterissuer.yaml](./kubernetes/core/cert-manager/cert-manager/app/clusterissuer.yaml)
-> - [cert-manager/cloudflare-secret.sops.yaml](./kubernetes/core/cert-manager/cert-manager/app/cloudflare-secret.sops.yaml)
-> - [traefik/certificate.yaml](./kubernetes/core/traefik/traefik/app/certificate.yaml)
-> - [flux-instance/values.yaml](./kubernetes/core/flux-system/flux-instance/app/helm/values.yaml)
+> - [cert-manager/clusterissuer.yaml](./kubernetes/apps/cert-manager/cert-manager/app/clusterissuer.yaml)
+> - [cert-manager/cloudflare-secret.sops.yaml](./kubernetes/apps/cert-manager/cert-manager/app/cloudflare-secret.sops.yaml)
+> - [traefik/certificate.yaml](./kubernetes/apps/traefik/traefik/app/certificate.yaml)
+> - [flux-instance/values.yaml](./kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml)
 >
 > Other files should be updated, but these ones will stop deployment working
 

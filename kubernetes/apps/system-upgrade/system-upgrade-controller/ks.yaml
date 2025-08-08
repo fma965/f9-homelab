@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  path: ./kubernetes/core/system-upgrade/system-upgrade-controller/app
+  path: ./kubernetes/apps/system-upgrade/system-upgrade-controller/app
   prune: true
   retryInterval: 2m
   sourceRef:
@@ -35,7 +35,7 @@ spec:
     - name: system-upgrade-controller
       namespace: system-upgrade
   interval: 1h
-  path: ./kubernetes/core/system-upgrade/system-upgrade-controller/plans
+  path: ./kubernetes/apps/system-upgrade/system-upgrade-controller/plans
   postBuild:
     substituteFrom:
       - kind: ConfigMap
