@@ -9,3 +9,11 @@ machine:
   features:
     hostDNS:
       forwardKubeDNSToHost: false
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: local-hostpath
+provisioning:
+  diskSelector:
+    match: !system_disk
+  minSize: 20GB

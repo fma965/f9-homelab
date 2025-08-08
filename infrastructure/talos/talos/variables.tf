@@ -31,6 +31,8 @@ variable "nodes" {
     cpu           = number
     ram_dedicated = number
     disk_size     = optional(number, 20)
+    cache_size = optional(number, 40)
+    cache_datastore_id = optional(string, "local-zfs")
     update = optional(bool, false)
     igpu = optional(bool, false)
     vlan_id = optional(number, null)
