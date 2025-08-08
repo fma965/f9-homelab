@@ -3,7 +3,6 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: games-manager-frontend
-  namespace: webdev
   annotations:
     kubernetes.io/ingress.class: traefik-external
 spec:
@@ -25,7 +24,6 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: games-manager-backend
-  namespace: webdev
   annotations:
     kubernetes.io/ingress.class: traefik-external
 spec:
