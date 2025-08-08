@@ -34,11 +34,6 @@ spec:
   path: ./kubernetes/apps
   prune: true
   retryInterval: 2m
-  dependsOn:
-    - name: postgresql
-      namespace: postgresql
-    - name: mariadb
-      namespace: mariadb
   sourceRef:
     kind: GitRepository
     name: flux-system

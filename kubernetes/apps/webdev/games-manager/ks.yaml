@@ -11,6 +11,11 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/gatus/external
+  dependsOn:
+    - name: mariadb
+      namespace: mariadb
+    - name: redis
+      namespace: redis
   interval: 1h
   path: ./kubernetes/apps/webdev/games-manager/app
   postBuild:
