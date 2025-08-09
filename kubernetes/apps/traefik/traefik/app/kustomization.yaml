@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - ./providers.yaml
   - ./helmrelease.yaml
-  - ./certificate.yaml
   - ./tlsstore.yaml
   - ./middleware.yaml
   - ./ingress.yaml
