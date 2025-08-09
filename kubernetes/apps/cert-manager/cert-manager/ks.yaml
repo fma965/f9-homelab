@@ -32,7 +32,3 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
