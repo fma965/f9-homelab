@@ -13,6 +13,10 @@ spec:
     - ../../../../components/volsync
     - ../../../../components/gatus/external
   dependsOn:
+    - name: ceph-csi-rbd
+      namespace: ceph-csi
+    - name: snapshot-controller
+      namespace: kube-system
     - name: volsync
       namespace: volsync
     - name: onepassword-store

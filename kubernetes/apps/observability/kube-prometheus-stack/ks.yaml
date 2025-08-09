@@ -9,6 +9,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: ceph-csi-rbd
+      namespace: ceph-csi
   components:
     - ../../../../components/gatus/external
   interval: 1h
