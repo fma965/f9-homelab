@@ -76,7 +76,7 @@ Komodo is controlled mostly from a single file, the [komodo.toml](./docker/komod
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 - [SOPS](https://github.com/getsops/sops/releases/latest) (Windows user's ensure it's in your `PATH`)
 - Optional: [talosctl](https://www.talos.dev/v1.9/talos-guides/install/talosctl/)
-- Optional: [fluxcli](https://fluxcd.io/flux/cmd/) (required if using `--restore`)
+- Optional: [fluxcli](https://fluxcd.io/flux/cmd/)
 #### Credentials/Keys
 - Proxmox SSH Credentials (e.g `root` / `password`)
 - SOPS Age Key (saved to `.age.key` - @fma965 check your password manager 😉)
@@ -85,12 +85,11 @@ Komodo is controlled mostly from a single file, the [komodo.toml](./docker/komod
 
 1. Create a new repository by clicking the green `Use this template` button at the top of this page, then clone the new repo you just created and `cd` into it.
 > [!WARNING]
-> As this repository assumes it's for myself, there are many hardcoded domain name references currently set, I would recommend find and replacing all references of `f9.casa` with your own tld, you will ofcourse also need to update any secret files with your own values.
+> As this repository assumes it's for myself, there are many hardcoded domain name references currently set, I would recommend find and replacing all references of `f9.casa` with your own tld and `f9-casa` with your own tld replacing dots with dashes, you will ofcourse also need to update any secret files with your own values.
 >
 > Critical Files that will need updating are
 > - [cert-manager/clusterissuer.yaml](./kubernetes/apps/cert-manager/cert-manager/app/clusterissuer.yaml)
-> - [cert-manager/cloudflare-secret.sops.yaml](./kubernetes/apps/cert-manager/cert-manager/app/cloudflare-secret.sops.yaml)
-> - [traefik/certificate.yaml](./kubernetes/apps/traefik/traefik/app/certificate.yaml)
+> - [traefik/certificate.yaml](./kubernetes/apps/traefik/certifcates/export/certificate.yaml)
 > - [flux-instance/values.yaml](./kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml)
 >
 > Other files should be updated, but these ones will stop deployment working
@@ -251,6 +250,7 @@ Most of my infrastructure and workloads are self-hosted and do not rely upon clo
 | [GCP](https://cloud.google.com/)                | Voice interactions with Home Assistant over Google Assistant      | Free           |
 | [GitHub](https://github.com/)                   | Hosting this repository and continuous integration/deployments    | Free           |
 | [Discord](https://discord.com/)                 | Alerts and notifications                                          | Free           |
+| [Pushover](https://pushover.net/)               | Kubernetes Alerts and application notifications                   | $5 OTP         |
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f393/512.gif" alt="🎓" width="20" height="20"> Wiki
 Check out my [Wiki](https://wiki.f9.casa/hardware/) to see more about my hardware and much more
