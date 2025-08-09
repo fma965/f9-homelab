@@ -13,8 +13,8 @@ spec:
     - dns01:
         cloudflare:
           apiTokenSecretRef:
-            key: cloudflare-token
-            name: cloudflare-token-secret
+              name: cloudflare-issuer-secret
+              key: CLOUDFLARE_DNS_TOKEN
       selector:
         dnsZones:
         - f9.casa
