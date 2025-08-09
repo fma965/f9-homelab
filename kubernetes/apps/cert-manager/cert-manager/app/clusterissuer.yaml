@@ -15,3 +15,6 @@ spec:
           apiTokenSecretRef:
             key: cloudflare-token
             name: cloudflare-token-secret
+      selector:
+        dnsZones:
+        - f9.casa
