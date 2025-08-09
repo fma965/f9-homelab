@@ -6,4 +6,5 @@ namespace: traefik
 components:
   - ../../components/common
 resources:
+  - ./traefik/certificates.yaml
   - ./traefik/ks.yaml
