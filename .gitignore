@@ -15,6 +15,7 @@
 *secret.env
 *secret.yaml
 !externalsecret.yaml
+!pushsecret.yaml
 
 # Remove junk files
 .decrypted~*
