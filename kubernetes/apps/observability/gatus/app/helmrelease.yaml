@@ -78,10 +78,13 @@ spec:
         runAsGroup: 1000
     service:
       app:
-        controller: gatus
         ports:
           http:
             port: *port
+    serviceMonitor:
+      app:
+        endpoints:
+          - port: http
     rbac:
       roles:
         gatus:
@@ -104,7 +107,7 @@ spec:
         type: emptyDir
       config-file:
         type: configMap
-        name: "{{ .Release.Name }}-configmap"
+        name: gatus-configmap
         globalMounts:
           - path: /config/config.yaml
             subPath: config.yaml
