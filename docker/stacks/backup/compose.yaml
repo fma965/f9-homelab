@@ -6,7 +6,7 @@ services:
       BACKREST_CONFIG: "/config/config.json"
       XDG_CACHE_HOME: "/cache"
       TZ: "Europe/London"
-    image: "garethgeorge/backrest:v1.9.0"
+    image: "garethgeorge/backrest:v1.9.1"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/alex-red/unraid-ca-templates/master/templates/images/backrest-icon.png"
       net.unraid.docker.managed: "komodo"
