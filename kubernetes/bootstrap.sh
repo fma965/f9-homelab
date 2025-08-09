@@ -45,12 +45,13 @@ if [ "$AUTO_APPROVE" = false ]; then
     fi
 fi
 
-color_echo "46" "Creating flux-system namespace ..."
-NAMESPACE="flux-system"
-kubectl create namespace "$NAMESPACE" --dry-run=client -o yaml | kubectl apply -f -
+color_echo "46" "Creating flux-system and external-secret namespace ..."
+kubectl create namespace flux-system --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace external-secret --dry-run=client -o yaml | kubectl apply -f -
 
-color_echo "46" "Creating sops-age secret in flux-system namespace from $SOPS_AGE_KEY_FILE ..."
+color_echo "46" "Creating sops-age secret in flux-system and external-secrets namespaces from $SOPS_AGE_KEY_FILE ..."
 kubectl create secret generic sops-age -n flux-system --from-file=age.agekey=$SOPS_AGE_KEY_FILE -o yaml --dry-run=client | kubectl apply -f -
+kubectl create secret generic sops-age -n external-secret --from-file=age.agekey=$SOPS_AGE_KEY_FILE -o yaml --dry-run=client | kubectl apply -f -
 
 color_echo "46" "Bootstrapping FluxCD with Helm ..."
 helm install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator --version=0.19.0 --values=./kubernetes/apps/flux-system/flux-operator/app/helm/values.yaml -n flux-system
