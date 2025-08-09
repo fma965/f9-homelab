@@ -6,7 +6,6 @@ storage:
   path: /config/sqlite.db
   caching: true
 metrics: true
-debug: true
 ui:
   title: Status | Gatus
   header: Status
