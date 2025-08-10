@@ -72,14 +72,14 @@ spec:
         globalMounts:
           - path: /venv
             subPath: hass-venv
-      # tmpfs:
-      #   type: emptyDir
-      #   advancedMounts:
-      #     home-assistant:
-      #       app:
-      #         - path: /config/logs
-      #           subPath: logs
-      #         - path: /config/tts
-      #           subPath: tts
-      #         - path: /tmp
-      #           subPath: tmp
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /config/logs
+                subPath: logs
+              - path: /config/tts
+                subPath: tts
+              - path: /tmp
+                subPath: tmp
