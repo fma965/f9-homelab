@@ -35,6 +35,7 @@ spec:
                   secretKeyRef:
                     name: sonarr-secret
                     key: SONARR_DB_PASSWORD
+              INIT_POSTGRES_SUPER_USER: admin
               INIT_POSTGRES_SUPER_PASS:
                 valueFrom:
                   secretKeyRef:
