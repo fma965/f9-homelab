@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: onepassword-komodo
+    app.kubernetes.io/instance: onepassword-komodo
+    app.kubernetes.io/name: onepassword-komodo
+  name: onepassword-komodo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: onepassword-komodo
+  template:
+    metadata:
+      labels:
+        app: onepassword-komodo
+        app.kubernetes.io/name: onepassword-komodo
+    spec:
+      serviceAccountName: onepassword-komodo
+      automountServiceAccountToken: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeSelector:
+        worker: "true"
+      containers:
+        - name: homepage
+          image: ghcr.io/0dragosh/komodo-op:0.1.2
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 200m
+            limits:
+              memory: 256Mi
+              cpu: 500m
+          enviroment:
+            - name: OP_CONNECT_HOST
+              value: "http://onepassword-connect.external-secrets.svc.cluster.local:8080"
+            - name: KOMODO_HOST
+              value: "http://f9-nas.internal:9120"
+          envFrom:
+            - secretRef:
+                name: komodo-secret
+          ports:
+            - containerPort: 3000
+              name: http
+      volumes:
+        - name: homepage-config
+          configMap:
+            name: homepage-config
+        - name: logs
+          emptyDir: {}
