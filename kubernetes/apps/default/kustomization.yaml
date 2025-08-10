@@ -11,3 +11,4 @@ resources:
   - ./sonarr/ks.yaml
   - ./radarr/ks.yaml
   - ./prowlarr/ks.yaml
+  - ./zigbee/ks.yaml
