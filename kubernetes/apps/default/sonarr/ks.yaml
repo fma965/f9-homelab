@@ -17,6 +17,8 @@ spec:
       namespace: observability
     - name: csi-driver-nfs
       namespace: kube-system
+    - name: onepassword-store
+      namespace: external-secrets
   interval: 1h
   path: ./kubernetes/apps/default/sonarr/app
   postBuild:

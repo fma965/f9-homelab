@@ -17,6 +17,8 @@ spec:
       namespace: observability
     - name: mosquitto
       namespace: default
+    - name: onepassword-store
+      namespace: external-secrets
   interval: 1h
   path: ./kubernetes/apps/default/zigbee/app
   postBuild:

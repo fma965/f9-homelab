@@ -14,6 +14,8 @@ spec:
   dependsOn:
     - name: postgresql
       namespace: postgresql
+    - name: onepassword-store
+      namespace: external-secrets
   interval: 1h
   path: ./kubernetes/apps/default/outline/app
   postBuild:
