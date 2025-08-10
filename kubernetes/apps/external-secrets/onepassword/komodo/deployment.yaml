@@ -21,7 +21,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-        - name: homepage
+        - name: onepassword-komodo
           image: ghcr.io/0dragosh/komodo-op:0.1.2
           resources:
             requests:
