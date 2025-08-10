@@ -61,6 +61,11 @@ spec:
               RADARR__POSTGRES__USER: *dbUser
               RADARR__POSTGRES__PASSWORD: *dbPass
               RADARR__POSTGRES__MAINDB: *dbName
+              RADARR__AUTH__APIKEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: radarr-secret
+                    key: RADARR_AUTH_APIKEY
             probes:
               liveness: &probes
                 enabled: true
