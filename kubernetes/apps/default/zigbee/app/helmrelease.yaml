@@ -85,13 +85,13 @@ spec:
         ports:
           http:
             port: *port
-    # route:
-    #   app:
-    #     hostnames: ["{{ .Release.Name }}.f9.casa"]
-    #     parentRefs:
-    #       - name: internal
-    #         namespace: kube-system
-    #         sectionName: https
+    route:
+      app:
+        hostnames: ["{{ .Release.Name }}.f9.casa"]
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
