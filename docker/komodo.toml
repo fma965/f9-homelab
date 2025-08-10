@@ -24,18 +24,6 @@ PROWLARR__POSTGRES__PASSWORD=[[OP__KOMODO__ARR__PROWLARR_DB_PASSWORD]]
 ##
 
 [[stack]]
-name = "authentication"
-[stack.config]
-server = "f9-nas"
-run_directory = "docker/stacks/authentication"
-repo = "fma965/f9-homelab"
-pre_deploy.command = """
-bash ../../decrypt-secrets.sh
-"""
-
-##
-
-[[stack]]
 name = "backup"
 [stack.config]
 server = "f9-nas"
