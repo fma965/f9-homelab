@@ -154,24 +154,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://f9-nas.internal:8096"
-    radarr.yaml: |-
-        http:
-          routers:
-            radarr:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`radarr.f9.casa`)"
-              tls:
-              service: radarr
-              middlewares:
-                - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
-
-          services:
-            radarr:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:7878"
     recommendarr.yaml: |-
         http:
           routers:
@@ -190,42 +172,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://f9-nas.internal:3000"
-    sonarr.yaml: |-
-        http:
-          routers:
-            sonarr:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`sonarr.f9.casa`)"
-              tls:
-              service: sonarr
-              middlewares:
-                - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
-
-          services:
-            sonarr:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:8989"
-    prowlarr.yaml: |-
-        http:
-          routers:
-            prowlarr:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`prowlarr.f9.casa`)"
-              tls:
-              service: prowlarr
-              middlewares:
-                - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
-
-          services:
-            prowlarr:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:9696"
     frigate.yaml: |-
         http:
           routers:
