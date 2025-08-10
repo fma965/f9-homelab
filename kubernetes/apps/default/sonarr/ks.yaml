@@ -12,7 +12,6 @@ spec:
   components:
     - ../../../../components/gatus/guarded
     - ../../../../components/keda/nfs-scaler
-    - ../../../../components/volsync
   dependsOn:
     - name: keda
       namespace: observability
@@ -23,7 +22,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 5Gi
   prune: true
   retryInterval: 2m
   sourceRef:
