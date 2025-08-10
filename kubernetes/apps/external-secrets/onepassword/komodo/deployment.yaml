@@ -30,7 +30,7 @@ spec:
             limits:
               memory: 256Mi
               cpu: 500m
-          enviroment:
+          environment:
             - name: OP_CONNECT_HOST
               value: "http://onepassword-connect.external-secrets.svc.cluster.local:8080"
             - name: KOMODO_HOST
