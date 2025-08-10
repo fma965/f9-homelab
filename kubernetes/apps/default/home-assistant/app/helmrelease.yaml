@@ -27,8 +27,8 @@ spec:
               repository: ghcr.io/home-operations/home-assistant
               tag: 2025.8.0@sha256:f418461e9481e7ad27a0d01ba201b810ce1a7f117ae3fe78d0529db4f15c244f
             env:
+              VENV_FOLDER: /venv
               TZ: Europe/London
-              HASS_HTTP_TRUSTED_PROXY_1: 10.0.10.0/24
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
@@ -70,7 +70,8 @@ spec:
       config-cache:
         existingClaim: "{{ .Release.Name }}-cache"
         globalMounts:
-          - path: /config/.venv
+          - path: /venv
+            subPath: hass-venv
       tmpfs:
         type: emptyDir
         advancedMounts:
