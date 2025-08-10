@@ -61,6 +61,11 @@ spec:
               PROWLARR__POSTGRES__USER: *dbUser
               PROWLARR__POSTGRES__PASSWORD: *dbPass
               PROWLARR__POSTGRES__MAINDB: *dbName
+              PROWLARR__AUTH__APIKEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: prowlarr-secret
+                    key: PROWLARR_AUTH_APIKEY
             probes:
               liveness: &probes
                 enabled: true
