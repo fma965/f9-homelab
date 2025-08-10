@@ -17,6 +17,8 @@ spec:
       namespace: observability
     - name: csi-driver-nfs
       namespace: kube-system
+    - name: sonarr
+      namespace: default
   interval: 1h
   path: ./kubernetes/apps/default/prowlarr/app
   postBuild:
