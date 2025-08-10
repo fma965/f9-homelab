@@ -18,10 +18,6 @@ spec:
         app: onepassword-komodo
         app.kubernetes.io/name: onepassword-komodo
     spec:
-      serviceAccountName: onepassword-komodo
-      automountServiceAccountToken: true
-      dnsPolicy: ClusterFirst
-      enableServiceLinks: true
       nodeSelector:
         worker: "true"
       containers:
@@ -42,12 +38,3 @@ spec:
           envFrom:
             - secretRef:
                 name: komodo-secret
-          ports:
-            - containerPort: 3000
-              name: http
-      volumes:
-        - name: homepage-config
-          configMap:
-            name: homepage-config
-        - name: logs
-          emptyDir: {}
