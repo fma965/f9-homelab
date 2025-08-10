@@ -9,3 +9,4 @@ resources:
   - ./homepage/ks.yaml
   - ./outline/ks.yaml
   - ./sonarr/ks.yaml
+  - ./radarr/ks.yaml
