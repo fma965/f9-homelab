@@ -21,7 +21,7 @@ data:
             delugevpn:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:8112"
+                  - url: "http://f9-nas.internal:8112"
     homeassistant.yaml: |-
         http:
           routers:
@@ -55,7 +55,7 @@ data:
             sabnzbd:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:8180"
+                  - url: "http://f9-nas.internal:8180"
     unraid.yaml: |-
         http:
           routers:
@@ -72,7 +72,7 @@ data:
             unraid:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3"
+                  - url: "http://f9-nas.internal"
     s3.yaml: |-
         http:
           routers:
@@ -87,7 +87,7 @@ data:
             s3:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:3900"
+                  - url: "http://f9-nas.internal:3900"
     garage-webui.yaml: |-
         http:
           routers:
@@ -104,7 +104,7 @@ data:
             garage-webui:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:3909"
+                  - url: "http://f9-nas.internal:3909"
     adguardhome.yaml: |-
         http:
           routers:
@@ -137,7 +137,7 @@ data:
             plex:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:32400"
+                  - url: "http://f9-nas.internal:32400"
     jellyfin.yaml: |-
         http:
           routers:
@@ -153,7 +153,7 @@ data:
             jellyfin:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:8096"
+                  - url: "http://f9-nas.internal:8096"
     radarr.yaml: |-
         http:
           routers:
@@ -171,7 +171,7 @@ data:
             radarr:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:7878"
+                  - url: "http://f9-nas.internal:7878"
     recommendarr.yaml: |-
         http:
           routers:
@@ -189,7 +189,7 @@ data:
             recommendarr:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:3000"
+                  - url: "http://f9-nas.internal:3000"
     sonarr.yaml: |-
         http:
           routers:
@@ -207,7 +207,7 @@ data:
             sonarr:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:8989"
+                  - url: "http://f9-nas.internal:8989"
     prowlarr.yaml: |-
         http:
           routers:
@@ -225,7 +225,7 @@ data:
             prowlarr:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:9696"
+                  - url: "http://f9-nas.internal:9696"
     frigate.yaml: |-
         http:
           routers:
@@ -243,7 +243,7 @@ data:
             frigate:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:5000"
+                  - url: "http://f9-nas.internal:5000"
     immich.yaml: |-
         http:
           routers:
@@ -258,7 +258,7 @@ data:
             immich:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:8082"
+                  - url: "http://f9-nas.internal:8082"
     zipline.yaml: |-
         http:
           routers:
@@ -273,7 +273,7 @@ data:
             zipline:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:8092"
+                  - url: "http://f9-nas.internal:8092"
     proxmox-hv1.yaml: |-
         http:
           routers:
@@ -333,7 +333,7 @@ data:
             pbs:
               loadBalancer:
                 servers:
-                  - url: "https://192.168.1.3:8007"
+                  - url: "https://f9-nas.internal:8007"
     minecraft.yaml: |-
         http:
           routers:
@@ -363,7 +363,7 @@ data:
             openwebui:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:8480"
+                  - url: "http://f9-nas.internal:8480"
     forgeui.yaml: |-
         http:
           routers:
@@ -380,7 +380,7 @@ data:
             forgeui:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:7400"
+                  - url: "http://f9-nas.internal:7400"
     backrest.yaml: |-
         http:
           routers:
@@ -397,7 +397,7 @@ data:
             backrest:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:9898"
+                  - url: "http://f9-nas.internal:9898"
     forgejo.yaml: |-
         http:
           routers:
@@ -412,7 +412,7 @@ data:
             forgejo:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:3001"
+                  - url: "http://f9-nas.internal:3001"
     remote.yaml: |-
         http:
           routers:
@@ -459,7 +459,7 @@ data:
             komodo:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:9120"
+                  - url: "http://f9-nas.internal:9120"
     01.gameservers.f9.casa.yaml: |-
         http:
           routers:
@@ -520,4 +520,4 @@ data:
             passbolt:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.3:5680"
+                  - url: "http://f9-nas.internal:5680"
