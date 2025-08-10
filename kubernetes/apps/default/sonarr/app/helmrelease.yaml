@@ -61,6 +61,11 @@ spec:
               SONARR__POSTGRES__USER: *dbUser
               SONARR__POSTGRES__PASSWORD: *dbPass
               SONARR__POSTGRES__MAINDB: *dbName
+              SONARR__AUTH__APIKEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: sonarr-secret
+                    key: SONARR_AUTH_APIKEY
             probes:
               liveness: &probes
                 enabled: true
