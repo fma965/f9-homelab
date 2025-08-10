@@ -13,4 +13,3 @@ resources:
   - ./prowlarr/ks.yaml
   - ./mosquitto/ks.yaml
   - ./zigbee/ks.yaml
-  - ./home-assistant/ks.yaml
