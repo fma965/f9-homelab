@@ -253,14 +253,14 @@ spec:
       - vonage-status-panel
     serviceMonitor:
       enabled: true
-    # route:
-    #   main:
-    #     enabled: true
-    #     hostnames: ["{{ .Release.Name }}.f9.ac"]
-    #     parentRefs:
-    #       - name: internal
-    #         namespace: kube-system
-    #         sectionName: https
+    route:
+      main:
+        enabled: true
+        hostnames: ["{{ .Release.Name }}.f9.ac"]
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     persistence:
       enabled: false
     testFramework:
