@@ -33,7 +33,7 @@ spec:
           envFrom:
             - secretRef:
                 name: komodo-secret
-          environment:
+          env:
             - name: OP_CONNECT_HOST
               value: "http://onepassword-connect.external-secrets.svc.cluster.local:8080"
             - name: KOMODO_HOST
