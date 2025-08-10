@@ -7,23 +7,6 @@ enabled = true
 ##
 
 [[stack]]
-name = "arr"
-[stack.config]
-server = "f9-nas"
-run_directory = "docker/stacks/arr"
-repo = "fma965/f9-homelab"
-environment = """
-SONARR__AUTH__APIKEY=[[OP__KOMODO__ARR__SONARR_APIKEY]]
-RADARR__AUTH__APIKEY=[[OP__KOMODO__ARR__RADARR_APIKEY]]
-PROWLARR__AUTH__APIKEY=[[OP__KOMODO__ARR__PROWLARR_APIKEY]]
-SONARR__POSTGRES__PASSWORD=[[OP__KOMODO__ARR__SONARR_DB_PASSWORD]]
-RADARR__POSTGRES__PASSWORD=[[OP__KOMODO__ARR__RADARR_DB_PASSWORD]]
-PROWLARR__POSTGRES__PASSWORD=[[OP__KOMODO__ARR__PROWLARR_DB_PASSWORD]]
-"""
-
-##
-
-[[stack]]
 name = "backup"
 [stack.config]
 server = "f9-nas"
