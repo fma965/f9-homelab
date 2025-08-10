@@ -112,8 +112,14 @@ spec:
       media:
         type: nfs
         server: f9-nas.internal
-        path: /mnt/user/Media
+        path: "/mnt/user/Media/TV Shows"
         globalMounts:
-          - path: /media
+          - path: /tv
+      downloads:
+        type: nfs
+        server: f9-nas.internal
+        path: /mnt/user/Downloads
+        globalMounts:
+          - path: /downloads
       tmp:
         type: emptyDir
