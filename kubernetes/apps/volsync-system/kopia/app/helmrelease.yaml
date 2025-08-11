@@ -32,13 +32,10 @@ spec:
             args:
               - server
               - start
+              - --disable-csrf-token-checks
               - --insecure
               - --address
               - 0.0.0.0:80
-              - --override-hostname
-              - f9-nas.internal
-              - --override-username
-              - scott
               - --without-password
               - --metrics-listen-addr
               - 0.0.0.0:8080
