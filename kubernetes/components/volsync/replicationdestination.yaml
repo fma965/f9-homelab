@@ -10,7 +10,7 @@ spec:
   trigger:
     manual: restore-once
   kopia:
-    repository: volsync-repository-secret
+    repository: "${APP}-volsync-secret"
     copyMethod: Snapshot
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
     storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
