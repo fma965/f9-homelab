@@ -99,10 +99,5 @@ spec:
         path: /mnt/user/Kubernetes/VolsyncKopia
         globalMounts:
           - path: /repository
-      tmpfs:
+      app:
         type: emptyDir
-        globalMounts:
-          - path:  /app/config
-            subPath: config
-          - path:  /app/logs
-            subPath: logs
