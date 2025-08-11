@@ -6,7 +6,7 @@ namespace: default
 components:
   - ../../components/common
 resources:
-  # - ./authelia/ks.yaml
+  - ./authelia/ks.yaml
   - ./homepage/ks.yaml
   - ./outline/ks.yaml
   - ./lldap/ks.yaml

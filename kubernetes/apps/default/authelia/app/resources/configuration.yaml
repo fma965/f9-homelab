@@ -1,0 +1,113 @@
+---
+log:
+  level: info
+
+authentication_backend:
+  ldap:
+    address: ldap://lldap.default.svc.cluster.local:389
+    implementation: custom
+    timeout: 5s
+    start_tls: false
+    base_dn: dc=f9,dc=casa
+    additional_users_dn: ou=people
+    users_filter: (&({username_attribute}={input})(objectClass=person))
+    additional_groups_dn: ou=groups
+    groups_filter: (member={dn})
+    user: uid=admin,ou=people,dc=f9,dc=casa
+    attributes:
+      username: uid
+      display_name: displayName
+      group_name: cn
+      mail: mail
+      member_of: memberOf
+  password_reset:
+    disable: true
+  refresh_interval: 1m
+
+regulation:
+  max_retries: 3
+  find_time: 1h
+  ban_time: 1d
+
+session:
+  name: authelia-home-lab
+  inactivity: 3d
+  expiration: 7d
+  remember_me: 6M
+  cookies:
+    - domain: f9.casa
+      authelia_url: https://auth.f9.casa
+  # redis:
+  #   host: authelia-dragonfly.default.svc.cluster.local
+
+access_control:
+  default_policy: two_factor
+  networks:
+    - name: internal
+      networks:
+        - 10.0.0.0/8
+        - 172.16.0.0/12
+        - 192.168.0.0/16
+  rules:
+    - domain:
+        - sonarr.f9.casa
+        - radarr.f9.casa
+      resources: ["^/api.*$"]
+      policy: bypass
+    # Bypass domains that have their own auth
+    - domain:
+        - grafana.f9.casa
+        - f9.casa
+        - jellyfin.f9.casa
+        - lldap.f9.casa
+        - s3.f9.casa
+        - ollama.f9.casa
+        - paperless.f9.casa
+        - sync.f9.casa
+      policy: bypass
+    - domain:
+        - sonarr.f9.casa
+        - radarr.f9.casa
+        - sabnzbd.f9.casa
+        - torrents.f9.casa
+      subject:
+        - "group:media"
+      policy: one_factor
+    - domain:
+        - paperless.f9.casa
+      subject:
+        - "group:documents"
+      policy: two_factor
+    - domain: "*.f9.casa"
+      subject:
+        - "group:admin"
+      policy: two_factor
+    - domain: "*.f9.casa"
+      policy: deny
+
+notifier:
+  smtp:
+    sender: "Authelia <auth@f9.casa>"
+
+identity_validation:
+  reset_password:
+    jwt_secret: '{{ env "JWT_SECRET" }}'
+
+identity_providers:
+  oidc:
+    cors:
+      endpoints:
+        - authorization
+        - token
+        - revocation
+        - introspection
+      allowed_origins_from_client_redirect_uris: true
+    claims_policies:
+      ## Creates the 'default' claims policy.
+      default:
+        id_token: ['groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name']
+
+    jwks:
+      - key_id: default
+        key: {{ env "JWKS_KEY" | mindent 10 "|" | msquote }}
+    # clients:
