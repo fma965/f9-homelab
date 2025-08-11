@@ -38,7 +38,7 @@ spec:
               - --override-hostname
               - f9-nas.internal
               - --override-username
-              - devin
+              - scott
               - --without-password
               - --metrics-listen-addr
               - 0.0.0.0:8080
