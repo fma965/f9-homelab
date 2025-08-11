@@ -104,3 +104,5 @@ spec:
         globalMounts:
           - path:  /app/config
             subPath: config
+          - path:  /app/logs
+            subPath: logs
