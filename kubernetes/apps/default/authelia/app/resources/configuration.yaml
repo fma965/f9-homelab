@@ -85,29 +85,29 @@ access_control:
     - domain: "*.f9.casa"
       policy: deny
 
-notifier:
-  smtp:
-    sender: "Authelia <auth@f9.casa>"
+# notifier:
+#   smtp:
+#     sender: "Authelia <auth@f9.casa>"
 
 identity_validation:
   reset_password:
     jwt_secret: '{{ env "JWT_SECRET" }}'
 
-identity_providers:
-  oidc:
-    cors:
-      endpoints:
-        - authorization
-        - token
-        - revocation
-        - introspection
-      allowed_origins_from_client_redirect_uris: true
-    claims_policies:
-      ## Creates the 'default' claims policy.
-      default:
-        id_token: ['groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name']
+# identity_providers:
+#   oidc:
+#     cors:
+#       endpoints:
+#         - authorization
+#         - token
+#         - revocation
+#         - introspection
+#       allowed_origins_from_client_redirect_uris: true
+#     claims_policies:
+#       ## Creates the 'default' claims policy.
+#       default:
+#         id_token: ['groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name']
 
-    jwks:
-      - key_id: default
-        key: {{ env "JWKS_KEY" | mindent 10 "|" | msquote }}
-    # clients:
+#     jwks:
+#       - key_id: default
+#         key: {{ env "JWKS_KEY" | mindent 10 "|" | msquote }}
+#     # clients:
