@@ -9,7 +9,7 @@ metadata:
 spec:
   trigger:
     manual: restore-once
-  restic:
+  kopia:
     repository: volsync-repository-secret
     copyMethod: Snapshot
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
