@@ -33,7 +33,7 @@ spec:
   values:
     image:
       repository: ghcr.io/perfectra1n/volsync
-      tag: &tag 0.15.24
+      tag: &tag 0.15.25
     kopia:
       repository: ghcr.io/perfectra1n/volsync
       tag: *tag
