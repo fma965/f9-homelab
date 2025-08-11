@@ -69,13 +69,9 @@ spec:
       app:
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
-          - name: external
-            namespace: kube-system
+          - name: internal
+            namespace: networking
             sectionName: https
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
     persistence:
       config-file:
         type: configMap

@@ -44,8 +44,9 @@ spec:
           hostnames: ["alertmanager.f9.casa"]
           parentRefs:
             - name: internal
-              namespace: kube-system
+              namespace: network
               sectionName: https
+
       alertmanagerSpec:
         alertmanagerConfiguration:
           name: alertmanager
@@ -72,8 +73,13 @@ spec:
           hostnames: ["prometheus.f9.casa"]
           parentRefs:
             - name: internal
-              namespace: kube-system
+              namespace: network
               sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+
       prometheusSpec:
         image:
           registry: docker.io
