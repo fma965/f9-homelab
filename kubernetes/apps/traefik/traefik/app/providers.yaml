@@ -373,7 +373,7 @@ data:
             remote:
               loadBalancer:
                 servers:
-                  - url: "http://10.0.10.10:80"
+                  - url: "https://10.0.10.10:443"
     nanokvm.yaml: |-
         http:
           routers:
