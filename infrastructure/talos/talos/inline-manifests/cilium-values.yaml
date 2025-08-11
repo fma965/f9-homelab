@@ -21,12 +21,7 @@
       leaseRenewDeadline: 2s
       leaseRetryPeriod: 200ms
     envoy:
-      enabled: true
-      rollOutPods: true
-      securityContext:
-        capabilities:
-          keepCapNetBindService: true
-          envoy: [ NET_ADMIN, PERFMON, BPF ]
+      enabled: false
     externalIPs:
       enabled: true
     extraEnv:
@@ -44,13 +39,6 @@
         enabled: false
       hostRoot: /sys/fs/cgroup
     hubble:
-      relay:
-        enabled: true
-      ui:
-        enabled: true
+      enabled: false
     gatewayAPI:
-      enabled: true
-      secretsNamespace:
-        create: true
-        name: cilium
-        sync: false
+      enabled: false
