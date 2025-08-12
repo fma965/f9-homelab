@@ -34,6 +34,8 @@ spec:
       namespace: *namespace
     - name: onepassword-store
       namespace: external-secrets
+    - name: cert-manager
+      namespace: cert-manager
   interval: 30m
   path: ./kubernetes/apps/network/envoy-gateway/gateway
   prune: true

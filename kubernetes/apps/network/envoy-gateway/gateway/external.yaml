@@ -1,33 +1,24 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/gateway_v1.json
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: external
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname external.f9.casa
+    external-dns.alpha.kubernetes.io/target: external.f9.casa
 spec:
   gatewayClassName: envoy
-  infrastructure:
-    annotations:
-      external-dns.alpha.kubernetes.io/hostname: *hostname
-      lbipam.cilium.io/ips: 10.0.10.210
-    parametersRef:
-      group: gateway.envoyproxy.io
-      kind: EnvoyProxy
-      name: external-proxy-config
   listeners:
     - name: http
       protocol: HTTP
       port: 80
-      hostname: "*.f9.casa"
+      hostname: &subdomains "*.f9.casa"
       allowedRoutes:
         namespaces:
           from: Same
     - name: https
       protocol: HTTPS
       port: 443
-      hostname: "*.f9.casa"
+      hostname: *subdomains
       allowedRoutes:
         namespaces:
           from: All
@@ -35,3 +26,6 @@ spec:
         certificateRefs:
           - kind: Secret
             name: f9-casa-tls
+  infrastructure:
+    annotations:
+      lbipam.cilium.io/ips: 10.10.10.210
