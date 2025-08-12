@@ -38,7 +38,6 @@ spec:
               - --metrics-listen-addr
               - 0.0.0.0:8080
               - --without-password
-              - --readonly
               - --disable-file-logging
               - --config-file
               - /app/config/repository.config
