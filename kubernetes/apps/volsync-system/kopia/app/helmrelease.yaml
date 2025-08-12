@@ -32,13 +32,14 @@ spec:
             args:
               - server
               - start
-              - --disable-csrf-token-checks
               - --insecure
               - --address
               - 0.0.0.0:80
-              - --without-password
               - --metrics-listen-addr
               - 0.0.0.0:8080
+              - --without-password
+              - --readonly
+              - --disable-file-logging
               - --config-file
               - /app/config/repository.config
             probes:
@@ -80,9 +81,8 @@ spec:
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
           - name: internal
-            namespace: network
+            namespace: kube-system
             sectionName: https
-
     persistence:
       config-file:
         type: configMap
@@ -93,9 +93,8 @@ spec:
             readOnly: true
       repository:
         type: nfs
-        server: f9-nas
+        server: f9-nas.internal
         path: /mnt/user/Kubernetes/VolsyncKopia
         globalMounts:
           - path: /repository
-      app:
-        type: emptyDir
+            readOnly: true
