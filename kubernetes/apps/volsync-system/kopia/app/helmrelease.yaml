@@ -79,7 +79,7 @@ spec:
       app:
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
-          - name: internal
+          - name: external
             namespace: kube-system
             sectionName: https
     persistence:

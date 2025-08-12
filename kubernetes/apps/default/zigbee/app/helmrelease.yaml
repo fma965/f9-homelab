@@ -91,7 +91,7 @@ spec:
       app:
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
-          - name: internal
+          - name: external
             namespace: network
             sectionName: https
 

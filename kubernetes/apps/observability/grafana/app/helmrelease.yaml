@@ -258,7 +258,7 @@ spec:
         enabled: true
         hostnames: ["{{ .Release.Name }}.f9.ac"]
         parentRefs:
-          - name: internal
+          - name: external
             namespace: network
             sectionName: https
 

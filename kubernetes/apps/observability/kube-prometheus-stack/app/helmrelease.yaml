@@ -43,7 +43,7 @@ spec:
           enabled: true
           hostnames: ["alertmanager.f9.casa"]
           parentRefs:
-            - name: internal
+            - name: external
               namespace: network
               sectionName: https
 
@@ -72,7 +72,7 @@ spec:
           enabled: true
           hostnames: ["prometheus.f9.casa"]
           parentRefs:
-            - name: internal
+            - name: external
               namespace: network
               sectionName: https
 
