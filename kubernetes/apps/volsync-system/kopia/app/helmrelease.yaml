@@ -96,4 +96,3 @@ spec:
         path: /mnt/user/Kubernetes/VolsyncKopia
         globalMounts:
           - path: /repository
-            readOnly: true
