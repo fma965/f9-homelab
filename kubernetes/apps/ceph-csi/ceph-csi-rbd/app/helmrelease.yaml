@@ -35,8 +35,6 @@ spec:
         auth_cluster_required = cephx
         auth_service_required = cephx
         auth_client_required = cephx
-      [client]
-        rbd_move_to_trash_on_remove = false
     csiConfig:
       - clusterID: "80623424-559e-4e46-92b8-8ece0103a4d1" # From `ceph mon dump`
         monitors:
