@@ -23,7 +23,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-      - image: outlinewiki/outline:0.86.0
+      - image: outlinewiki/outline:0.86.1
         name: outline
         resources:
           requests:
