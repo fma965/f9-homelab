@@ -87,6 +87,7 @@ access_control:
         - remote.f9.casa
         - gamesdb.f9.casa
         - overlays.f9.casa
+        - docs.f9.casa
       policy: bypass
 
     - domain:
