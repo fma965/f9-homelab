@@ -154,24 +154,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://f9-nas.internal:8096"
-    recommendarr.yaml: |-
-        http:
-          routers:
-            recommendarr:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`recommendarr.f9.casa`)"
-              tls:
-              service: recommendarr
-              middlewares:
-                - traefik-default-headers@kubernetescrd
-
-
-          services:
-            recommendarr:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:3000"
     frigate.yaml: |-
         http:
           routers:
