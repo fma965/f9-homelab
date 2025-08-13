@@ -53,12 +53,13 @@ access_control:
     - domain:
         - sonarr.f9.casa
         - radarr.f9.casa
+        - prowlarr.f9.casa
       resources: ["^/api.*$"]
       policy: bypass
+
     # Bypass domains that have their own auth
     - domain:
         - grafana.f9.casa
-        - f9.casa
         - jellyfin.f9.casa
         - lldap.f9.casa
         - s3.f9.casa
@@ -69,7 +70,9 @@ access_control:
         - pgadmin.f9.casa
         - prometheus.f9.casa
         - phpmyadmin.f9.casa
+        - home.f9.casa
       policy: bypass
+
     - domain:
         - sonarr.f9.casa
         - radarr.f9.casa
@@ -78,15 +81,18 @@ access_control:
       subject:
         - "group:media"
       policy: one_factor
+
     - domain:
         - paperless.f9.casa
       subject:
         - "group:documents"
       policy: two_factor
+
     - domain: "*.f9.casa"
       subject:
         - "group:admin"
       policy: two_factor
+
     - domain: "*.f9.casa"
       policy: deny
 
@@ -278,7 +284,7 @@ identity_providers:
           - https://10.0.40.2:8006
           - https://10.0.40.3:8006
           - https://f9-hv1.internal:8006
-          - https://f9-hv2.inernal:8006
+          - https://f9-hv2.internal:8006
           - https://f9-hv3.internal:8006
           - https://pbs.f9.casa:8007
           - https://pbs.f9.casa
