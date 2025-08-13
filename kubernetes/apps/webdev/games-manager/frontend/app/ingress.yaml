@@ -17,5 +17,3 @@ spec:
       middlewares:
         - name: default-headers
           namespace: traefik
-        - name: authentik
-          namespace: security

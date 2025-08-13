@@ -12,8 +12,7 @@ spec:
     - match: Host(`traefik.f9.casa`)
       kind: Rule
       middlewares:
-        - name: authentik
-          namespace: security
+
         - name: default-headers
           namespace: traefik
       services:
