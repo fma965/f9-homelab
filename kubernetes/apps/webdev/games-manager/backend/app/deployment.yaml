@@ -37,7 +37,7 @@ spec:
         - name: AUTH_AUTHELIA_LABEL
           value: "F9 Auth"
         - name: AUTH_DISABLE_DEFAULT
-          value: "true"
+          value: "false"
         - name: AUTH_PROVIDERS
           value: "authelia"
         - name: CACHE_AUTO_PURGE
