@@ -54,6 +54,7 @@ access_control:
         - sonarr.f9.casa
         - radarr.f9.casa
         - prowlarr.f9.casa
+        - sabnzbd.f9.casa
       resources: ["^/api.*$"]
       policy: bypass
 
