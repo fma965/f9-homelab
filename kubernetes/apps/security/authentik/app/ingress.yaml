@@ -9,7 +9,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`auth.f9.casa`)
+    - match: Host(`authentik.f9.casa`)
       kind: Rule
       services:
         - name: authentik-server
