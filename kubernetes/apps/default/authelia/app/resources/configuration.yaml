@@ -64,6 +64,10 @@ access_control:
         - ollama.f9.casa
         - paperless.f9.casa
         - sync.f9.casa
+        - games.f9.casa
+        - pgadmin.f9.casa
+        - prometheus.f9.casa
+        - phpmyadmin.f9.casa
       policy: bypass
     - domain:
         - sonarr.f9.casa
