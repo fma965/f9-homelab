@@ -37,8 +37,9 @@ session:
   cookies:
     - domain: f9.casa
       authelia_url: https://auth.f9.casa
-  # redis:
-  #   host: authelia-dragonfly.default.svc.cluster.local
+  redis:
+    host: redis.redis.default.svc.cluster.local
+    password: {{ env "REDIS_PASSWORD" }}
 
 access_control:
   default_policy: two_factor
