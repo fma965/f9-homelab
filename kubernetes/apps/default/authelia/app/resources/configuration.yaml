@@ -87,7 +87,7 @@ access_control:
         - s3.f9.casa
         - status.f9.casa
         - sync.f9.casa
-        - *.gameservers.f9.casa
+        - "*.gameservers.f9.casa"
       policy: bypass
 
     - domain:
