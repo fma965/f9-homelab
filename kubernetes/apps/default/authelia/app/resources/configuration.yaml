@@ -59,6 +59,7 @@ access_control:
 
     # Bypass domains that have their own auth or don't need auth
     - domain:
+        - auth.f9.casa
         - api.f9.casa
         - echo.f9.casa
         - flux-webhook.f9.casa
