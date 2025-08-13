@@ -78,9 +78,11 @@ access_control:
         - hv3.f9.casa
         - jellyfin.f9.casa
         - komodo.f9.casa
+        - kromgo.f9.casa
         - ollama.f9.casa
         - overlays.f9.casa
         - paperless.f9.casa
+        - pbs.f9.casa
         - photos.f9.casa
         - plex.f9.casa
         - remote.f9.casa
@@ -88,6 +90,7 @@ access_control:
         - status.f9.casa
         - sync.f9.casa
         - "*.gameservers.f9.casa"
+        #- grafana.f9.casa (need to implement oauth)
       policy: bypass
 
     - domain:
@@ -96,9 +99,19 @@ access_control:
         - prowlarr.f9.casa
         - sabnzbd.f9.casa
         - torrents.f9.casa
+        - recommendarr.f9.casa
+        - docs.f9.casa
       subject:
         - "group:media"
       policy: one_factor
+
+    - domain:
+        - zigbee.f9.casa
+        - cctv.f9.casa
+        - home.f9.casa
+      subject:
+        - "group:home"
+      policy: two_factor
 
     - domain: "*.f9.casa"
       subject:
