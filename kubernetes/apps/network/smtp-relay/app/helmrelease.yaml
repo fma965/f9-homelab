@@ -68,6 +68,10 @@ spec:
             readOnly: true
     service:
       app:
+        type: LoadBalancer
+        annotations:
+          io.cilium/lb-ipam-ips: 10.0.10.240
+        externalTrafficPolicy: Local
         ports:
           http:
             port: *metricsPort
