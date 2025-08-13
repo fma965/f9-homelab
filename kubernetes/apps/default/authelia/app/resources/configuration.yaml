@@ -183,7 +183,7 @@ identity_providers:
           - https://gamesdb.f9.casa/auth/login/authentik/callback
         userinfo_signed_response_alg: none
         claims_policy: default
-        token_endpoint_auth_method: 'client_secret_post'
+        token_endpoint_auth_method: 'client_secret_basic'
 
       - client_name: 'Komodo'
         client_id: '{{ env "KOMODO_OAUTH_CLIENT_ID" }}'
