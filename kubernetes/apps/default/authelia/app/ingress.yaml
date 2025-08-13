@@ -9,7 +9,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`authelia.f9.casa`)
+    - match: Host(`auth.f9.casa`)
       kind: Rule
       services:
         - name: authelia
