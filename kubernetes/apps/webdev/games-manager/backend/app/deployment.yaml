@@ -59,7 +59,7 @@ spec:
         - name: EMAIL_FROM
           value: "gamemanager@f9.casa"
         - name: EMAIL_SMTP_HOST
-          value: "192.168.1.1"
+          value: "smtp-relay.network.svc.cluster.local"
         - name: EMAIL_SMTP_PORT
           value: "25"
         - name: EMAIL_TRANSPORT
