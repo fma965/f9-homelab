@@ -59,7 +59,7 @@ spec:
         - name: NOTIFICATION_TYPE
           value: "EMAIL"
         - name: SMTP_HOST
-          value: "10.0.10.254"
+          value: "smtp-relay.network.svc.cluster.local"
         - name: SMTP_PORT
           value: "25"
         - name: DB01_HOST
