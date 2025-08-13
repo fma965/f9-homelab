@@ -37,7 +37,7 @@ spec:
         - name: AUTH_AUTHENTIK_LABEL
           value: "F9 Auth"
         - name: AUTH_DISABLE_DEFAULT
-          value: "false"
+          value: "true"
         - name: AUTH_PROVIDERS
           value: "authentik"
         - name: CACHE_AUTO_PURGE
