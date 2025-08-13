@@ -10,4 +10,4 @@ endpoints:
       query-name: "${GATUS_SUBDOMAIN:=${APP}}.f9.casa"
       query-type: A
     conditions:
-      - "[STATUS] == any(${GATUS_STATUS:=200,401})"
+      - "len([BODY]) == 0"
