@@ -57,31 +57,24 @@ access_control:
       resources: ["^/api.*$"]
       policy: bypass
 
-    # Bypass domains that do not need auth (auth is on for all by default for security)
+    # Bypass domains that have their own auth or don't need auth
     - domain:
         - api.f9.casa
         - echo.f9.casa
         - flux-webhook.f9.casa
         - overlays.f9.casa
         - status.f9.casa
-      policy: bypass
-
-    # Bypass domains that have their own auth
-    - domain:
         - jellyfin.f9.casa
-        - lldap.f9.casa
         - s3.f9.casa
         - ollama.f9.casa
         - paperless.f9.casa
         - sync.f9.casa
         - games.f9.casa
-        - pgadmin.f9.casa
         - prometheus.f9.casa
         - home.f9.casa
         - gameservers.f9.casa
         - lldap.f9.casa
         - debtmanager.f9.casa
-        - s3.f9.casa
       policy: bypass
 
     - domain:
