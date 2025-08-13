@@ -110,10 +110,56 @@ identity_providers:
     jwks:
       - key_id: default
         key: {{ env "JWKS_KEY" | mindent 10 "|" | msquote }}
+
     clients:
-      - client_name: Immich
+      - client_name: 'immich'
         client_id: '{{ env "IMMICH_OAUTH_CLIENT_ID" }}'
         client_secret: '{{ env "IMMICH_OAUTH_CLIENT_SECRET" }}'
+        public: false
+        authorization_policy: 'two_factor'
+        require_pkce: false
+        pkce_challenge_method: ''
+        redirect_uris:
+          - 'https://photos.f9.casa/auth/login'
+          - 'https://photos.f9.casa/user-settings'
+          - 'app.immich:///oauth-callback'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_name: 'Forgejo'
+        client_id: '{{ env "FORGEJO_OAUTH_CLIENT_ID" }}'
+        client_secret: '{{ env "FORGEJO_OAUTH_CLIENT_SECRET" }}'
+        public: false
+        authorization_policy: 'two_factor'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://git.f9.casa/user/oauth2/F9/callback'
+        scopes:
+          - 'openid'
+          - 'email'
+          - 'profile'
+          - 'groups'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
+
+      - client_name: Directus
+        client_id: '{{ env "DIRECTUS_OAUTH_CLIENT_ID" }}'
+        client_secret: '{{ env "DIRECTUS_OAUTH_CLIENT_SECRET" }}'
         public: false
         authorization_policy: two_factor
         pre_configured_consent_duration: 1y
@@ -122,8 +168,127 @@ identity_providers:
           - profile
           - email
         redirect_uris:
-          - https://photos.f9.casa/auth/login
-          - app.immich:/
+          - https://gamesdb.f9.casa/auth/login/authentik/callback
         userinfo_signed_response_alg: none
         claims_policy: default
         token_endpoint_auth_method: client_secret_post
+
+      - client_name: 'Komodo'
+        client_id: '{{ env "KOMODO_OAUTH_CLIENT_ID" }}'
+        client_secret: '{{ env "KOMODO_OAUTH_CLIENT_SECRET" }}'
+        public: false
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - 'https://komodo.f9.casa/auth/oidc/callback'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
+
+      - client_name: 'Open WebUI'
+        client_id: '{{ env "OPENWEBUI_OAUTH_CLIENT_ID" }}'
+        client_secret: '{{ env "OPENWEBUI_OAUTH_CLIENT_SECRET" }}'
+        public: false
+        authorization_policy: 'two_factor'
+        require_pkce: false
+        pkce_challenge_method: ''
+        redirect_uris:
+          - 'https://chat.f9.casa/oauth/oidc/callback'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'groups'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
+
+      - client_name: 'Outline'
+        client_id: '{{ env "OUTLINE_OAUTH_CLIENT_ID" }}'
+        client_secret: '{{ env "OUTLINE_OAUTH_CLIENT_SECRET" }}'
+        public: false
+        authorization_policy: 'two_factor'
+        require_pkce: false
+        pkce_challenge_method: ''
+        redirect_uris:
+          - 'https://docs.f9.casa/auth/oidc.callback'
+        scopes:
+          - 'openid'
+          - 'offline_access'
+          - 'profile'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+          - 'refresh_token'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_name: 'Zipline'
+        client_id: '{{ env "ZIPLINE_OAUTH_CLIENT_ID" }}'
+        client_secret: '{{ env "ZIPLINE_OAUTH_CLIENT_SECRET" }}'
+        public: false
+        require_pkce: false
+        pkce_challenge_method: ''
+        redirect_uris:
+          - 'https://i.f9.casa/api/auth/oauth/oidc'
+        scopes:
+          - 'openid'
+          - 'offline_access'
+          - 'email'
+          - 'profile'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'refresh_token'
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
+
+      - client_name: 'Proxmox'
+        client_id: '{{ env "PROXMOX_OAUTH_CLIENT_ID" }}'
+        client_secret: '{{ env "PROXMOX_OAUTH_CLIENT_SECRET" }}'
+        public: false
+        authorization_policy: 'two_factor'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - https://10.0.40.1:8006
+          - https://10.0.40.2:8006
+          - https://10.0.40.3:8006
+          - https://f9-hv1.internal:8006
+          - https://f9-hv2.inernal:8006
+          - https://f9-hv3.internal:8006
+          - https://pbs.f9.casa:8007
+          - https://pbs.f9.casa
+          - https://hv1.f9.casa
+          - https://hv2.f9.casa
+          - https://hv3.f9.casa
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
