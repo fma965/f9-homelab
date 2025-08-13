@@ -1,0 +1,135 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app smtp-relay
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  maxHistory: 2
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: *app
+
+    controllers:
+      smtp-relay:
+        replicas: 3
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/foxcpp/maddy
+              tag: 0.8.1
+            env:
+              DEBUG: "true"
+              SMTP_DOMAIN: f9.casa
+            envFrom:
+              - secretRef:
+                  name: smtp-relay-secret
+            resources:
+              requests:
+                cpu: 10m
+                memory: 10Mi
+              limits:
+                memory: 50Mi
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: &port 2525
+          metrics:
+            port: &metrics 9749
+
+    persistence:
+      config:
+        type: configMap
+        name: *app
+        globalMounts:
+          - path: /data/maddy.conf
+            subPath: maddy.conf
+            readOnly: true
+      data:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 1Gi
+        globalMounts:
+          - path: /var/lib/maddy
+      temp:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 256Mi
+        globalMounts:
+          - path: /run/maddy
+
+    serviceMonitor:
+      app:
+        serviceName: *app
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
+
+    networkpolicies:
+      paperless:
+        controller: *app
+
+        policyTypes:
+          - Ingress
+
+        rules:
+          ingress:
+            - from:
+                - podSelector:
+                    matchLabels:
+                      app.kubernetes.io/component: authelia
+                      app.kubernetes.io/instance: authelia
+                      app.kubernetes.io/name: authelia
+                  namespaceSelector:
+                    matchLabels:
+                      kubernetes.io/metadata.name: default
+              ports:
+                - protocol: TCP
+                  port: *port
+            - from:
+                - podSelector:
+                    matchLabels:
+                      app.kubernetes.io/component: lldap
+                      app.kubernetes.io/instance: lldap
+                      app.kubernetes.io/name: lldap
+                  namespaceSelector:
+                    matchLabels:
+                      kubernetes.io/metadata.name: default
+              ports:
+                - protocol: TCP
+                  port: *port
+            - from:
+                - namespaceSelector:
+                    matchLabels:
+                      kubernetes.io/metadata.name: observability
+              ports:
+                - protocol: TCP
+                  port: *metrics
