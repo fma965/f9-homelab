@@ -28,18 +28,18 @@ spec:
         - secretRef:
             name: games-manager-backend-secret
         env:
-        - name: AUTH_AUTHENTIK_ALLOW_PUBLIC_REGISTRATION
+        - name: AUTH_AUTHELIA_ALLOW_PUBLIC_REGISTRATION
           value: "true"
-        - name: AUTH_AUTHENTIK_DRIVER
+        - name: AUTH_AUTHELIA_DRIVER
           value: "openid"
-        - name: AUTH_AUTHENTIK_IDENTIFIER_KEY
+        - name: AUTH_AUTHELIA_IDENTIFIER_KEY
           value: "email"
-        - name: AUTH_AUTHENTIK_LABEL
+        - name: AUTH_AUTHELIA_LABEL
           value: "F9 Auth"
         - name: AUTH_DISABLE_DEFAULT
           value: "true"
         - name: AUTH_PROVIDERS
-          value: "authentik"
+          value: "authelia"
         - name: CACHE_AUTO_PURGE
           value: "true"
         - name: CACHE_ENABLED
