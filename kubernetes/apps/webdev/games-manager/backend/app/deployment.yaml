@@ -28,18 +28,18 @@ spec:
         - secretRef:
             name: games-manager-backend-secret
         env:
-        - name: AUTH_AUTHELIA_ALLOW_PUBLIC_REGISTRATION
+        - name: AUTH_AUTHENTIK_ALLOW_PUBLIC_REGISTRATION
           value: "true"
-        - name: AUTH_AUTHELIA_DRIVER
+        - name: AUTH_AUTHENTIK_DRIVER
           value: "openid"
-        - name: AUTH_AUTHELIA_IDENTIFIER_KEY
+        - name: AUTH_AUTHENTIK_IDENTIFIER_KEY
           value: "email"
-        - name: AUTH_AUTHELIA_LABEL
+        - name: AUTH_AUTHENTIK_LABEL
           value: "F9 Auth"
         - name: AUTH_DISABLE_DEFAULT
-          value: "false"
+          value: "true"
         - name: AUTH_PROVIDERS
-          value: "authelia"
+          value: "authentik"
         - name: CACHE_AUTO_PURGE
           value: "true"
         - name: CACHE_ENABLED
@@ -59,7 +59,7 @@ spec:
         - name: EMAIL_FROM
           value: "gamemanager@f9.casa"
         - name: EMAIL_SMTP_HOST
-          value: "smtp-relay.network.svc.cluster.local"
+          value: "192.168.1.1"
         - name: EMAIL_SMTP_PORT
           value: "25"
         - name: EMAIL_TRANSPORT
