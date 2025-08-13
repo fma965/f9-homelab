@@ -14,5 +14,3 @@ spec:
       services:
         - name: pgadmin
           port: 80
-      middlewares:
-

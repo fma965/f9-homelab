@@ -15,7 +15,7 @@ data:
               service: delugevpn
               middlewares:
                 - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
+
 
           services:
             delugevpn:
@@ -33,7 +33,7 @@ data:
               service: homeassistant
               middlewares:
                 - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
+
           services:
             homeassistant:
               loadBalancer:
@@ -50,7 +50,7 @@ data:
               service: sabnzbd
               middlewares:
                 - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
+
           services:
             sabnzbd:
               loadBalancer:
@@ -67,7 +67,7 @@ data:
               service: unraid
               middlewares:
                 - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
+
           services:
             unraid:
               loadBalancer:
@@ -99,7 +99,7 @@ data:
               service: garage-webui
               middlewares:
                 - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
+
           services:
             garage-webui:
               loadBalancer:
@@ -116,7 +116,7 @@ data:
               service: adguardhome
               middlewares:
                 - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
+
           services:
             adguardhome:
               loadBalancer:
@@ -165,7 +165,7 @@ data:
               service: recommendarr
               middlewares:
                 - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
+
 
           services:
             recommendarr:
@@ -183,7 +183,7 @@ data:
               service: frigate
               middlewares:
                 - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
+
 
           services:
             frigate:
@@ -321,7 +321,7 @@ data:
               service: forgeui
               middlewares:
                 - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
+
           services:
             forgeui:
               loadBalancer:
@@ -338,7 +338,7 @@ data:
               service: backrest
               middlewares:
                 - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
+
           services:
             backrest:
               loadBalancer:
@@ -385,7 +385,7 @@ data:
               service: nanokvm
               middlewares:
                 - traefik-default-headers@kubernetescrd
-                - security-authentik@kubernetescrd
+
           services:
             nanokvm:
               loadBalancer:
