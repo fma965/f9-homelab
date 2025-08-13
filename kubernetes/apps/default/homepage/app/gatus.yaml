@@ -10,7 +10,7 @@ data:
   config.yaml: |
     endpoints:
       - name: "homepage"
-        group: external
+        group: guarded
         url: "https://f9.casa/"
         interval: 1m
         client:
