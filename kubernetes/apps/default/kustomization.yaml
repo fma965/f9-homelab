@@ -8,6 +8,7 @@ components:
 resources:
 - ./authelia/ks.yaml
 - ./homepage/ks.yaml
+- ./homepage/ks.yaml
 - ./jellyfin/ks.yaml
 - ./lldap/ks.yaml
 - ./mosquitto/ks.yaml
