@@ -59,7 +59,7 @@ services:
       TZ: "Europe/London"
       PLEX_TOKEN: "${PLEX_TOKEN}"
       JELLYFIN_TOKEN: "fd46d8728f9b4c388eb1ef9883ffcc0d"
-      USER_MAPPING: "${JELLYPLEX_USER_MAPPING}"
+      USER_MAPPING: "{ \"ScottLeeAllen\": \"scott\" }"
     image: "luigi311/jellyplex-watched:8.2.0"
     labels:
       net.unraid.docker.managed: "komodo"
