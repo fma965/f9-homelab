@@ -86,7 +86,7 @@ spec:
           - path: /config/metadata
       media:
         type: nfs
-        server: f9-nas-internal
+        server: f9-nas.internal
         path: /mnt/user/Media
         globalMounts:
           - path: /media
