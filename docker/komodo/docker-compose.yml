@@ -21,7 +21,7 @@ services:
     #   - 27017:27017
     environment:
       - FERRETDB_POSTGRESQL_URL=postgres://10.0.10.201:5432/komodo
-  
+
   core:
     image: ghcr.io/moghtech/komodo-core:1.18.4
     labels:
@@ -68,13 +68,13 @@ services:
       # - /path/to/syncs:/syncs
       ## Optionally mount a custom core.config.toml
       # - /path/to/core.config.toml:/config/config.toml
-    ## Allows for systemd Periphery connection at 
+    ## Allows for systemd Periphery connection at
     ## "http://host.docker.internal:8120"
     # extra_hosts:
     #   - host.docker.internal:host-gateway
 
   ## Deploy Periphery container using this block,
-  ## or deploy the Periphery binary with systemd using 
+  ## or deploy the Periphery binary with systemd using
   ## https://github.com/moghtech/komodo/tree/main/scripts
   periphery:
     image: ghcr.io/moghtech/komodo-periphery:1.18.4
@@ -107,7 +107,20 @@ services:
       ## Default: /etc/komodo.
       - ${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}:${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}
 
-networks: 
+  komodo-discord-alerter:
+    image: foxxmd/komodo-discord-alerter:0.0.6
+    restart: unless-stopped
+    environment:
+      TZ: Europe/London
+      DISCORD_WEBHOOK: "${DISCORD_WEBHOOK}"
+      UNRESOLVED_TIMEOUT_TYPES: "ServerCpu,StackStateChange,ContainerStateChange"
+      UNRESOLVED_TIMEOUT: "120000"
+    ports:
+      - "7000:7000"
+    networks:
+      - "f9-nas"
+
+networks:
   f9-nas:
     external: true
     name: "f9-nas"

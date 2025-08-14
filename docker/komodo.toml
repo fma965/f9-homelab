@@ -54,19 +54,6 @@ ADMIN_PASSWORD=[[OP__KOMODO__MISC__ADMIN_PASSWORD]]
 
 ##
 
-[[stack]]
-name = "monitoring"
-[stack.config]
-server = "f9-nas"
-run_directory = "docker/stacks/monitoring"
-git_account = "fma965"
-repo = "fma965/f9-homelab"
-environment = """
-DISCORD_WEBHOOK=[[OP__KOMODO__MONITORING__DISCORD_WEBHOOK]]
-"""
-
-##
-
 [[procedure]]
 name = "f9-homelab"
 
