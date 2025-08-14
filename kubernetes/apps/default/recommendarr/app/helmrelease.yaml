@@ -60,6 +60,6 @@ spec:
             secretName: "f9-casa-tls"
     persistence:
       data:
-        existingClaim: *app
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /app/server/data
