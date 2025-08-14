@@ -24,15 +24,6 @@ spec:
           config.reloader.stakater.com/reload: qbittorrent-coredns
 
         initContainers:
-          coredns:
-            image:
-              repository: mirror.gcr.io/coredns/coredns
-              tag: 1.12.3@sha256:1391544c978029fcddc65068f6ad67f396e55585b664ecccd7fefba029b9b706
-            args:
-              - -conf
-              - /etc/coredns/Corefile
-            restartPolicy: Always
-
           gluetun:
             dependsOn:
               - coredns
@@ -101,6 +92,7 @@ spec:
           qbittorrent:
             qbittorrent:
               - path: /config
+
       gluetun-auth:
         type: secret
         name: qbittorrent-gluetun-secret
@@ -109,15 +101,6 @@ spec:
             gluetun:
               - path: /gluetun/auth.toml
                 subPath: auth.toml
-      coredns:
-        type: configMap
-        name: qbittorrent-coredns
-        advancedMounts:
-          qbittorrent:
-            coredns:
-              - path: /etc/coredns/Corefile
-                subPath: Corefile
-                readOnly: true
 
       downloads:
         type: nfs
