@@ -128,20 +128,20 @@ data:
           icon: qbittorrent.png
           href: "{{HOMEPAGE_VAR_QBITTORRENT_HREF}}"
           description: Torrent Client
-          siteMonitor: "{{HOMEPAGE_VAR_QBITTORRENT_URL}}"
+          siteMonitor: "http://qbittorrent.default.svc.cluster.local"
           widget:
             type: qbittorrent
-            url: "{{HOMEPAGE_VAR_QBITTORRENT_URL}}"
+            url: "http://qbittorrent.default.svc.cluster.local"
             enableLeechProgress: true
 
       - SABnzbd:
           icon: sabnzbd.png
-          href: "{{HOMEPAGE_VAR_SABNZBD_HREF}}"
+          href: "http://sabnzbd.default.svc.cluster.local"
           description: Usenet Client
           siteMonitor: "{{HOMEPAGE_VAR_SABNZBD_URL}}"
           widget:
             type: sabnzbd
-            url: "{{HOMEPAGE_VAR_SABNZBD_URL}}"
+            url: "http://sabnzbd.default.svc.cluster.local"
             key: "{{HOMEPAGE_VAR_SABNZBD_KEY}}"
 
     - Home Automation:
@@ -194,48 +194,39 @@ data:
             icon: sonarr.png
             href: "{{HOMEPAGE_VAR_SONARR_HREF}}"
             description: TV Show Management
-            siteMonitor: "{{HOMEPAGE_VAR_SONARR_URL}}"
+            siteMonitor: "http://sonarr.default.svc.cluster.local"
             widget:
               type: sonarr
-              url: "{{HOMEPAGE_VAR_SONARR_URL}}"
+              url: "http://sonarr.default.svc.cluster.local"
               key: "{{HOMEPAGE_VAR_SONARR_KEY}}"
         - Radarr:
             icon: radarr.png
             href: "{{HOMEPAGE_VAR_RADARR_HREF}}"
             description: Movie Management
-            siteMonitor: "{{HOMEPAGE_VAR_RADARR_URL}}"
+            siteMonitor: "http://radarr.default.svc.cluster.local"
             widget:
               type: radarr
-              url: "{{HOMEPAGE_VAR_RADARR_URL}}"
+              url: "http://radarr.default.svc.cluster.local"
               key: "{{HOMEPAGE_VAR_RADARR_KEY}}"
         - Prowlarr:
             icon: prowlarr.png
             href: "{{HOMEPAGE_VAR_PROWLARR_HREF}}"
             description: Movie Management
-            siteMonitor: "{{HOMEPAGE_VAR_PROWLARR_URL}}"
+            siteMonitor: "http://prowlarr.default.svc.cluster.local"
             widget:
               type: prowlarr
-              url: "{{HOMEPAGE_VAR_PROWLARR_URL}}"
+              url: "http://prowlarr.default.svc.cluster.local"
               key: "{{HOMEPAGE_VAR_PROWLARR_KEY}}"
 
     - Media:
-        - Plex:
-            icon: plex.png
-            href: "{{HOMEPAGE_VAR_PLEX_HREF}}"
-            description: Media Server
-            siteMonitor: "{{HOMEPAGE_VAR_PLEX_URL}}"
-            widget:
-              type: plex
-              url: "{{HOMEPAGE_VAR_PLEX_URL}}"
-              key: "{{HOMEPAGE_VAR_PLEX_KEY}}"
         - Jellyfin:
             icon: jellyfin.png
             href: "{{HOMEPAGE_VAR_JELLYFIN_HREF}}"
             description: Media Server
-            siteMonitor: "{{HOMEPAGE_VAR_JELLYFIN_URL}}"
+            siteMonitor: "http://jellyfin.default.svc.cluster.local"
             widget:
               type: jellyfin
-              url: "{{HOMEPAGE_VAR_JELLYFIN_URL}}"
+              url: "http://jellyfin.default.svc.cluster.local"
               key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
         - Immich:
             icon: immich.png
