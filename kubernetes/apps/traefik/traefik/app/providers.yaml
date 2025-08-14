@@ -4,24 +4,6 @@ metadata:
     name: traefik-providers
     namespace: traefik
 data:
-    delugevpn.yaml: |-
-        http:
-          routers:
-            delugevpn:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`torrents.f9.casa`)"
-              tls:
-              service: delugevpn
-              middlewares:
-                - traefik-default-headers@kubernetescrd
-
-
-          services:
-            delugevpn:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:8112"
     homeassistant.yaml: |-
         http:
           routers:
