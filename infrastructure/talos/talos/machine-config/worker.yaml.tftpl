@@ -5,6 +5,7 @@ machine:
   nodeLabels:
     topology.kubernetes.io/region: ${cluster_name}
     topology.kubernetes.io/zone: ${node_name}
+    intel.feature.node.kubernetes.io/gpu: "true"
     worker: "true"
   features:
     hostDNS:
