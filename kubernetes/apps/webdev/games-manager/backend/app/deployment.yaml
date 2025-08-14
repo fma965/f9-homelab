@@ -22,7 +22,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-      - image: directus/directus:11.10.1
+      - image: directus/directus:11.10.2
         name: games-manager-backend
         envFrom:
         - secretRef:
