@@ -13,6 +13,7 @@ resources:
 - ./mosquitto/ks.yaml
 - ./outline/ks.yaml
 - ./prowlarr/ks.yaml
+- ./qbittorrent/ks.yaml
 - ./radarr/ks.yaml
 - ./recommendarr/ks.yaml
 - ./sabnzbd/ks.yaml
