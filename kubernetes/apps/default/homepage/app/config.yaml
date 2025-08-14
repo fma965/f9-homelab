@@ -124,15 +124,15 @@ data:
             node: F9-HV3
 
     - Downloaders:
-      - DelugeVPN:
-          icon: deluge.png
-          href: "{{HOMEPAGE_VAR_DELUGE_HREF}}"
+      - qBittorrent:
+          icon: qbittorrent.png
+          href: "{{HOMEPAGE_VAR_QBITTORRENT_HREF}}"
           description: Torrent Client
-          siteMonitor: "{{HOMEPAGE_VAR_DELUGE_URL}}"
+          siteMonitor: "{{HOMEPAGE_VAR_QBITTORRENT_URL}}"
           widget:
-            type: deluge
-            url: "{{HOMEPAGE_VAR_DELUGE_URL}}"
-            password: "{{HOMEPAGE_VAR_DELUGE_PASSWORD}}"
+            type: qbittorrent
+            url: "{{HOMEPAGE_VAR_QBITTORRENT_URL}}"
+            enableLeechProgress: true
 
       - SABnzbd:
           icon: sabnzbd.png
