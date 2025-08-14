@@ -1,5 +1,6 @@
 
 image = {
+  # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
   version      = "v1.11.0-beta.2"  # Must follow semantic versioning
   extensions   = ["i915-ucode", "intel-ucode", "qemu-guest-agent", "nfsrahead", "util-linux-tools"] # Array of Talos extensions
 }
