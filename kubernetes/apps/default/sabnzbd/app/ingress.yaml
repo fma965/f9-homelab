@@ -2,17 +2,17 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: sonarr
+  name: sabnzbd
   annotations:
     kubernetes.io/ingress.class: traefik-external
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`sonarr.f9.casa`)
+    - match: Host(`sabnzbd.f9.casa`)
       kind: Rule
       services:
-        - name: sonarr
+        - name: sabnzbd
           port: 80
       middlewares:
         - name: default-headers
