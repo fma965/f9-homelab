@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: qbittorrent
+  name: &app qbittorrent
 spec:
   interval: 1h
   chartRef:
@@ -18,90 +18,245 @@ spec:
       retries: 3
   values:
     controllers:
-      qbittorrent:
+      *app :
         annotations:
-          secret.reloader.stakater.com/reload: qbittorrent-secret,qbittorrent-gluetun-secret
-
+          reloader.stakater.com/auto: 'true'
         initContainers:
           gluetun:
             image:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.40.0@sha256:2b42bfa046757145a5155acece417b65b4443c8033fb88661a8e9dcf7fda5a00
             env:
-              VPN_SERVICE_PROVIDER: private internet access
-              FIREWALL_INPUT_PORTS: 8080
+              DOT: 'off'
+              #DNS_ADDRESS: 10.96.0.10 # coredns is either pihole, dnsmasq, or cloudflare over tls, so it's fine to use
+              HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH: &gluetunAuthPath /gluetun/auth.toml
+              FIREWALL_INPUT_PORTS: 80,8388,9999 # 80: WebUI, 8388 Socks Proxy, 9999 Kube Probes
+              FIREWALL_OUTBOUND_SUBNETS: 10.69.0.0/16,10.96.0.0/16 # Allow access to k8s subnets
+              HEALTH_SERVER_ADDRESS: :9999
+              HEALTH_SUCCESS_WAIT_DURATION: 10s
+              VPN_PORT_FORWARDING: 'on'
+              PORT_FORWARD_ONLY: 'on'
+              VPN_INTERFACE: tun0
+              UPDATER_PERIOD: 24h
             envFrom:
               - secretRef:
-                  name: qbittorrent-secret
+                  name: qbittorrent
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec: &probe
+                  exec:
+                    command:
+                      - /bin/sh
+                      - -c
+                      - >-
+                        [ $(wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/openvpn/portforwarded) != '{"port":0}' ]
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  successThreshold: 1
+                  timeoutSeconds: 1
+                  failureThreshold: 30
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  <<: *probe
+                  exec:
+                    command:
+                      - /bin/sh
+                      - -c
+                      - >-
+                        wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/publicip/ip
+            lifecycle:
+              postStart:
+                exec:
+                  command:
+                    - /bin/sh
+                    - -c
+                    - >-
+                      (ip rule del table 51820; ip -6 rule del table 51820) || true
             restartPolicy: Always
             securityContext:
-              capabilities:
-                add:
-                  - NET_ADMIN
+              # can't be non-root, or it has no access to tunnel
+              runAsNonRoot: false
+              runAsUser: 0
+              runAsGroup: 0
               allowPrivilegeEscalation: false
-
+              readOnlyRootFilesystem: false # wants to create a user, etc
+              capabilities:
+                add: [NET_ADMIN]
+            resources:
+              requests:
+                cpu: 20m
+              limits:
+                squat.ai/tun: 1
+                memory: 100Mi
+          # TODO: Replace once gluetun supports socks5, nothing supports shadowsocks
+          socks5:
+            restartPolicy: Always
+            image:
+              repository: serjs/go-socks5-proxy
+              tag: latest@sha256:aad36c623f16850d7cea0171d1aa79d706129191db9e270b6dfd7db6b552c734
+            env:
+              PROXY_PORT: &proxy-port 8388
+            resources:
+              requests:
+                cpu: 5m
+              limits:
+                memory: 32Mi
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: [ALL] }
         containers:
           app:
             image:
               repository: ghcr.io/home-operations/qbittorrent
               tag: 5.1.2@sha256:9dd0164cc23e9c937e0af27fd7c3f627d1df30c182cf62ed34d3f129c55dc0e8
             env:
-              TZ: Europe/London
-              UMASK: "022"
-              QBT_WEBUI_PORT: &port 8080
+              UMASK: '022'
+              QBT_WEBUI_PORT: &port 80
+              #PUSHOVER_ENABLED: true
+            envFrom:
+              - secretRef:
+                  name: *app
             probes:
               liveness:
-                enabled: false
-
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext: *securityContext
             resources:
               requests:
-                cpu: 150m
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
-
+                cpu: 100m
+              limits:
+                memory: 8Gi
+          vuetorrent:
+            dependsOn: app
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.4.2
+            args:
+              - --repo=https://github.com/WDaan/VueTorrent
+              - --ref=latest-release
+              - --period=86400s
+              - --root=/addons
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 32Mi
+          port-forward:
+            image:
+              repository: ghcr.io/bjw-s-labs/gluetun-qb-port-sync
+              tag: 0.0.4@sha256:838ba41b3c736b23ae30f7e79a2610173f389a5ac6fb2b3e9c7bd482b9353c18
+            env:
+              GLUETUN_CONTROL_SERVER_HOST: localhost
+              GLUETUN_CONTROL_SERVER_PORT: 8000
+              GLUETUN_CONTROL_SERVER_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: qbittorrent
+                    key: GLUETUN_CONTROL_SERVER_API_KEY
+              QBITTORRENT_HOST: localhost
+              QBITTORRENT_WEBUI_PORT: *port
+              CRON_ENABLED: true
+              CRON_SCHEDULE: '*/5 * * * *'
+              LOG_TIMESTAMP: false
+            resources:
+              requests:
+                cpu: 5m
+              limits:
+                memory: 32Mi
+            securityContext: *securityContext
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
     service:
       app:
+        primary: true
+        forceRename: *app
         ports:
           http:
+            primary: true
             port: *port
+      gluetun:
+        suffix: gluetun
+        ports:
+          socks-proxy:
+            port: *proxy-port
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.f9.casa"
-          - torrents.f9.casa
+          - 'torrents.f9.casa'
         parentRefs:
           - name: external
             namespace: network
             sectionName: https
         rules:
           - backendRefs:
-              - identifier: app
+              - name: *app
                 port: *port
+
+    configMaps:
+      config:
+        data:
+          .qbt.toml: |
+            [qbittorrent]
+            addr = "http://localhost:80"
 
     persistence:
       config:
-        existingClaim: qbittorrent
+        existingClaim: *app
         advancedMounts:
-          qbittorrent:
-            qbittorrent:
+          *app :
+            app:
               - path: /config
+      config-file:
+        type: configMap
+        name: *app
+        advancedMounts:
+          *app : # in qbit config, set "on torrent add" to "/config/qbrr --hash "%I" && qbt tag delete "cross-seed""
+            app:
+              - path: /config/.qbt.toml
+                subPath: .qbt.toml
+                readOnly: true
+
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          *app :
+            port-forward:
+              - path: /config
+                subPath: config
+            app:
+              - path: /addons
+                subPath: addons
+            vuetorrent:
+              - path: /addons
+                subPath: addons
 
       gluetun-auth:
         type: secret
-        name: qbittorrent-gluetun-secret
+        name: '{{ .Release.Name }}-gluetun'
         advancedMounts:
-          qbittorrent:
+          *app :
             gluetun:
-              - path: /gluetun/auth.toml
+              - path: *gluetunAuthPath
                 subPath: auth.toml
-
-      downloads:
+      media:
         type: nfs
-        server: f9-nas.internal
+        server: f9-internal.internal
         path: /mnt/user/Downloads
         globalMounts:
           - path: /downloads
