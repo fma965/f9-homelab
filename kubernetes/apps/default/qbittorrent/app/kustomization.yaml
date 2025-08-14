@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
+  - ./ingress.yaml
 configMapGenerator:
   - name: qbittorrent-loki-rules
     files:
