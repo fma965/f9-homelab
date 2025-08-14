@@ -6,13 +6,14 @@ namespace: default
 components:
   - ../../components/common
 resources:
-  - ./authelia/ks.yaml
-  - ./homepage/ks.yaml
-  - ./outline/ks.yaml
-  - ./lldap/ks.yaml
-  - ./sonarr/ks.yaml
-  - ./radarr/ks.yaml
-  - ./prowlarr/ks.yaml
-  - ./mosquitto/ks.yaml
-  - ./zigbee/ks.yaml
-  - ./recommendarr/ks.yaml
+- ./authelia/ks.yaml
+- ./homepage/ks.yaml
+- ./jellyfin/ks.yaml
+- ./lldap/ks.yaml
+- ./mosquitto/ks.yaml
+- ./outline/ks.yaml
+- ./prowlarr/ks.yaml
+- ./radarr/ks.yaml
+- ./recommendarr/ks.yaml
+- ./sonarr/ks.yaml
+- ./zigbee/ks.yaml
