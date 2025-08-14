@@ -245,7 +245,7 @@ spec:
 
       gluetun-auth:
         type: secret
-        name: '{{ .Release.Name }}-gluetun'
+        name: '{{ .Release.Name }}-gluetun-secret'
         advancedMounts:
           *app :
             gluetun:
@@ -253,7 +253,7 @@ spec:
                 subPath: auth.toml
       media:
         type: nfs
-        server: f9-internal.internal
+        server: f9-nas.internal
         path: /mnt/user/Downloads
         globalMounts:
           - path: /downloads
