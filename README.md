@@ -177,7 +177,7 @@ chmod +x ./docker/bootstrap.sh
 
 ### Notes
 - To upgrade Talos run the following command
-`talosctl upgrade --nodes 10.0.10.X --image factory.talos.dev/installer/eed1860a28ccc6fdb77f1f41ab0ae2a20c19bc6101618d416d5d72ec919bf679:vX.X.X --wait`
+`talosctl upgrade --nodes 10.0.10.X --image factory.talos.dev/metal-installer/60b4c7d04d9dd7aa7c72c8e9abaf75c1ad0a40bb8a58589980c48ae449c36911:vX.X.X --wait`
 replacing the IP and vX.X.X with the relevant information
 ---
 
