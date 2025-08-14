@@ -119,7 +119,7 @@ spec:
               #PUSHOVER_ENABLED: true
             envFrom:
               - secretRef:
-                  name: *app
+                  name: qbittorrent-secret
             probes:
               liveness:
                 enabled: true
