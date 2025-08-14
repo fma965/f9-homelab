@@ -17,20 +17,6 @@ repo = "fma965/f9-homelab"
 ##
 
 [[stack]]
-name = "downloaders"
-[stack.config]
-server = "f9-nas"
-run_directory = "docker/stacks/downloaders"
-git_account = "fma965"
-repo = "fma965/f9-homelab"
-environment = """
-PIA_USER = [[OP__KOMODO__DOWNLOADERS__PIA_USER]]
-PIA_PASS = [[OP__KOMODO__DOWNLOADERS__PIA_PASS]]
-"""
-
-##
-
-[[stack]]
 name = "git"
 [stack.config]
 server = "f9-nas"
@@ -48,9 +34,6 @@ run_directory = "docker/stacks/media"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
 environment = """
-PLEX_TOKEN=[[OP__KOMODO__MEDIA__PLEX_TOKEN]]
-JELLYFIN_TOKEN=[[OP__KOMODO__MEDIA__JELLYFIN_TOKEN]]
-JELLYPLEX_USER_MAPPING=[[OP__KOMODO__MEDIA__JELLYPLEX_USER_MAPPING]]
 IMMICH_DB_PASS=[[OP__KOMODO__MEDIA__IMMICH_DB_PASS]]
 ZIPLINE_CORE_SECRET=[[OP__KOMODO__MEDIA__ZIPLINE_CORE_SECRET]]
 ZIPLINE_DATABASE_URL=[[OP__KOMODO__MEDIA__ZIPLINE_DATABASE_URL]]
