@@ -136,9 +136,9 @@ data:
 
       - SABnzbd:
           icon: sabnzbd.png
-          href: "http://sabnzbd.default.svc.cluster.local"
+          href: "{{HOMEPAGE_VAR_SABNZBD_HREF}}"
           description: Usenet Client
-          siteMonitor: "{{HOMEPAGE_VAR_SABNZBD_URL}}"
+          siteMonitor: "http://sabnzbd.default.svc.cluster.local"
           widget:
             type: sabnzbd
             url: "http://sabnzbd.default.svc.cluster.local"
