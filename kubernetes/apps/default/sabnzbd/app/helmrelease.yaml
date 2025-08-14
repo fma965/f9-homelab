@@ -88,12 +88,12 @@ spec:
         path: /mnt/user/Downloads
         globalMounts:
           - path: /downloads
-      scripts:
-        type: configMap
-        name: "{{ .Release.Name }}-scripts"
-        defaultMode: 0775
-        globalMounts:
-          - readOnly: true
+      # scripts:
+      #   type: configMap
+      #   name: "{{ .Release.Name }}-scripts"
+      #   defaultMode: 0775
+      #   globalMounts:
+      #     - readOnly: true
       tmpfs:
         type: emptyDir
         advancedMounts:
