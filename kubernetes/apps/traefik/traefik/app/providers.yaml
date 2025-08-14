@@ -39,23 +39,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://192.168.1.2:8123"
-    sabnzbd.yaml: |-
-        http:
-          routers:
-            sabnzbd:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`sabnzbd.f9.casa`)"
-              tls:
-              service: sabnzbd
-              middlewares:
-                - traefik-default-headers@kubernetescrd
-
-          services:
-            sabnzbd:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:8180"
     unraid.yaml: |-
         http:
           routers:
