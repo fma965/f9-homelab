@@ -223,10 +223,10 @@ data:
             icon: jellyfin.png
             href: "{{HOMEPAGE_VAR_JELLYFIN_HREF}}"
             description: Media Server
-            siteMonitor: "http://jellyfin.default.svc.cluster.local"
+            siteMonitor: "http://jellyfin.default.svc.cluster.local:8096"
             widget:
               type: jellyfin
-              url: "http://jellyfin.default.svc.cluster.local"
+              url: "http://jellyfin.default.svc.cluster.local:8096""
               key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
         - Immich:
             icon: immich.png
