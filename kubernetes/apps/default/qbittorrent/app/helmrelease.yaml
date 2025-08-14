@@ -40,7 +40,7 @@ spec:
               UPDATER_PERIOD: 24h
             envFrom:
               - secretRef:
-                  name: qbittorrent
+                  name: qbittorrent-secret
             probes:
               liveness:
                 enabled: true
