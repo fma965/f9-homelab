@@ -1,7 +1,7 @@
 
 image = {
-  version      = "v1.10.6"  # Must follow semantic versioning
-  extensions   = ["i915-ucode", "intel-ucode", "qemu-guest-agent", "iscsi-tools", "util-linux-tools"] # Array of Talos extensions
+  version      = "v1.11.0-beta.2"  # Must follow semantic versioning
+  extensions   = ["i915-ucode", "intel-ucode", "qemu-guest-agent", "nfsrahead", "util-linux-tools"] # Array of Talos extensions
 }
 
 cluster = {
@@ -61,8 +61,8 @@ nodes = {
     ip            = "10.0.10.111"           # IP address
     mac_address   = "BC:24:11:2E:08:01"     # MAC Address
     vm_id         = 811                     # VM ID
-    cpu           = 6                       # CPU Cores
-    ram_dedicated = 16384                    # RAM
+    cpu           = 4                       # CPU Cores
+    ram_dedicated = 12888                    # RAM
     datastore_id = "local-zfs"              # Primary Disk Data Store
     igpu          = true                   # GPU passthrough
     disk_size     = 30                      # Primary Disk Size
@@ -76,8 +76,8 @@ nodes = {
     ip            = "10.0.10.112"           # IP address
     mac_address   = "BC:24:11:2E:08:02"     # MAC Address
     vm_id         = 812                     # VM ID
-    cpu           = 6                       # CPU Cores
-    ram_dedicated = 16384                    # RAM
+    cpu           = 4                       # CPU Cores
+    ram_dedicated = 12888                    # RAM
     datastore_id = "local-zfs"              # Primary Disk Data Store
     igpu          = true                   # GPU passthrough
     disk_size     = 30                      # Primary Disk Size
@@ -91,8 +91,8 @@ nodes = {
     ip            = "10.0.10.113"           # IP address
     mac_address   = "BC:24:11:2E:08:03"     # MAC Address
     vm_id         = 813                     # VM ID
-    cpu           = 6                       # CPU Cores
-    ram_dedicated = 16384                    # RAM
+    cpu           = 4                       # CPU Cores
+    ram_dedicated = 12888                    # RAM
     datastore_id = "local-zfs"              # Primary Disk Data Store
     igpu          = true                   # GPU passthrough
     disk_size     = 30                      # Primary Disk Size
