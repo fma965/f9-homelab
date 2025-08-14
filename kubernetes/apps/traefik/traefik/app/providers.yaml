@@ -138,22 +138,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://f9-nas.internal:32400"
-    jellyfin.yaml: |-
-        http:
-          routers:
-            jellyfin:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`jellyfin.f9.casa`)"
-              tls:
-              service: jellyfin
-              middlewares: traefik-default-headers@kubernetescrd
-
-          services:
-            jellyfin:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:8096"
     frigate.yaml: |-
         http:
           routers:
