@@ -2,8 +2,8 @@ services:
   delugevpn:
     container_name: "delugevpn"
     environment:
-      PGID: "100"
-      PUID: "99"
+      PGID: "1000"
+      PUID: "1000"
       UMASK: "002"
       DEBUG: "false"
       STRICT_PORT_FORWARD: "yes"
@@ -45,8 +45,8 @@ services:
     container_name: "sabnzbd"
     environment:
       HOST_CONTAINERNAME: "sabnzbd"
-      PUID: "99"
-      PGID: "100"
+      PUID: "1000"
+      PGID: "1000"
       UMASK: "002"
       TZ: "Europe/London"
     image: "ghcr.io/hotio/sabnzbd:release-4.5.2"

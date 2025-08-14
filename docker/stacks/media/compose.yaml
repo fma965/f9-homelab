@@ -5,9 +5,9 @@ services:
       - "/dev/dri:/dev/dri"
     environment:
       TZ: "Europe/London"
-      PUID: "99"
+      PUID: "1000"
       UMASK: "022"
-      PGID: "100"
+      PGID: "1000"
       NVIDIA_VISIBLE_DEVICES: "all"
     image: "lscr.io/linuxserver/plex:1.42.1.10060-4e8b05daf-ls278"
     labels:
@@ -27,8 +27,8 @@ services:
     devices:
       - "/dev/dri:/dev/dri"
     environment:
-      PUID: "99"
-      PGID: "100"
+      PUID: "1000"
+      PGID: "1000"
       UMASK: "022"
       TZ: "Europe/London"
     image: "ghcr.io/hotio/jellyfin:release-10.10.7"
@@ -70,7 +70,7 @@ services:
     container_name: "isponsorblocktv"
     environment:
       TZ: "Europe/London"
-    image: "dmunozv04/isponsorblocktv:v2.5.3"
+    image: "dmunozv04/isponsorblocktv:v2.6.0"
     labels:
       net.unraid.docker.managed: "komodo"
     network_mode: "host"
