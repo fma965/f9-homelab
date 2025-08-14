@@ -226,7 +226,7 @@ data:
             siteMonitor: "http://jellyfin.default.svc.cluster.local:8096"
             widget:
               type: jellyfin
-              url: "http://jellyfin.default.svc.cluster.local:8096""
+              url: "http://jellyfin.default.svc.cluster.local:8096"
               key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
         - Immich:
             icon: immich.png

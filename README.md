@@ -195,7 +195,7 @@ replacing the IP and vX.X.X with the relevant information
 │       ├── 📂 arr                 🎬 # *ARR media stack (Sonarr/Radarr/Prowlarr)
 │       ├── 📂 authentication      🔐 # Authentication services
 │       ├── 📂 backup              💾 # Backup solutions
-│       ├── 📂 downloaders         ⏬ # Download managers (Deluge, NZBGet)
+│       ├── 📂 downloaders         ⏬ # Download managers (qBittorrent, Sabnzbd)
 │       ├── 📂 git                 ⎙ # Git services (Gitea [Frogejo])
 │       ├── 📂 media               🎵 # Media players
 │       ├── 📂 misc                🎪 # Miscellaneous utilities
