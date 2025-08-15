@@ -103,6 +103,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+      hostNetwork: true
     service:
       app:
         primary: true
