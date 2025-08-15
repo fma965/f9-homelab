@@ -18,8 +18,8 @@ spec:
       namespace: observability
     - name: csi-driver-nfs
       namespace: kube-system
-    - name: sonarr
-      namespace: default
+    - name: postgresql
+      namespace: postgresql
     - name: onepassword-store
       namespace: external-secrets
   interval: 1h
