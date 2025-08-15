@@ -1,0 +1,36 @@
+# Cilium
+
+## OpenWRT (FRR) BGP
+
+```sh
+apk add frr frr-bgpd frr-watchfrr frr-zebra
+nano /etc/frr/frr.conf`
+```
+
+```sh
+router bgp 64521
+  bgp router-id 10.0.10.254
+  no bgp ebgp-requires-policy
+
+  neighbor k8s peer-group
+  neighbor k8s remote-as 64520
+
+  neighbor 10.0.10.101 peer-group k8s
+  neighbor 10.0.10.102 peer-group k8s
+  neighbor 10.0.10.103 peer-group k8s
+
+  address-family ipv4 unicast
+    redistribute connected
+    neighbor k8s next-hop-self
+    neighbor k8s soft-reconfiguration inbound
+  exit-address-family
+```
+
+```
+/etc/init.d/frr restart
+/etc/init.d/frr enable
+```
+
+10.0.10.254 = Router IP
+10.0.10.10x = Kubernetes Control Planes
+k8s = Group Name
