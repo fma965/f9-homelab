@@ -20,3 +20,4 @@ resources:
 - ./sabnzbd/ks.yaml
 - ./sonarr/ks.yaml
 - ./zigbee/ks.yaml
+- ./externalsecret.yaml
