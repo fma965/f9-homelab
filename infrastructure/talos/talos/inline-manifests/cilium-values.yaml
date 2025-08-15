@@ -7,6 +7,8 @@
     bpf:
       hostRouting: true
       masquerade: true
+    bgpControlPlane:
+      enabled: true
     ipam:
       mode: kubernetes
     cluster:
