@@ -68,3 +68,11 @@ spec:
   blocks:
     - start: 10.0.10.200
       stop: 10.0.10.250
+---
+apiVersion: cilium.io/v2
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: ip-pool-lan
+spec:
+  blocks:
+    - cidr: 192.168.1.240/32
