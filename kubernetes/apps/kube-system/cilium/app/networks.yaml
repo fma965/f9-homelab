@@ -19,7 +19,7 @@
 #   loadBalancerIPs: true
 # ---
 ---
-apiVersion: cilium.io/v2alpha1
+apiVersion: cilium.io/v2
 kind: CiliumBGPClusterConfig
 metadata:
   name: router
@@ -37,7 +37,7 @@ spec:
           peerConfigRef:
             name: "cilium-bgp-peer"
 ---
-apiVersion: cilium.io/v2alpha1
+apiVersion: cilium.io/v2
 kind: CiliumBGPPeerConfig
 metadata:
   name: cilium-bgp-peer
@@ -56,23 +56,22 @@ spec:
         matchLabels:
           advertise: "bgp"
 ---
-apiVersion: cilium.io/v2alpha1
+apiVersion: cilium.io/v2
 kind: CiliumBGPAdvertisement
 metadata:
-  name: cilium-bgp-advertisements
+  name: l3-bgp-advertisement
   labels:
     advertise: bgp
 spec:
   advertisements:
-    - advertisementType: "Service"
+    - advertisementType: Service
       service:
-        addresses:
-          - LoadBalancerIP
+        addresses: ["LoadBalancerIP"]
       selector:
         matchExpressions:
-        - {key: somekey, operator: NotIn, values: ['never-used-value']}
+          - { key: somekey, operator: NotIn, values: ["never-used-value"] }
 ---
-apiVersion: "cilium.io/v2alpha1"
+apiVersion: cilium.io/v2
 kind: CiliumLoadBalancerIPPool
 metadata:
   name: ip-pool
