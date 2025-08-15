@@ -24,3 +24,5 @@ Thumbs.db
 
 # Remove Talos OpenTofu output files
 infrastructure/talos/output/**
+
+.local
