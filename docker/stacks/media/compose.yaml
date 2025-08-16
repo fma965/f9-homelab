@@ -31,7 +31,7 @@ services:
       LIBVA_DRIVER_NAME: "radeonsi"
       TZ: "Europe/London"
       NVIDIA_VISIBLE_DEVICES: "all"
-    image: "ghcr.io/blakeblackshear/frigate:0.15.2"
+    image: "ghcr.io/blakeblackshear/frigate:0.16.0"
     shm_size: "256mb"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/yayitazale/unraid-templates/main/frigate.png"
