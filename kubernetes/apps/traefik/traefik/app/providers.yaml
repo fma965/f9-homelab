@@ -20,7 +20,7 @@ data:
             homeassistant:
               loadBalancer:
                 servers:
-                  - url: "http://192.168.1.2:8123"
+                  - url: "http://10.0.10.216:8123"
     unraid.yaml: |-
         http:
           routers:
