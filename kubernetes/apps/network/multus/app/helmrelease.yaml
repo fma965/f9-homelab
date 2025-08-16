@@ -1,10 +1,8 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app multus
-  namespace: network
 spec:
   interval: 1h
   chartRef:
@@ -12,60 +10,46 @@ spec:
     name: app-template
     namespace: flux-system
   install:
-    timeout: 10m
-    replace: true
-    crds: CreateReplace
-    createNamespace: true
     remediation:
       retries: -1
   upgrade:
+    cleanupOnFail: true
     remediation:
-      remediateLastFailure: true
       retries: 3
-      strategy: rollback
-    cleanupOnFail: true
-    crds: CreateReplace
-  test:
-    enable: true
-  rollback:
-    recreate: true
-    force: true
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
-  driftDetection:
-    mode: enabled
-  maxHistory: 3
   values:
     controllers:
-      *app :
+      multus:
         type: daemonset
-        pod:
-          hostNetwork: true
         initContainers:
           cni-plugins:
             image:
               repository: ghcr.io/home-operations/cni-plugins
               tag: 1.7.1@sha256:4bd4e77e3fbc21dd63b9826a011cead1333b6975efa4d1d2631ca932bfd27371
         containers:
-          app:
+          multus:
             image:
               repository: ghcr.io/k8snetworkplumbingwg/multus-cni
-              tag: latest@sha256:81703ef8019866733bcb997d57bc61ef57d530754bd2070eed8496ae062ca212
-            command:
-              - /thin_entrypoint
+              tag: v4.2.2@sha256:7591a27cd28eeafd6dfb197618b06dabd9446a7026164b9b21fee67adc925761
             args:
               - --cleanup-config-on-exit
-            securityContext:
-              privileged: true
+              - --multus-cni-conf-dir=/tmp
             resources:
               requests:
                 cpu: 10m
-                memory: 32Mi
               limits:
-                memory: 256Mi
+                memory: 32Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { add: ["NET_ADMIN"], drop: ["ALL"] }
         serviceAccount:
-          identifier: multus
+          name: *app
+    defaultPodOptions:
+      hostNetwork: true
+      priorityClassName: system-node-critical
+      tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
     persistence:
       etc-cni-net-d:
         type: hostPath
@@ -77,10 +61,5 @@ spec:
         hostPath: /opt/cni/bin
         globalMounts:
           - path: /host/opt/cni/bin
-    serviceAccount:
-      multus: {}
-    defaultPodOptions:
-      tolerations:
-        - key: "node-role.kubernetes.io/control-plane"
-          operator: "Exists"
-          effect: "NoSchedule"
+      tmp:
+        type: emptyDir
