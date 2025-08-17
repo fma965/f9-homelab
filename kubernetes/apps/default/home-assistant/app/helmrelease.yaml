@@ -119,16 +119,18 @@ spec:
           code-server:
             port: 12321
     persistence:
+
       config:
-        existingClaim: home-assistant-config
+        existingClaim: "{{ .Release.Name }}"
         advancedMounts:
           home-assistant:
             app:
               - path: /config
             code-server:
               - path: /config
+
       hass-cache:
-        existingClaim: hass-cache
+        existingClaim: "{{ .Release.Name }}-cache"
         advancedMounts:
           home-assistant:
             app:
