@@ -44,11 +44,7 @@ spec:
                 "name":"multus-iot",
                 "namespace": "network",
                 "ips": ["192.168.20.240/24"]
-              },{
-                "name":"multus-not",
-                "namespace": "network",
-                "ips": ["192.168.30.240/24"]
-              }]
+              }
           securityContext:
             runAsUser: 65534
             runAsGroup: 65533
