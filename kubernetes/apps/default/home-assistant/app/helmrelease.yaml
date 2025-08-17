@@ -45,11 +45,6 @@ spec:
                 "namespace": "network",
                 "ips": ["192.168.20.240/24"],
                 "mac": "3e:59:e4:f7:43:08"
-              },{
-                "name":"multus-not",
-                "namespace": "network",
-                "ips": ["192.168.30.240/24"],
-                "mac": "3e:59:e4:f7:33:08"
               }]
           securityContext:
             runAsUser: 65534
