@@ -11,8 +11,9 @@ spec:
       "name": "multus-iot",
       "plugins": [
         {
-          "type": "ipvlan",
+          "type": "macvlan",
           "master": "br0.20",
+          "mode": "bridge",
           "ipam": {
             "type": "static",
             "routes": [
