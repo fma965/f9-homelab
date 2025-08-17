@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://k8s-schemas.bjw-s.dev/k8s.cni.cncf.io/networkattachmentdefinition_v1.json
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
@@ -11,7 +12,7 @@ spec:
       "plugins": [
         {
           "type": "macvlan",
-          "master": "br0.30",
+          "master": "br0.20",
           "mode": "bridge",
           "ipam": {
             "type": "static",
@@ -19,6 +20,9 @@ spec:
               { "dst": "192.168.30.0/24", "gw": "192.168.30.254" }
             ]
           }
+        },
+        {
+          "type": "sbr"
         }
       ]
     }
