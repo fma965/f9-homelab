@@ -15,7 +15,10 @@ spec:
           "master": "br0.30",
           "mode": "bridge",
           "ipam": {
-            "type": "dhcp"
+            "type": "static",
+            "routes": [
+              { "dst": "0.0.0.0/0", "gw": "192.168.30.254" }
+            ]
           }
         },
         {
