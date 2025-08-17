@@ -5,17 +5,30 @@ kind: HelmRelease
 metadata:
   name: home-assistant
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: app-template
-    namespace: flux-system
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
     controllers:
       home-assistant:
         annotations:
           reloader.stakater.com/auto: "true"
-
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name":"multus-iot",
+                "namespace": "network",
+                "ips": ["192.168.20.240/24"]
+              }]
         initContainers:
           init-db:
             image:
@@ -37,42 +50,29 @@ spec:
                     name: database-superuser-secret
                     key: POSTGRESQL_PASS
 
-        pod:
-          annotations:
-            k8s.v1.cni.cncf.io/networks: |
-              [{
-                "name":"multus-iot",
-                "namespace": "network",
-                "ips": ["192.168.20.240/24"]
-              }]
-          securityContext:
-            runAsUser: 65534
-            runAsGroup: 65533
-            fsGroup: 65533
-            fsGroupChangePolicy: OnRootMismatch
-
         containers:
           app:
             image:
               repository: ghcr.io/home-operations/home-assistant
-              tag: 2025.8.2
+              tag: 2025.8.2@sha256:285c0e289127e85a31e71b20b3529195cd859a19e34b8a05189ffb1ff391c345
             env:
-              VENV_FOLDER: /venv
+              TZ: Europe/London
             envFrom:
               - secretRef:
-                  name: home-assistant-secret
-            resources:
-              requests:
-                cpu: 47m
-                memory: 2Gi
-              limits:
-                memory: 2Gi
+                  name: "{{ .Release.Name }}-secret"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities:
-                drop:
-                  - ALL
+                {
+                  drop: ["ALL"],
+                  add: ["NET_ADMIN", "NET_RAW", "NET_BROADCAST"],
+                }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 2Gi
 
           code-server:
             image:
@@ -101,6 +101,15 @@ spec:
                 cpu: 10m
               limits:
                 memory: 1Gi
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      # hostNetwork: true
     service:
       app:
         primary: true
@@ -115,44 +124,13 @@ spec:
         ports:
           code-server:
             port: 12321
-    persistence:
-
-      config:
-        existingClaim: "{{ .Release.Name }}"
-        advancedMounts:
-          home-assistant:
-            app:
-              - path: /config
-            code-server:
-              - path: /config
-
-      hass-cache:
-        existingClaim: "{{ .Release.Name }}-cache"
-        advancedMounts:
-          home-assistant:
-            app:
-              - path: /venv
-                subPath: hass-venv
-      tmpfs:
-        type: emptyDir
-        advancedMounts:
-          home-assistant:
-            app:
-              - path: /tmp
-                subPath: hass-tmp
-            code-server:
-              - path: /tmp
-                subPath: code-server-tmp
-              - path: /nonexistent
-                subPath: nonexistent
-
     route:
       app:
         hostnames:
           - home.f9.casa
         parentRefs:
-          - name: internal
-            namespace: kube-system
+          - name: external
+            namespace: network
             sectionName: https
         rules:
           - matches:
@@ -171,3 +149,34 @@ spec:
           - backendRefs:
               - identifier: app
                 port: 8123
+
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}"
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /config
+            code-server:
+              - path: /config
+
+      config-cache:
+        existingClaim: "{{ .Release.Name }}-cache"
+        globalMounts:
+          - path: /config/.venv
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /config/logs
+                subPath: logs
+              - path: /config/tts
+                subPath: tts
+              - path: /tmp
+                subPath: tmp
+            code-server:
+              - path: /tmp
+                subPath: code-server-tmp
+              - path: /nonexistent
+                subPath: nonexistent
