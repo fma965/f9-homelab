@@ -64,6 +64,9 @@ spec:
               tag: 2025.8.2
             env:
               VENV_FOLDER: /venv
+            envFrom:
+              - secretRef:
+                  name: home-assistant-secret
             resources:
               requests:
                 cpu: 47m
