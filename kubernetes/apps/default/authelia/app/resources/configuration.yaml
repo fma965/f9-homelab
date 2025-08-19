@@ -91,6 +91,7 @@ access_control:
         - plex.f9.casa
         - remote.f9.casa
         - s3.f9.casa
+        - "*.s3.f9.casa"
         - status.f9.casa
         - sync.f9.casa
         - "*.gameservers.f9.casa"
