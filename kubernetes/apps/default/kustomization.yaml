@@ -21,3 +21,4 @@ resources:
 - ./sonarr/ks.yaml
 - ./zigbee/ks.yaml
 - ./externalsecret.yaml
+- ./immich/ks.yaml

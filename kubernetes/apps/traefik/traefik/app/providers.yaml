@@ -121,21 +121,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://f9-nas.internal:5000"
-    immich.yaml: |-
-        http:
-          routers:
-            immich:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`photos.f9.casa`)"
-              tls:
-              service: immich
-              middlewares: traefik-default-headers@kubernetescrd
-          services:
-            immich:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:8082"
     zipline.yaml: |-
         http:
           routers:

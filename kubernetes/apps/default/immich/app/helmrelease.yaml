@@ -1,0 +1,113 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app immich
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      server:
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 1002
+            runAsGroup: 100
+            runAsNonRoot: true
+            fsGroup: 100
+            fsGroupChangePolicy: OnRootMismatch
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 17.6.0@sha256:86a1992d46273c58fd4ad95b626081dfaabfe16bd56944675169e406d1a660dd
+            env:
+              INIT_POSTGRES_DBNAME: &dbName immich
+              INIT_POSTGRES_HOST: &dbHost postgresql.postgresql.svc.cluster.local
+              INIT_POSTGRES_USER: &dbUser immich
+              INIT_POSTGRES_PASS: &dbPass
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-secret
+                    key: IMMICH_DB_PASSWORD
+              INIT_POSTGRES_SUPER_USER: admin
+              INIT_POSTGRES_SUPER_PASS:
+                valueFrom:
+                  secretKeyRef:
+                    name: database-superuser-secret
+                    key: POSTGRESQL_PASS
+        containers:
+          main:
+            image:
+              repository: ghcr.io/immich-app/immich-server
+              tag: v1.138.1@sha256:1d303559b4c7c6b4ea3cea2276279e4cafdf605c624625674924a6ac04f263cb
+            env:
+              REDIS_HOSTNAME: redis.redis.default.svc.cluster.local
+              TZ: Europe/London
+              PUBLIC_IMMICH_SERVER_URL: "https://photos.f9.casa"
+            envFrom:
+              - secretRef:
+                  name: immich-secret
+    service:
+      server:
+        controller: server
+        ports:
+          http:
+            port: &port 2283
+    route:
+      frontend:
+        enabled: true
+        kind: HTTPRoute
+        parentRefs:
+          - kind: Gateway
+            name: internal
+            namespace: network
+            sectionName: websecure
+        hostnames:
+          - photos.f9.casa
+        rules:
+          - backendRefs:
+              - name: immich-server
+                port: *port
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+    persistence:
+      matplotlib:
+        type: emptyDir
+        globalMounts:
+          - path: /config/matplotlib
+      library:
+        type: nfs
+        server: f9-nas.internal
+        path: /mnt/user/Photos
+        globalMounts:
+          - path: /usr/src/app/upload
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          server:
+            main:
+              - path: /usr/src/app/.reverse-geocoding-dump
+                subPath: geocoding
+              - path: /usr/src/app/.transformers_cache
+                subPath: transformers
