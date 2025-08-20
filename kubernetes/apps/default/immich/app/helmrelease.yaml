@@ -63,6 +63,10 @@ spec:
               REDIS_HOSTNAME: redis.redis.default.svc.cluster.local
               TZ: Europe/London
               PUBLIC_IMMICH_SERVER_URL: "https://photos.f9.casa"
+              DB_HOSTNAME: *dbHost
+              DB_PORT: 5432
+              DB_USERNAME: *dbUser
+              DB_DATABASE_NAME: *dbName
             envFrom:
               - secretRef:
                   name: immich-secret
