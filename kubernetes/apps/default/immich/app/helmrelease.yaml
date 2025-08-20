@@ -47,7 +47,7 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: immich-secret
-                    key: IMMICH_DB_PASSWORD
+                    key: DB_PASSWORD
               INIT_POSTGRES_SUPER_USER: admin
               INIT_POSTGRES_SUPER_PASS:
                 valueFrom:
