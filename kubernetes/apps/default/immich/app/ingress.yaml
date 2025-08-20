@@ -12,7 +12,7 @@ spec:
     - match: Host(`photos.f9.casa`)
       kind: Rule
       services:
-        - name: immich-server
+        - name: immich
           port: 2283
       middlewares:
         - name: default-headers
