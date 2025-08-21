@@ -9,7 +9,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`s3.f9.casa`) || HostRegexp(`{subdomain:[a-zA-Z0-9-]+}.s3.f9.casa`)
+    - match: Host(`s3.f9.casa`) || HostRegexp(`^.+\.s3\.f9\.casa$`)
       kind: Rule
       services:
         - name: minio
