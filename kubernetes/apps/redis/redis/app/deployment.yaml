@@ -23,7 +23,7 @@ spec:
       nodeSelector:
         worker: "true"
       containers:
-        - image: bitnami/redis:8.2.0
+        - image: bitnami/redis:8.2.1
           name: redis
           securityContext:
             runAsUser: 0
