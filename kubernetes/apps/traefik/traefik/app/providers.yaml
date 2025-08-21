@@ -38,38 +38,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://f9-nas.internal"
-    s3.yaml: |-
-        http:
-          routers:
-            s3:
-              entryPoints:
-                - "websecure"
-              rule: Host(`s3.f9.casa`) || HostRegexp(`^.+\.s3\.f9\.casa$`)
-              tls: {}
-              service: s3
-              middlewares: traefik-default-headers@kubernetescrd
-          services:
-            s3:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:3900"
-    garage-webui.yaml: |-
-        http:
-          routers:
-            garage-webui:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`garage.f9.casa`)"
-              tls:
-              service: garage-webui
-              middlewares:
-                - traefik-default-headers@kubernetescrd
-
-          services:
-            garage-webui:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:3909"
     adguardhome.yaml: |-
         http:
           routers:

@@ -22,3 +22,4 @@ resources:
 - ./zigbee/ks.yaml
 - ./externalsecret.yaml
 - ./immich/ks.yaml
+- ./minio/ks.yaml
