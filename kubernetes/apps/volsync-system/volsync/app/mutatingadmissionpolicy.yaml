@@ -99,7 +99,7 @@ spec:
                 name: "repository",
                 nfs: Object.spec.template.spec.volumes.nfs{
                   server: "f9-nas.internal",
-                  path: "/mnt/user/Kubernetes/VolsyncKopia"
+                  path: "/mnt/Data/Kubernetes/Volsync"
                 }
               }
             }

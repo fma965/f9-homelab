@@ -87,7 +87,7 @@ spec:
       repository:
         type: nfs
         server: f9-nas.internal
-        path: /mnt/user/Kubernetes/VolsyncKopia
+        path: /mnt/Data/Kubernetes/Volsync
         globalMounts:
           - path: /repository
       tmpfs:

@@ -36,7 +36,7 @@ spec:
       name: nfs-slow
       parameters:
         server: f9-nas.internal
-        share: /mnt/user/Kubernetes
+        share: /mnt/Data/Kubernetes
       mountOptions:
         - nfsvers=4.2
         - nconnect=16
