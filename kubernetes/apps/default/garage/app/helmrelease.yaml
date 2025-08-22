@@ -83,22 +83,7 @@ spec:
     #         path: /minio/v2/metrics/cluster
     #         interval: 1m
     #         scrapeTimeout: 10s
-    ingress:
-      app:
-        className: internal
-        hosts:
-          - host: "{{ .Release.Name }}.f9.casa"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-          - host: s3.f9.casa
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: s3
+
     persistence:
       data:
         type: nfs
