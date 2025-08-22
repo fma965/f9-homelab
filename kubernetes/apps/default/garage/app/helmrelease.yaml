@@ -100,3 +100,11 @@ spec:
         path: /mnt/Data/S3/meta
         globalMounts:
           - path: /meta
+
+      config:
+        enabled: true
+        type: configMap
+        name: garage-configmap
+        globalMounts:
+          - path: /etc/garage.toml
+            subPath: configuration.toml
