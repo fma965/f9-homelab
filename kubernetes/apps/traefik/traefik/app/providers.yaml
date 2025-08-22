@@ -71,24 +71,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://f9-nas.internal:32400"
-    frigate.yaml: |-
-        http:
-          routers:
-            frigate:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`cctv.f9.casa`)"
-              tls:
-              service: frigate
-              middlewares:
-                - traefik-default-headers@kubernetescrd
-
-
-          services:
-            frigate:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:5000"
     zipline.yaml: |-
         http:
           routers:
