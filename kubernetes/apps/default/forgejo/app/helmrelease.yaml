@@ -112,8 +112,10 @@ spec:
         advancedMounts:
           forgejo:
             app:
-              - path: /etc/gitea
-
+            - path: /etc/gitea
+              subPath: gitea-config # Directory within the PVC for config files
+            - path: /var/lib/gitea
+              subPath: gitea-data # Directory within the PVC for data files
       data:
         type: nfs
         server: f9-nas.internal
