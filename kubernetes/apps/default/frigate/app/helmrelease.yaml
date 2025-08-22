@@ -63,14 +63,6 @@ spec:
               limits:
                 memory: 10Gi
                 gpu.intel.com/i915: 1
-
-        initContainers:
-          copyconfig:
-            image:
-              repository: *imageRepo
-              tag: *imageTag
-            command: ["cp"]
-            args: ["-v", "/tmp/config.yml", "/config/config.yaml"]
     service:
       app:
         controller: frigate
@@ -91,7 +83,7 @@ spec:
         type: configMap
         name: frigate-configmap
         globalMounts:
-          - path: /tmp/config.yml # Let the initContainer copy it
+          - path: /config/config.yml # Let the initContainer copy it
             subPath: config.yml
             readOnly: true
       cache:
