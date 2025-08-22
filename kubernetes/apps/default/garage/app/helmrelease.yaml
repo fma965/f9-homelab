@@ -28,6 +28,9 @@ spec:
               tag: v1.2.0
             env:
               TZ: "Europe/London"
+            envFrom:
+              - secretRef:
+                  name: garage-secret
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -97,11 +100,3 @@ spec:
         path: /mnt/Data/S3/meta
         globalMounts:
           - path: /meta
-
-      config:
-        enabled: true
-        type: configMap
-        name: garage-configmap
-        globalMounts:
-          - path: /etc/garage.toml
-            subPath: configuration.toml
