@@ -14,9 +14,6 @@ spec:
       services:
         - name: garage
           port: 3900
-      middlewares:
-        - name: default-headers
-          namespace: traefik
     - match: Host(`garage.f9.casa`)
       kind: Rule
       services:
