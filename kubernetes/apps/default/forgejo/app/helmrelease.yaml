@@ -63,6 +63,11 @@ spec:
               FORGEJO__database__HOST: *dbHost
               FORGEJO__database__NAME: *dbName
               FORGEJO__database__USER: *dbUser
+              FORGEJO__database__PASSWD: &dbPass
+                valueFrom:
+                  secretKeyRef:
+                    name: forgejo-secret
+                    key: FORGEJO_DB_PASS
               FORGEJO__federation__ENABLED: "false"
               FORGEJO__git.timeout__MIGRATE: "3000"
               FORGEJO__git.timeout__MIRROR: "3000"
