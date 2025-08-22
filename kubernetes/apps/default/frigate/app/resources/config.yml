@@ -1,0 +1,90 @@
+logger:
+  default: info
+  # logs:
+  #   frigate.record: debug
+
+database:
+  path: /data/frigate.db
+
+detectors:
+  ov:
+    type: openvino
+    device: CPU
+
+model:
+  width: 300
+  height: 300
+  input_tensor: nhwc
+  input_pixel_format: bgr
+  path: /openvino-model/ssdlite_mobilenet_v2.xml
+  labelmap_path: /openvino-model/coco_91cl_bkgr.txt
+
+mqtt: # If you have a MQTT server then update this section, if not delete it.
+  host: mosquitto.default.svc.cluster.local
+  topic_prefix: frigate
+
+birdseye:
+  enabled: false
+
+ffmpeg:
+  hwaccel_args: preset-vaapi
+
+objects: # Object to detect - https://docs.frigate.video/configuration/objects
+  track:
+    - person
+    - car
+    - motorcycle
+    - bicycle
+    - sports ball
+
+record: # what you want Frigate to record
+  enabled: true
+  retain:
+    mode: motion
+    days: 30
+  alerts:
+    retain:
+      days: 14
+  detections:
+    retain:
+      days: 14
+snapshots:
+  enabled: true
+  retain:
+    default: 30
+
+go2rtc:
+  streams:
+    home:
+      - rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@{FRIGATE_CAMERA_HOST}/Streaming/Channels/101 # <- stream which supports video & aac audio. This is only supported for rtsp streams, http must use ffmpeg
+    home_sub:
+      - rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@{FRIGATE_CAMERA_HOST}/Streaming/Channels/102 # <- stream which supports video & aac audio. This is only supported for rtsp streams, http must use ffmpeg
+    # a1_printer:
+    #   - "exec:/config/camera-stream.py"
+  webrtc:
+    candidates:
+      - stun:8555
+cameras:
+  home:
+    ffmpeg:
+      inputs:
+        - path: rtsp://localhost:8554/home # <--- the name here must match the name of the camera in restream
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://localhost:8554/home_sub # <--- the name here must match the name of the camera_sub in restream
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+    motion:
+      mask:
+        - 640,320,589,360,640,360,640,154,458,145
+        - 214,328,212,348,22,347,24,328
+      threshold: 45
+      contour_area: 10
+      improve_contrast: 'true'
+    zones:
+      garden:
+        coordinates: 0,360,589,360,452,216,0,205
+      public:
+        coordinates: 640,0,640,188,0,152,0,0

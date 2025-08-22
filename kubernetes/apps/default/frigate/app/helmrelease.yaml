@@ -1,0 +1,107 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app frigate
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      server:
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+        containers:
+          app:
+            image:
+              repository: ghcr.io/blakeblackshear/frigate
+              tag: 0.15.0-beta2@sha256:e30431570cdeb1f1b5e258e29cb87e01fcf2e94f3efabe5c5576f413f9a76b1a
+            env:
+              TZ: Europe/London
+              LIBVA_DRIVER_NAME: i915
+            envFrom:
+              - secretRef:
+                  name: frigate-secret
+            probes:
+              liveness: &probes
+                enabled: false
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/version
+                    port: &port 5000
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            securityContext:
+              privileged: true
+            resources:
+              requests:
+                cpu: 1000m
+                memory: 2Gi
+              limits:
+                memory: 10Gi
+                gpu.intel.com/i915: 1
+    service:
+      app:
+        controller: frigate
+        ports:
+          http:
+            port: *port
+          rtsp:
+            port: 8554
+
+    persistence:
+      config:
+        existingClaim: frigate
+        advancedMounts:
+          frigate:
+            app:
+              - path: /data
+      config-file:
+        type: configMap
+        name: frigate-configmap
+        globalMounts:
+          - path: /config/config.yml
+            subPath: config.yml
+            readOnly: true
+      cache:
+        type: emptyDir
+        advancedMounts:
+          frigate:
+            app:
+              - path: /dev/shm
+      media:
+        type: nfs
+        server: f9-nas.internal
+        path: /mnt/Data/CCTV
+        globalMounts:
+          - path: /media
+        enabled: true
