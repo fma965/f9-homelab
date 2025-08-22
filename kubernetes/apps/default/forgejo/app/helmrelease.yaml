@@ -35,7 +35,7 @@ spec:
               INIT_POSTGRES_PASS: &dbPass
                 valueFrom:
                   secretKeyRef:
-                    name: home-assistant-secret
+                    name: forgejo-secret
                     key: FORGEJO_DB_PASS
               INIT_POSTGRES_SUPER_USER: admin
               INIT_POSTGRES_SUPER_PASS:
