@@ -29,10 +29,10 @@ spec:
         pod:
           enableServiceLinks: false
           securityContext:
-            runAsUser: 1002
-            runAsGroup: 100
+            runAsUser: 1000
+            runAsGroup: 1000
             runAsNonRoot: true
-            fsGroup: 100
+            fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
         initContainers:
           init-db:
@@ -103,7 +103,7 @@ spec:
       library:
         type: nfs
         server: f9-nas.internal
-        path: /mnt/user/Photos
+        path: /mnt/F9/Media/Photos
         globalMounts:
           - path: /usr/src/app/upload
       tmpfs:
