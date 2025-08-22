@@ -41,7 +41,7 @@ spec:
         - name: DEFAULT_BACKUP_LOCATION
           value: "S3"
         - name: DEFAULT_S3_BUCKET
-          value: "f9-k3s-longhorn"
+          value: "f9-database"
         - name: DEFAULT_S3_PATH
           value: "database"
         - name: DEFAULT_S3_KEY_ID
