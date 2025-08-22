@@ -78,6 +78,8 @@ spec:
         ports:
           s3:
             port: 3900
+          api:
+            port: 3903
           webui:
             port: 3909
     # serviceMonitor:
