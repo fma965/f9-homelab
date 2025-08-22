@@ -87,7 +87,7 @@ spec:
       media:
         type: nfs
         server: f9-nas.internal
-        path: /mnt/user/Media
+        path: /mnt/F9/Media
         globalMounts:
           - path: /media
             readOnly: true
