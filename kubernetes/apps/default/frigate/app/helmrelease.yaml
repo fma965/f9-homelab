@@ -34,7 +34,6 @@ spec:
               tag: &imageTag 0.16.0@sha256:c2d49a6fedcca8928db1eccfa8018c8138b25dfe7d506a7ea499aebc3c799b0b
             env:
               TZ: Europe/London
-              LIBVA_DRIVER_NAME: i915
             envFrom:
               - secretRef:
                   name: frigate-secret
@@ -83,7 +82,7 @@ spec:
         type: configMap
         name: frigate-configmap
         globalMounts:
-          - path: /config/config.yml # Let the initContainer copy it
+          - path: /config/config.yml
             subPath: config.yml
             readOnly: true
       cache:
