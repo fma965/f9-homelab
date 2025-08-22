@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: minio
+  name: garage
 spec:
   interval: 1h
   chartRef:
@@ -18,39 +18,35 @@ spec:
       retries: 3
   values:
     controllers:
-      minio:
+      garage:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
-              repository: quay.io/minio/minio
-              tag: RELEASE.2025-02-28T09-55-16Z@sha256:a929054ae025fa7997857cd0e2a2e3029238e31ad89877326dc032f4c1a14259
+              repository: dxflrs/garage
+              tag: v1.2.0
             env:
-              MINIO_UPDATE: "off"
-              MINIO_BROWSER_REDIRECT_URL: https://minio.f9.casa
-              MINIO_SERVER_URL: https://s3.f9.casa
-              MINIO_PROMETHEUS_URL: http://kube-prometheus-stack-prometheus.monitoring-system.svc.cluster.local:9090
-              MINIO_API_CORS_ALLOW_ORIGIN: https://minio.f9.casa,https://s3.f9.casa
-              MINIO_PROMETHEUS_JOB_ID: minio
-              MINIO_PROMETHEUS_AUTH_TYPE: public
+              TZ: "Europe/London"
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 2Gi
+          webui:
+            image:
+              repository: khairul169/garage-webui
+              tag: 1.0.9@sha256:c931455c25bfbededa450cd7ec6f389ce52ad1bc861f8d0b93d00ced78e438dd
+            env:
+              API_BASE_URL: "http://garage.default.svc.cluster.local:3903"
+              S3_ENDPOINT_URL: "http://garage.default.svc.cluster.local:3900"
             envFrom:
               - secretRef:
-                  name: minio-secret
-            args: ["server", "/data", "--console-address", ":9001"]
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /minio/health/live
-                    port: 9000
-                  initialDelaySeconds: 30
-                  periodSeconds: 30
-                  timeoutSeconds: 10
-                  failureThreshold: 6
-              readiness: *probes
+                  name: garage-secret
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -71,21 +67,22 @@ spec:
         seccompProfile: { type: RuntimeDefault }
     service:
       app:
-        controller: minio
         ports:
           http:
-            port: 9001
-          s3:
-            port: 9000
-    serviceMonitor:
-      app:
-        serviceName: minio
-        endpoints:
-          - port: s3
-            scheme: http
-            path: /minio/v2/metrics/cluster
-            interval: 1m
-            scrapeTimeout: 10s
+            port: 3900
+      webui:
+        ports:
+          http:
+            port: 3909
+    # serviceMonitor:
+    #   app:
+    #     serviceName: minio
+    #     endpoints:
+    #       - port: s3
+    #         scheme: http
+    #         path: /minio/v2/metrics/cluster
+    #         interval: 1m
+    #         scrapeTimeout: 10s
     ingress:
       app:
         className: internal
@@ -103,9 +100,23 @@ spec:
                   identifier: app
                   port: s3
     persistence:
-      config:
+      data:
         type: nfs
         server: f9-nas.internal
-        path: /mnt/Data/S3
+        path: /mnt/Data/S3/data
         globalMounts:
           - path: /data
+      meta:
+        type: nfs
+        server: f9-nas.internal
+        path: /mnt/Data/S3/meta
+        globalMounts:
+          - path: /meta
+
+      config:
+        enabled: true
+        type: configMap
+        name: garage-configmap
+        globalMounts:
+          - path: /etc/garage.toml
+            subPath: configuration.toml
