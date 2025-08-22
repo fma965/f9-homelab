@@ -26,19 +26,11 @@ spec:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
-        pod:
-          enableServiceLinks: false
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            runAsNonRoot: true
-            fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
         containers:
           app:
             image:
               repository: ghcr.io/blakeblackshear/frigate
-              tag: 0.15.0-beta2@sha256:e30431570cdeb1f1b5e258e29cb87e01fcf2e94f3efabe5c5576f413f9a76b1a
+              tag: 0.15.2@sha256:44745918b0124253890b389e41ed9e24553bd156ab3f9e2b06723c0dfed2af8c
             env:
               TZ: Europe/London
               LIBVA_DRIVER_NAME: i915
