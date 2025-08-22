@@ -12,7 +12,7 @@ spec:
     - match: Host(`s3.f9.casa`) || HostRegexp(`^.+\.s3\.f9\.casa$`)
       kind: Rule
       services:
-        - name: garage
+        - name: garage-app
           port: 3900
       middlewares:
         - name: default-headers
@@ -20,7 +20,7 @@ spec:
     - match: Host(`garage.f9.casa`)
       kind: Rule
       services:
-        - name: garage
+        - name: garage-webui
           port: 3909
       middlewares:
         - name: default-headers
