@@ -210,21 +210,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://f9-nas.internal:9898"
-    forgejo.yaml: |-
-        http:
-          routers:
-            forgejo:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`git.f9.casa`)"
-              tls:
-              service: forgejo
-              middlewares: traefik-default-headers@kubernetescrd
-          services:
-            forgejo:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:3001"
     remote.yaml: |-
         http:
           routers:

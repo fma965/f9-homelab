@@ -1,0 +1,118 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: forgejo
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      home-assistant:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          annotations:
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 17.6.0@sha256:86a1992d46273c58fd4ad95b626081dfaabfe16bd56944675169e406d1a660dd
+            env:
+              INIT_POSTGRES_DBNAME: &dbName forgejo
+              INIT_POSTGRES_HOST: &dbHost postgresql.postgresql.svc.cluster.local
+              INIT_POSTGRES_USER: &dbUser forgejo
+              INIT_POSTGRES_PASS: &dbPass
+                valueFrom:
+                  secretKeyRef:
+                    name: home-assistant-secret
+                    key: FORGEJO_DB_PASS
+              INIT_POSTGRES_SUPER_USER: admin
+              INIT_POSTGRES_SUPER_PASS:
+                valueFrom:
+                  secretKeyRef:
+                    name: database-superuser-secret
+                    key: POSTGRESQL_PASS
+
+        containers:
+          app:
+            image:
+              repository: codeberg.org/forgejo/forgejo
+              pullPolicy: IfNotPresent
+              tag: 12.0.1-rootless@sha256:d3cf45e6fa7cda0c329a02ce4d5c57cd5fae67f6d39bb5057b77c081938594df
+            env:
+              TZ: Europe/London
+              USER_UID: 1000
+              USER_GID: 1000
+              FORGEJO__APP_NAME: "F9 Git"
+              FORGEJO__APP_SLOGAN: ""
+              FORGEJO__cache__ENABLED: "true"
+              FORGEJO__cache__ADAPTER: "redis"
+              FORGEJO__cache__HOST: "redis://:${REDIS_PASSWORD}@redis.redis.svc.cluster.local:6379"
+              FORGEJO__database__DB_TYPE: "postgres"
+              FORGEJO__database__HOST: *dbHost
+              FORGEJO__database__NAME: *dbName
+              FORGEJO__database__USER: *dbUser
+              FORGEJO__federation__ENABLED: "false"
+              FORGEJO__git.timeout__MIGRATE: "3000"
+              FORGEJO__git.timeout__MIRROR: "3000"
+              FORGEJO__mailer__ENABLED: "true"
+              FORGEJO__mailer__PROTOCOL: "smtp"
+              FORGEJO__mailer__SMTP_ADDR: "smtp-relay.network.svc.cluster.local"
+              FORGEJO__mailer__SMTP_PORT: "25"
+              FORGEJO__mailer__FROM: "git@f9.casa"
+              FORGEJO__repository__DEFAULT_PRIVATE: "true"
+              FORGEJO__repository__DEFAULT_REPO_UNITS: "repo.code,repo.releases,repo.issues,repo.pulls,repo.packages"
+              FORGEJO__repository__DEFAULT_PUSH_CREATE_PRIVATE: "true"
+              FORGEJO__repository__ENABLE_PUSH_CREATE_USER: "true"
+              FORGEJO__repository__ENABLE_PUSH_CREATE_ORG: "true"
+              FORGEJO__server__ROOT_URL: "https://git.f9.casa"
+              FORGEJO__server__APP_DATA_PATH: "/data/gitea"
+              FORGEJO__server__SSH_PORT: "22"
+              FORGEJO__server__SSH_LISTEN_PORT: "2222"
+              FORGEJO__service__DISABLE_REGISTRATION: "true"
+              FORGEJO__service__ENABLE_NOTIFY_MAIL: "true"
+              FORGEJO__service__REQUIRE_SIGNIN_VIEW: "false"
+              FORGEJO__ui__DEFAULT_SHOW_FULL_NAME: "true"
+              FORGEJO__ui__DEFAULT_THEME: "gitea-dark"
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: 3000
+
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}"
+        advancedMounts:
+          forgejo:
+            app:
+              - path: /etc/gitea
+
+      data:
+        type: nfs
+        server: f9-nas.internal
+        path: /mnt/Data/Forgejo
+        globalMounts:
+          - path: /data
+        enabled: true

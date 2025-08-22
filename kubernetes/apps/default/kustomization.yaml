@@ -24,3 +24,4 @@ resources:
 - ./immich/ks.yaml
 - ./garage/ks.yaml
 - ./frigate/ks.yaml
+- ./forgejo/ks.yaml
