@@ -21,20 +21,20 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://10.0.10.216:8123"
-    unraid.yaml: |-
+    truenas.yaml: |-
         http:
           routers:
-            unraid:
+            truenas:
               entryPoints:
                 - "websecure"
-              rule: "Host (`unraid.f9.casa`)"
+              rule: "Host (`truenas.f9.casa`)"
               tls:
-              service: unraid
+              service: truenas
               middlewares:
                 - traefik-default-headers@kubernetescrd
 
           services:
-            unraid:
+            truenas:
               loadBalancer:
                 servers:
                   - url: "http://f9-nas.internal"
