@@ -83,12 +83,10 @@ access_control:
         - jellyfin.f9.casa
         - komodo.f9.casa
         - kromgo.f9.casa
-        - ollama.f9.casa
+        - chat.f9.casa
         - overlays.f9.casa
         - paperless.f9.casa
-        - pbs.f9.casa
         - photos.f9.casa
-        - plex.f9.casa
         - remote.f9.casa
         - s3.f9.casa
         - "*.s3.f9.casa"
@@ -322,8 +320,6 @@ identity_providers:
           - https://f9-hv1.internal:8006
           - https://f9-hv2.internal:8006
           - https://f9-hv3.internal:8006
-          - https://pbs.f9.casa:8007
-          - https://pbs.f9.casa
           - https://hv1.f9.casa
           - https://hv2.f9.casa
           - https://hv3.f9.casa
