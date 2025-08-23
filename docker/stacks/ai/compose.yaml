@@ -42,3 +42,18 @@ services:
       - 7400:9000/tcp
     volumes:
       - /mnt/AI/appdata/stable-diffusion:/config
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:release-cuda
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - /mnt/AI/appdata/immich-machine-learning/cache:/cache
+    ports:
+      - 3003:3003
