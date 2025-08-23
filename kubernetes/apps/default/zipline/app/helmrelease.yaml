@@ -66,7 +66,6 @@ spec:
               OAUTH_OIDC_AUTHORIZE_URL: https://auth.f9.casa/api/oidc/authorization
               OAUTH_OIDC_USERINFO_URL: https://auth.f9.casa/api/oidc/userinfo
               OAUTH_OIDC_TOKEN_URL: https://auth.f9.casa/api/oidc/token
-              OAUTH_OIDC_REDIRECT_URI: https://auth.f9.casa/api/auth/oauth/oidc
               # Files
               FILES_ROUTE: /u
               FILES_LENGTH: 6
