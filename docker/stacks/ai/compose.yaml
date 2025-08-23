@@ -18,15 +18,9 @@ services:
     expose:
       - 11434/tcp
     image: ollama/ollama:0.11.5
-    labels:
-      net.unraid.docker.icon: https://ollama.ai/public/ollama.png
-      net.unraid.docker.managed: komodo
-      net.unraid.docker.webui: http://[IP]:[PORT:11434]/
-    networks:
-      - f9-nas
     volumes:
-      - /mnt/ai/ai-appdata/ollama:/root/.ollama
-  
+      - /mnt/AI/appdata/ollama:/root/.ollama
+
   open-webui:
     container_name: open-webui
     environment:
@@ -56,16 +50,10 @@ services:
       TIKTOKEN_CACHE_DIR: "/app/backend/data/cache/tiktoken"
       DOCKER: "true"
     image: ghcr.io/open-webui/open-webui:v0.6.25
-    labels:
-      net.unraid.docker.icon: https://raw.githubusercontent.com/open-webui/open-webui/main/static/favicon.png
-      net.unraid.docker.managed: komodo
-      net.unraid.docker.webui: http://[IP]:[PORT:8080]/
-    networks:
-      - f9-nas
     ports:
       - 8480:8080/tcp
     volumes:
-      - /mnt/ai/ai-appdata/ollama-webui:/app/backend/data
+      - /mnt/AI/appdata/ollama-webui:/app/backend/data
 
   stable-diffusion:
     container_name: stable-diffusion
@@ -79,23 +67,12 @@ services:
     environment:
       TZ: "Europe/London"
       WEBUI_VERSION: "02.forge"
-      NVIDIA_VISIBLE_DEVICES: "GPU-0b26890d-e635-4498-fa3e-4e7c59872681"
+      NVIDIA_VISIBLE_DEVICES: "ALL"
       PUID: "99"
       PGID: "100"
       NVIDIA_DRIVER_CAPABILITIES: "all"
     image: holaflenain/stable-diffusion:3.5.1
-    labels:
-      net.unraid.docker.icon: https://github.com/superboki/ressources/blob/6e39a0d104bf2c2de286743bf60b46134c3f043d/stable-diffusion-advanced/stable-diffusion-advanced.png?raw=true
-      net.unraid.docker.managed: komodo
-      net.unraid.docker.webui: http://[IP]:[PORT:9000]
-    networks:
-      - f9-nas
     ports:
       - 7400:9000/tcp
     volumes:
-      - /mnt/ai/ai-appdata/stable-diffusion:/config
-
-networks: 
-  f9-nas:
-    external: true
-    name: f9-nas
+      - /mnt/AI/appdata/stable-diffusion:/config

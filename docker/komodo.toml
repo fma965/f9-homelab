@@ -7,37 +7,12 @@ enabled = true
 ##
 
 [[stack]]
-name = "backup"
-[stack.config]
-server = "f9-nas"
-run_directory = "docker/stacks/backup"
-git_account = "fma965"
-repo = "fma965/f9-homelab"
-
-##
-
-[[stack]]
-name = "git"
-[stack.config]
-server = "f9-nas"
-run_directory = "docker/stacks/git"
-git_account = "fma965"
-repo = "fma965/f9-homelab"
-
-##
-
-[[stack]]
 name = "media"
 [stack.config]
 server = "f9-nas"
 run_directory = "docker/stacks/media"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
-environment = """
-IMMICH_DB_PASS=[[OP__KOMODO__MEDIA__IMMICH_DB_PASS]]
-ZIPLINE_CORE_SECRET=[[OP__KOMODO__MEDIA__ZIPLINE_CORE_SECRET]]
-ZIPLINE_DATABASE_URL=[[OP__KOMODO__MEDIA__ZIPLINE_DATABASE_URL]]
-"""
 
 ##
 
@@ -48,9 +23,6 @@ server = "f9-nas"
 run_directory = "docker/stacks/misc"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
-environment = """
-ADMIN_PASSWORD=[[OP__KOMODO__MISC__ADMIN_PASSWORD]]
-"""
 
 ##
 
@@ -70,15 +42,6 @@ enabled = true
 executions = [
   { execution.type = "BatchDeployStackIfChanged", execution.params.pattern = "*", enabled = true }
 ]
-
-##
-
-[[alerter]]
-name = "f9"
-[alerter.config]
-enabled = true
-endpoint.type = "Custom"
-endpoint.params.url = "http://komodo-discord-alerter:7000"
 
 ##
 
