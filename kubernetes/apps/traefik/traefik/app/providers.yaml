@@ -55,21 +55,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://192.168.1.1:8080"
-    zipline.yaml: |-
-        http:
-          routers:
-            zipline:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`i.f9.casa`)"
-              tls:
-              service: zipline
-              middlewares: traefik-default-headers@kubernetescrd
-          services:
-            zipline:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:8092"
     proxmox-hv1.yaml: |-
         http:
           routers:
