@@ -24,8 +24,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/ollama-webui/ollama-webui
-              tag: main@sha256:d5a5c1126b5decbfbfcac4f2c3d0595e0bbf7957e3fcabc9ee802d3bc66db6d2
+              repository: ghcr.io/open-webui/open-webui
+              tag: v0.6.25
             env:
               OLLAMA_BASE_URL: "http://f9-nas.internal:11434"
               # OAUTH_CLIENT_ID: "fefefefef"
@@ -55,6 +55,6 @@ spec:
 
     persistence:
       config:
-        existingClaim: openwebui
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /app/backend/data
