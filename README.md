@@ -29,7 +29,7 @@ Using [OpenTofu](https://github.com/opentofu/opentofu) ([Terraform fork](https:/
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f331/512.gif" alt="🌱" width="20" height="20"> Kubernetes
 
-My Kubernetes cluster is deployed with [Talos](https://www.talos.dev). This is a semi-hyper-converged cluster, workloads and block storage are sharing the same available resources on my nodes while I have a separate [Unraid](https://unraid.net/) server for NFS/SMB shares, bulk file storage and backups.
+My Kubernetes cluster is deployed with [Talos](https://www.talos.dev). This is a semi-hyper-converged cluster, workloads and block storage are sharing the same available resources on my nodes while I have a separate [TrueNAS](https://truenas.com) server for NFS/SMB shares, AI, bulk file storage and backups.
 
 ### Core Components
 
@@ -55,9 +55,7 @@ Flux will recursively search sub folders until it finds the most top level `kust
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f42c/512.gif" alt="🐬" width="20" height="20"> Docker
 
-My Docker instance is running on my [Unraid](https://unraid.net/) server and managed by [Komodo](https://github.com/moghtech/komodo) with GitOps practices, it runs most things that require bulk storage such as [Jellyfin](https://github.com/jellyfin/jellyfin), [Frigate](https://github.com/blakeblackshear/frigate), [Immich](https://github.com/immich-app/immich), [*Arrs](https://wiki.servarr.com/) and AI workloads.
-
-These could run on my Kubernetes cluster but as they require bulk storage it seems a bit pointless when Unraid is able to do these things for me.
+My Docker instance is running on my [TrueNAS](https://truenas.com/) server and managed by [Komodo](https://github.com/moghtech/komodo) with GitOps practices, it runs AI workloads that require a dedicated NVidia GPU, Ser2Net for my Zigbee adapter and more, I've tried to limit as much as possible what the NAS does and where possible offloaded it to the Kubernetes cluster.
 
 ### GitOps
 
@@ -141,44 +139,25 @@ chmod +x ./kubernetes/bootstrap.sh
 > [!NOTE]
 > Approximate time to deploy: *10 Minutes* (assuming NVME storage, excluding PV restore if applicable)
 
-### Stage 4: Bootstrap Docker Deployment
+### Stage 4: Bootstrap Docker Deployment (Semi-Manual)
 > [!WARNING]
-> If you do not intend to use Docker skip this stage, this has only been tested on Unraid but it should be quite easily adaptable to other operating systems
+> If you do not intend to use Docker skip this stage
 
-1. Ensure you have the [Docker Compose](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager/) plugin installed on Unraid
-
-2. Ensure the `SOPS_AGE_KEY_FILE` enviroment variable is set to the correct paths
-```bash
-export SOPS_AGE_KEY_FILE=$PWD/.age.key
-```
-
-3. Execute the [Docker Bootstrap script](docker/bootstrap.sh)
-> [!IMPORTANT]
-> replace `root@unraidIP` with your unraidIP
-```bash
-chmod +x ./docker/bootstrap.sh
-./docker/bootstrap.sh root@unraidIP
-```
-
-### Stage 5: Configuring Komodo (New Installs only)
 > [!NOTE]
-> If you have lost the Komodo database also follow the below steps to reconfigure the GitOps sync, adjust values to reflect your own configuration
-1. Access the [Komodo WebUI](https://komodo.f9.casa)
-2. Navigate to "Servers" and Delete the existing Server.
-3. Navigate to "Settings" > "Providers" and add a Github.com Account using your token
-4. Navigate to "Syncs" and Create a New Resource Sync called "f9-homelab"
-5. Set the Mode to "Git Repo", Repo to "fma965/f9-homelab"
-6. Set the Account to "fma965"
-7. Add the following resource path `docker/komodo.toml`
-8. Enable "Delete Unmatched Resources" and "Managed"
-9. Make sure only "Sync Resources" is checked under the Include section
-10. Click "Save", Click "Refresh" and the "Execute"
+> Currently Komodo does not support adding of a Git Repo via the km CLI, once this is added we can automate this a bit more
 
+1. Install Komodo from the AppStore (TrueNAS) or Docker Compose files (UnRaid / Other)
+2. Access the [Komodo WebUI](http://f9-nas.internal:9120)
+4. Navigate to "Settings" > "Profile" and create a "New Api Key", copy the Key and Secret in to the Komodo 1Password entry
+5. Navigate to "Settings" > "Providers" and add a Github.com Account using your token (regenerate it in Github if needed)
+6. Navigate to "Syncs" and Create a New Resource Sync called "f9-homelab"
+7. Set the Mode to "Git Repo", Repo to "fma965/f9-homelab"
+8. Set the Account to "fma965"
+9. Add the following resource path `docker/komodo.toml`
+10. Enable "Delete Unmatched Resources" and "Managed"
+11. Make sure only "Sync Resources" is checked under the Include section
+12. Click "Save", Click "Refresh" and the "Execute"
 
-### Notes
-- To upgrade Talos run the following command
-`talosctl upgrade --nodes 10.0.10.X --image factory.talos.dev/metal-installer/60b4c7d04d9dd7aa7c72c8e9abaf75c1ad0a40bb8a58589980c48ae449c36911:vX.X.X --wait`
-replacing the IP and vX.X.X with the relevant information
 ---
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f52e/512.gif" alt="🔮" width="20" height="20"> Git Repo Structure
@@ -191,15 +170,8 @@ replacing the IP and vX.X.X with the relevant information
 ├── 📂 docker
 │   ├── 📂 komodo                # Docker development environment configurations
 │   └── 📂 stacks
-│       ├── 📂 ai                  🤖 # AI/ML services (LLMs, vector DBs, etc.)
-│       ├── 📂 arr                 🎬 # *ARR media stack (Sonarr/Radarr/Prowlarr)
-│       ├── 📂 authentication      🔐 # Authentication services
-│       ├── 📂 backup              💾 # Backup solutions
-│       ├── 📂 downloaders         ⏬ # Download managers (qBittorrent, Sabnzbd)
-│       ├── 📂 git                 ⎙ # Git services (Gitea [Frogejo])
-│       ├── 📂 media               🎵 # Media players
-│       ├── 📂 misc                🎪 # Miscellaneous utilities
-│       └── 📂 monitoring          👁️ # Monitoring tools (Grafana, Prometheus)
+│       ├── 📂 default             🎪 # Miscellaneous utilities
+│       └── 📂 ai                  🤖 # AI/ML services (LLMs, vector DBs, etc.)
 │
 ├── 📂 infrastructure
 │   └── 📂 talos
