@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: zipline
+  name: 2
 spec:
   interval: 1h
   chartRef:
@@ -116,4 +116,3 @@ spec:
         path: /mnt/Data/Zipline
         globalMounts:
           - path: /uploads
-            readOnly: true
