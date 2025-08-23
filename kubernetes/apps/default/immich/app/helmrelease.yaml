@@ -103,7 +103,7 @@ spec:
       library:
         type: nfs
         server: f9-nas.internal
-        path: /mnt/F9/Media/Photos
+        path: /mnt/F9/Photos
         globalMounts:
           - path: /usr/src/app/upload
       tmpfs:
