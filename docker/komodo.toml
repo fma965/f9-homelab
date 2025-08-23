@@ -6,32 +6,22 @@ enabled = true
 ##
 
 [[stack]]
+name = "default"
+[stack.config]
+server = "f9-nas"
+git_account = "fma965"
+repo = "fma965/f9-homelab"
+run_directory = "docker/stacks/default"
+
+##
+
+[[stack]]
 name = "ai"
 [stack.config]
 server = "f9-nas"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
 run_directory = "docker/stacks/ai"
-
-##
-
-[[stack]]
-name = "media"
-[stack.config]
-server = "f9-nas"
-git_account = "fma965"
-repo = "fma965/f9-homelab"
-run_directory = "docker/stacks/media"
-
-##
-
-[[stack]]
-name = "misc"
-[stack.config]
-server = "f9-nas"
-git_account = "fma965"
-repo = "fma965/f9-homelab"
-run_directory = "docker/stacks/misc"
 
 ##
 
