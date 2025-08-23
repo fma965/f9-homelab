@@ -35,10 +35,11 @@ spec:
               ENABLE_OAUTH_SIGNUP: "true"
               OAUTH_MERGE_ACCOUNTS_BY_EMAIL: "true"
               OAUTH_SCOPES: "openid email profile groups"
-              ENABLE_OAUTH_ROLE_MANAGEMENT: true
+              ENABLE_OAUTH_ROLE_MANAGEMENT: "true"
               OAUTH_ALLOWED_ROLES: openwebui,openwebui-admin,admin
               OAUTH_ADMIN_ROLES: openwebui-admin,admin
               OAUTH_ROLES_CLAIM: groups
+              ENABLE_LOGIN_FORM: "false"
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
