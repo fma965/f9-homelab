@@ -1,0 +1,60 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: openwebui
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      openwebui:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/ollama-webui/ollama-webui
+              tag: main@sha256:d5a5c1126b5decbfbfcac4f2c3d0595e0bbf7957e3fcabc9ee802d3bc66db6d2
+            env:
+              OLLAMA_BASE_URL: "http://f9-nas.internal:11434"
+              # OAUTH_CLIENT_ID: "fefefefef"
+              # OAUTH_CLIENT_SECRET: "${OPEN_WEBUI_OAUTH_CLIENT_SECRET}"
+              # OAUTH_PROVIDER_NAME: "F9Casa"
+              # OPENID_PROVIDER_URL: "https://auth.f9.casa/"
+              TZ: "Europe/London"
+              # ENABLE_OAUTH_SIGNUP: "true"
+              # OAUTH_MERGE_ACCOUNTS_BY_EMAIL: "true"
+            resources:
+              requests:
+                cpu: 200m
+              limits:
+                memory: 2Gi
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: false
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: &port 8080
+    persistence:
+      config:
+        existingClaim: openwebui
+        globalMounts:
+          - path: /app/backend/data

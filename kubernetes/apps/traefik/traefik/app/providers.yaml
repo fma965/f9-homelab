@@ -161,21 +161,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://10.0.10.32:8100"
-    openwebui.yaml: |-
-        http:
-          routers:
-            openwebui:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`chat.f9.casa`)"
-              tls:
-              service: openwebui
-              middlewares: traefik-default-headers@kubernetescrd
-          services:
-            openwebui:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:8480"
     forgeui.yaml: |-
         http:
           routers:
