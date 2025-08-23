@@ -55,22 +55,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://192.168.1.1:8080"
-    plex.yaml: |-
-        http:
-          routers:
-            plex:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`plex.f9.casa`)"
-              tls:
-              service: plex
-              middlewares: traefik-default-headers@kubernetescrd
-
-          services:
-            plex:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:32400"
     zipline.yaml: |-
         http:
           routers:
@@ -163,23 +147,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://f9-nas.internal:7400"
-    backrest.yaml: |-
-        http:
-          routers:
-            backrest:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`backup.f9.casa`)"
-              tls:
-              service: backrest
-              middlewares:
-                - traefik-default-headers@kubernetescrd
-
-          services:
-            backrest:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:9898"
     remote.yaml: |-
         http:
           routers:
@@ -272,19 +239,3 @@ data:
               loadBalancer:
                 servers:
                   - url: "http://10.0.10.33:8080"
-    passbolt.yaml: |-
-        http:
-          routers:
-            passbolt:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`passbolt.f9.casa`)"
-              tls:
-              service: passbolt
-              middlewares:
-                - traefik-default-headers@kubernetescrd
-          services:
-            passbolt:
-              loadBalancer:
-                servers:
-                  - url: "http://f9-nas.internal:5680"
