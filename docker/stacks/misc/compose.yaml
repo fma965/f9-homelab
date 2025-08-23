@@ -11,5 +11,5 @@ services:
       - "631:631/tcp"
     restart: "always"
     volumes:
-      - "/mnt/user/appdata/cups:/etc/cups"
+      - "/mnt/apps-pool/appdata/cups:/etc/cups"
       - "/var/run/dbus:/var/run/dbus"
