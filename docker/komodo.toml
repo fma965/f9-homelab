@@ -50,6 +50,14 @@ name = "Discord"
 enabled = true
 endpoint.type = "Discord"
 endpoint.params.url = "[[OP__KOMODO__MONITORING__DISCORD_WEBHOOK]]"
+alert_types = [
+  "ServerCpu",
+  "ServerUnreachable",
+  "StackStateChange",
+  "ContainerStateChange",
+  "ProcedureFailed",
+  "ResourceSyncPendingUpdates"
+]
 
 ##
 
