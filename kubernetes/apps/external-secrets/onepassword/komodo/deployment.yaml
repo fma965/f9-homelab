@@ -6,6 +6,8 @@ metadata:
     app: onepassword-komodo
     app.kubernetes.io/instance: onepassword-komodo
     app.kubernetes.io/name: onepassword-komodo
+  annotations:
+    reloader.stakater.com/auto: "true"
   name: onepassword-komodo
 spec:
   replicas: 1
