@@ -32,7 +32,7 @@ services:
               capabilities: [gpu]
     environment:
       TZ: "Europe/London"
-      WEBUI_VERSION: "07"
+      WEBUI_VERSION: "02.forge"
       NVIDIA_VISIBLE_DEVICES: "ALL"
       PUID: "99"
       PGID: "100"
