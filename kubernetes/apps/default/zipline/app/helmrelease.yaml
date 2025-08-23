@@ -1,0 +1,121 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: zipline
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      zipline:
+        labels:
+          postgres: "true"
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 17.6.0@sha256:86a1992d46273c58fd4ad95b626081dfaabfe16bd56944675169e406d1a660dd
+            env:
+              INIT_POSTGRES_DBNAME: &dbName zipline
+              INIT_POSTGRES_HOST: &dbHost postgresql.postgresql.svc.cluster.local
+              INIT_POSTGRES_USER: &dbUser zipline
+              INIT_POSTGRES_PASS: &dbPass
+                valueFrom:
+                  secretKeyRef:
+                    name: zipline-secret
+                    key: ZIPLINE_DB_PASS
+              INIT_POSTGRES_SUPER_USER: admin
+              INIT_POSTGRES_SUPER_PASS:
+                valueFrom:
+                  secretKeyRef:
+                    name: database-superuser-secret
+                    key: POSTGRESQL_PASS
+        containers:
+          app:
+            image:
+              repository: ghcr.io/diced/zipline
+              tag: 4.2.3@sha256:cb1f8ddd50026c47cb8115c37b5af0ef90d783a5e4e4fbc75eebfd0cd10a80e9
+            env:
+              TZ: Europe/London
+              # Core config
+              CORE_RETURN_HTTPS_URLS: true
+              CORE_DEFAULT_DOMAIN: i.f9.casa
+              # Datasources
+              DATASOURCE_TYPE: local
+              # Features
+              INVITES_ENABLED: false
+              FEATURES_ROBOTS_TXT: false
+              FEATURES_USER_REGISTRATION: false
+              FEATURES_OAUTH_REGISTRATION: true
+              FEATURES_VERSION_CHECKING: false
+              # OIDC
+              OAUTH_LOGIN_ONLY: true
+              OAUTH_OIDC_AUTHORIZE_URL: https://auth.f9.casa/api/oidc/authorization
+              OAUTH_OIDC_USERINFO_URL: https://auth.f9.casa/api/oidc/userinfo
+              OAUTH_OIDC_TOKEN_URL: https://auth.f9.casa/api/oidc/token
+              OAUTH_OIDC_REDIRECT_URI: https://auth.f9.casa/api/auth/oauth/oidc
+              # Files
+              FILES_ROUTE: /u
+              FILES_LENGTH: 6
+              FILES_DEFAULT_FORMAT: "date"
+              FILES_DISABLED_EXTENSIONS: "ps1,pdf,bat,exe,sh,fish"
+              FILES_DEFAULT_DATE_FORMAT: "YYYY-MM-DD_HH-mm-ss"
+              FILES_DEFAULT_EXPIRATION: ""
+              FILES_REMOVE_GPS_METADATA: true
+              DATASOURCE_LOCAL_DIRECTORY: "/uploads"
+              # URLs
+              URLS_ROUTE: /g
+              URLS_LENGTH: 6
+              # Website
+              WEBSITE_TITLE: Zipline
+            envFrom:
+              - secretRef:
+                  name: zipline-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 5m
+                memory: 256M
+              limits:
+                memory: 512M
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: 3000
+
+    persistence:
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      media:
+        type: nfs
+        server: f9-nas.internal
+        path: /mnt/Data/Zipline
+        globalMounts:
+          - path: /uploads
+            readOnly: true
