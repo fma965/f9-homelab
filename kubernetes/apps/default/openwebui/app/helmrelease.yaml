@@ -40,6 +40,7 @@ spec:
               OAUTH_ADMIN_ROLES: openwebui-admin,admin
               OAUTH_ROLES_CLAIM: groups
               ENABLE_LOGIN_FORM: "false"
+              DEFAULT_USER_ROLE: "user"
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
