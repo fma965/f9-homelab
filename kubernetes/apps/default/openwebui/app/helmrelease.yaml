@@ -27,6 +27,7 @@ spec:
               repository: ghcr.io/open-webui/open-webui
               tag: v0.6.25
             env:
+              WEBUI_URL: https://chat.f9.casa
               OLLAMA_BASE_URL: "http://f9-nas.internal:11434"
               OAUTH_PROVIDER_NAME: "F9Casa"
               OPENID_PROVIDER_URL: "https://auth.f9.casa/.well-known/openid-configuration"
@@ -38,6 +39,9 @@ spec:
               OAUTH_ALLOWED_ROLES: openwebui,openwebui-admin
               OAUTH_ADMIN_ROLES: openwebui-admin
               OAUTH_ROLES_CLAIM: groups
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
             resources:
               requests:
                 cpu: 200m
