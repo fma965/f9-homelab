@@ -1,9 +1,7 @@
 [[server]]
 name = "f9-nas"
 [server.config]
-address = "https://periphery:8120"
 enabled = true
-
 
 ##
 
@@ -11,11 +9,9 @@ enabled = true
 name = "ai"
 [stack.config]
 server = "f9-nas"
-poll_for_updates = false
-auto_update = false
-run_directory = "docker/stacks/ai"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
+run_directory = "docker/stacks/ai"
 
 ##
 
@@ -23,9 +19,9 @@ repo = "fma965/f9-homelab"
 name = "media"
 [stack.config]
 server = "f9-nas"
-run_directory = "docker/stacks/media"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
+run_directory = "docker/stacks/media"
 
 ##
 
@@ -33,9 +29,9 @@ repo = "fma965/f9-homelab"
 name = "misc"
 [stack.config]
 server = "f9-nas"
-run_directory = "docker/stacks/misc"
 git_account = "fma965"
 repo = "fma965/f9-homelab"
+run_directory = "docker/stacks/misc"
 
 ##
 
@@ -73,3 +69,4 @@ repo = "fma965/f9-homelab"
 git_account = "fma965"
 resource_path = ["docker/komodo.toml"]
 managed = true
+delete = true
