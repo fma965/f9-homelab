@@ -4,7 +4,7 @@ kind: Gateway
 metadata:
   name: external
   annotations:
-    external-dns.alpha.kubernetes.io/target: external.f9.casa
+    # external-dns.alpha.kubernetes.io/target: external.f9.casa
 spec:
   gatewayClassName: envoy
   listeners:
