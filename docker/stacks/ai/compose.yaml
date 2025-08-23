@@ -15,45 +15,11 @@ services:
       NVIDIA_DRIVER_CAPABILITIES: "compute,utility"
       NVIDIA_VISIBLE_DEVICES: "all"
       OLLAMA_HOST: "0.0.0.0:11434"
-    expose:
-      - 11434/tcp
+    ports:
+      - 11434:11434/tcp
     image: ollama/ollama:0.11.5
     volumes:
       - /mnt/AI/appdata/ollama:/root/.ollama
-
-  open-webui:
-    container_name: open-webui
-    environment:
-      OLLAMA_BASE_URL: "http://ollama:11434"
-      OAUTH_CLIENT_ID: "ncLdk8QQPrzCCBUWI6jE8HO3UKOU5whFb5qlHsOX"
-      OAUTH_CLIENT_SECRET: "${OPEN_WEBUI_OAUTH_CLIENT_SECRET}"
-      OAUTH_PROVIDER_NAME: "F9Casa"
-      OPENID_PROVIDER_URL: "https://auth.f9.casa/application/o/open-webui/.well-known/openid-configuration"
-      TZ: "Europe/London"
-      ENABLE_OAUTH_SIGNUP: "true"
-      OAUTH_MERGE_ACCOUNTS_BY_EMAIL: "true"
-      ENV: "prod"
-      PORT: "8080"
-      USE_OLLAMA_DOCKER: "false"
-      USE_CUDA_DOCKER: "false"
-      USE_CUDA_DOCKER_VER: "cu121"
-      USE_EMBEDDING_MODEL_DOCKER: "sentence-transformers/all-MiniLM-L6-v2"
-      USE_RERANKING_MODEL_DOCKER: ""
-      SCARF_NO_ANALYTICS: "true"
-      DO_NOT_TRACK: "true"
-      WHISPER_MODEL: "base"
-      WHISPER_MODEL_DIR: "/app/backend/data/cache/whisper/models"
-      RAG_EMBEDDING_MODEL: "sentence-transformers/all-MiniLM-L6-v2"
-      RAG_RERANKING_MODEL: ""
-      SENTENCE_TRANSFORMERS_HOME: "/app/backend/data/cache/embedding/models"
-      TIKTOKEN_ENCODING_NAME: "cl100k_base"
-      TIKTOKEN_CACHE_DIR: "/app/backend/data/cache/tiktoken"
-      DOCKER: "true"
-    image: ghcr.io/open-webui/open-webui:v0.6.25
-    ports:
-      - 8480:8080/tcp
-    volumes:
-      - /mnt/AI/appdata/ollama-webui:/app/backend/data
 
   stable-diffusion:
     container_name: stable-diffusion
