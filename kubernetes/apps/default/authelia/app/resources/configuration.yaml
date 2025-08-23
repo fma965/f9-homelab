@@ -66,7 +66,7 @@ access_control:
     - domain:
         - auth.f9.casa
         - lldap.f9.casa
-
+        - i.f9.casa
         - api.f9.casa
         - debtmanager.f9.casa
         - docs.f9.casa
