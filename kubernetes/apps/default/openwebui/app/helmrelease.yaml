@@ -28,13 +28,16 @@ spec:
               tag: v0.6.25
             env:
               OLLAMA_BASE_URL: "http://f9-nas.internal:11434"
-              # OAUTH_CLIENT_ID: "fefefefef"
-              # OAUTH_CLIENT_SECRET: "${OPEN_WEBUI_OAUTH_CLIENT_SECRET}"
-              # OAUTH_PROVIDER_NAME: "F9Casa"
-              # OPENID_PROVIDER_URL: "https://auth.f9.casa/"
+              OAUTH_PROVIDER_NAME: "F9Casa"
+              OPENID_PROVIDER_URL: "https://auth.f9.casa/.well-known/openid-configuration"
               TZ: "Europe/London"
-              # ENABLE_OAUTH_SIGNUP: "true"
-              # OAUTH_MERGE_ACCOUNTS_BY_EMAIL: "true"
+              ENABLE_OAUTH_SIGNUP: "true"
+              OAUTH_MERGE_ACCOUNTS_BY_EMAIL: "true"
+              OAUTH_SCOPES: "openid email profile groups"
+              ENABLE_OAUTH_ROLE_MANAGEMENT: true
+              OAUTH_ALLOWED_ROLES: openwebui,openwebui-admin
+              OAUTH_ADMIN_ROLES: openwebui-admin
+              OAUTH_ROLES_CLAIM: groups
             resources:
               requests:
                 cpu: 200m
