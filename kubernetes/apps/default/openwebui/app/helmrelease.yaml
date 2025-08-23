@@ -49,10 +49,10 @@ spec:
                 enabled: false
     service:
       app:
-        controller: *app
         ports:
           http:
-            port: &port 8080
+            port: 8080
+
     persistence:
       config:
         existingClaim: openwebui
