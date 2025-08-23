@@ -131,21 +131,6 @@ data:
               loadBalancer:
                 servers:
                   - url: "https://10.0.40.3:8006"
-    proxmox-backup-server.yaml: |-
-        http:
-          routers:
-            pbs:
-              entryPoints:
-                - "websecure"
-              rule: "Host (`pbs.f9.casa`)"
-              tls:
-              service: pbs
-              middlewares: traefik-default-headers@kubernetescrd
-          services:
-            pbs:
-              loadBalancer:
-                servers:
-                  - url: "https://f9-nas.internal:8007"
     minecraft.yaml: |-
         http:
           routers:
