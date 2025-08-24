@@ -54,7 +54,9 @@ spec:
         - name: QUEUE_DRIVER
           value: redis
         - name: REDIS_HOST
-          value: redis.redis
+          value: dragonfly.database.svc.cluster.local
+        - name: REDIS_PORT
+          value: "6379"
         - name: DB_HOST
           value: mariadb.mariadb
         - name: DB_PORT
