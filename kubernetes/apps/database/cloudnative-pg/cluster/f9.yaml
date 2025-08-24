@@ -5,7 +5,7 @@ kind: Cluster
 metadata:
   name: f9
 spec:
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.5.0
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
   instances: 3
   primaryUpdateStrategy: unsupervised
   storage:
