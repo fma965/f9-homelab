@@ -61,10 +61,10 @@ spec:
                 memory: 500Mi
 
     persistence:
-      backups:
+      backup:
         type: nfs
         server: f9-nas.internal
-        path: /mnt/Data/Kubernetes/DBBackup
+        path: /mnt/Data/Kubernetes/dbbackup
       tmpfs:
         type: emptyDir
         advancedMounts:
