@@ -60,19 +60,19 @@ spec:
           key: aws-secret-access-key
   # Note: previousCluster needs to be set to the name of the previous
   # cluster when recovering from an existing cnpg cluster
-  bootstrap:
-    recovery:
-      source: &previousCluster f9-v1
-    # upgrade or recover from another running instance
-    # initdb:
-    #   import:
-    #     type: monolith
-    #     databases:
-    #       - "*"
-    #     roles:
-    #       - "*"
-    #     source:
-    #       externalCluster: f9-v16
+  # bootstrap:
+  #   recovery:
+  #     source: &previousCluster f9-v1
+  #   # upgrade or recover from another running instance
+  #   # initdb:
+  #   #   import:
+  #   #     type: monolith
+  #   #     databases:
+  #   #       - "*"
+  #   #     roles:
+  #   #       - "*"
+  #   #     source:
+  #   #       externalCluster: f9-v16
 
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
   externalClusters:
