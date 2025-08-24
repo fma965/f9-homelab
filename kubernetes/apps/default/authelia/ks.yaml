@@ -11,8 +11,8 @@ spec:
   dependsOn:
     - name: postgresql
       namespace: postgresql
-    - name: onepassword-store
-      namespace: external-secrets
+    - name: lldap
+      namespace: default
   interval: 30m
   path: ./kubernetes/apps/default/authelia/app
   postBuild:

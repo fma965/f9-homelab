@@ -15,6 +15,8 @@ spec:
   dependsOn:
     - name: postgresql
       namespace: postgresql
+    - name: volsync
+      namespace: volsync-system
   interval: 1h
   path: ./kubernetes/apps/default/forgejo/app
   postBuild:

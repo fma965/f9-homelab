@@ -12,10 +12,13 @@ spec:
   dependsOn:
     - name: postgresql
       namespace: postgresql
-    - name: onepassword
-      namespace: external-secrets
+    - name: keda
+      namespace: observability
+    - name: csi-driver-nfs
+      namespace: kube-system
   components:
     - ../../../../components/gatus/external
+    - ../../../../components/keda/nfs-scaler
   path: ./kubernetes/apps/default/zipline/app
   prune: true
   sourceRef:

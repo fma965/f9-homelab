@@ -14,8 +14,6 @@ spec:
       namespace: postgresql
     - name: mariadb
       namespace: mariadb
-    - name: onepassword-store
-      namespace: external-secrets
   interval: 1h
   path: ./kubernetes/apps/backup/dbbackup/app
   postBuild:

@@ -13,8 +13,18 @@ spec:
     - ../../../../components/keda/nfs-scaler
     - ../../../../components/volsync
   dependsOn:
+    - name: keda
+      namespace: observability
+    - name: csi-driver-nfs
+      namespace: kube-system
     - name: onepassword-store
       namespace: external-secrets
+    - name: mosquitto
+      namespace: default
+    - name: intel-device-plugin-gpu
+      namespace: kube-system
+    - name: volsync
+      namespace: volsync-system
   interval: 30m
   path: ./kubernetes/apps/default/frigate/app
   postBuild:

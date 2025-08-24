@@ -14,10 +14,14 @@ spec:
     - ../../../../components/keda/nfs-scaler
     - ../../../../components/volsync
   dependsOn:
+    - name: csi-driver-nfs
+      namespace: kube-system
     - name: intel-device-plugin-gpu
       namespace: kube-system
     - name: keda
       namespace: observability
+    - name: volsync
+      namespace: volsync-system
   interval: 1h
   path: ./kubernetes/apps/default/jellyfin/app
   postBuild:

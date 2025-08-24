@@ -16,6 +16,10 @@ spec:
   dependsOn:
     - name: keda
       namespace: observability
+    - name: csi-driver-nfs
+      namespace: kube-system
+    - name: volsync
+      namespace: volsync-system
   interval: 1h
   path: ./kubernetes/apps/default/sabnzbd/app
   postBuild:
