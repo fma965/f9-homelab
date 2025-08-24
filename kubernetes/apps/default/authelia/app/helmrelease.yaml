@@ -63,10 +63,6 @@ spec:
               AUTHELIA_THEME: auto
               AUTHELIA_TOTP_ISSUER: authelia.com
               X_AUTHELIA_CONFIG_FILTERS: template
-              AUTHELIA_STORAGE_POSTGRES_ADDRESS: *dbHost
-              AUTHELIA_STORAGE_POSTGRES_DATABASE: *dbName
-              AUTHELIA_STORAGE_POSTGRES_USERNAME: *dbUser
-              AUTHELIA_STORAGE_POSTGRES_PASSWORD: *dbPass
             envFrom:
               - secretRef:
                   name: authelia-secret
