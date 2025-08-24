@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app dbbackup
-  namespace: &namespace backup
+  namespace: &namespace database
 spec:
   commonMetadata:
     labels:
@@ -15,7 +15,7 @@ spec:
     - name: mariadb
       namespace: mariadb
   interval: 1h
-  path: ./kubernetes/apps/backup/dbbackup/app
+  path: ./kubernetes/apps/database/dbbackup/app
   postBuild:
     substitute:
       APP: *app
