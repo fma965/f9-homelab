@@ -72,5 +72,7 @@ spec:
             app:
               - path: /var/log
                 subPath: log
+              - path: /logs
+                subPath: logs
               - path: /tmp
                 subPath: tmp
