@@ -42,10 +42,8 @@ spec:
                 memory: 512M
         pod:
           securityContext:
-            runAsUser: 5050
-            runAsGroup: 5050
-            fsGroup: 5050
-            fsGroupChangePolicy: OnRootMismatch
+            runAsUser: 0
+            runAsGroup: 0
     service:
       app:
         controller: pgadmin
