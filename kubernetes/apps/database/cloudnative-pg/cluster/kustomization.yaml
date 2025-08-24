@@ -6,4 +6,4 @@ resources:
   - ./f9.yaml
   - ./scheduledbackup.yaml
   - ./prometheusrule.yaml
-  # - ./service.yaml
+  - ./service.yaml
