@@ -36,7 +36,7 @@ spec:
               tag: 17.6.0@sha256:86a1992d46273c58fd4ad95b626081dfaabfe16bd56944675169e406d1a660dd
             envFrom:
               - secretRef:
-                  name: "{{ .Release.Name }}-secret"
+                  name: "home-assistant-secret"
 
         containers:
           app:
@@ -47,7 +47,7 @@ spec:
               TZ: Europe/London
             envFrom:
               - secretRef:
-                  name: "{{ .Release.Name }}-secret"
+                  name: "home-assistant-secret"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
