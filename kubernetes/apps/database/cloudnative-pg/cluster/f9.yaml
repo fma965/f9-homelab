@@ -49,7 +49,7 @@ spec:
       endpointURL: http://garage.default.svc.cluster.local:3900
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
-      serverName: &currentCluster f9-v3
+      serverName: &currentCluster f9-v2
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
@@ -59,10 +59,10 @@ spec:
           key: aws-secret-access-key
   bootstrap:
     recovery:
-      source: &previousCluster f9-v2
-    initdb:
-      postInitSQL:
-        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+      source: &previousCluster f9
+    # initdb:
+    #   postInitSQL:
+    #     - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
   # Note: previousCluster needs to be set to the name of the previous
   # cluster when recovering from an existing cnpg cluster
   # bootstrap:
