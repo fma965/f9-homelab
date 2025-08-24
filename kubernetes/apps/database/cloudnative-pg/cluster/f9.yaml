@@ -4,8 +4,6 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: f9
-  annotations:
-    kyverno.io/ignore: "true"
 spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:16.9-22
   instances: 3
