@@ -58,8 +58,8 @@ spec:
         secretAccessKey:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
-  # Note: previousCluster needs to be set to the name of the previous
-  # cluster when recovering from an existing cnpg cluster
+  # # Note: previousCluster needs to be set to the name of the previous
+  # # cluster when recovering from an existing cnpg cluster
   # bootstrap:
   #   recovery:
   #     source: &previousCluster f9-v1
@@ -74,18 +74,18 @@ spec:
   #   #     source:
   #   #       externalCluster: f9-v16
 
-  # Note: externalClusters is needed when recovering from an existing cnpg cluster
-  externalClusters:
-    - name: *previousCluster
-      barmanObjectStore:
-        <<: *barmanObjectStore
-        serverName: *previousCluster
-    # - name: f9-v16
-    #   connectionParameters:
-    #     host: f9-v16-ro.database
-    #     user: postgres
-    #     dbname: postgres
-    #     sslmode: require
-    #   password:
-    #     name: cloudnative-pg-secret
-    #     key: password
+  # # Note: externalClusters is needed when recovering from an existing cnpg cluster
+  # externalClusters:
+  #   - name: *previousCluster
+  #     barmanObjectStore:
+  #       <<: *barmanObjectStore
+  #       serverName: *previousCluster
+  #   # - name: f9-v16
+  #   #   connectionParameters:
+  #   #     host: f9-v16-ro.database
+  #   #     user: postgres
+  #   #     dbname: postgres
+  #   #     sslmode: require
+  #   #   password:
+  #   #     name: cloudnative-pg-secret
+  #   #     key: password
