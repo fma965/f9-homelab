@@ -72,3 +72,12 @@ spec:
         type: nfs
         server: f9-nas.internal
         path: /mnt/Data/Kubernetes/DBBackup
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          dbbackup:
+            app:
+              - path: /var/log
+                subPath: log
+              - path: /tmp
+                subPath: tmp
