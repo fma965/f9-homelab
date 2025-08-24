@@ -2,29 +2,22 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
-      description: "Automatically merge minor and patch-level updates for all Docker (and kubernets app manifests) and Helm packages",
-      matchDatasources: [
-          "helm",
-          "docker"
-      ],
-      matchUpdateTypes: [
-          "minor",
-          "patch",
-          "digest"
-      ],
-      minimumReleaseAge: "3 days",
+      description: "Auto-merge trusted container digests",
+      matchDatasources: ["docker"],
       automerge: true,
       automergeType: "pr",
-      ignoreTests: false
+      matchUpdateTypes: ["digest"],
+      matchPackageNames: ["/home-operations/"],
+      ignoreTests: false,
     },
     {
-      description: "Automatically merge all updates to own packages",
-      matchPackageNames: [
-          "/^ghcr.io\\/fma965\\//",
-      ],
+      description: "Auto-merge OCI Charts",
+      matchDatasources: ["docker"],
       automerge: true,
-      automergeType: "branch",
-      ignoreTests: true,
+      automergeType: "pr",
+      matchUpdateTypes: ["minor", "patch"],
+      matchPackageNames: ["/kube-prometheus-stack/", "/grafana/"],
+      ignoreTests: false,
     },
     {
       description: "Auto-merge GitHub Actions",
@@ -34,10 +27,28 @@
       matchUpdateTypes: ["minor", "patch", "digest"],
       minimumReleaseAge: "3 days",
       ignoreTests: true,
-    }
+    },
+    {
+      description: "Auto-merge trusted GitHub Actions",
+      matchManagers: ["github-actions"],
+      matchPackageNames: [
+        "/^actions\//",
+        "/^renovatebot\//",
+      ],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      minimumReleaseAge: "1 minute",
+      ignoreTests: true,
+    },
+    {
+      description: "Auto-merge GitHub Releases",
+      matchDatasources: ["github-releases"],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["minor", "patch"],
+      matchPackageNames: ["/external-dns/", "/gateway-api/", "/prometheus-operator/"],
+      ignoreTests: true,
+    },
   ],
-  vulnerabilityAlerts: {
-    labels: ['security'],
-    automerge: true,
-  }
 }

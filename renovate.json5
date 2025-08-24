@@ -3,16 +3,23 @@
   extends: [
     'config:recommended',
     'docker:enableMajor',
+    "github>fma965/f9-homelab//.renovate/autoMerge.json5",
+    "github>fma965/f9-homelab//.renovate/customManagers.json5",
+    "github>fma965/f9-homelab//.renovate/grafanaDashboards.json5",
+    "github>fma965/f9-homelab//.renovate/groups.json5",
+    "github>fma965/f9-homelab//.renovate/labels.json5",
+    "github>fma965/f9-homelab//.renovate/overrides.json5",
+    "github>fma965/f9-homelab//.renovate/semanticCommits.json5",
+    ":automergeBranch",
     ':disableRateLimiting',
-    ':separateMajorReleases',
-    ':skipStatusChecks',
-    ':enableVulnerabilityAlertsWithLabel',
+    ":dependencyDashboard",
+    ":semanticCommits",
     ':timezone(Europe/London)',
-    'github>fma965/f9-homelab//.renovate/labels.json5',
-    'github>fma965/f9-homelab//.renovate/semanticCommits.json5',
-    'github>fma965/f9-homelab//.renovate/packageRules.json5',
-    'github>fma965/f9-homelab//.renovate/customManagers.json5',
-    'github>fma965/f9-homelab//.renovate/autoMerge.json5',
+  ],
+  dependencyDashboardTitle: 'Renovate Dashboard 🤖',
+  suppressNotifications: [
+    'prEditedNotification',
+    'prIgnoreNotification',
   ],
   ignorePaths: [
     'infrastructure/talos/main.tf',
@@ -22,6 +29,7 @@
     '.sops/**',
     '**/*.sample',
     '**/*.sops.*',
+    "**/resources/**",
   ],
   flux: {
     managerFilePatterns: [
@@ -38,9 +46,4 @@
       '/(^|/)kubernetes/.+\\.ya?ml$/',
     ],
   },
-  dependencyDashboardTitle: 'Renovate Dashboard 🤖',
-  suppressNotifications: [
-    'prEditedNotification',
-    'prIgnoreNotification',
-  ],
 }
