@@ -20,7 +20,7 @@ spec:
       number: 1
     parameters:
       max_connections: "400"
-      shared_buffers: 512MB
+      shared_buffers: 256MB
     shared_preload_libraries:
       - "vchord.so"
   nodeMaintenanceWindow:
