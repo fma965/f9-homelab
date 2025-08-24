@@ -90,7 +90,6 @@ spec:
         path: /mnt/F9/Media
         globalMounts:
           - path: /media
-            readOnly: true
       tmpfs:
         type: emptyDir
         advancedMounts:
