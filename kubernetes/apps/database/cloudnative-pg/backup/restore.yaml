@@ -1,0 +1,62 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: &name pg-f9-restore
+spec:
+  ttlSecondsAfterFinished: 86400
+  template:
+    spec:
+      automountServiceAccountToken: true
+      restartPolicy: OnFailure
+      volumes:
+        - name: backup
+          nfs:
+            server: f9-nas.internal
+            path: /mnt/Data/Kubernetes/postgres
+
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsUser: 1000
+
+      containers:
+        - name: postgres
+          # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
+          image: ghcr.io/cloudnative-pg/postgresql:16.9-22
+          command: ["/bin/sh"]
+          args:
+            - "-c"
+            - "gunzip < /backup/f9-cluster.dump.gz | pg_restore -U $PGUSER -f -"
+          env:
+            - name: PGHOST
+              value: postgres-rw.database
+            - name: PGPORT
+              value: "5432"
+            - name: PGUSER
+              value: postgres
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cloudnative-pg-secret
+                  key: password
+            - name: TZ
+              value: Europe/London
+          volumeMounts:
+            - name: backup
+              mountPath: /backup
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "1"
+            limits:
+              memory: "512Mi"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - "amd64"
