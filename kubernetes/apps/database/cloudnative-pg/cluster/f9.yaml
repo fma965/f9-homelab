@@ -5,7 +5,7 @@ kind: Cluster
 metadata:
   name: f9
 spec:
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.9-22
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.3.0
   instances: 3
   primaryUpdateStrategy: unsupervised
   storage:
@@ -20,7 +20,9 @@ spec:
       number: 1
     parameters:
       max_connections: "400"
-      shared_buffers: 256MB
+      shared_buffers: 512MB
+    shared_preload_libraries:
+      - "vchord.so"
   nodeMaintenanceWindow:
     inProgress: false
     reusePVC: true
@@ -56,6 +58,10 @@ spec:
         secretAccessKey:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
+  bootstrap:
+    initdb:
+      postInitSQL:
+        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
   # # Note: previousCluster needs to be set to the name of the previous
   # # cluster when recovering from an existing cnpg cluster
   # bootstrap:
