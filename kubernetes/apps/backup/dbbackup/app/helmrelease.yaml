@@ -1,0 +1,74 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: dbbackup
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      dbbackup:
+        replicas: 1
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          app:
+            image:
+              repository: tiredofit/db-backup
+              tag: 4.1.21
+            env:
+              CONTAINER_ENABLE_MONITORING: false
+              DEFAULT_CREATE_LATEST_SYMLINK: false
+              DEFAULT_BACKUP_BEGIN: 0 1 * * 0
+              DEFAULT_CLEANUP_TIME: 10080
+              TZ: Europe/London
+              ENABLE_NOTIFICATIONS: true
+              NOTIFICATION_TYPE: EMAIL
+              SMTP_HOST: smtp-relay.network.svc.cluster.local
+              SMTP_PORT: 25
+              DB01_HOST: mariadb.mariadb
+              DB01_NAME: ALL
+              DB01_TYPE: mysql
+              DB01_USER: backup
+              DB01_SPLIT_DB: true
+              DB01_MYSQL_EVENTS: false
+              DB02_HOST: postgresql.postgresql
+              DB02_NAME: ALL
+              DB02_TYPE: pgsql
+              DB02_USER: admin
+              DB02_SPLIT_DB: true
+            envFrom:
+              - secretRef:
+                  name: dbbackup-secret
+            resources:
+              requests:
+                cpu: 50m
+                memory: 100Mi
+              limits:
+                memory: 500Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+    persistence:
+      backups:
+        type: nfs
+        server: f9-nas.internal
+        path: /mnt/Data/Kubernetes/DBBackup
