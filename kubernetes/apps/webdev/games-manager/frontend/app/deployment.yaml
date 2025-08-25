@@ -24,9 +24,6 @@ spec:
       - image: ghcr.io/fma965/games-manager-frontend:v1.0.2
         name: games-manager-frontend
         resources:
-          requests:
-            memory: "128Mi"
-            cpu: "250m"
           limits:
             memory: "256Mi"
             cpu: "500m"

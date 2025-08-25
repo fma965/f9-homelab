@@ -24,9 +24,6 @@ spec:
         - name: onepassword-komodo
           image: ghcr.io/0dragosh/komodo-op:0.1.2
           resources:
-            requests:
-              memory: 128Mi
-              cpu: 200m
             limits:
               memory: 256Mi
               cpu: 500m
