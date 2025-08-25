@@ -44,5 +44,5 @@
       "kubernetes": "./kubernetes/**/*.yaml"
     },
     "sops.creationEnabled": true,
-    "discord.enabled": false
+    "discord.enabled": true
   }
