@@ -134,7 +134,7 @@ spec:
             securityContext: *securityContext
             resources:
               requests:
-                cpu: 100m
+                cpu: 50m
           vuetorrent:
             dependsOn: app
             image:

@@ -12,10 +12,10 @@ spec:
         container:
           resources:
             requests:
-              cpu: 150m
+              cpu: 50m
               memory: 640Mi
             limits:
-              cpu: 500m
+              cpu: 100m
               memory: 1Gi
       envoyHpa:
         minReplicas: 1

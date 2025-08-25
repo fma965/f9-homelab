@@ -23,7 +23,7 @@ spec:
           resources:
             limits:
               memory: "512Mi"
-              cpu: "500m"
+              cpu: "50m"
           env:
             - name: UPLOAD_LIMIT
               value: "500M"
