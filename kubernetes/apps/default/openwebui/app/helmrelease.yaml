@@ -45,8 +45,6 @@ spec:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
             resources:
-              requests:
-                cpu: 200m
               limits:
                 memory: 2Gi
             probes:
