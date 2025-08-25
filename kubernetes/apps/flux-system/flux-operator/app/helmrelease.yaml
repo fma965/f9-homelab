@@ -30,6 +30,11 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  valuesFrom:
-    - kind: ConfigMap
-      name: flux-operator-values
+  values:
+    nameReference:
+      - kind: ConfigMap
+        version: v1
+        fieldSpecs:
+          - path: spec/valuesFrom/name
+            kind: HelmRelease
+

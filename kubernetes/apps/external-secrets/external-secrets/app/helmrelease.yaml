@@ -30,6 +30,43 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  valuesFrom:
-    - kind: ConfigMap
-      name: external-secrets-values
+  values:
+    priorityClassName: secrets-high-priority
+    resources:
+      requests:
+        cpu: 15m
+        memory: 128M
+      limits:
+        memory: 256M
+    installCRDs: true
+    replicaCount: 1
+    leaderElect: true
+    image:
+      repository: &repo ghcr.io/external-secrets/external-secrets
+    webhook:
+      image:
+        repository: *repo
+      priorityClassName: secrets-high-priority
+      serviceMonitor:
+        enabled: true
+        interval: 1m
+      resources:
+        requests:
+          cpu: 15m
+          memory: 164M
+        limits:
+          memory: 256M
+    certController:
+      image:
+        repository: *repo
+      priorityClassName: secrets-high-priority
+      serviceMonitor:
+        enabled: true
+        interval: 1m
+      resources:
+        requests:
+          cpu: 15m
+          memory: 184M
+    serviceMonitor:
+      enabled: true
+      interval: 1m
