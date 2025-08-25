@@ -20,8 +20,6 @@ spec:
         app: postgresql
         app.kubernetes.io/name: postgresql
     spec:
-      nodeSelector:
-        worker: "true"
       containers:
         - image: tensorchord/pgvecto-rs:pg16-v0.2.0
           name: postgresql

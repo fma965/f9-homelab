@@ -20,8 +20,6 @@ spec:
         app: ws-broadcast
         app.kubernetes.io/name: ws-broadcast
     spec:
-      nodeSelector:
-        worker: "true"
       containers:
       - image: hprivakos/ws-broadcast:latest
         name: ws-broadcast

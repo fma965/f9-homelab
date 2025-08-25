@@ -20,8 +20,6 @@ spec:
         app: mariadb
         app.kubernetes.io/name: mariadb
     spec:
-      nodeSelector:
-        worker: "true"
       containers:
         - image: ghcr.io/linuxserver/mariadb:11.4.5
           name: mariadb

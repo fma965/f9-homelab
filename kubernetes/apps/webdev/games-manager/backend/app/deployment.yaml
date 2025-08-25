@@ -19,8 +19,6 @@ spec:
         app: games-manager-backend
         app.kubernetes.io/name: games-manager-backend
     spec:
-      nodeSelector:
-        worker: "true"
       containers:
       - image: directus/directus:11.10.2
         name: games-manager-backend

@@ -22,8 +22,6 @@ spec:
       automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
-      nodeSelector:
-        worker: "true"
       containers:
         - name: homepage
           image: ghcr.io/gethomepage/homepage:v1.4.6

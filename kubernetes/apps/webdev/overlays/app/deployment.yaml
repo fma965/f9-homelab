@@ -20,8 +20,6 @@ spec:
         app: overlays
         app.kubernetes.io/name: overlays
     spec:
-      nodeSelector:
-        worker: "true"
       containers:
       - image: ghcr.io/fma965/obs-overlays:v1.0.0
         name: overlays

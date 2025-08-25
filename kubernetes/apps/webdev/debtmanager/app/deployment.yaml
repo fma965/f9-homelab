@@ -21,8 +21,6 @@ spec:
         app: debtmanager
         app.kubernetes.io/name: debtmanager
     spec:
-      nodeSelector:
-        worker: "true"
       containers:
       - image: ghcr.io/fma965/debt-manager:v1.0.0
         name: debtmanager

@@ -17,8 +17,6 @@ spec:
         app: phpmyadmin
         app.kubernetes.io/name: phpmyadmin
     spec:
-      nodeSelector:
-        worker: "true"
       containers:
         - image: phpmyadmin/phpmyadmin:5.2.2
           name: phpmyadmin

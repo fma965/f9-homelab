@@ -20,8 +20,6 @@ spec:
         app: onepassword-komodo
         app.kubernetes.io/name: onepassword-komodo
     spec:
-      nodeSelector:
-        worker: "true"
       containers:
         - name: onepassword-komodo
           image: ghcr.io/0dragosh/komodo-op:0.1.2

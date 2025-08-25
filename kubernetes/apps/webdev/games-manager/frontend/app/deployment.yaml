@@ -20,8 +20,6 @@ spec:
         app: games-manager-frontend
         app.kubernetes.io/name: games-manager-frontend
     spec:
-      nodeSelector:
-        worker: "true"
       containers:
       - image: ghcr.io/fma965/games-manager-frontend:v1.0.2
         name: games-manager-frontend

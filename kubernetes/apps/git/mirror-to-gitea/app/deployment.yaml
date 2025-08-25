@@ -21,8 +21,6 @@ spec:
         app: mirror-to-gitea
         app.kubernetes.io/name: mirror-to-gitea
     spec:
-      nodeSelector:
-        worker: "true"
       containers:
       - image: jaedle/mirror-to-gitea:2.0.1
         name: mirror-to-gitea
@@ -36,4 +34,3 @@ spec:
           value: "https://git.f9.casa"
         - name: MIRROR_PRIVATE_REPOSITORIES
           value: "1"
-                                              
