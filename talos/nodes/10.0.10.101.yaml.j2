@@ -1,0 +1,40 @@
+---
+machine:
+  install:
+    disk: /dev/sda
+  kubelet:
+    extraMounts:
+      - destination: /var/openebs/local
+        type: bind
+        source: /var/openebs/local
+        options:
+          - bind
+          - rshared
+          - rw
+  network:
+    hostname: k8s-01
+    interfaces:
+      - interface: br0
+        mtu: 1500
+        bridge:
+          interfaces: ["enp2s0"]
+          stp: {enabled: true}
+        addresses: ["10.0.10.101/24"]
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.0.10.254
+        vip:
+          ip: 10.0.10.100
+        vlans:
+        - { vlanId: 20, dhcp: false }
+        - { vlanId: 30, dhcp: false }
+    nameservers: ["10.0.10.254"]
+  nodeLabels:
+    intel.feature.node.kubernetes.io/gpu: "true"
+    topology.kubernetes.io/zone: F9
+  type: controlplane
+---
+apiVersion: v1alpha1
+kind: WatchdogTimerConfig
+device: /dev/watchdog0
+timeout: 5m

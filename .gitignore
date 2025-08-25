@@ -1,9 +1,4 @@
-# Exclude private folder
-/.private/
 
-# Exclude SOPS Age key
-*.crt
-*.key
 
 # Exclude various Terraform/OpenTofu files
 *.terraform*
@@ -16,13 +11,22 @@
 *secret.yaml
 !externalsecret.yaml
 !pushsecret.yaml
+kubeconfig
+onepassword.env
+talosconfig
+/.private/
+*.crt
+*.key
 
 # Remove junk files
 .decrypted~*
 .DS_Store
 Thumbs.db
+Brewfile.lock.json
+*.iso
+/.venv/
+/.task/
+.local
 
 # Remove Talos OpenTofu output files
 infrastructure/talos/output/**
-
-.local
