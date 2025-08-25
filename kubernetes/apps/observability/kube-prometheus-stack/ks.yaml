@@ -10,8 +10,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: ceph-csi-rbd
-      namespace: ceph-csi
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   components:
     - ../../../../components/gatus/guarded
   interval: 1h

@@ -13,8 +13,8 @@ spec:
     - ../../../../components/volsync
     - ../../../../components/gatus/guarded
   dependsOn:
-    - name: ceph-csi-rbd
-      namespace: ceph-csi
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: snapshot-controller
       namespace: kube-system
     - name: volsync
