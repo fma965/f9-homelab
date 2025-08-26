@@ -260,10 +260,6 @@ spec:
           - name: external
             namespace: network
             sectionName: https
-        rules:
-          - backendRefs:
-              - name: *app
-                port: *port
     persistence:
       enabled: false
     testFramework:
