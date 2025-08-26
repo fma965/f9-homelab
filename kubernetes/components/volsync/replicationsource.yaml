@@ -10,7 +10,8 @@ spec:
     schedule: "0 * * * *"
   kopia:
     accessModes: ["${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}"]
-    copyMethod: Direct
+    compression: zstd-fastest
+    copyMethod: Snapshot
     moverSecurityContext:
       runAsUser: ${VOLSYNC_PUID:=1000}
       runAsGroup: ${VOLSYNC_PGID:=1000}
