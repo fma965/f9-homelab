@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: grafana
+  name: &app grafana
 spec:
   interval: 5m
   layerSelector:
@@ -260,6 +260,10 @@ spec:
           - name: external
             namespace: network
             sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: 80
     persistence:
       enabled: false
     testFramework:
