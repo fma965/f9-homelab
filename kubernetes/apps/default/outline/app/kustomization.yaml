@@ -6,4 +6,3 @@ resources:
   - ./externalsecret.yaml
   - ./deployment.yaml
   - ./service.yaml
-  - ./ingress.yaml

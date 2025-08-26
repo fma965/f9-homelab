@@ -8,7 +8,6 @@ resources:
   - ./clusterrole.yaml
   - ./config.yaml
   - ./service.yaml
-  - ./ingress.yaml
-  - ./serviceaccount.yaml
+   - ./serviceaccount.yaml
   - ./gatus.yaml
   - ./httproute.yaml

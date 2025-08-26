@@ -33,7 +33,6 @@
       "cert-manager": "guard",
       "default": "home",
       "flux-system": "pipe",
-      "traefik": "public",
       "kube-system": "kubernetes",
       "network": "connection",
       "observability": "event",

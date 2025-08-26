@@ -6,8 +6,7 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./scaledobject.yaml
-  - ./ingress.yaml
-# configMapGenerator:
+ # configMapGenerator:
 #   - name: zigbee-loki-rules
 #     files:
 #       - zigbee.yaml=./lokirule.yaml
