@@ -14,4 +14,3 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./referencegrant.yaml
-  - ./ingress.yaml

@@ -23,14 +23,6 @@ rules:
           - get
           - list
     - apiGroups:
-          - traefik.io
-          - traefik.io
-      resources:
-          - ingressroutes
-      verbs:
-          - get
-          - list
-    - apiGroups:
           - metrics.k8s.io
           - apiextensions.k8s.io
       resources:

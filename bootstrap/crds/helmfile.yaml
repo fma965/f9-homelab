@@ -33,11 +33,6 @@ releases:
     chart: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
     version: 77.0.1
 
-  - name: traefik
-    namespace: traefik
-    chart: oci://ghcr.io/traefik/helm/traefik
-    version: 37.0.0
-
   - name: envoy-gateway
     namespace: network
     chart: oci://docker.io/envoyproxy/gateway-helm

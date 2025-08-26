@@ -6,5 +6,4 @@ resources:
   # - ./pvc.yaml
   - ./deployment.yaml
   - ./service.yaml
-  - ./ingress.yaml
   - ./httproute.yaml
