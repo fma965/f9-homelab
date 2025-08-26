@@ -28,4 +28,4 @@ spec:
             name: f9-casa-tls
   infrastructure:
     annotations:
-      lbipam.cilium.io/ips: *ip4
+      lbipam.cilium.io/ips: 10.0.10.220
