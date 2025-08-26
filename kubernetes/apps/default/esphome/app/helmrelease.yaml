@@ -133,8 +133,8 @@ spec:
         hostnames:
           - esphome.f9.casa
         parentRefs:
-          - name: internal
-            namespace: kube-system
+          - name: external
+            namespace: network
             sectionName: https
         rules:
           - matches:
