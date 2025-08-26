@@ -11,3 +11,4 @@ resources:
   - ./ingress.yaml
   - ./serviceaccount.yaml
   - ./gatus.yaml
+  - ./httproute.yaml
