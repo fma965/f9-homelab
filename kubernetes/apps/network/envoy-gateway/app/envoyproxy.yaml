@@ -16,7 +16,7 @@ spec:
               memory: 256Mi
             limits:
               cpu: 100m
-              memory: 1Gi
+              memory: 512Mi
       envoyHpa:
         minReplicas: 1
         maxReplicas: 3
