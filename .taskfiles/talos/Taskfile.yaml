@@ -77,7 +77,7 @@ tasks:
 
   reset-node:
     desc: Reset a node [NODE=required]
-    prompt: Reset Talos node '{{.NODE}}' ... continue?
+    prompt: Reset Talos node '{{.NODE}}' (Have a Talos USB inserted, system disk will be wiped!) ... continue?
     cmd: talosctl reset --nodes {{.NODE}} --graceful=false
     requires:
       vars: [NODE]
@@ -87,7 +87,7 @@ tasks:
 
   reset-cluster:
     desc: Reset whole cluster
-    prompt: Reset the Talos cluster ... continue?
+    prompt: Reset the Talos cluster (Have a Talos USB inserted, system disk will be wiped!)... continue?
     cmd: talosctl reset --nodes {{.NODES}} --graceful=false
     vars:
       NODES:
