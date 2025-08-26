@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: gatus
+  name: &app gatus
 spec:
   interval: 1h
   chartRef:
@@ -83,6 +83,17 @@ spec:
         ports:
           http:
             port: *port
+    route:
+      app:
+        hostnames: ["status.f9.casa"]
+        parentRefs:
+          - name: external
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
     serviceMonitor:
       app:
         endpoints:

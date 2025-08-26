@@ -255,13 +255,11 @@ spec:
       enabled: true
     route:
       main:
-        enabled: true
-        hostnames: ["{{ .Release.Name }}.f9.ac"]
+        hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
           - name: external
             namespace: network
             sectionName: https
-
     persistence:
       enabled: false
     testFramework:

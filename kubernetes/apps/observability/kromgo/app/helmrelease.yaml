@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kromgo
+  name: &app kromgo
 spec:
   interval: 1h
   chartRef:
@@ -66,12 +66,16 @@ spec:
           health:
             port: *healthPort
     route:
-      app:
+      main:
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
           - name: external
-            namespace: networking
+            namespace: network
             sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
     persistence:
       config-file:
         type: configMap

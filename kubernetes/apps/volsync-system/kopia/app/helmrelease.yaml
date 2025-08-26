@@ -74,7 +74,7 @@ spec:
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
           - name: external
-            namespace: kube-system
+            namespace: network
             sectionName: https
     persistence:
       config-file:

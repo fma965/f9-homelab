@@ -205,7 +205,6 @@ spec:
           - backendRefs:
               - name: *app
                 port: *port
-
     configMaps:
       config:
         data:

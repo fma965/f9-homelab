@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: openwebui
+  name: &app openwebui
 spec:
   interval: 1h
   chartRef:
@@ -58,7 +58,19 @@ spec:
       app:
         ports:
           http:
-            port: 8080
+            port: &port 8080
+
+    route:
+      app:
+        hostnames: ["chat.f9.casa"]
+        parentRefs:
+          - name: external
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
 
     persistence:
       config:

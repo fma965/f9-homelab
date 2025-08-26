@@ -49,13 +49,13 @@ spec:
         controller: pgadmin
         ports:
           http:
-            port: 80
+            port: &port 80
     route:
       app:
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
-          - name: internal
-            namespace: kube-system
+          - name: external
+            namespace: network
             sectionName: https
     persistence:
       config:

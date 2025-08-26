@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: zigbee
+  name: &app zigbee
 spec:
   interval: 1h
   chartRef:
@@ -95,6 +95,10 @@ spec:
           - name: external
             namespace: network
             sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
 
     persistence:
       config:
