@@ -11,3 +11,4 @@ resources:
   - ./servicemonitor.yaml
   - ./podmonitor.yaml
   - ./pushsecret.yaml
+  - ./securitypolicy.yaml
