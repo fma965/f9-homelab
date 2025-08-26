@@ -9,3 +9,4 @@ resources:
   - ./headers.yaml
   - ./middleware.yaml
   - ./ingress.yaml
+  - ./httproute.yaml

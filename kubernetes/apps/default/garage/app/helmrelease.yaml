@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: garage
+  name: &app garage
 spec:
   interval: 1h
   chartRef:
@@ -81,7 +81,18 @@ spec:
           api:
             port: 3903
           webui:
-            port: 3909
+            port: &port 3909
+    route:
+      app:
+        hostnames: ["{{ .Release.Name }}.f9.casa"]
+        parentRefs:
+          - name: external
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
     persistence:
       data:
         type: nfs

@@ -65,24 +65,16 @@ spec:
           http:
             port: &port 2283
     route:
-      frontend:
-        enabled: true
-        kind: HTTPRoute
+      app:
+        hostnames: ["photos.f9.casa"]
         parentRefs:
-          - kind: Gateway
-            name: internal
+          - name: external
             namespace: network
-            sectionName: websecure
-        hostnames:
-          - photos.f9.casa
+            sectionName: https
         rules:
           - backendRefs:
-              - name: immich-server
+              - name: *app
                 port: *port
-            matches:
-              - path:
-                  type: PathPrefix
-                  value: /
     persistence:
       matplotlib:
         type: emptyDir

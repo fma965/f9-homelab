@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: zipline
+  name: &app zipline
 spec:
   interval: 1h
   chartRef:
@@ -103,8 +103,18 @@ spec:
       app:
         ports:
           http:
-            port: 3000
-
+            port: &port 3000
+    route:
+      app:
+        hostnames: ["i.f9.casa"]
+        parentRefs:
+          - name: external
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
     persistence:
       tmpfs:
         type: emptyDir
