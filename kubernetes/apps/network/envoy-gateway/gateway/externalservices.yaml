@@ -1,0 +1,269 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homeassistant-external
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8123
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: homeassistant-external
+  namespace: default
+  labels:
+    kubernetes.io/service-name: homeassistant-external
+addressType: IPv4
+endpoints:
+  - addresses:
+      - "10.0.10.216"
+ports:
+  - name: http
+    protocol: TCP
+    port: 8123
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: homeassistant
+  namespace: default
+spec:
+  parentRefs:
+    - name: external-gateway
+      namespace: network
+      sectionName: https
+  hostnames:
+    - "home.f9.casa"
+  rules:
+    - backendRefs:
+        - name: homeassistant-external
+          port: 8123
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: truenas-external
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: truenas-external
+  namespace: default
+  labels:
+    kubernetes.io/service-name: truenas-external
+addressType: FQDN # Corrected: Added addressType for the FQDN
+endpoints:
+  - addresses:
+      - f9-nas.internal
+ports:
+  - name: http
+    protocol: TCP
+    port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: truenas
+  namespace: default
+spec:
+  parentRefs:
+    - name: external-gateway
+      namespace: network
+      sectionName: https
+  hostnames:
+    - "truenas.f9.casa"
+  rules:
+    - backendRefs:
+        - name: truenas-external
+          port: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adguardhome-external
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8080
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: adguardhome-external
+  namespace: default
+  labels:
+    kubernetes.io/service-name: adguardhome-external
+addressType: IPv4
+endpoints:
+  - addresses:
+      - 192.168.1.1
+ports:
+  - name: http
+    protocol: TCP
+    port: 8080
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: adguardhome
+  namespace: default
+spec:
+  parentRefs:
+    - name: external-gateway
+      namespace: network
+      sectionName: https
+  hostnames:
+    - "adguard.f9.casa"
+  rules:
+    - backendRefs:
+        - name: adguardhome-external
+          port: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: forgeui-external
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 7400
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: forgeui-external
+  namespace: default
+  labels:
+    kubernetes.io/service-name: forgeui-external
+addressType: FQDN # Corrected: Added addressType for the FQDN
+endpoints:
+  - addresses:
+      - f9-nas.internal
+ports:
+  - name: http
+    protocol: TCP
+    port: 7400
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: forgeui
+  namespace: default
+spec:
+  parentRefs:
+    - name: external-gateway
+      namespace: network
+      sectionName: https
+  hostnames:
+    - "sd.f9.casa"
+  rules:
+    - backendRefs:
+        - name: forgeui-external
+          port: 7400
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: remote-external
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+    - name: https
+      port: 443
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: remote-external
+  namespace: default
+  labels:
+    kubernetes.io/service-name: remote-external
+addressType: IPv4
+endpoints:
+  - addresses:
+      - 10.0.10.10
+ports:
+  - name: https
+    protocol: TCP
+    port: 443
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: remote
+  namespace: default
+spec:
+  parentRefs:
+    - name: external-gateway
+      namespace: network
+      sectionName: https
+  hostnames:
+    - "remote.f9.casa"
+  rules:
+    - backendRefs:
+        - name: remote-external
+          port: 443
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nanokvm-external
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: nanokvm-external
+  namespace: default
+  labels:
+    kubernetes.io/service-name: nanokvm-external
+addressType: IPv4
+endpoints:
+  - addresses:
+      - 192.168.30.10
+ports:
+  - name: http
+    protocol: TCP
+    port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: nanokvm
+  namespace: default
+spec:
+  parentRefs:
+    - name: external-gateway
+      namespace: network
+      sectionName: https
+  hostnames:
+    - "kvm.f9.casa"
+  rules:
+    - backendRefs:
+        - name: nanokvm-external
+          port: 80
