@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: sabnzbd
+  name: &app sabnzbd
 spec:
   interval: 1h
   chartRef:
@@ -73,12 +73,15 @@ spec:
             port: *port
     route:
       app:
-        hostnames:
-          - "{{ .Release.Name }}.f9.casa"
+        hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
-          - name: internal
-            namespace: kube-system
+          - name: external
+            namespace: network
             sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"

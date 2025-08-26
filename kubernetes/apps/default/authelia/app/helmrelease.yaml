@@ -111,7 +111,7 @@ spec:
         hostnames: ["auth.f9.casa"]
         parentRefs:
           - name: external
-            namespace: networking
+            namespace: network
             sectionName: https
         rules:
           - backendRefs:

@@ -71,6 +71,18 @@ spec:
           rtsp:
             port: 8554
 
+    route:
+      app:
+        hostnames: ["{{ .Release.Name }}.f9.casa"]
+        parentRefs:
+          - name: external
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+
     persistence:
       config:
         existingClaim: frigate
