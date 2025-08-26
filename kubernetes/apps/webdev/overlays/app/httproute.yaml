@@ -6,11 +6,11 @@ metadata:
   name: overlays
 spec:
   hostnames: ["overlays.f9.casa"]
+  parentRefs:
+    - name: external
+      namespace: network
+      sectionName: https
   rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /ws
-      backendRefs:
-        - name: overlays
-          port: 80
+    - backendRefs:
+      - name: overlays
+        port: 80
