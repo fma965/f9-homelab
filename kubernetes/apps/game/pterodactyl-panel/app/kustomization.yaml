@@ -8,4 +8,4 @@ resources:
   - ./service.yaml
   - ./headers.yaml
   - ./middleware.yaml
-   - ./httproute.yaml
+  - ./httproute.yaml
