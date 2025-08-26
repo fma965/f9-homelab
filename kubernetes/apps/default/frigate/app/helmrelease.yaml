@@ -73,7 +73,7 @@ spec:
 
     route:
       app:
-        hostnames: ["{{ .Release.Name }}.f9.casa"]
+        hostnames: ["cctv.f9.casa"]
         parentRefs:
           - name: external
             namespace: network
