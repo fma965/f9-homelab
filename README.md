@@ -231,4 +231,4 @@ Check out my [Wiki](https://wiki.f9.casa/hardware/) to see more about my hardwar
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f64f/512.gif" alt="🙏" width="20" height="20"> Gratitude and Thanks
 
-Thanks to the [Home Operations](https://discord.gg/home-operations) Discord community and [StoneGarden](https://blog.stonegarden.dev/articles/2024/08/talos-proxmox-tofu/) for the initial Proxmox Tofu code.
+Thanks to the [Home Operations](https://discord.gg/home-operations) / [OneDr0p](https://github.com/onedr0p/home-ops) Discord and community.
