@@ -7,7 +7,7 @@ metadata:
 spec:
   hostnames: ["gamesdb.f9.casa"]
   parentRefs:
-    - name: internal
+    - name: external
       namespace: network
       sectionName: https
   rules:

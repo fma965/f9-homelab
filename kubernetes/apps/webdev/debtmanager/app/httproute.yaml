@@ -7,7 +7,7 @@ metadata:
 spec:
   hostnames: ["debtmanager.f9.casa"]
   parentRefs:
-    - name: internal
+    - name: external
       namespace: network
       sectionName: https
   rules:
@@ -23,7 +23,7 @@ metadata:
 spec:
   hostnames: ["api.f9.casa"]
   parentRefs:
-    - name: internal
+    - name: external
       namespace: network
       sectionName: https
   rules:
