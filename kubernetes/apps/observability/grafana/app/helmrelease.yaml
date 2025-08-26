@@ -255,15 +255,12 @@ spec:
       enabled: true
     route:
       main:
+        enabled: true
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
           - name: external
             namespace: network
             sectionName: https
-        rules:
-          - backendRefs:
-              - name: *app
-                port: 80
     persistence:
       enabled: false
     testFramework:
