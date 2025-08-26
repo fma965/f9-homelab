@@ -47,7 +47,6 @@ spec:
               capabilities:
                 drop:
                   - ALL
-            terminationMessagePath: /tmp/termination-log
 
     persistence:
       config:
@@ -70,7 +69,3 @@ spec:
       var-lib-kubelet-device-plugins:
         type: hostPath
         hostPath: /var/lib/kubelet/device-plugins
-      tmpfs:
-        type: emptyDir
-        globalMounts:
-          - path: /tmp
