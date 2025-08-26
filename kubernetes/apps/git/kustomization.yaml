@@ -6,4 +6,4 @@ namespace: git
 components:
   - ../../components/common
 resources:
-  - ./mirror-to-gitea/ks.yaml
+  # - ./mirror-to-gitea/ks.yaml
