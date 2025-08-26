@@ -49,6 +49,8 @@ spec:
       namespace: mariadb
     - name: onepassword-store
       namespace: external-secrets
+    - name: authelia
+      namespace: default
   interval: 1h
   path: ./kubernetes/apps/webdev/games-manager/backend/app
   postBuild:
