@@ -5,6 +5,7 @@
       "redhat.vscode-yaml",
       "signageos.signageos-vscode-sops",
       "mikestead.dotenv",
-      "bierner.github-markdown-preview"
+      "bierner.github-markdown-preview",
+      "github.vscode-pull-request-github"
     ]
   }
