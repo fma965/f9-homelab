@@ -22,8 +22,8 @@ spec:
           name: phpmyadmin
           resources:
             limits:
-              memory: "512Mi"
-              cpu: "50m"
+              memory: 256Mi
+              cpu: 20m
           env:
             - name: UPLOAD_LIMIT
               value: "500M"

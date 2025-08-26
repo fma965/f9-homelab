@@ -5,5 +5,5 @@ kind: Kustomization
 namespace: game
 components:
   - ../../components/common
-resources:
-  - ./pterodactyl-panel/ks.yaml
+# resources:
+  # - ./pterodactyl-panel/ks.yaml

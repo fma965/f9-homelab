@@ -57,10 +57,10 @@ spec:
                   - CAP_PERFMON
             resources:
               requests:
-                cpu: 100m
-                memory: 2Gi
+                cpu: 1000m
+                memory: 1Gi
               limits:
-                memory: 10Gi
+                memory: 2Gi
                 gpu.intel.com/i915: 1
     service:
       app:

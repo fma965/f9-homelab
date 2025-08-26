@@ -12,7 +12,7 @@ resources:
 - ./jellyfin/ks.yaml
 - ./lldap/ks.yaml
 - ./mosquitto/ks.yaml
-- ./outline/ks.yaml
+# - ./outline/ks.yaml
 - ./prowlarr/ks.yaml
 - ./qbittorrent/ks.yaml
 - ./radarr/ks.yaml
