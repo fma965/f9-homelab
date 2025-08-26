@@ -81,9 +81,19 @@ spec:
           api:
             port: 3903
           webui:
-            port: &port 3909
+            port: 3909
     route:
-      app:
+      s3:
+        hostnames: ["s3.f9.casa", "*.s3.f9.casa"]
+        parentRefs:
+          - name: external
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: 3900
+      garage:
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
           - name: external
@@ -92,7 +102,7 @@ spec:
         rules:
           - backendRefs:
               - name: *app
-                port: *port
+                port: 3909
     persistence:
       data:
         type: nfs
