@@ -99,7 +99,8 @@ spec:
           # renovate: depName="Prometheus NUT Exporter for DRuggeri"
           gnetId: 19308
           revision: 1
-          datasource: Prometheus
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
         ceph-cluster:
           # renovate: depName="Ceph Cluster"
           gnetId: 2842
