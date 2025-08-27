@@ -9,6 +9,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   filter:
     name: Flux Local - Filter
@@ -30,6 +33,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
 
       - name: Run flux-local test
         uses: docker://ghcr.io/allenporter/flux-local:v7.8.0
@@ -39,7 +44,6 @@ jobs:
             --all-namespaces
             --enable-helm
             --path /github/workspace/kubernetes/flux/cluster
-            --api-versions=monitoring.coreos.com/v1
             --verbose
   diff:
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
@@ -67,12 +71,6 @@ jobs:
           persist-credentials: false
           ref: "${{ github.event.repository.default_branch }}"
 
-      - name: Set flux-local arguments
-        id: flux_args # Give this step an ID to access its output
-        run: |
-          if [ "${{ matrix.resource }}" == "helmrelease" ]; then
-            echo "args=--api-versions=monitoring.coreos.com/v1" >> $GITHUB_OUTPUT
-          fi
       - name: Run flux-local diff
         uses: docker://ghcr.io/allenporter/flux-local:v7.8.0
         with:
@@ -86,13 +84,14 @@ jobs:
             --all-namespaces
             --sources "flux-system"
             --output-file diff.patch
-            ${{ steps.flux_args.outputs.args }}
+            
       - name: Generate Diff
         id: diff
         run: |
           echo 'diff<<EOF' >> $GITHUB_OUTPUT
           cat diff.patch >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
+
       - if: ${{ steps.diff.outputs.diff != '' }}
         name: Generate Token
         uses: actions/create-github-app-token@a8d616148505b5069dccd32f177bb87d7f39123b # v2.1.1

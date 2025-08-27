@@ -1,48 +1,9 @@
 ---
-# SOPS configuration derived from encryption script #
 creation_rules:
-  # Rule 1: Kubernetes secrets
   - path_regex: kubernetes/.+\.sops\.yaml
     encrypted_regex: ^(data|stringData)$
     mac_only_encrypted: true
     age: age1j0nhr3qkvuf7sr60sk89p4g29dksqz3k66sttlrkp68fkud38qdse3gqgt
-
-  # Rule 2: Environment files
-  - path_regex: docker/.+\.sops\.env$
-    encrypted_regex: ^(.*)$  # Encrypt all content
-    age: age1j0nhr3qkvuf7sr60sk89p4g29dksqz3k66sttlrkp68fkud38qdse3gqgt
-
-  # Rule 3: Terraform variables
-  - path_regex: infrastructure/.+\.sops\.auto\.tfvars\.json$
-    encrypted_regex: ^(.*)$  # Encrypt all values (not just data/stringData)
-    tfvars: true  # Critical for Terraform files
-    age: age1j0nhr3qkvuf7sr60sk89p4g29dksqz3k66sttlrkp68fkud38qdse3gqgt
-
-# Global settings
-minimum_version: "3.7.1"
-validation:
-  # Require MAC for all encrypted files
-  enabled: true
-  # Recommended for CI/CD
-  ignored_mac_only_encrypted: false
-
-# File formatting
 stores:
   yaml:
     indent: 2
-    # Preserve comments (matches script behavior)
-    preserve_comments: true
-  env:
-    # Keep bash-style comments
-    comment_prefix: "#"
-  tfvars:
-    # Maintain Terraform formatting
-    indent: 2
-
-# Hash verification (replaces script's hash tracking)
-hash_verification:
-  enabled: true
-  # Matches your SHA-256 hashing
-  algorithm: sha256
-  # Store hash in file footer (like your script)
-  location: footer_comment
