@@ -95,7 +95,7 @@ services:
       - "/mnt/apps-pool/appdata/pbs/logs:/var/log/proxmox-backup"
 
   webtop:
-    image: lscr.io/linuxserver/webtop:ubuntu-xfce
+    image: lscr.io/linuxserver/webtop:debian-xfce
     container_name: webtop
     security_opt:
       - seccomp:unconfined #optional
