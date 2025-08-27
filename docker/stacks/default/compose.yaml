@@ -94,18 +94,6 @@ services:
       - "/mnt/apps-pool/appdata/pbs/lib:/var/lib/proxmox-backup"
       - "/mnt/apps-pool/appdata/pbs/logs:/var/log/proxmox-backup"
 
-  netbootxyz:
-    image: ghcr.io/netbootxyz/netbootxyz
-    container_name: netbootxyz
-    volumes:
-      - /mnt/apps-pool/appdata/netbootxyz/config:/config
-      - /mnt/apps-pool/appdata/netbootxyz/assets:/assets
-    ports:
-      - 3000:3000
-      - 69:69/udp
-      - 8080:80
-    restart: always
-
   webtop:
     image: lscr.io/linuxserver/webtop:latest
     container_name: webtop
