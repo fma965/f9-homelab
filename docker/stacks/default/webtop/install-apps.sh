@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ -f /root/skip ]; then
+  echo "**** Skip File (/root/skip) Found, Skipping Package Installation! ****"
+  exit 0
+fi
 echo "**** Adding 1Password Keyring ****"
 curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
   gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg && \
@@ -16,7 +20,7 @@ wget -qO - https://mirror.mwt.me/shiftkey-desktop/gpgkey | gpg --dearmor | tee /
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/mwt-desktop.gpg] https://mirror.mwt.me/shiftkey-desktop/deb/ any main" > /etc/apt/sources.list.d/mwt-desktop.list
 
 echo "**** Adding Discord PPA (Javinator9889/Discord-PPA) ****"
-curl -sS "https://keyserver.ubuntu.com/pks/lookup?op=get&options=mr&search=0x08633B4AAAEB49FC" | sudo gpg --dearmor --output /usr/share/keyrings/javinator9889-ppa-keyring.gpg
+curl -sS "https://keyserver.ubuntu.com/pks/lookup?op=get&options=mr&search=0x08633B4AAAEB49FC" | gpg --dearmor --output /usr/share/keyrings/javinator9889-ppa-keyring.gpg
 tee /etc/apt/sources.list.d/javinator9889-ppa.list <<< "deb [arch=amd64 signed-by=/usr/share/keyrings/javinator9889-ppa-keyring.gpg] https://ppa.javinator9889.com all main"
 
 echo "**** Installing Microsoft VS Code ****"
@@ -37,4 +41,11 @@ dpkg -i *.deb
 
 echo "**** Installing 1password-cli 1password github-desktop discord ****"
 apt update
-apt install -y 1password-cli 1password github-desktop discord
+apt-get install -y 1password-cli 1password github-desktop discord
+
+echo "**** Removing Chromium ****"
+apt-get purge -y chromium
+apt-get autoremove -y
+
+echo "**** Setting flag ****"
+touch /root/skip
