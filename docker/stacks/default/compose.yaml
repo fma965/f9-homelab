@@ -111,7 +111,7 @@ services:
       - "/dev/dri:/dev/dri"
     volumes:
       - /mnt/apps-pool/appdata/webtop/config:/config
-      - /var/run/docker.sock:/var/run/docker.sock #optional
+      - ./webtop:/custom-cont-init.d:ro
     ports:
       - 3000:3000
     shm_size: "1gb" #optional
