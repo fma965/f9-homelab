@@ -96,8 +96,8 @@ spec:
     dashboards:
       default:
         nut-ups:
-          # renovate: depName="Prometheus NUT Exporter for DRuggeri"
-          gnetId: 19308
+          # renovate: depName="UPS (NUT Exporter)"
+          gnetId: 23972
           revision: 1
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
