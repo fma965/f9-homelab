@@ -38,6 +38,8 @@ spec:
   staticConfigs:
     - targets:
         - f9-nas.internal:9199
+      labels:
+          ups:  "primary"
   metricsPath: /ups_metrics
   relabelings:
     - action: replace
