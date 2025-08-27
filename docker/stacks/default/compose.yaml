@@ -106,6 +106,7 @@ services:
       - TITLE=F9 Remote
       - DRINODE=/dev/dri/renderD128
       - DOCKER_MODS=linuxserver/mods:universal-package-install
+      - INSTALL_PACKAGES=wget|nano|libsecret-1-0|libsecret-common|xz-utils
     devices:
       - "/dev/dri:/dev/dri"
     volumes:
