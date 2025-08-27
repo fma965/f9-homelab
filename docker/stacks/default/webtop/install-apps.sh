@@ -38,7 +38,7 @@ echo "**** Installing Zen (Officiall Install Script) ****"
 /bin/bash -c "$(curl -fsSL https://updates.zen-browser.app/install.sh)"
 
 echo "**** Installing Freelens ****"
-LATEST_FREELENS_DEB=$(curl -s https://api.github.com/repos/freelensapp/freelens/releases/latest | grep "browser_download_url.*amd64.deb" | cut -d : -f 2,3 | tr -d \" | tr -d " ")
+LATEST_FREELENS_DEB=$(curl -s https://api.github.com/repos/freelensapp/freelens/releases/latest | grep "browser_download_url.*amd64.deb\"" | cut -d : -f 2,3 | tr -d \" | tr -d " ")
 wget --progress=dot:giga "$LATEST_FREELENS_DEB" -O /tmp/freelens_latest.deb
 dpkg -i /tmp/freelens_latest.deb
 rm /tmp/freelens_latest.deb
