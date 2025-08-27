@@ -95,9 +95,9 @@ spec:
               path: /var/lib/grafana/dashboards/default
     dashboards:
       default:
-        apc-ups:
-          # renovate: depName="APC UPS (SNMP)"
-          gnetId: 12340
+        nut-ups:
+          # renovate: depName="Prometheus NUT Exporter for DRuggeri"
+          gnetId: 19308
           revision: 1
           datasource: Prometheus
         ceph-cluster:
