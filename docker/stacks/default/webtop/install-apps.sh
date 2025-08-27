@@ -5,7 +5,7 @@ if [ -f /skip ]; then
 fi
 echo "**** Installing dependencies ****"
 apt get update
-apt get install wget nano libsecret-1-0 libsecret-common xz-utils build-essential
+apt install wget nano libsecret-1-0 libsecret-common xz-utils build-essential
 
 echo "**** Adding 1Password Keyring ****"
 curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
