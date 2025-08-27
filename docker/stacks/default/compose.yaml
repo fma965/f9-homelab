@@ -65,6 +65,11 @@ services:
     restart: always
     user: root
 
+  nut-exporter:
+    image: druggeri/nut_exporter:3.2.1
+    network_mode: "host"
+    restart: always
+
   ser2net:
     container_name: ser2net
     image: ghcr.io/jippi/docker-ser2net
