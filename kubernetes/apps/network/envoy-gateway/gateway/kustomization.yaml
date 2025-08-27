@@ -10,5 +10,4 @@ resources:
   - ./backendtrafficpolicy.yaml
   - ./servicemonitor.yaml
   - ./podmonitor.yaml
-  - ./pushsecret.yaml
   - ./securitypolicy.yaml
