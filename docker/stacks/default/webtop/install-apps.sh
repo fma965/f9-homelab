@@ -1,4 +1,6 @@
 #!/bin/bash
+# Version: 1.0 - 27/08/2025
+
 if [ -f /skip ]; then
   echo "**** Skip File (/root/skip) Found, Skipping Package Installation! ****"
   exit 0
@@ -45,7 +47,7 @@ rm /tmp/freelens_latest.deb
 
 echo "**** Installing 1password-cli 1password github-desktop discord ****"
 apt update
-apt-get install -y 1password-cli 1password github-desktop discord
+apt-get install -y 1password-cli 1password github-desktop discord alacritty
 
 echo "**** Installing brew ****"
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
