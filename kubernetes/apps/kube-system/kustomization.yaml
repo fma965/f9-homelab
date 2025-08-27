@@ -9,6 +9,8 @@ resources:
   - ./cilium/ks.yaml
   - ./coredns/ks.yaml
   - ./csi-driver-nfs/ks.yaml
+  - ./descheduler/ks.yaml
+  - ./gateway-api-crds/ks.yaml
   - ./intel-device-plugin-operator/ks.yaml
   - ./generic-device-plugin/ks.yaml
   - ./metrics-server/ks.yaml
