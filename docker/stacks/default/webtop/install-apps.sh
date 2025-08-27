@@ -3,6 +3,10 @@ if [ -f /skip ]; then
   echo "**** Skip File (/root/skip) Found, Skipping Package Installation! ****"
   exit 0
 fi
+echo "**** Installing dependencies ****"
+apt get update
+apt get install wget nano libsecret-1-0 libsecret-common xz-utils build-essential
+
 echo "**** Adding 1Password Keyring ****"
 curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
   gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg && \
@@ -34,16 +38,19 @@ echo "**** Installing Zen (Officiall Install Script) ****"
 /bin/bash -c "$(curl -fsSL https://updates.zen-browser.app/install.sh)"
 
 echo "**** Installing Freelens ****"
-curl -s https://api.github.com/repos/freelensapp/freelens/releases/latest \
-| grep "browser_download_url.*amd64.deb" \
-| cut -d : -f 2,3 \
-| tr -d \" \
-| wget --progress=dot:giga -i -
-dpkg -i *.deb
+LATEST_FREELENS_DEB=$(curl -s https://api.github.com/repos/freelensapp/freelens/releases/latest | grep "browser_download_url.*amd64.deb" | cut -d : -f 2,3 | tr -d \" | tr -d " ")
+wget --progress=dot:giga "$LATEST_FREELENS_DEB" -O /tmp/freelens_latest.deb
+dpkg -i /tmp/freelens_latest.deb
+rm /tmp/freelens_latest.deb
 
 echo "**** Installing 1password-cli 1password github-desktop discord ****"
 apt update
 apt-get install -y 1password-cli 1password github-desktop discord
+
+echo "**** Installing brew ****"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo >> /config/.bashrc
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /config/.bashrc
 
 echo "**** Removing Chromium ****"
 apt-get purge -y chromium
