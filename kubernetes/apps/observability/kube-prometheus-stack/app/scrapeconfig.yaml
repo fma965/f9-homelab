@@ -8,6 +8,7 @@ spec:
   staticConfigs:
     - targets:
         - f9-nas.internal:9100
+        - f9-nas.internal:9199 #nut-exporter
   metricsPath: /metrics
   relabelings:
     - action: replace
