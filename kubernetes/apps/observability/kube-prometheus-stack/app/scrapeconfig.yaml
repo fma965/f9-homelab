@@ -38,7 +38,7 @@ spec:
   staticConfigs:
     - targets:
         - f9-nas.internal:9199
-  metricsPath: /metrics
+  metricsPath: /ups_metrics
   relabelings:
     - action: replace
       targetLabel: job
