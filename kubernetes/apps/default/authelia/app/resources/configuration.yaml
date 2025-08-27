@@ -88,7 +88,6 @@ access_control:
         - overlays.f9.casa
         - paperless.f9.casa
         - photos.f9.casa
-        - remote.f9.casa
         - s3.f9.casa
         - "*.s3.f9.casa"
         - status.f9.casa
