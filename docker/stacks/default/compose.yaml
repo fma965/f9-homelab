@@ -112,5 +112,6 @@ services:
       - ./webtop:/custom-cont-init.d:ro
     ports:
       - 3000:3000
+      - 3001:3001
     shm_size: "1gb" #optional
     restart: always

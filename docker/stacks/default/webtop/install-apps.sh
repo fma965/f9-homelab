@@ -5,7 +5,7 @@ if [ -f /skip ]; then
 fi
 echo "**** Installing dependencies ****"
 apt update
-apt install -y wget nano libsecret-1-0 libsecret-common xz-utils build-essential
+apt install -y wget nano libsecret-1-0 libsecret-common xz-utils build-essential unzip
 
 echo "**** Adding 1Password Keyring ****"
 curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
@@ -51,6 +51,7 @@ echo "**** Installing brew ****"
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 echo >> /config/.bashrc
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /config/.bashrc
+chmod -R o+w /home/linuxbrew/.linuxbrew/* /config/.cache/Homebrew/
 
 echo "**** Removing Chromium ****"
 apt-get purge -y chromium
