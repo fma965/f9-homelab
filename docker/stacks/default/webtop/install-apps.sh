@@ -4,7 +4,7 @@ if [ -f /skip ]; then
   exit 0
 fi
 echo "**** Installing dependencies ****"
-apt get update
+apt update
 apt install wget nano libsecret-1-0 libsecret-common xz-utils build-essential
 
 echo "**** Adding 1Password Keyring ****"
