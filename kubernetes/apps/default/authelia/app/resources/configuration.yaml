@@ -82,7 +82,7 @@ access_control:
         - hv2.f9.casa
         - hv3.f9.casa
         - jellyfin.f9.casa
-        - komodo.f9.casa
+        - doco-cd.f9.casa
         - kromgo.f9.casa
         - chat.f9.casa
         - overlays.f9.casa
@@ -216,27 +216,6 @@ identity_providers:
           - https://gamesdb.f9.casa/auth/login/authentik/callback
         userinfo_signed_response_alg: none
         claims_policy: default
-        token_endpoint_auth_method: 'client_secret_basic'
-
-      - client_name: 'Komodo'
-        client_id: '{{ env "KOMODO_OAUTH_CLIENT_ID" }}'
-        client_secret: '{{ env "KOMODO_OAUTH_CLIENT_SECRET" }}'
-        public: false
-        require_pkce: true
-        pkce_challenge_method: 'S256'
-        authorization_policy: 'two_factor'
-        redirect_uris:
-          - 'https://komodo.f9.casa/auth/oidc/callback'
-        scopes:
-          - 'openid'
-          - 'profile'
-          - 'email'
-        response_types:
-          - 'code'
-        grant_types:
-          - 'authorization_code'
-        access_token_signed_response_alg: 'none'
-        userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_basic'
 
       - client_name: 'Open WebUI'
