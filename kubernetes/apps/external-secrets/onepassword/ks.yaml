@@ -59,27 +59,3 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
----
-# yaml-language-server: $schema=https://k8s-schemas-cjso.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &app onepassword-komodo
-  namespace: external-secrets
-spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  dependsOn:
-    - name: onepassword-store
-      namespace: external-secrets
-  interval: 30m
-  path: ./kubernetes/apps/external-secrets/onepassword/komodo
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  targetNamespace: external-secrets
-  timeout: 5m
-  wait: true
