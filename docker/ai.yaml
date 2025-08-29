@@ -38,8 +38,8 @@ services:
       TZ: "Europe/London"
       WEBUI_VERSION: "07"
       NVIDIA_VISIBLE_DEVICES: "ALL"
-      PUID: "99"
-      PGID: "100"
+      PUID: "1000"
+      PGID: "1000"
       NVIDIA_DRIVER_CAPABILITIES: "all"
     image: holaflenain/stable-diffusion:3.5.1
     ports:

@@ -4,4 +4,3 @@ compose_files: # List of docker compose files to use in descending order
   - default.yaml
   - observability.yaml
   - ai.yaml
-remove_orphans: false
