@@ -8,6 +8,8 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+        limits:
+          memory: 4G
     environment:
       TZ: "Europe/London"
       OLLAMA_ORIGINS: "*"
@@ -30,6 +32,8 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+        limits:
+          memory: 4G
     environment:
       TZ: "Europe/London"
       WEBUI_VERSION: "07"
@@ -53,6 +57,8 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+        limits:
+          memory: 4G
     volumes:
       - /mnt/AI/appdata/immich-machine-learning/cache:/cache
     ports:
