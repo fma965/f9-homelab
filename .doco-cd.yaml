@@ -2,5 +2,6 @@ name: f9-nas # name of the deployed stack/project
 working_dir: docker # move to this sub-directory for deployment
 compose_files: # List of docker compose files to use in descending order
   - default.yaml
-  # - ai.yaml
+  - observability.yaml
+  - ai.yaml
 remove_orphans: false
