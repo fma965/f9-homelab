@@ -254,19 +254,19 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: komodo-external
+  name: doco-cd-external
 spec:
   type: ClusterIP
   ports:
     - name: http
-      port: 9120
+      port: 6584
 ---
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:
-  name: komodo-external
+  name: doco-cd-external
   labels:
-    kubernetes.io/service-name: komodo-external
+    kubernetes.io/service-name: doco-cd-external
 addressType: IPv4
 endpoints:
   - addresses:
@@ -274,20 +274,20 @@ endpoints:
 ports:
   - name: http
     protocol: TCP
-    port: 9120
+    port: 6584
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: komodo
+  name: doco-cd
 spec:
   parentRefs:
     - name: external
       namespace: network
       sectionName: https
   hostnames:
-    - "komodo.f9.casa"
+    - "doco-cd.f9.casa"
   rules:
     - backendRefs:
-        - name: komodo-external
-          port: 9120
+        - name: doco-cd-external
+          port: 6584
