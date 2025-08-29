@@ -128,6 +128,12 @@ spec:
           revision: 6
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
+        doco-cd:
+          # renovate: depName="Doco-CD Dashboard"
+          gnetId: 23980
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
         envoy:
            # renovate: depName="Envoy Proxy Monitoring gRPC"
            gnetId: 23239
