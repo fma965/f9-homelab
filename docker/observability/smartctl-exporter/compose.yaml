@@ -1,5 +1,9 @@
 services:
-  nut-exporter:
-    image: druggeri/nut_exporter:3.2.1
-    network_mode: "host"
+  smartctl-exporter:
+    container_name: "smartctl-exporter"
+    image: quay.io/prometheuscommunity/smartctl-exporter:v0.14.0
+    ports:
+      - '9633:9633'
+    privileged: True
     restart: unless-stopped
+    user: root
