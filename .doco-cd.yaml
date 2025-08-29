@@ -24,7 +24,7 @@ name: smartctl-exporter
 working_dir: docker/observability/smartctl-exporter
 ---
 name: nut-exporter
-working_dir: docker/observability/node-exporter
+working_dir: docker/observability/nut-exporter
 ---
 name: cups
 working_dir: docker/system/cups
