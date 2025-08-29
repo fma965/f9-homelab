@@ -5,7 +5,7 @@ services:
       TZ: "Europe/London"
     image: "dmunozv04/isponsorblocktv:v2.6.0"
     network_mode: "host"
-    restart: always
+    restart: unless-stopped
     volumes:
       - "/mnt/apps-pool/appdata/isponsorblocktv:/app/data"
 
@@ -17,7 +17,7 @@ services:
     hostname: "F9-NAS"
     image: "vladgh/minidlna:1.3.6"
     network_mode: "host"
-    restart: always
+    restart: unless-stopped
     volumes:
       - "/mnt/F9/FilmTV:/media"
 
@@ -31,7 +31,7 @@ services:
     network_mode: "bridge"
     ports:
       - "631:631/tcp"
-    restart: "always"
+    restart: "unless-stopped"
     volumes:
       - "/mnt/apps-pool/appdata/cups:/etc/cups"
       - "/var/run/dbus:/var/run/dbus"
@@ -39,7 +39,7 @@ services:
   ser2net:
     container_name: ser2net
     image: ghcr.io/jippi/docker-ser2net
-    restart: always
+    restart: unless-stopped
     network_mode: host
     volumes:
       - /mnt/apps-pool/appdata/ser2net/ser2net.yaml:/etc/ser2net/ser2net.yaml
@@ -52,7 +52,7 @@ services:
       TZ: "Europe/London"
     image: "ayufan/proxmox-backup-server:v4.0.13"
     network_mode: "host"
-    restart: always
+    restart: unless-stopped
     deploy:
       resources:
         limits:
@@ -85,4 +85,4 @@ services:
       - 3000:3000
       - 3001:3001
     shm_size: "1gb" #optional
-    restart: always
+    restart: unless-stopped

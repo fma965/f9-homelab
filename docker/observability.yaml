@@ -13,7 +13,7 @@ services:
     network_mode: host
     ports:
       - '9100:9100'
-    restart: always
+    restart: unless-stopped
     volumes:
       - /:/host/root:ro
       - /proc:/host/proc:ro
@@ -25,10 +25,10 @@ services:
     ports:
       - '9633:9633'
     privileged: True
-    restart: always
+    restart: unless-stopped
     user: root
 
   nut-exporter:
     image: druggeri/nut_exporter:3.2.1
     network_mode: "host"
-    restart: always
+    restart: unless-stopped

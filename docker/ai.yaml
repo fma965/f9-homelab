@@ -21,39 +21,39 @@ services:
     volumes:
       - /mnt/AI/appdata/ollama:/root/.ollama
 
-  # stable-diffusion:
-  #   container_name: stable-diffusion
-  #   deploy:
-  #     resources:
-  #       reservations:
-  #         devices:
-  #           - driver: nvidia
-  #             count: all
-  #             capabilities: [gpu]
-  #   environment:
-  #     TZ: "Europe/London"
-  #     WEBUI_VERSION: "07"
-  #     NVIDIA_VISIBLE_DEVICES: "ALL"
-  #     PUID: "99"
-  #     PGID: "100"
-  #     NVIDIA_DRIVER_CAPABILITIES: "all"
-  #   image: holaflenain/stable-diffusion:3.5.1
-  #   ports:
-  #     - 7400:9000/tcp
-  #   volumes:
-  #     - /mnt/AI/appdata/stable-diffusion:/config
+  stable-diffusion:
+    container_name: stable-diffusion
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      TZ: "Europe/London"
+      WEBUI_VERSION: "07"
+      NVIDIA_VISIBLE_DEVICES: "ALL"
+      PUID: "99"
+      PGID: "100"
+      NVIDIA_DRIVER_CAPABILITIES: "all"
+    image: holaflenain/stable-diffusion:3.5.1
+    ports:
+      - 7400:9000/tcp
+    volumes:
+      - /mnt/AI/appdata/stable-diffusion:/config
 
-  # immich-machine-learning:
-  #   container_name: immich_machine_learning
-  #   image: ghcr.io/immich-app/immich-machine-learning:release-cuda
-  #   deploy:
-  #     resources:
-  #       reservations:
-  #         devices:
-  #           - driver: nvidia
-  #             count: all
-  #             capabilities: [gpu]
-  #   volumes:
-  #     - /mnt/AI/appdata/immich-machine-learning/cache:/cache
-  #   ports:
-  #     - 3003:3003
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:release-cuda
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - /mnt/AI/appdata/immich-machine-learning/cache:/cache
+    ports:
+      - 3003:3003
