@@ -1,0 +1,5 @@
+services:
+  nut-exporter:
+    image: druggeri/nut_exporter:3.2.1
+    network_mode: "host"
+    restart: unless-stopped

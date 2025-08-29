@@ -1,6 +1,36 @@
-name: f9-nas # name of the deployed stack/project
-working_dir: docker # move to this sub-directory for deployment
-compose_files: # List of docker compose files to use in descending order
-  - default.yaml
-  - observability.yaml
-  - ai.yaml
+---
+name: immich-machine-learning
+working_dir: docker/ai/immich-machine-learning
+---
+name: stable-diffusion
+working_dir: docker/ai/stable-diffusion
+---
+name: ollama
+working_dir: docker/ai/ollama
+---
+name: webtop
+working_dir: docker/management/webtop
+---
+name: isponsorblocktv
+working_dir: docker/media/isponsorblocktv
+---
+name: minidlna
+working_dir: docker/media/minidlna
+---
+name: node-exporter
+working_dir: docker/observability/node-exporter
+---
+name: smartctl-exporter
+working_dir: docker/observability/smartctl-exporter
+---
+name: nut-exporter
+working_dir: docker/observability/node-exporter
+---
+name: cups
+working_dir: docker/system/cups
+---
+name: ser2net
+working_dir: docker/system/ser2net
+---
+name: pbs
+working_dir: docker/system/pbs

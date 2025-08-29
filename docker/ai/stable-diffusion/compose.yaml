@@ -1,0 +1,24 @@
+services:
+  stable-diffusion:
+    container_name: stable-diffusion
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+        limits:
+          memory: 4G
+    environment:
+      TZ: "Europe/London"
+      WEBUI_VERSION: "07"
+      NVIDIA_VISIBLE_DEVICES: "ALL"
+      PUID: "1000"
+      PGID: "1000"
+      NVIDIA_DRIVER_CAPABILITIES: "all"
+    image: holaflenain/stable-diffusion:3.5.1
+    ports:
+      - 7400:9000/tcp
+    volumes:
+      - /mnt/AI/appdata/stable-diffusion:/config

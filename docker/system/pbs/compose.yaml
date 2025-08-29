@@ -1,0 +1,19 @@
+services:
+  proxmox-backup-server:
+    container_name: "proxmox-backup-server"
+    environment:
+      TZ: "Europe/London"
+    image: "ayufan/proxmox-backup-server:v4.0.13"
+    network_mode: "host"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    tmpfs:
+      - /run
+    volumes:
+      - "/mnt/Data/PBS:/backups"
+      - "/mnt/apps-pool/appdata/pbs/etc:/etc/proxmox-backup"
+      - "/mnt/apps-pool/appdata/pbs/lib:/var/lib/proxmox-backup"
+      - "/mnt/apps-pool/appdata/pbs/logs:/var/log/proxmox-backup"

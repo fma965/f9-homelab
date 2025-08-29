@@ -1,0 +1,10 @@
+services:
+  ser2net:
+    container_name: ser2net
+    image: ghcr.io/jippi/docker-ser2net
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - /mnt/apps-pool/appdata/ser2net/ser2net.yaml:/etc/ser2net/ser2net.yaml
+    devices:
+      - /dev/ttyACM0

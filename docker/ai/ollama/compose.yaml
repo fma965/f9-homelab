@@ -1,0 +1,24 @@
+services:
+  ollama:
+    container_name: ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+        limits:
+          memory: 4G
+    environment:
+      TZ: "Europe/London"
+      OLLAMA_ORIGINS: "*"
+      DISABLED_OLLAMA_KEEP_ALIVE: "15m"
+      NVIDIA_DRIVER_CAPABILITIES: "compute,utility"
+      NVIDIA_VISIBLE_DEVICES: "all"
+      OLLAMA_HOST: "0.0.0.0:11434"
+    ports:
+      - 11434:11434/tcp
+    image: ollama/ollama:0.11.6
+    volumes:
+      - /mnt/AI/appdata/ollama:/root/.ollama
