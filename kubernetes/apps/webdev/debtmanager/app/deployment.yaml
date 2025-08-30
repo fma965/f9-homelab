@@ -22,7 +22,7 @@ spec:
         app.kubernetes.io/name: debtmanager
     spec:
       containers:
-      - image: ghcr.io/fma965/debt-manager@sha256:58e808524c44e257172e5bd0ebf90bdd2765ce5ba31e7e92f55757b8bd59ac85
+      - image: ghcr.io/fma965/debt-manager:v1.1.1
         name: debtmanager
         resources:
           limits:
@@ -40,9 +40,9 @@ spec:
             name: debtmanager-secret
         env:
         - name: DB_TYPE
-          value: mysql
+          value: pgsql
         - name: DB_HOST
-          value: mariadb.mariadb
+          value: postgresql.postgresql
         - name: DB_USER
           value: debtmanager
         - name: DB_NAME
