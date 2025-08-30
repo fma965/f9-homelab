@@ -12,8 +12,6 @@ spec:
   dependsOn:
     - name: postgresql
       namespace: postgresql
-    - name: mariadb
-      namespace: mariadb
   interval: 1h
   path: ./kubernetes/apps/database/dbbackup/app
   postBuild:
