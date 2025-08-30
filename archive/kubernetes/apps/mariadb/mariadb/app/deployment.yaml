@@ -21,7 +21,7 @@ spec:
         app.kubernetes.io/name: mariadb
     spec:
       containers:
-        - image: ghcr.io/linuxserver/mariadb:11.4.5
+        - image: ghcr.io/linuxserver/mariadb:11.4.8
           name: mariadb
           ports:
             - containerPort: 3306
