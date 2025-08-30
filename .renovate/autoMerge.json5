@@ -11,6 +11,14 @@
       ignoreTests: false,
     },
     {
+      description: "Auto-merge trusted container digests",
+      matchDatasources: ["docker"],
+      automerge: true,
+      automergeType: "pr",
+      matchPackageNames: ["/fma965/"],
+      ignoreTests: false,
+    },
+    {
       description: "Auto-merge OCI Charts",
       matchDatasources: ["docker"],
       automerge: true,
