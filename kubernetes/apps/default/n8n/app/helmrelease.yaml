@@ -40,6 +40,8 @@ spec:
               N8N_HOST: &hostName n8n.f9.casa
               N8N_LOG_LEVEL: info
               N8N_LOG_OUTPUT: console
+              EXTERNAL_HOOK_FILES: /home/node/.n8n/hooks.js
+              N8N_FORWARD_AUTH_HEADER: Remote-Email
               N8N_ENCRYPTION_KEY:
                 valueFrom:
                   secretKeyRef:
@@ -65,7 +67,13 @@ spec:
           n8n:
             app:
               - path: /home/node/.n8n
-
+      hook-files:
+        type: configMap
+        name: n8n-configmap
+        globalMounts:
+          - path: /home/node/.n8n/hooks.js
+            subPath: hooks.js
+            readOnly: true
     route:
       app:
         hostnames:
