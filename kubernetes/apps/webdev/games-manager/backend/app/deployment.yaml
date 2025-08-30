@@ -45,13 +45,13 @@ spec:
         - name: CACHE_STORE
           value: "redis"
         - name: DB_CLIENT
-          value: "mysql"
+          value: "postgres"
         - name: DB_DATABASE
           value: "games"
         - name: DB_HOST
-          value: "mariadb.mariadb"
+          value: "postgresql.postgresql"
         - name: DB_PORT
-          value: "3306"
+          value: "5432"
         - name: DB_USER
           value: "games"
         - name: EMAIL_FROM
