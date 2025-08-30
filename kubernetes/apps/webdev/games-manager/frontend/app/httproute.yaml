@@ -11,6 +11,13 @@ spec:
       namespace: network
       sectionName: https
   rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /ws
+      backendRefs:
+        - name: ws-broadcast
+          port: 13370
     - backendRefs:
         - name: games-manager-frontend
           port: 80
