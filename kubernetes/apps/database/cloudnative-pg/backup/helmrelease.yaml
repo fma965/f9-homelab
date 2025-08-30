@@ -41,9 +41,9 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/cloudnative-pg/postgresql
-              # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql versioning=redhat
-              tag: 16.9-22
+              repository: ghcr.io/tensorchord/cloudnative-vectorchord
+              # renovate: datasource=docker depName=ghcr.io/tensorchord/cloudnative-vectorchord versioning=redhat
+              tag: 17.5-0.4.3
             env:
               PGHOST: postgres-rw.database
               PGPORT: "5432"

@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: postgres
-          # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
+          # renovate: datasource=docker depName=ghcr.io/tensorchord/cloudnative-vectorchord
           image: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.4.3
           command: ["/bin/sh"]
           args:
