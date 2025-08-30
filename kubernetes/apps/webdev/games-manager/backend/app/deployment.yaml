@@ -20,7 +20,7 @@ spec:
         app.kubernetes.io/name: games-manager-backend
     spec:
       containers:
-      - image: directus/directus:11.10.2
+      - image: directus/directus:11.11.0
         name: games-manager-backend
         envFrom:
         - secretRef:
