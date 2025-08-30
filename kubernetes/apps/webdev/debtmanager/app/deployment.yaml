@@ -39,6 +39,8 @@ spec:
         - secretRef:
             name: debtmanager-secret
         env:
+        - name: DB_TYPE
+          value: mysql
         - name: DB_HOST
           value: mariadb.mariadb
         - name: DB_USER
