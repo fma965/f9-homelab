@@ -1,16 +1,20 @@
-set quiet
+set quiet := true
 set shell := ['bash', '-eu', '-o', 'pipefail', '-c']
 
 [private]
 default:
     just --list kube
 
-[doc('Spawn a shell on a node')]
-node-shell node:
-    kubectl node-shell -n kube-system -x {{node}}
+browse-pvc namespace name:
+    kubectl browse-pvc --namespace {{ namespace }} --image mirror.gcr.io/alpine:latest {{ name }}
 
-[doc('Prune all unused Pods')]
+node-shell node:
+    kubectl node-shell --namespace kube-system --image mirror.gcr.io/alpine:latest -x {{ node }}
+
 prune-pods:
     for phase in Failed Pending Succeeded; do \
         kubectl delete pods -A --field-selector status.phase="${phase}" --ignore-not-found=true; \
     done
+
+view-secret namespace name:
+    kubectl view-secret --namespace {{ namespace }} {{ name }}
