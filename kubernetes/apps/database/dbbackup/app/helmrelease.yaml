@@ -39,17 +39,11 @@ spec:
               NOTIFICATION_TYPE: EMAIL
               SMTP_HOST: smtp-relay.network.svc.cluster.local
               SMTP_PORT: 25
-              DB01_HOST: mariadb.mariadb
+              DB01_HOST: postgresql.postgresql
               DB01_NAME: ALL
-              DB01_TYPE: mysql
-              DB01_USER: backup
+              DB01_TYPE: pgsql
+              DB01_USER: admin
               DB01_SPLIT_DB: true
-              DB01_MYSQL_EVENTS: false
-              DB02_HOST: postgresql.postgresql
-              DB02_NAME: ALL
-              DB02_TYPE: pgsql
-              DB02_USER: admin
-              DB02_SPLIT_DB: true
             envFrom:
               - secretRef:
                   name: dbbackup-secret
