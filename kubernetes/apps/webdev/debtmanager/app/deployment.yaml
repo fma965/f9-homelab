@@ -22,7 +22,7 @@ spec:
         app.kubernetes.io/name: debtmanager
     spec:
       containers:
-      - image: ghcr.io/fma965/debt-manager@sha256:58e808524c44e257172e5bd0ebf90bdd2765ce5ba31e7e92f55757b8bd59ac85
+      - image: ghcr.io/fma965/debt-manager@sha256:304f8e2e607e3584b18e81a69a6a55be593aeada6b7ce7521fe18ee06c191cfe
         name: debtmanager
         resources:
           limits:
