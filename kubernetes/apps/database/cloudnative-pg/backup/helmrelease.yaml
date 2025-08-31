@@ -58,7 +58,7 @@ spec:
               - "/bin/sh"
             args:
               - "-c"
-              - "pg_dumpall -U $PGUSER | gzip > /backup/f9-cluster.dump.gz"
+              - "pg_dumpall -U $PGUSER | gzip > /backup/postgres17-cluster.dump.gz"
             resources:
               requests:
                 cpu: 50m

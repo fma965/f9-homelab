@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: &name pg-f9-restore
+  name: postgres17-restore
 spec:
   ttlSecondsAfterFinished: 86400
   template:
@@ -27,7 +27,7 @@ spec:
           command: ["/bin/sh"]
           args:
             - "-c"
-            - "gunzip < /backup/f9-cluster.dump.gz | pg_restore -U $PGUSER -f -"
+            - "gunzip < /backup/postgres17-cluster.dump.gz | pg_restore -U $PGUSER -f -"
           env:
             - name: PGHOST
               value: postgres-rw.database

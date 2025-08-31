@@ -1,15 +1,15 @@
 ---
-# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/monitoring.coreos.com/prometheusrule_v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: cloudnative-pg-rules
+  name: cloudnative-pg
   labels:
     prometheus: k8s
     role: alert-rules
 spec:
   groups:
-    - name: cloudnative-pg.rules
+    - name: cloudnative-pg
       rules:
         - alert: LongRunningTransaction
           annotations:
@@ -50,9 +50,9 @@ spec:
         - alert: LastFailedArchiveTime
           annotations:
             description: Archiving failed for {{ $labels.pod }}
-            summary: Checks the last time archiving failed. Will be -1 when it has not failed.
+            summary: Checks the last time archiving failed. Will be < 0 when it has not failed.
           expr: |-
-            cnpg_pg_stat_archiver_last_failed_time > cnpg_pg_stat_archiver_last_archived_time
+            (cnpg_pg_stat_archiver_last_failed_time - cnpg_pg_stat_archiver_last_archived_time) > 1
           for: 1m
           labels:
             severity: warning
@@ -63,14 +63,5 @@ spec:
           expr: |-
             cnpg_pg_stat_database_deadlocks > 10
           for: 1m
-          labels:
-            severity: warning
-        - alert: PGNoRecentBackups
-          annotations:
-            summmary: Checks for a recent backup
-            description: Job {{ $labels.job }} has not completed in {{ humanizeDuration $value }}.
-          # 36h
-          expr: |-
-            time() - max without (instance,pod) (cnpg_collector_last_available_backup_timestamp) > 129600
           labels:
             severity: warning
