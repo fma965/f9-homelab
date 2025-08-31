@@ -73,3 +73,4 @@ spec:
         port: "5432"
         username: postgresql
         password: Strongbox-Precinct-Porous9
+        sslmode: disable
