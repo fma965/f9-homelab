@@ -17,7 +17,7 @@
 #       protocol: TCP
 #       targetPort: 5432
 #   selector:
-#     cnpg.io/cluster: f9
+#     cnpg.io/cluster: postgres17
 #     role: primary
 ---
 apiVersion: v1
@@ -32,7 +32,7 @@ spec:
       protocol: TCP
       targetPort: 5432
   selector:
-    cnpg.io/cluster: f9
+    cnpg.io/cluster: postgres17
     cnpg.io/podRole: instance
 ---
 apiVersion: v1
@@ -47,7 +47,7 @@ spec:
       protocol: TCP
       targetPort: 5432
   selector:
-    cnpg.io/cluster: f9
+    cnpg.io/cluster: postgres17
     role: replica
 ---
 apiVersion: v1
@@ -62,6 +62,6 @@ spec:
       protocol: TCP
       targetPort: 5432
   selector:
-    cnpg.io/cluster: f9
+    cnpg.io/cluster: postgres17
     role: primary
   sessionAffinity: None
