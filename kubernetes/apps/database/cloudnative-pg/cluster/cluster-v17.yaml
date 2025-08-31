@@ -60,8 +60,6 @@ spec:
         secretAccessKey:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
-      configuration:
-        s3_region: "eu-west-1"
   bootstrap:
     initdb:
       import:
