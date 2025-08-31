@@ -26,21 +26,9 @@ spec:
             image:
               repository: ghcr.io/home-operations/postgres-init
               tag: 17.6.0@sha256:86a1992d46273c58fd4ad95b626081dfaabfe16bd56944675169e406d1a660dd
-            env:
-              INIT_POSTGRES_DBNAME: &dbName sonarr-main
-              INIT_POSTGRES_HOST: &dbHost postgresql.postgresql.svc.cluster.local
-              INIT_POSTGRES_USER: &dbUser sonarr
-              INIT_POSTGRES_PASS: &dbPass
-                valueFrom:
-                  secretKeyRef:
-                    name: sonarr-secret
-                    key: SONARR_DB_PASSWORD
-              INIT_POSTGRES_SUPER_USER: admin
-              INIT_POSTGRES_SUPER_PASS:
-                valueFrom:
-                  secretKeyRef:
-                    name: database-superuser-secret
-                    key: POSTGRESQL_PASS
+            envFrom: &envFrom
+              - secretRef:
+                  name: sonarr-secret
         containers:
           app:
             image:
@@ -52,20 +40,12 @@ spec:
               SONARR__APP__THEME: dark
               SONARR__AUTH__METHOD: External
               SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              SONARR__LOG__CONSOLEFORMAT: Clef
               SONARR__LOG__DBENABLED: "False"
               SONARR__LOG__LEVEL: info
               SONARR__SERVER__PORT: &port 80
               SONARR__UPDATE__BRANCH: develop
-              SONARR__POSTGRES__HOST: *dbHost
-              SONARR__POSTGRES__PORT: 5432
-              SONARR__POSTGRES__USER: *dbUser
-              SONARR__POSTGRES__PASSWORD: *dbPass
-              SONARR__POSTGRES__MAINDB: *dbName
-              SONARR__AUTH__APIKEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: sonarr-secret
-                    key: SONARR_AUTH_APIKEY
+            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
