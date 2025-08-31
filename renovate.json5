@@ -30,6 +30,7 @@
     '**/*.sample',
     '**/*.sops.*',
     "**/resources/**",
+    "archive/**"
   ],
   flux: {
     managerFilePatterns: [
