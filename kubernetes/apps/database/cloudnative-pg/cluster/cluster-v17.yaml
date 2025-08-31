@@ -76,6 +76,7 @@ spec:
           - sonarr-log
           - sonarr-main
           - zipline
+        roles: ["*"]
         source:
           externalCluster: external-pg-source
       postInitSQL:
