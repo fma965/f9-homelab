@@ -61,10 +61,25 @@ spec:
     initdb:
       import:
         type: monolith
-        databases: ["*"]
+        databases:
+          - authelia
+          - debtmanager
+          - games
+          - gatus
+          - hass
+          - lldap
+          - outline
+          - prowlarr-log
+          - prowlarr-main
+          - radarr-log
+          - radarr-main
+          - sonarr-log
+          - sonarr-main
+          - zipline
         source:
           externalCluster: external-pg-source
-
+      postInitSQL:
+        - CREATE EXTENSION IF NOT EXISTS vector;
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
   externalClusters:
     - name: external-pg-source
