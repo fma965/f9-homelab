@@ -78,6 +78,8 @@ spec:
         roles: ["*"]
         source:
           externalCluster: external-pg-source
+      postInitSQL:
+        - CREATE ROLE admin;
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
   externalClusters:
     - name: external-pg-source
