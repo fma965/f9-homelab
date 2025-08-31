@@ -50,7 +50,7 @@ spec:
               - /config/configuration.yml
             image:
               repository: ghcr.io/authelia/authelia
-              tag: 4.39.6
+              tag: 4.39.7
             env:
               AUTHELIA_SERVER_ADDRESS: tcp://0.0.0.0:80
               AUTHELIA_DUO_API_DISABLE: "true"
