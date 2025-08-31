@@ -71,6 +71,6 @@ spec:
       connectionParameters:
         host: postgresql.postgresql.svc.cluster.local
         port: "5432"
-        username: admin
+        user: admin
         password: Strongbox-Precinct-Porous9
         sslmode: disable
