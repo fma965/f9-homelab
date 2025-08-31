@@ -75,12 +75,12 @@ spec:
           - radarr-main
           - sonarr-log
           - sonarr-main
-          - zipline
         roles: ["*"]
         source:
           externalCluster: external-pg-source
       postInitSQL:
-        - CREATE EXTENSION IF NOT EXISTS vector;
+      - CREATE EXTENSION IF NOT EXISTS vectors;
+      - CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
   externalClusters:
     - name: external-pg-source
