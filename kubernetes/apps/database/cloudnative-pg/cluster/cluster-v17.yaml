@@ -46,7 +46,7 @@ spec:
         compression: bzip2
         maxParallel: 8
       destinationPath: s3://f9-database
-      endpointURL: https://garage.default.svc.cluster.local:3900
+      endpointURL: http://garage.default.svc.cluster.local:3900
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
       serverName: &currentCluster postgres17
