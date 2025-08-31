@@ -73,6 +73,3 @@ spec:
         port: "5432"
         username: postgresql
         password: Strongbox-Precinct-Porous9
-      password:
-        name: external-pg-creds
-        key: password
