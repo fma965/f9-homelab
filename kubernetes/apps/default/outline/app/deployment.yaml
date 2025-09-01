@@ -21,7 +21,7 @@ spec:
         app.kubernetes.io/name: outline
     spec:
       containers:
-      - image: outlinewiki/outline:0.86.1
+      - image: outlinewiki/outline:0.87.3
         name: outline
         resources:
           limits:
