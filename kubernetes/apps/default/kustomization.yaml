@@ -19,7 +19,7 @@ resources:
 - ./recommendarr/ks.yaml
 - ./sabnzbd/ks.yaml
 - ./sonarr/ks.yaml
-- ./zigbee/ks.yaml
+# - ./zigbee/ks.yaml
 - ./externalsecret.yaml
 - ./immich/ks.yaml
 - ./garage/ks.yaml
