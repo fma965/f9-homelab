@@ -23,10 +23,6 @@ spec:
       containers:
       - image: ghcr.io/fma965/obs-overlays:v1.0.0
         name: overlays
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "50m"
         envFrom:
         - secretRef:
             name: overlays-secret
