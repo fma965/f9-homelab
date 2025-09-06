@@ -144,6 +144,19 @@ spec:
           requests:
             cpu: 100m
             memory: 100Mi
+        csi:
+          provisioner:
+            resources:
+              requests:
+                cpu: "50m"
+              limits:
+                cpu: "200m"
+          node:
+            resources:
+              requests:
+                cpu: "50m"
+              limits:
+                cpu: "200m"
     cephBlockPools:
       - name: ceph-blockpool
         spec:
