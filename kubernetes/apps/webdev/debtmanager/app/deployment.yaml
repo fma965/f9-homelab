@@ -22,7 +22,7 @@ spec:
         app.kubernetes.io/name: debtmanager
     spec:
       containers:
-      - image: ghcr.io/fma965/debt-manager:v1.1.1
+      - image: ghcr.io/fma965/debt-manager:v1.1.2
         name: debtmanager
         ports:
         - containerPort: 81
