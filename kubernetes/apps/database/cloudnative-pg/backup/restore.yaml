@@ -47,10 +47,10 @@ spec:
               mountPath: /backup
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "1"
+              memory: 128Mi
+              cpu: 100m
             limits:
-              memory: "512Mi"
+              memory: 512Mi
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
