@@ -84,7 +84,7 @@ spec:
 
     service:
       app:
-        controller: *name
+        controller: *app
         ports:
           http:
             port: *port
