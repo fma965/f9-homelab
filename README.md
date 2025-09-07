@@ -4,7 +4,7 @@
 
 ### <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif" alt="🚀" width="16" height="16"> F9's Homelab <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f6a7/512.gif" alt="🚧" width="16" height="16">
 
-_... managed with Flux, Renovate, Komodo and GitHub Actions_ <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f916/512.gif" alt="🤖" width="16" height="16">
+_... managed with Flux, Doco-CD, Renovate and GitHub Actions_ <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f916/512.gif" alt="🤖" width="16" height="16">
 
 </div>
 
@@ -12,20 +12,7 @@ _... managed with Flux, Renovate, Komodo and GitHub Actions_ <img src="https://f
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4a1/512.gif" alt="💡" width="20" height="20"> Overview
 
-This is a mono repository for my entire _homelab_ configuration, including my Kubernetes cluster and Docker instance. It uses Infrastructure as Code (IaC) and GitOps practices as much as possible using tools like [Terraform](https://www.terraform.io/), [Kubernetes](https://kubernetes.io/), [Flux](https://github.com/fluxcd/flux2), [Renovate](https://github.com/renovatebot/renovate), [Komodo](https://github.com/moghtech/komodo), and [GitHub Actions](https://github.com/features/actions). All secrets are using 1Password Connect or if that isn't possible _SOPS_ encryption.
-
----
-
-## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙️" width="20" height="20"> Infrastructure
-
-Using [OpenTofu](https://github.com/opentofu/opentofu) ([Terraform fork](https://github.com/hashicorp/terraform)) we can spin up any amount of Proxmox VM's with Kubernetes fully configured running on [Talos](https://github.com/siderolabs/talos).
-
-### OpenTofu Providers
-- [siderolabs/talos](https://search.opentofu.org/provider/siderolabs/talos/latest): Manage Talos OS
-- [bpg/proxmox](https://search.opentofu.org/provider/bpg/proxmox/latest): Manage Proxmox nodes
-- [hashicorp/kubernetes](https://search.opentofu.org/provider/hashicorp/kubernetes/latest): Manage Kubernetes
-
----
+This is a mono repository for my entire _homelab_ configuration, including my Kubernetes cluster and Docker instance. It uses Infrastructure as Code (IaC) and GitOps practices as much as possible using tools like [Kubernetes](https://kubernetes.io/), [Flux](https://github.com/fluxcd/flux2), [Renovate](https://github.com/renovatebot/renovate), [Doco-CD](https://github.com/kimdre/doco-cd), and [GitHub Actions](https://github.com/features/actions). All secrets are using 1Password Connect with the exception of 1 or 2 which are SOPS encrypted.
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f331/512.gif" alt="🌱" width="20" height="20"> Kubernetes
 
@@ -35,8 +22,8 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev). This is a
 
 - [cert-manager](https://github.com/cert-manager/cert-manager): Creates SSL certificates for services in my cluster.
 - [cilium](https://github.com/cilium/cilium): eBPF-based networking for my workloads.
-- [traefik](https://github.com/traefik/traefik): Ingress provider
-- [ceph-csi](https://github.com/ceph/ceph-csi): Distributed storage provider for peristent storage using Proxmox's CEPH
+- [envoy](https://github.com/envoyproxy/envoy): Modern Kubernetes Gateway provider
+- [rook](https://github.com/rook/rook): Distributed storage provider for peristent storage using CEPH
 - [volsync](https://github.com/backube/volsync): Asynchronous data replication for Kubernetes volumes to S3 (GarageHQ)
 - [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets using [1Password Connect](https://github.com/1Password/connect).
 - [sops](https://github.com/getsops/sops): Managed secrets for Kubernetes and Terraform/OpenTofu which are commited to Git.
@@ -49,19 +36,19 @@ Flux will apply all in `kubernetes/apps`
 
 Flux will recursively search sub folders until it finds the most top level `kustomization.yaml` per directory and then apply all the resources listed in it. That aforementioned `kustomization.yaml` will generally only have a namespace resource and one or many Flux kustomizations (`ks.yaml`). Under the control of those Flux kustomizations there will be a `HelmRelease` or other resources related to the application which will be applied.
 
-[Renovate](https://github.com/renovatebot/renovate) watches my **entire** repository looking for dependency updates, when they are found a PR is automatically created. When some PRs are merged Flux applies the changes to my cluster.
+[Renovate](https://github.com/renovatebot/renovate) watches my **entire** repository looking for dependency updates, when they are found a PR is automatically created. When PRs are merged Flux applies the changes to my cluster.
 
 ---
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f42c/512.gif" alt="🐬" width="20" height="20"> Docker
 
-My Docker instance is running on my [TrueNAS](https://truenas.com/) server and managed by [Komodo](https://github.com/moghtech/komodo) with GitOps practices, it runs AI workloads that require a dedicated NVidia GPU, Ser2Net for my Zigbee adapter and more, I've tried to limit as much as possible what the NAS does and where possible offloaded it to the Kubernetes cluster.
+My Docker instance is running on my [TrueNAS](https://truenas.com/) server and managed by [Doco-CD](https://github.com/kimdre/doco-cd) with GitOps practices, it runs AI workloads that require a dedicated NVidia GPU, Ser2Net for my Zigbee adapter and more, I've tried to limit as much as possible what the NAS does and where possible offloaded it to the Kubernetes cluster.
 
 ### GitOps
 
-[Komodo](https://github.com/moghtech/komodo) watches my [docker](./docker/) folder (see Directories below) and makes the changes based on the state of my Git repository.
+[Doco-CD](https://github.com/kimdre/doco-cd) watches my [docker](./docker/) folder (see Directories below) and makes the changes based on the state of my Git repository.
 
-Komodo is controlled mostly from a single file, the [komodo.toml](./docker/komodo.toml) file. This is the file that sets up al the stacks, from there it's just docker compose.yaml files
+Doco-CD is controlled mostly from a single file, the [.doco-cd.yaml](./.doco-cd.yaml) file. This is the file that tells Doco-CD what folders to search for compose files to deploy.
 
 ---
 
@@ -69,15 +56,10 @@ Komodo is controlled mostly from a single file, the [komodo.toml](./docker/komod
 
 ### Pre-requisites
 #### Hardware
-- Proxmox Cluster
-#### Tools
-- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
-- [SOPS](https://github.com/getsops/sops/releases/latest) (Windows user's ensure it's in your `PATH`)
-- Optional: [talosctl](https://www.talos.dev/v1.9/talos-guides/install/talosctl/)
-- Optional: [fluxcli](https://fluxcd.io/flux/cmd/)
-#### Credentials/Keys
-- Proxmox SSH Credentials (e.g `root` / `password`)
-- SOPS Age Key (saved to `.age.key` - @fma965 check your password manager 😉)
+- 3x Computers (I'm using Dell Optiplex 3060's with 2.5Gbe Ethernet)
+#### Software
+- Linux or WSL on Windows is preferred
+- Brew - `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 
 ### Stage 1: Repository Preparation (Infrastructure)
 
@@ -168,10 +150,6 @@ chmod +x ./kubernetes/bootstrap.sh
 ```sh
 .
 ├── 📂 docker
-│   ├── 📂 komodo                # Docker development environment configurations
-│   └── 📂 stacks
-│       ├── 📂 default             🎪 # Miscellaneous utilities
-│       └── 📂 ai                  🤖 # AI/ML services (LLMs, vector DBs, etc.)
 │
 ├── 📂 infrastructure
 │   └── 📂 talos
@@ -189,7 +167,6 @@ chmod +x ./kubernetes/bootstrap.sh
     │   ├── 📂 game                🦖 # Game servers
     │   ├── 📂 git                 ⎙ # Git services
     │   ├── 📂 kube-system         ⚙️ # Core Kubernetes system components
-    │   ├── 📂 mariadb             🐬 # MySQL-compatible databases
     │   ├── 📂 observability       👁️ # Monitoring and logging stack
     │   ├── 📂 openebs-system      💾 # Container Attached Storage (OpenEBS)
     │   ├── 📂 postgresql          🐘 # PostgreSQL databases

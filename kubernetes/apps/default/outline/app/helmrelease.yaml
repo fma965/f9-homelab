@@ -1,0 +1,109 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app outline
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      server:
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            fsGroup: 1000
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroupChangePolicy: "OnRootMismatch"
+
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 17.6.0@sha256:86a1992d46273c58fd4ad95b626081dfaabfe16bd56944675169e406d1a660dd
+            envFrom:
+              - secretRef:
+                  name: outline-secret
+
+        containers:
+          app:
+            nameOverride: *name
+            image:
+              repository: docker.io/outlinewiki/outline
+              tag: 0.87.0@sha256:3f31ddcd5ccc5b286b98290e9a5ae0c1c21a6c5a08c81d79869fb0b2e105dcce
+              pullPolicy: IfNotPresent
+
+            env:
+              TZ: Europe/London
+              NODE_ENV: production
+              PGSSLMODE: disable
+              URL: https://docs.f9.casa
+              PORT: &port 3000
+              ENABLE_UPDATES: false
+
+              FILE_STORAGE: local
+              FILE_STORAGE_UPLOAD_MAX_SIZE: "26214400" # Requires string
+              FILE_STORAGE_IMPORT_MAX_SIZE: "26214400" # Requires string
+              DATABASE_CONNECTION_POOL_MAX: 10
+              WEB_CONCURRENCY: 10
+            envFrom: *envFrom
+            command: ["/bin/sh", "-c", "yarn db:migrate --env=production-ssl-disabled && yarn start --env=production-ssl-disabled"]
+
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 500Mi
+
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+
+    service:
+      app:
+        controller: *name
+        ports:
+          http:
+            port: *port
+
+    route:
+      app:
+        hostnames: ["docs.f9.casa"]
+        parentRefs:
+          - name: external
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+
+    persistence:
+      file-storage:
+        existingClaim: "{{ .Release.Name }}"
+        globalMounts:
+          - path: /var/lib/outline/data

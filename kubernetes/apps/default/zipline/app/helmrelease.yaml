@@ -111,6 +111,8 @@ spec:
                 subPath: tmp
               - path: /home/node/.cache
                 subPath: .cache
+              - path: /zipline/node_modules/.pnpm
+                subPath: .pnpm
       media:
         type: nfs
         server: f9-nas.internal
