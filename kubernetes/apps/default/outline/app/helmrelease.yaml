@@ -60,8 +60,20 @@ spec:
               FILE_STORAGE: local
               FILE_STORAGE_UPLOAD_MAX_SIZE: "26214400" # Requires string
               FILE_STORAGE_IMPORT_MAX_SIZE: "26214400" # Requires string
+
               DATABASE_CONNECTION_POOL_MAX: 10
               WEB_CONCURRENCY: 10
+
+              OIDC_AUTH_URI: https://auth.f9.casa/api/oidc/authorization
+              OIDC_USERINFO_URI: https://auth.f9.casa/api/oidc/userinfo
+              OIDC_TOKEN_URI: https://auth.f9.casa/api/oidc/token
+              OIDC_USERNAME_CLAIM: preferred_username
+              OIDC_DISPLAY_NAME: F9Casa
+              OIDC_SCOPES: openid offline_access profile email
+
+              SMTP_HOST: smtp-relay.network.svc.cluster.local
+              SMTP_PORT: "25"
+              SMTP_SECURE: false
             envFrom: *envFrom
             command: ["/bin/sh", "-c", "yarn db:migrate --env=production-ssl-disabled && yarn start --env=production-ssl-disabled"]
 
