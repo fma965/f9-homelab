@@ -109,10 +109,10 @@ spec:
             app:
               - path: /tmp
                 subPath: tmp
-              - path: /home/node/.cache
-                subPath: .cache
-              - path: /zipline/node_modules/.pnpm
-                subPath: .pnpm
+              - path: /home/
+                subPath: home
+              - path: /zipline
+                subPath: zipline
       media:
         type: nfs
         server: f9-nas.internal
