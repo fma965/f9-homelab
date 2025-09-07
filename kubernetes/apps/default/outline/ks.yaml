@@ -11,9 +11,12 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/gatus/external
+    - ../../../../components/volsync
   dependsOn:
     - name: postgresql
       namespace: postgresql
+    - name: volsync
+      namespace: volsync-system
   interval: 1h
   path: ./kubernetes/apps/default/outline/app
   postBuild:
