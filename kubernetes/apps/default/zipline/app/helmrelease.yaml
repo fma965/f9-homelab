@@ -104,8 +104,13 @@ spec:
     persistence:
       tmpfs:
         type: emptyDir
-        globalMounts:
-          - path: /tmp
+        advancedMounts:
+          zipline:
+            app:
+              - path: /tmp
+                subPath: tmp
+              - path: /home/node/.cache
+                subPath: .cache
       media:
         type: nfs
         server: f9-nas.internal
