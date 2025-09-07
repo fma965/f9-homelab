@@ -44,7 +44,6 @@ spec:
 
         containers:
           app:
-            nameOverride: *name
             image:
               repository: docker.io/outlinewiki/outline
               tag: 0.87.0@sha256:3f31ddcd5ccc5b286b98290e9a5ae0c1c21a6c5a08c81d79869fb0b2e105dcce
