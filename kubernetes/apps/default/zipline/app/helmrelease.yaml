@@ -108,11 +108,7 @@ spec:
           zipline:
             app:
               - path: /tmp
-                subPath: tmp
-              - path: /home/node/.cache
-                subPath: .cache
-              - path: /zipline/node_modules/.pnpm/@prisma+engines@6.15.0/
-                subPath: prisma
+                subPath: tmp
       media:
         type: nfs
         server: f9-nas.internal
