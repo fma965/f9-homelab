@@ -228,7 +228,7 @@ metadata:
 addressType: IPv4
 endpoints:
   - addresses:
-      - 192.168.30.10
+      - 10.10.30.10
 ports:
   - name: http
     protocol: TCP
