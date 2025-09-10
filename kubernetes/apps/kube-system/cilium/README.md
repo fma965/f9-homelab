@@ -9,15 +9,15 @@ nano /etc/frr/frr.conf`
 
 ```sh
 router bgp 64521
-  bgp router-id 10.10.10.254
+  bgp router-id 10.10.100.254
   no bgp ebgp-requires-policy
 
   neighbor k8s peer-group
   neighbor k8s remote-as 64520
 
-  neighbor 10.10.10.1 peer-group k8s
-  neighbor 10.10.10.2 peer-group k8s
-  neighbor 10.10.10.3 peer-group k8s
+  neighbor 10.10.100.1 peer-group k8s
+  neighbor 10.10.100.2 peer-group k8s
+  neighbor 10.10.100.3 peer-group k8s
   address-family ipv4 unicast
     redistribute connected
     neighbor k8s next-hop-self
@@ -30,8 +30,8 @@ router bgp 64521
 /etc/init.d/frr enable
 ```
 
-10.10.10.254 = Router IP
-10.10.10.x = Kubernetes Nodes
+10.10.100.254 = Router IP
+10.10.100.x = Kubernetes Nodes
 k8s = Group Name
 
 ## Useful commands

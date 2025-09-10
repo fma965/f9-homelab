@@ -22,7 +22,7 @@ spec:
       peers:
         - name: "peer-64521"
           peerASN: 64521
-          peerAddress: 10.10.10.254
+          peerAddress: 10.10.100.254
           peerConfigRef:
             name: "cilium-bgp-peer"
 ---
@@ -66,8 +66,8 @@ metadata:
   name: ip-pool
 spec:
   blocks:
-    - start: 10.10.10.200
-      stop: 10.10.10.250
+    - start: 10.10.100.200
+      stop: 10.10.100.250
 ---
 apiVersion: cilium.io/v2
 kind: CiliumLoadBalancerIPPool

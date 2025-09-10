@@ -48,7 +48,7 @@ spec:
         type: LoadBalancer
         annotations:
           external-dns.alpha.kubernetes.io/hostname: mosquitto.f9.casa
-          lbipam.cilium.io/ips: 10.10.10.203
+          lbipam.cilium.io/ips: 10.10.100.203
         ports:
           http:
             port: 1883
