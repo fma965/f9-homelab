@@ -57,7 +57,7 @@ spec:
         - name: EMAIL_FROM
           value: "gamemanager@f9.casa"
         - name: EMAIL_SMTP_HOST
-          value: "192.168.1.1"
+          value: "10.10.10.254"
         - name: EMAIL_SMTP_PORT
           value: "25"
         - name: EMAIL_TRANSPORT
