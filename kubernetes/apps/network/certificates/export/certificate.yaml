@@ -10,4 +10,8 @@ spec:
     name: letsencrypt-production
     kind: ClusterIssuer
   commonName: f9.casa
-  dnsNames: ["f9.casa", "*.f9.casa", "*.s3.f9.casa"]
+  dnsNames:
+  	- f9.casa
+  	- "*.f9.casa"
+  	- "*.s3.f9.casa"
+  	
