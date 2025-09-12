@@ -49,7 +49,7 @@ spec:
       endpointURL: http://garage.default.svc.cluster.local:3900
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
-      serverName: &currentCluster postgres17
+      serverName: &currentCluster postgres17-001
       s3Credentials:
         region:
           name: cloudnative-pg-secret
@@ -60,35 +60,13 @@ spec:
         secretAccessKey:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
+  # NOTE: previousCluster needs to be set to the name of the previous cluster when recovering from an existing cnpg cluster
   bootstrap:
-    initdb:
-      import:
-        type: monolith
-        databases:
-          - authelia
-          - debtmanager
-          - games
-          - gatus
-          - hass
-          - lldap
-          - outline
-          - prowlarr-log
-          - prowlarr-main
-          - radarr-log
-          - radarr-main
-          - sonarr-log
-          - sonarr-main
-        roles: ["*"]
-        source:
-          externalCluster: external-pg-source
-      postInitSQL:
-        - CREATE ROLE admin;
-  # Note: externalClusters is needed when recovering from an existing cnpg cluster
+    recovery:
+      source: &previousCluster postgres17
+  # NOTE: externalClusters is needed when recovering from an existing cnpg cluster
   externalClusters:
-    - name: external-pg-source
-      connectionParameters:
-        host: postgresql.postgresql.svc.cluster.local
-        port: "5432"
-        user: admin
-        password: Strongbox-Precinct-Porous9
-        sslmode: disable
+    - name: *previousCluster
+      barmanObjectStore:
+        <<: *barmanObjectStore
+        serverName: *previousCluster
