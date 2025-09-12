@@ -19,7 +19,7 @@ machine:
     kubePrism:
       enabled: true
       port: 7445
-    {% if machinetype == 'controlplane' %}
+    {% if ENV.IS_CONTROLLER %}
     kubernetesTalosAPIAccess:
       allowedKubernetesNamespaces:
         - actions-runner-system
@@ -57,17 +57,17 @@ machine:
       featureGates:
         ImageVolume: true
       serializeImagePulls: false
-    image: ghcr.io/siderolabs/kubelet:v1.34.0
+    image: ghcr.io/siderolabs/kubelet:v1.34.1
     nodeIP:
       validSubnets:
-        - 10.0.10.0/24
+        - 10.10.100.0/24
   network:
     interfaces:
       - interface: br0
         mtu: 1500
         dhcp: true
         vip:
-          ip: 10.0.10.100
+          ip: 10.10.100.10
   nodeLabels:
     intel.feature.node.kubernetes.io/gpu: "true"
     topology.kubernetes.io/region: main
@@ -83,7 +83,7 @@ machine:
 cluster:
   ca:
     crt: op://F9-HomeLab/talos/CLUSTER_CA_CRT
-    {% if machinetype == 'controlplane' %}
+    {% if ENV.IS_CONTROLLER %}
     key: op://F9-HomeLab/talos/CLUSTER_CA_KEY
     {% endif %}
   clusterName: main
@@ -100,7 +100,7 @@ cluster:
       - 10.43.0.0/16
   secret: op://F9-HomeLab/talos/CLUSTER_SECRET
   token: op://F9-HomeLab/talos/CLUSTER_TOKEN
-  {% if machinetype == 'controlplane' %}
+    {% if ENV.IS_CONTROLLER %}
   aggregatorCA:
     crt: op://F9-HomeLab/talos/CLUSTER_AGGREGATORCA_CRT
     key: op://F9-HomeLab/talos/CLUSTER_AGGREGATORCA_KEY
@@ -113,13 +113,13 @@ cluster:
         - level: Metadata
     certSANs:
       - 127.0.0.1
-      - 10.0.10.100
+      - 10.10.100.10
     disablePodSecurityPolicy: true
     extraArgs:
       enable-aggregator-routing: "true"
       feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
-      runtime-config: admissionregistration.k8s.io/v1alpha1=true
-    image: registry.k8s.io/kube-apiserver:v1.34.0
+      runtime-config: admissionregistration.k8s.io/v1beta1=true
+    image: registry.k8s.io/kube-apiserver:v1.34.1
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
@@ -128,7 +128,7 @@ cluster:
     disabled: true
   etcd:
     advertisedSubnets:
-      - 10.0.10.0/24
+      - 10.10.100.0/24
     ca:
       crt: op://F9-HomeLab/talos/CLUSTER_ETCD_CA_CRT
       key: op://F9-HomeLab/talos/CLUSTER_ETCD_CA_KEY
@@ -136,6 +136,7 @@ cluster:
       listen-metrics-urls: http://0.0.0.0:2381
   proxy:
     disabled: true
+    image: registry.k8s.io/kube-proxy:v1.34.1
   scheduler:
     config:
       apiVersion: kubescheduler.config.k8s.io/v1
@@ -156,7 +157,7 @@ cluster:
                     whenUnsatisfiable: ScheduleAnyway
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-scheduler:v1.34.0
+    image: registry.k8s.io/kube-scheduler:v1.34.1
   secretboxEncryptionSecret: op://F9-HomeLab/talos/CLUSTER_SECRETBOXENCRYPTIONSECRET
   serviceAccount:
     key: op://F9-HomeLab/talos/CLUSTER_SERVICEACCOUNT_KEY
@@ -166,3 +167,12 @@ apiVersion: v1alpha1
 kind: WatchdogTimerConfig
 device: /dev/watchdog0
 timeout: 5m
+---
+apiVersion: v1alpha1
+kind: ExtensionServiceConfig
+name: nut-client
+configFiles:
+  - content: |-
+        MONITOR f9-nas.internal 1 upsmon upsmon secondary
+        SHUTDOWNCMD "/sbin/poweroff"
+    mountPath: /usr/local/etc/nut/upsmon.conf

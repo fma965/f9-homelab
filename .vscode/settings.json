@@ -45,10 +45,9 @@
   },
   "sops.defaults.ageKeyFile": "age.key",
   "vs-kubernetes": {
-    "vs-kubernetes.kubeconfig": "d:\\f9-homelab\\kubeconfig",
+    "vs-kubernetes.kubeconfig": "./kubeconfig",
     "vs-kubernetes.knownKubeconfigs": [
-      "./kubeconfig",
-      "d:\\f9-homelab\\kubeconfig"
+      "./kubeconfig"
     ]
   },
   "yaml.schemaStore.enable": true,

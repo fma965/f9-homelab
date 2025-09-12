@@ -10,8 +10,9 @@ spec:
   trigger:
     manual: restore-once
   kopia:
-    accessModes: ["${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"]
-    capacity: "${VOLSYNC_CAPACITY:=5Gi}"
+    accessModes:
+      - ${VOLSYNC_ACCESSMODES:=ReadWriteOnce}
+    capacity: ${VOLSYNC_CAPACITY:=5Gi}
     copyMethod: Snapshot
     enableFileDeletion: true
     moverSecurityContext:
@@ -21,5 +22,5 @@ spec:
     repository: ${APP}-volsync-secret
     sourceIdentity:
       sourceName: ${APP}
-    storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
+    storageClassName: ${VOLSYNC_STORAGECLASS:=ceph-block}
+    volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}

@@ -1,32 +1,14 @@
-
-
-# Exclude various Terraform/OpenTofu files
-*.terraform*
-*terraform.*
-*start-time.txt
-
-# Exclude secrets
-*secret.yaml
-*secret.env
-*secret.yaml
-!externalsecret.yaml
-!pushsecret.yaml
-kubeconfig
-onepassword.env
-talosconfig
-/.private/
+.private/
+.pytest_cache/
+.task/
+.venv/
 *.crt
+*.env
+*.iso
 *.key
-
-# Remove junk files
 .decrypted~*
 .DS_Store
-Thumbs.db
 Brewfile.lock.json
-*.iso
-/.venv/
-/.task/
-.local
-
-# Remove Talos OpenTofu output files
-**/infrastructure/talos/output/**
+Thumbs.db
+kubeconfig
+talosconfig

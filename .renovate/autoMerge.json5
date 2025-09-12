@@ -7,15 +7,7 @@
       automerge: true,
       automergeType: "pr",
       matchUpdateTypes: ["digest"],
-      matchPackageNames: ["/home-operations/"],
-      ignoreTests: false,
-    },
-    {
-      description: "Auto-merge trusted container digests",
-      matchDatasources: ["docker"],
-      automerge: true,
-      automergeType: "pr",
-      matchPackageNames: ["/fma965/"],
+      matchPackageNames: ["/home-operations/", "/fma965/"],
       ignoreTests: false,
     },
     {
