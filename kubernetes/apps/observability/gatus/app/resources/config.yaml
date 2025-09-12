@@ -1,6 +1,18 @@
 ---
-web:
-  port: ${GATUS_WEB_PORT}
+connectivity:
+  checker:
+    target: 1.1.1.1:53
+    interval: 1m
+
+endpoints:
+  - name: flux-webhook
+    group: external
+    url: https://flux-webhook.f9.casa
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == 404"
 
 metrics: true
 
@@ -14,21 +26,5 @@ ui:
       link: https://github.com/fma965
     - name: Homelab
       link: https://github.com/fma965/f9-homelab
-
-connectivity:
-  checker:
-    target: 1.1.1.1:53
-    interval: 1m
-
-endpoints:
-  - name: flux-webhook
-    group: guarded
-    url: https://flux-webhook.f9.casa
-    interval: 1m
-    ui:
-      hide-hostname: true
-      hide-url: true
-    client:
-      dns-resolver: tcp://1.1.1.1:53
-    conditions:
-      - "[STATUS] == 404"
+web:
+  port: ${GATUS_WEB_PORT}

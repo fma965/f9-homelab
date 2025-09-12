@@ -6,5 +6,5 @@ namespace: volsync-system
 components:
   - ../../components/common
 resources:
-  - ./volsync/ks.yaml
   - ./kopia/ks.yaml
+  - ./volsync/ks.yaml
