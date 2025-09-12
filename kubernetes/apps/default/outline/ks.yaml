@@ -13,8 +13,8 @@ spec:
     - ../../../../components/gatus/external
     - ../../../../components/volsync
   dependsOn:
-    - name: postgresql
-      namespace: postgresql
+    - name: cloudnative-pg
+      namespace: database
     - name: volsync
       namespace: volsync-system
   interval: 1h

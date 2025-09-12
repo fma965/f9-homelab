@@ -9,8 +9,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: postgresql
-      namespace: postgresql
+    - name: cloudnative-pg
+      namespace: database
     - name: lldap
       namespace: default
   interval: 30m

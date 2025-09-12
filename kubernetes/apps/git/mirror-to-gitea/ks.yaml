@@ -10,8 +10,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: postgresql
-      namespace: postgresql
+    - name: cloudnative-pg
+      namespace: database
     - name: onepassword-store
       namespace: external-secrets
   interval: 1h

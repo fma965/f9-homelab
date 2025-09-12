@@ -12,8 +12,8 @@ spec:
     # - ../../../../components/cnpg
     - ../../../../components/gatus/guarded
   dependsOn:
-    - name: postgresql
-      namespace: postgresql
+    - name: cloudnative-pg
+      namespace: database
   interval: 30m
   path: ./kubernetes/apps/default/lldap/app
   postBuild:
