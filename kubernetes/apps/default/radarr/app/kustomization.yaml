@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./pvc.yaml
+  - ./ocirepository.yaml
   - ./helmrelease.yaml
 configMapGenerator:
   - name: radarr-loki-rules
