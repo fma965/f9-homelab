@@ -17,8 +17,8 @@ spec:
       namespace: observability
     - name: csi-driver-nfs
       namespace: kube-system
-    - name: postgresql
-      namespace: postgresql
+    - name: cloudnative-pg
+      namespace: database
   interval: 1h
   path: ./kubernetes/apps/default/sonarr/app
   postBuild:

@@ -19,8 +19,8 @@ spec:
       namespace: kube-system
     - name: volsync
       namespace: volsync-system
-    - name: postgresql
-      namespace: postgresql
+    - name: cloudnative-pg
+      namespace: database
   interval: 1h
   path: ./kubernetes/apps/database/pgadmin/app
   postBuild:
