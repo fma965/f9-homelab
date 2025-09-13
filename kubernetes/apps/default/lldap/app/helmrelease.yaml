@@ -53,7 +53,7 @@ spec:
               LLDAP_HTTP_PORT: &port 80
               LLDAP_HTTP_URL: https://lldap.${SECRET_EXTERNAL_DOMAIN}
               LLDAP_LDAP_PORT: &ldapPort 389
-              LLDAP_LDAP_BASE_DN: dc=f9,dc=casa
+              LLDAP_LDAP_BASE_DN: ${SECRET_LDAP_BASE_DN}
               LLDAP_SMTP_OPTIONS__SERVER: smtp-relay.network.svc.cluster.local
               LLDAP_SMTP_OPTIONS__PORT: "25"
               LLDAP_SMTP_OPTIONS__SMTP_ENCRYPTION: NONE

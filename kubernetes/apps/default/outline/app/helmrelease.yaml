@@ -67,7 +67,7 @@ spec:
               OIDC_USERINFO_URI: https://auth.${SECRET_EXTERNAL_DOMAIN}/api/oidc/userinfo
               OIDC_TOKEN_URI: https://auth.${SECRET_EXTERNAL_DOMAIN}/api/oidc/token
               OIDC_USERNAME_CLAIM: preferred_username
-              OIDC_DISPLAY_NAME: F9Casa
+              OIDC_DISPLAY_NAME: Home
               OIDC_SCOPES: openid offline_access profile email
 
               SMTP_HOST: smtp-relay.network.svc.cluster.local

@@ -8,7 +8,7 @@ data:
   kubernetes.yaml: |
     mode: cluster
   settings.yaml: |
-    title: F9 - Mi Casa Es Tu Casa
+    title: HomeLab
 
     background:
       image: https://unsplash.it/2560/1440?random

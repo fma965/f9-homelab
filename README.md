@@ -65,7 +65,7 @@ Doco-CD is controlled mostly from a single file, the [.doco-cd.yaml](./.doco-cd.
 
 1. Create a new repository by clicking the green `Use this template` button at the top of this page, then clone the new repo you just created and `cd` into it.
 > [!WARNING]
-> As this repository assumes it's for myself, there are many hardcoded domain name references currently set, I would recommend find and replacing all references of `f9.casa` with your own tld and `f9-casa` with your own tld replacing dots with dashes, you will ofcourse also need to update any secret files with your own values.
+> As this repository assumes it's for myself, there are many hardcoded domain name references currently set, I would recommend find and replacing all references of `${SECRET_EXTERNAL_DOMAIN}` with your own tld and `f9-casa` with your own tld replacing dots with dashes, you will ofcourse also need to update any secret files with your own values.
 >
 > Critical Files that will need updating are
 > - [cert-manager/clusterissuer.yaml](./kubernetes/apps/cert-manager/cert-manager/app/clusterissuer.yaml)
@@ -202,7 +202,7 @@ Most of my infrastructure and workloads are self-hosted and do not rely upon clo
 | [Pushover](https://pushover.net/)               | Kubernetes Alerts and application notifications                   | $5 OTP         |
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f393/512.gif" alt="🎓" width="20" height="20"> Wiki
-Check out my [Wiki](https://wiki.f9.casa/hardware/) to see more about my hardware and much more
+Check out my [Wiki](https://wiki.${SECRET_EXTERNAL_DOMAIN}/hardware/) to see more about my hardware and much more
 
 ---
 
