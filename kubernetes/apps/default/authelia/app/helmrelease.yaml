@@ -64,8 +64,6 @@ spec:
             envFrom:
               - secretRef:
                   name: authelia-secret
-              - secretRef:
-                  name: cluster-secrets
             probes:
               liveness: &probes
                 enabled: true
