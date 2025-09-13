@@ -50,7 +50,8 @@ spec:
               - /config/configuration.yml
             image:
               repository: ghcr.io/authelia/authelia
-              tag: 4.39.9
+              tag: 4.39.9@sha256:edf6820faf084989ab46b81d1e1da19605b701120867857ec077af3bbd5c0329
+
             env:
               AUTHELIA_SERVER_ADDRESS: tcp://0.0.0.0:80
               AUTHELIA_DUO_API_DISABLE: "true"
@@ -61,6 +62,7 @@ spec:
               AUTHELIA_THEME: auto
               AUTHELIA_TOTP_ISSUER: authelia.com
               X_AUTHELIA_CONFIG_FILTERS: template
+              X_AUTHELIA_CONFIG: /config/configuration.yaml
             envFrom:
               - secretRef:
                   name: authelia-secret
