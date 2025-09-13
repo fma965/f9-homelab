@@ -43,7 +43,7 @@ data:
       Networking:
         icon: mdi-lan
         style: row
-        columns: 2
+        columns: 3
       Management:
         icon: mdi-tools
         style: row
@@ -51,7 +51,7 @@ data:
       Home Automation:
         icon: mdi-home-automation
         style: row
-        columns: 3
+        columns: 2
       Authentication:
         icon: mdi-shield-account
       Monitoring:
