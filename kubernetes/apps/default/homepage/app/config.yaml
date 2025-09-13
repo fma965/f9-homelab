@@ -86,6 +86,15 @@ data:
             username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
             password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
 
+      - Gatus:
+          icon: gatus.png
+          href: "{{HOMEPAGE_VAR_GATUS_HREF}}"
+          description: Status Page
+          siteMonitor: "http://gatus.observability.svc.cluster.local"
+          widget:
+            type: gatus
+            url: "http://gatus.observability.svc.cluster.local"
+
     - Downloaders:
       - qBittorrent:
           icon: qbittorrent.png
