@@ -25,9 +25,9 @@ spec:
       containers:
         - name: homepage
           image: ghcr.io/gethomepage/homepage:v1.4.6
-          env:
-            - name: LOG_LEVEL
-              value: debug
+          # env:
+          #   - name: LOG_LEVEL
+          #     value: debug
           envFrom:
             - secretRef:
                 name: homepage-secret

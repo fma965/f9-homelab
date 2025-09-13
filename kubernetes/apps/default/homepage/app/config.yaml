@@ -83,8 +83,8 @@ data:
           widget:
             type: adguard
             url: "{{HOMEPAGE_VAR_ADGUARD_URL}}"
-            username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}}"
-            password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}}"
+            username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
+            password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
 
     - Downloaders:
       - qBittorrent:
