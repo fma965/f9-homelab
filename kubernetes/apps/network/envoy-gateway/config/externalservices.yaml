@@ -81,7 +81,38 @@ spec:
     - backendRefs:
         - name: truenas-external
           port: 80
-
+---
+# yaml-language-server: $schema=https://schemas.budimanjojo.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: truenas
+spec:
+  extAuth:
+    headersToExtAuth:
+      - X-Forwarded-For # this is here so we can get the real IP
+      - X-Forwarded-Proto
+      - authorization
+      - header-authorization
+      - proxy-authorization
+      - accept
+      - cookie
+    failOpen: false
+    http:
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: authelia
+          namespace: default
+          port: 80
+      path: /api/authz/ext-authz/
+      headersToBackend:
+        - 'remote-*'
+        - 'authelia-*'
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: truenas
 ---
 apiVersion: v1
 kind: Service
@@ -123,7 +154,38 @@ spec:
     - backendRefs:
         - name: adguardhome-external
           port: 8080
-
+---
+# yaml-language-server: $schema=https://schemas.budimanjojo.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: adguardhome
+spec:
+  extAuth:
+    headersToExtAuth:
+      - X-Forwarded-For # this is here so we can get the real IP
+      - X-Forwarded-Proto
+      - authorization
+      - header-authorization
+      - proxy-authorization
+      - accept
+      - cookie
+    failOpen: false
+    http:
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: authelia
+          namespace: default
+          port: 80
+      path: /api/authz/ext-authz/
+      headersToBackend:
+        - 'remote-*'
+        - 'authelia-*'
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: adguardhome
 ---
 apiVersion: v1
 kind: Service
@@ -207,7 +269,38 @@ spec:
     - backendRefs:
         - name: remote-external
           port: 3000
-
+---
+# yaml-language-server: $schema=https://schemas.budimanjojo.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: remote
+spec:
+  extAuth:
+    headersToExtAuth:
+      - X-Forwarded-For # this is here so we can get the real IP
+      - X-Forwarded-Proto
+      - authorization
+      - header-authorization
+      - proxy-authorization
+      - accept
+      - cookie
+    failOpen: false
+    http:
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: authelia
+          namespace: default
+          port: 80
+      path: /api/authz/ext-authz/
+      headersToBackend:
+        - 'remote-*'
+        - 'authelia-*'
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: remote
 ---
 apiVersion: v1
 kind: Service
@@ -249,7 +342,38 @@ spec:
     - backendRefs:
         - name: nanokvm-external
           port: 80
-
+---
+# yaml-language-server: $schema=https://schemas.budimanjojo.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: nanokvm
+spec:
+  extAuth:
+    headersToExtAuth:
+      - X-Forwarded-For # this is here so we can get the real IP
+      - X-Forwarded-Proto
+      - authorization
+      - header-authorization
+      - proxy-authorization
+      - accept
+      - cookie
+    failOpen: false
+    http:
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: authelia
+          namespace: default
+          port: 80
+      path: /api/authz/ext-authz/
+      headersToBackend:
+        - 'remote-*'
+        - 'authelia-*'
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: nanokvm
 ---
 apiVersion: v1
 kind: Service
