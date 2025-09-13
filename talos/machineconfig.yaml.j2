@@ -8,7 +8,7 @@ machine:
     {% endif %}
   certSANs:
     - 127.0.0.1
-    - 10.0.10.100
+    - 10.10.100.10
   features:
     apidCheckExtKeyUsage: true
     diskQuotaSupport: true
@@ -88,7 +88,7 @@ cluster:
     {% endif %}
   clusterName: main
   controlPlane:
-    endpoint: https://10.0.10.100:6443
+    endpoint: https://10.10.100.10:6443
   id: op://F9-HomeLab/talos/CLUSTER_ID
   network:
     cni:
