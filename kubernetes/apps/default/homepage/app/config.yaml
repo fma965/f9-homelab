@@ -101,10 +101,10 @@ data:
           icon: sabnzbd.png
           href: "{{HOMEPAGE_VAR_SABNZBD_HREF}}"
           description: Usenet Client
-          siteMonitor: "http://sabnzbd.default.svc.cluster.local"
+          siteMonitor: "http://sabnzbd.default.svc.cluster.local:8180"
           widget:
             type: sabnzbd
-            url: "http://sabnzbd.default.svc.cluster.local"
+            url: "http://sabnzbd.default.svc.cluster.local:8180"
             key: "{{HOMEPAGE_VAR_SABNZBD_KEY}}"
 
     - Home Automation:
@@ -127,10 +127,10 @@ data:
           icon: frigate.png
           href: "{{HOMEPAGE_VAR_FRIGATE_HREF}}"
           description: CCTV Management
-          siteMonitor: "{{HOMEPAGE_VAR_FRIGATE_URL}}"
+          siteMonitor: "http://frigate.default.svc.cluster.local:5000"
           widget:
             type: frigate
-            url: "{{HOMEPAGE_VAR_FRIGATE_URL}}"
+            url: "http://frigate.default.svc.cluster.local:5000"
             enableRecentEvents: false
 
     - Calendar:
@@ -195,10 +195,10 @@ data:
             icon: immich.png
             href: "{{HOMEPAGE_VAR_IMMICH_HREF}}"
             description: Image Library
-            siteMonitor: "{{HOMEPAGE_VAR_IMMICH_URL}}"
+            siteMonitor: "http://immich.default.svc.cluster.local:2283"
             widget:
               type: immich
-              url: "{{HOMEPAGE_VAR_IMMICH_URL}}"
+              url: "http://immich.default.svc.cluster.local:2283"
               key: "{{HOMEPAGE_VAR_IMMICH_KEY}}"
               version: 2
   widgets.yaml: |
