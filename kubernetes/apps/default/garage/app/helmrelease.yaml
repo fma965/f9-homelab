@@ -84,7 +84,7 @@ spec:
             port: 3909
     route:
       s3:
-        hostnames: ["s3.f9.casa", "*.s3.f9.casa"]
+        hostnames: ["s3.${SECRET_EXTERNAL_DOMAIN}", "*.s3.${SECRET_EXTERNAL_DOMAIN}"]
         parentRefs:
           - name: external
             namespace: network
@@ -94,7 +94,7 @@ spec:
               - name: *app
                 port: 3900
       garage:
-        hostnames: ["{{ .Release.Name }}.f9.casa"]
+        hostnames: ["{{ .Release.Name }}.${SECRET_EXTERNAL_DOMAIN}"]
         parentRefs:
           - name: external
             namespace: network

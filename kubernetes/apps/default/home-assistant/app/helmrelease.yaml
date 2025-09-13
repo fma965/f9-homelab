@@ -114,7 +114,7 @@ spec:
     route:
       app:
         hostnames:
-          - home.f9.casa
+          - home.${SECRET_EXTERNAL_DOMAIN}
         parentRefs:
           - name: external
             namespace: network

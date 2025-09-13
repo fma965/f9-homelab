@@ -88,8 +88,8 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.f9.casa"
-          - status.f9.casa
+          - "{{ .Release.Name }}.${SECRET_EXTERNAL_DOMAIN}"
+          - status.${SECRET_EXTERNAL_DOMAIN}
         parentRefs:
           - name: external
             namespace: network

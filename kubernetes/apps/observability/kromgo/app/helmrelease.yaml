@@ -67,7 +67,7 @@ spec:
             port: *healthPort
     route:
       main:
-        hostnames: ["{{ .Release.Name }}.f9.casa"]
+        hostnames: ["{{ .Release.Name }}.${SECRET_EXTERNAL_DOMAIN}"]
         parentRefs:
           - name: external
             namespace: network

@@ -49,7 +49,7 @@ kind: Gateway
 metadata:
   name: envoy-internal
   annotations:
-    # external-dns.alpha.kubernetes.io/target: &hostname internal.f9.casa
+    # external-dns.alpha.kubernetes.io/target: &hostname internal.${SECRET_EXTERNAL_DOMAIN}
 spec:
   gatewayClassName: envoy
   infrastructure:

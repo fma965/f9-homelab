@@ -5,7 +5,7 @@ kind: HTTPRoute
 metadata:
   name: overlays
 spec:
-  hostnames: ["overlays.f9.casa"]
+  hostnames: ["overlays.${SECRET_EXTERNAL_DOMAIN}"]
   parentRefs:
     - name: external
       namespace: network

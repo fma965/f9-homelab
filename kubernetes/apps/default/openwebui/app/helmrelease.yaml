@@ -27,10 +27,10 @@ spec:
               repository: ghcr.io/open-webui/open-webui
               tag: 0.6.28
             env:
-              WEBUI_URL: https://chat.f9.casa
+              WEBUI_URL: https://chat.${SECRET_EXTERNAL_DOMAIN}
               OLLAMA_BASE_URL: "http://f9-nas.internal:11434"
               OAUTH_PROVIDER_NAME: "F9Casa"
-              OPENID_PROVIDER_URL: "https://auth.f9.casa/.well-known/openid-configuration"
+              OPENID_PROVIDER_URL: "https://auth.${SECRET_EXTERNAL_DOMAIN}/.well-known/openid-configuration"
               TZ: "Europe/London"
               ENABLE_OAUTH_SIGNUP: "true"
               OAUTH_MERGE_ACCOUNTS_BY_EMAIL: "true"
@@ -62,7 +62,7 @@ spec:
 
     route:
       app:
-        hostnames: ["chat.f9.casa"]
+        hostnames: ["chat.${SECRET_EXTERNAL_DOMAIN}"]
         parentRefs:
           - name: external
             namespace: network

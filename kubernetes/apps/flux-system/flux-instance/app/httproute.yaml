@@ -6,7 +6,7 @@ metadata:
   name: github-webhook
 spec:
   hostnames:
-      - flux-webhook.f9.casa
+      - flux-webhook.${SECRET_EXTERNAL_DOMAIN}
   parentRefs:
     - name: external
       namespace: network

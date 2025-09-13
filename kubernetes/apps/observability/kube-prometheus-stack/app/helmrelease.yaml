@@ -22,7 +22,7 @@ spec:
       route:
         main:
           enabled: true
-          hostnames: ["alertmanager.f9.casa"]
+          hostnames: ["alertmanager.${SECRET_EXTERNAL_DOMAIN}"]
           parentRefs:
             - name: external
               namespace: network
@@ -33,7 +33,7 @@ spec:
           name: alertmanager
           global:
             resolveTimeout: 5m
-        externalUrl: https://alertmanager.f9.casa
+        externalUrl: https://alertmanager.${SECRET_EXTERNAL_DOMAIN}
         storage:
           volumeClaimTemplate:
             spec:
@@ -51,7 +51,7 @@ spec:
       route:
         main:
           enabled: true
-          hostnames: ["prometheus.f9.casa"]
+          hostnames: ["prometheus.${SECRET_EXTERNAL_DOMAIN}"]
           parentRefs:
             - name: external
               namespace: network
@@ -96,7 +96,7 @@ spec:
               regex: (.*)
               replacement: $1
               sourceLabels:
-                - __meta_kubernetes_pod_node_name                          
+                - __meta_kubernetes_pod_node_name
               targetLabel: kubernetes_node
     kube-state-metrics:
       fullnameOverride: kube-state-metrics

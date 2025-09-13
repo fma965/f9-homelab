@@ -106,7 +106,7 @@ spec:
             scrapeTimeout: 10s
     route:
       app:
-        hostnames: ["auth.f9.casa"]
+        hostnames: ["auth.${SECRET_EXTERNAL_DOMAIN}"]
         parentRefs:
           - name: external
             namespace: network

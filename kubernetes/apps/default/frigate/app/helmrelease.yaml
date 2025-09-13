@@ -72,7 +72,7 @@ spec:
 
     route:
       app:
-        hostnames: ["cctv.f9.casa"]
+        hostnames: ["cctv.${SECRET_EXTERNAL_DOMAIN}"]
         parentRefs:
           - name: external
             namespace: network

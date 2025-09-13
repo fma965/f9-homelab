@@ -9,8 +9,8 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: f9.casa
+  commonName: ${SECRET_EXTERNAL_DOMAIN}
   dnsNames:
-      - f9.casa
-      - "*.f9.casa"
-      - "*.s3.f9.casa"
+      - ${SECRET_EXTERNAL_DOMAIN}
+      - "*.${SECRET_EXTERNAL_DOMAIN}"
+      - "*.s3.${SECRET_EXTERNAL_DOMAIN}"

@@ -36,7 +36,7 @@ spec:
               N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: false
               N8N_PROTOCOL: "https"
               N8N_PORT: &port 8080
-              N8N_HOST: &hostName n8n.f9.casa
+              N8N_HOST: &hostName n8n.${SECRET_EXTERNAL_DOMAIN}
               N8N_LOG_LEVEL: info
               N8N_LOG_OUTPUT: console
               EXTERNAL_HOOK_FILES: /hooks/hooks.js
@@ -84,7 +84,7 @@ spec:
 
       webhooks:
         hostnames:
-          - n8n-webhook.f9.casa
+          - n8n-webhook.${SECRET_EXTERNAL_DOMAIN}
         parentRefs:
           - name: external
             namespace: network

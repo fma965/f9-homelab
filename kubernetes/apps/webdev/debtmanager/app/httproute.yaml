@@ -5,7 +5,7 @@ kind: HTTPRoute
 metadata:
   name: debtmanager
 spec:
-  hostnames: ["debtmanager.f9.casa"]
+  hostnames: ["debtmanager.${SECRET_EXTERNAL_DOMAIN}"]
   parentRefs:
     - name: external
       namespace: network
@@ -21,7 +21,7 @@ kind: HTTPRoute
 metadata:
   name: debtmanager-api
 spec:
-  hostnames: ["api.f9.casa"]
+  hostnames: ["api.${SECRET_EXTERNAL_DOMAIN}"]
   parentRefs:
     - name: external
       namespace: network

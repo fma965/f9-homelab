@@ -130,7 +130,7 @@ spec:
     route:
       app:
         hostnames:
-          - esphome.f9.casa
+          - esphome.${SECRET_EXTERNAL_DOMAIN}
         parentRefs:
           - name: external
             namespace: network

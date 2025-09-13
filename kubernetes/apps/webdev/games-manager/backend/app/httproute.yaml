@@ -5,7 +5,7 @@ kind: HTTPRoute
 metadata:
   name: games-manager-backend
 spec:
-  hostnames: ["gamesdb.f9.casa"]
+  hostnames: ["gamesdb.${SECRET_EXTERNAL_DOMAIN}"]
   parentRefs:
     - name: external
       namespace: network

@@ -51,13 +51,13 @@ spec:
             env:
               TZ: Europe/London
               LLDAP_HTTP_PORT: &port 80
-              LLDAP_HTTP_URL: https://lldap.f9.casa
+              LLDAP_HTTP_URL: https://lldap.${SECRET_EXTERNAL_DOMAIN}
               LLDAP_LDAP_PORT: &ldapPort 389
               LLDAP_LDAP_BASE_DN: dc=f9,dc=casa
               LLDAP_SMTP_OPTIONS__SERVER: smtp-relay.network.svc.cluster.local
               LLDAP_SMTP_OPTIONS__PORT: "25"
               LLDAP_SMTP_OPTIONS__SMTP_ENCRYPTION: NONE
-              LLDAP_SMTP_OPTIONS__FROM: no-reply <no-reply@f9.casa>
+              LLDAP_SMTP_OPTIONS__FROM: no-reply <no-reply@${SECRET_EXTERNAL_DOMAIN}>
               LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET: "true"
               LLDAP_DATABASE_URL:
                 valueFrom:
@@ -92,7 +92,7 @@ spec:
 
     route:
       app:
-        hostnames: ["{{ .Release.Name }}.f9.casa"]
+        hostnames: ["{{ .Release.Name }}.${SECRET_EXTERNAL_DOMAIN}"]
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: System

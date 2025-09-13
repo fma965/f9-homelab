@@ -34,7 +34,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "home.f9.casa"
+    - "home.${SECRET_EXTERNAL_DOMAIN}"
   rules:
     - backendRefs:
         - name: homeassistant-external
@@ -76,7 +76,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "truenas.f9.casa"
+    - "truenas.${SECRET_EXTERNAL_DOMAIN}"
   rules:
     - backendRefs:
         - name: truenas-external
@@ -118,7 +118,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "adguard.f9.casa"
+    - "adguard.${SECRET_EXTERNAL_DOMAIN}"
   rules:
     - backendRefs:
         - name: adguardhome-external
@@ -160,7 +160,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "sd.f9.casa"
+    - "sd.${SECRET_EXTERNAL_DOMAIN}"
   rules:
     - backendRefs:
         - name: forgeui-external
@@ -202,7 +202,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "remote.f9.casa"
+    - "remote.${SECRET_EXTERNAL_DOMAIN}"
   rules:
     - backendRefs:
         - name: remote-external
@@ -244,7 +244,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "kvm.f9.casa"
+    - "kvm.${SECRET_EXTERNAL_DOMAIN}"
   rules:
     - backendRefs:
         - name: nanokvm-external
@@ -286,7 +286,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "doco-cd.f9.casa"
+    - "doco-cd.${SECRET_EXTERNAL_DOMAIN}"
   rules:
     - backendRefs:
         - name: doco-cd-external

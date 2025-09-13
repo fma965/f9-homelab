@@ -52,7 +52,7 @@ spec:
               TZ: Europe/London
               NODE_ENV: production
               PGSSLMODE: disable
-              URL: https://docs.f9.casa
+              URL: https://docs.${SECRET_EXTERNAL_DOMAIN}
               PORT: &port 3000
               ENABLE_UPDATES: false
 
@@ -63,9 +63,9 @@ spec:
               DATABASE_CONNECTION_POOL_MAX: 10
               WEB_CONCURRENCY: 10
 
-              OIDC_AUTH_URI: https://auth.f9.casa/api/oidc/authorization
-              OIDC_USERINFO_URI: https://auth.f9.casa/api/oidc/userinfo
-              OIDC_TOKEN_URI: https://auth.f9.casa/api/oidc/token
+              OIDC_AUTH_URI: https://auth.${SECRET_EXTERNAL_DOMAIN}/api/oidc/authorization
+              OIDC_USERINFO_URI: https://auth.${SECRET_EXTERNAL_DOMAIN}/api/oidc/userinfo
+              OIDC_TOKEN_URI: https://auth.${SECRET_EXTERNAL_DOMAIN}/api/oidc/token
               OIDC_USERNAME_CLAIM: preferred_username
               OIDC_DISPLAY_NAME: F9Casa
               OIDC_SCOPES: openid offline_access profile email
@@ -102,7 +102,7 @@ spec:
 
     route:
       app:
-        hostnames: ["docs.f9.casa"]
+        hostnames: ["docs.${SECRET_EXTERNAL_DOMAIN}"]
         parentRefs:
           - name: external
             namespace: network

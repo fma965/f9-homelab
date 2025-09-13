@@ -26,7 +26,7 @@ spec:
     route:
       dashboard:
         host:
-          name: rook.f9.casa
+          name: rook.${SECRET_EXTERNAL_DOMAIN}
           path: /
           pathType: PathPrefix
         parentRefs:

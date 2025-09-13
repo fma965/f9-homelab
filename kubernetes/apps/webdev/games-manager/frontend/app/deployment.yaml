@@ -28,8 +28,8 @@ spec:
             name: games-manager-frontend-secret
         env:
         - name: APP_HOST
-          value: "https://games.f9.casa"
+          value: "https://games.${SECRET_EXTERNAL_DOMAIN}"
         - name: APP_BACKEND
-          value: "https://gamesdb.f9.casa"
+          value: "https://gamesdb.${SECRET_EXTERNAL_DOMAIN}"
         # - name: DEBUG
         #   value: "true"
