@@ -18,7 +18,7 @@ metadata:
 addressType: IPv4
 endpoints:
   - addresses:
-      - "10.10.100.216"
+      - 10.10.10.2
 ports:
   - name: http
     protocol: TCP
@@ -394,7 +394,7 @@ metadata:
 addressType: IPv4
 endpoints:
   - addresses:
-      - "10.10.10.3"
+      - 10.10.10.3
 ports:
   - name: http
     protocol: TCP
