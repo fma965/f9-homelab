@@ -45,7 +45,7 @@ spec:
           app:
             image:
               repository: docker.io/outlinewiki/outline
-              tag: 0.87.0@sha256:3f31ddcd5ccc5b286b98290e9a5ae0c1c21a6c5a08c81d79869fb0b2e105dcce
+              tag: 0.87.3@sha256:78909357ebf4f6165e1ad2a41567abfb62537c30da5832deba72fb16c0995651
               pullPolicy: IfNotPresent
 
             env:
