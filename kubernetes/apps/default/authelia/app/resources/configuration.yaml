@@ -35,8 +35,10 @@ session:
   expiration: 7d
   remember_me: 6M
   cookies:
-    - domain: f9.casa
-      authelia_url: https://auth.f9.casa
+    - name: authelia_session
+      domain: ${SECRET_EXTERNAL_DOMAIN}
+      authelia_url: https://auth.${SECRET_EXTERNAL_DOMAIN}
+      default_redirection_url: https://${SECRET_EXTERNAL_DOMAIN}
   redis:
     host: dragonfly.database.svc.cluster.local
     port: 6379
@@ -56,82 +58,54 @@ access_control:
         - 10.42.0.0/16
   rules:
     - domain:
-        - sonarr.f9.casa
-        - radarr.f9.casa
-        - prowlarr.f9.casa
-        - sabnzbd.f9.casa
+        - sonarr.${SECRET_EXTERNAL_DOMAIN}
+        - radarr.${SECRET_EXTERNAL_DOMAIN}
+        - prowlarr.${SECRET_EXTERNAL_DOMAIN}
+        - sabnzbd.${SECRET_EXTERNAL_DOMAIN}
       resources: ["^/api.*$"]
       policy: bypass
 
-    # Bypass domains that have their own auth or don't need auth
     - domain:
-        - auth.f9.casa
-        - lldap.f9.casa
-        - i.f9.casa
-        - api.f9.casa
-        - debtmanager.f9.casa
-        - docs.f9.casa
-        - echo.f9.casa
-        - flux-webhook.f9.casa
-        - games.f9.casa
-        - gamesdb.f9.casa
-        - gameservers.f9.casa
-        - git.f9.casa
-        - home.f9.casa
-        - hv1.f9.casa
-        - hv2.f9.casa
-        - hv3.f9.casa
-        - jellyfin.f9.casa
-        - doco-cd.f9.casa
-        - kromgo.f9.casa
-        - chat.f9.casa
-        - overlays.f9.casa
-        - paperless.f9.casa
-        - photos.f9.casa
-        - s3.f9.casa
-        - "*.s3.f9.casa"
-        - status.f9.casa
-        - sync.f9.casa
-        - "*.gameservers.f9.casa"
-        #- grafana.f9.casa (need to implement oauth)
-      policy: bypass
-
-    - domain: "*.f9.casa"
+        - "*.${SECRET_EXTERNAL_DOMAIN}"
       policy: bypass
       networks:
         - cluster
 
     - domain:
-        - sonarr.f9.casa
-        - radarr.f9.casa
-        - prowlarr.f9.casa
-        - sabnzbd.f9.casa
-        - torrents.f9.casa
-        - recommendarr.f9.casa
-        - docs.f9.casa
+        - sonarr.${SECRET_EXTERNAL_DOMAIN}
+        - radarr.${SECRET_EXTERNAL_DOMAIN}
+        - prowlarr.${SECRET_EXTERNAL_DOMAIN}
+        - sabnzbd.${SECRET_EXTERNAL_DOMAIN}
+        - torrents.${SECRET_EXTERNAL_DOMAIN}
+        - recommendarr.${SECRET_EXTERNAL_DOMAIN}
+        - docs.${SECRET_EXTERNAL_DOMAIN}
       subject:
         - "group:media"
       policy: one_factor
 
     - domain:
-        - zigbee.f9.casa
-        - cctv.f9.casa
-        - home.f9.casa
+        - zigbee.${SECRET_EXTERNAL_DOMAIN}
+        - cctv.${SECRET_EXTERNAL_DOMAIN}
+        - home.${SECRET_EXTERNAL_DOMAIN}
       subject:
         - "group:home"
       policy: two_factor
 
-    - domain: "*.f9.casa"
+    - domain:
+        - "*.${SECRET_EXTERNAL_DOMAIN}"
       subject:
         - "group:admin"
       policy: two_factor
 
-    - domain: "*.f9.casa"
+    - domain:
+        - "*.${SECRET_EXTERNAL_DOMAIN}"
       policy: deny
 
 notifier:
+  disable_startup_check: true
   smtp:
-    sender: "Authelia <auth@f9.casa>"
+    address: smtp-relay.network.svc.cluster.local:25
+    disable_require_tls: true
 
 identity_validation:
   reset_password:
@@ -164,8 +138,8 @@ identity_providers:
         require_pkce: false
         pkce_challenge_method: ''
         redirect_uris:
-          - 'https://photos.f9.casa/auth/login'
-          - 'https://photos.f9.casa/user-settings'
+          - 'https://photos.${SECRET_EXTERNAL_DOMAIN}/auth/login'
+          - 'https://photos.${SECRET_EXTERNAL_DOMAIN}/user-settings'
           - 'app.immich:///oauth-callback'
         scopes:
           - 'openid'
@@ -187,8 +161,8 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://git.f9.casa/user/oauth2/F9/callback'
-          - 'https://git.f9.casa/user/oauth2/authelia/callback'
+          - 'https://git.${SECRET_EXTERNAL_DOMAIN}/user/oauth2/F9/callback'
+          - 'https://git.${SECRET_EXTERNAL_DOMAIN}/user/oauth2/authelia/callback'
         scopes:
           - 'openid'
           - 'email'
@@ -213,7 +187,7 @@ identity_providers:
           - profile
           - email
         redirect_uris:
-          - https://gamesdb.f9.casa/auth/login/authentik/callback
+          - https://gamesdb.${SECRET_EXTERNAL_DOMAIN}/auth/login/authentik/callback
         userinfo_signed_response_alg: none
         claims_policy: default
         token_endpoint_auth_method: 'client_secret_basic'
@@ -226,7 +200,7 @@ identity_providers:
         require_pkce: false
         pkce_challenge_method: ''
         redirect_uris:
-          - 'https://chat.f9.casa/oauth/oidc/callback'
+          - 'https://chat.${SECRET_EXTERNAL_DOMAIN}/oauth/oidc/callback'
         scopes:
           - 'openid'
           - 'profile'
@@ -248,7 +222,7 @@ identity_providers:
         require_pkce: false
         pkce_challenge_method: ''
         redirect_uris:
-          - 'https://docs.f9.casa/auth/oidc.callback'
+          - 'https://docs.${SECRET_EXTERNAL_DOMAIN}/auth/oidc.callback'
         scopes:
           - 'openid'
           - 'offline_access'
@@ -270,7 +244,7 @@ identity_providers:
         require_pkce: false
         pkce_challenge_method: ''
         redirect_uris:
-          - 'https://i.f9.casa/api/auth/oauth/oidc'
+          - 'https://i.${SECRET_EXTERNAL_DOMAIN}/api/auth/oauth/oidc'
         scopes:
           - 'openid'
           - 'offline_access'
