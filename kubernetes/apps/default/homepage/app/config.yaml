@@ -86,43 +86,6 @@ data:
             username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}}"
             password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}}"
 
-    - Management:
-      - Proxmox (F9-HV1):
-          icon: proxmox.png
-          href: "{{HOMEPAGE_VAR_PROXMOX1_URL}}"
-          description: F9-HV1 Proxmox Node
-          siteMonitor: "{{HOMEPAGE_VAR_PROXMOX1_URL}}"
-          widget:
-            type: proxmox
-            url: "{{HOMEPAGE_VAR_PROXMOX1_URL}}"
-            username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
-            password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
-            node: F9-HV1
-
-      - Proxmox (F9-HV2):
-          icon: proxmox.png
-          href: "{{HOMEPAGE_VAR_PROXMOX2_URL}}"
-          description: F9-HV2 Proxmox Node
-          siteMonitor: "{{HOMEPAGE_VAR_PROXMOX2_URL}}"
-          widget:
-            type: proxmox
-            url: "{{HOMEPAGE_VAR_PROXMOX2_URL}}"
-            username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
-            password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
-            node: F9-HV2
-
-      - Proxmox (F9-HV3):
-          icon: proxmox.png
-          href: "{{HOMEPAGE_VAR_PROXMOX3_URL}}"
-          description: F9-HV3 Proxmox Node
-          siteMonitor: "{{HOMEPAGE_VAR_PROXMOX3_URL}}"
-          widget:
-            type: proxmox
-            url: "{{HOMEPAGE_VAR_PROXMOX3_URL}}"
-            username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
-            password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
-            node: F9-HV3
-
     - Downloaders:
       - qBittorrent:
           icon: qbittorrent.png
