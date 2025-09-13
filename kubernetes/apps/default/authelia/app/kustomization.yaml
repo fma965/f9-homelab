@@ -6,9 +6,6 @@ configMapGenerator:
       - resources/configuration.yaml
     name: authelia-configmap
 generatorOptions:
-  annotations:
-    # Disable or env-sub no worky for authelia config
-    kustomize.toolkit.fluxcd.io/substitute: disabled
   disableNameSuffixHash: true
 resources:
   - ./externalsecret.yaml
