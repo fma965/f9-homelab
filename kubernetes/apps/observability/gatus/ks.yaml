@@ -9,11 +9,14 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/volsync
   interval: 1h
   path: ./kubernetes/apps/observability/gatus/app
   postBuild:
     substitute:
       APP: *app
+      VOLSYNC_CAPACITY: 2Gi
       GATUS_SUBDOMAIN: status
   prune: true
   retryInterval: 2m
