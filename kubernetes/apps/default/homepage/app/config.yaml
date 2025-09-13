@@ -101,10 +101,10 @@ data:
           icon: sabnzbd.png
           href: "{{HOMEPAGE_VAR_SABNZBD_HREF}}"
           description: Usenet Client
-          siteMonitor: "http://sabnzbd.default.svc.cluster.local:80"
+          siteMonitor: "http://sabnzbd.default.svc.cluster.local"
           widget:
             type: sabnzbd
-            url: "http://sabnzbd.default.svc.cluster.local:80"
+            url: "http://sabnzbd.default.svc.cluster.local"
             key: "{{HOMEPAGE_VAR_SABNZBD_KEY}}"
 
     - Home Automation:
