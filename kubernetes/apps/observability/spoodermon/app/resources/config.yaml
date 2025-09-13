@@ -15,7 +15,7 @@ alerting:
 
 endpoints:
   - name: Ping
-    url: icmp://${SPOODERMON_DDNS_HOSTNAME}
+    url: icmp://${SECRET_EXTERNAL_DOMAIN}
     interval: 1m
     ui:
       hide-url: true
