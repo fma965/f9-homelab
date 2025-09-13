@@ -29,7 +29,7 @@ spec:
             env:
               WEBUI_URL: https://chat.${SECRET_EXTERNAL_DOMAIN}
               OLLAMA_BASE_URL: "http://f9-nas.internal:11434"
-              OAUTH_PROVIDER_NAME: "F9Casa"
+              OAUTH_PROVIDER_NAME: "Home"
               OPENID_PROVIDER_URL: "https://auth.${SECRET_EXTERNAL_DOMAIN}/.well-known/openid-configuration"
               TZ: "Europe/London"
               ENABLE_OAUTH_SIGNUP: "true"
