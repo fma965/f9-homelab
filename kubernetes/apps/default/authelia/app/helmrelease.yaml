@@ -63,6 +63,8 @@ spec:
               AUTHELIA_TOTP_ISSUER: authelia.com
               X_AUTHELIA_CONFIG_FILTERS: template
               X_AUTHELIA_CONFIG: /config/configuration.yaml
+              SECRET_EXTERNAL_DOMAIN: ${SECRET_EXTERNAL_DOMAIN}
+              SECRET_LDAP_BASE_DN: ${SECRET_LDAP_BASE_DN}
             envFrom:
               - secretRef:
                   name: authelia-secret
@@ -125,9 +127,3 @@ spec:
         globalMounts:
           - path: /config/configuration.yml
             subPath: configuration.yaml
-      secret-files:
-        enabled: true
-        type: secret
-        name: authelia-secret
-        globalMounts:
-          - path: /config/secret
