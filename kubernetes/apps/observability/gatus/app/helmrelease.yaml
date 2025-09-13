@@ -120,7 +120,7 @@ spec:
       gatus: {}
     persistence:
       config:
-        existingClaim: *app
+        type: emptyDir
       config-file:
         type: configMap
         name: "{{ .Release.Name }}-configmap"
