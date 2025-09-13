@@ -26,6 +26,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      GATUS_SUBDOMAIN: photos
   prune: true
   retryInterval: 2m
   sourceRef:
