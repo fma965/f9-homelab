@@ -17,7 +17,7 @@ spec:
     - name: csi-driver-nfs
       namespace: kube-system
   components:
-    - ../../../../components/gatus/external
+    - ../../../../components/gatus/guarded
     - ../../../../components/keda/nfs-scaler
   path: ./kubernetes/apps/default/zipline/app
   prune: true
