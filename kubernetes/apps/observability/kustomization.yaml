@@ -15,3 +15,4 @@ resources:
   - ./kube-prometheus-stack/ks.yaml
   - ./loki/ks.yaml
   - ./silence-operator/ks.yaml
+  - ./spoodermon/ks.yaml
