@@ -3,9 +3,9 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: f9-casa
+  name: ${SECRET_EXTERNAL_DOMAIN//./-}
 spec:
-  secretName: f9-casa-tls
+  secretName: ${SECRET_EXTERNAL_DOMAIN//./-}-tls
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer

@@ -79,7 +79,7 @@ spec:
         - name: STORAGE_S3_KEY
           value: "GK242cc9d55149cdda6a1a465c"
         - name: STORAGE_S3_BUCKET
-          value: "f9-casa-games-manager-backend"
+          value: "${SECRET_EXTERNAL_DOMAIN//./-}-games-manager-backend"
         - name: STORAGE_S3_REGION
           value: "eu-west-2"
         - name: STORAGE_S3_ENDPOINT
