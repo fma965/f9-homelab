@@ -9,10 +9,10 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-
   components:
     - ../../../../components/gatus/guarded
     - ../../../../components/keda/nfs-scaler
+    - ../../../../components/ext-auth
   dependsOn:
     - name: keda
       namespace: observability
