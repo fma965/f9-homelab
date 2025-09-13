@@ -3,7 +3,7 @@ version: v1alpha1
 machine:
   ca:
     crt: op://F9-HomeLab/talos/MACHINE_CA_CRT
-    {% if machinetype == 'controlplane' %}
+    {% if ENV.IS_CONTROLLER %}
     key: op://F9-HomeLab/talos/MACHINE_CA_KEY
     {% endif %}
   certSANs:
