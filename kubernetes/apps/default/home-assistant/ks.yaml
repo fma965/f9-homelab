@@ -17,6 +17,8 @@ spec:
       namespace: default
     - name: cloudnative-pg
       namespace: database
+    - name: multus-networks
+      namespace: kube-system
     - name: volsync
       namespace: volsync-system
   interval: 1h
@@ -34,4 +36,4 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: false
+  wait: true

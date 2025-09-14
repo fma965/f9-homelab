@@ -16,3 +16,4 @@ resources:
   - ./reloader/ks.yaml
   - ./spegel/ks.yaml
   - ./generic-device-plugin/ks.yaml
+  - ./multus/ks.yaml
