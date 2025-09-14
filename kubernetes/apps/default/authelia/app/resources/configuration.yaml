@@ -267,7 +267,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://docs.${SECRET_EXTERNAL_DOMAIN}/login/generic_oauth'
+          - 'https://grafana.${SECRET_EXTERNAL_DOMAIN}/login/generic_oauth'
         scopes:
           - 'openid'
           - 'profile'
