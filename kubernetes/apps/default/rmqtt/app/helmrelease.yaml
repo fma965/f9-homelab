@@ -24,7 +24,7 @@ spec:
         statefulset:
           podManagementPolicy: OrderedReady
           serviceName: rmqtt
-        replicas: 3
+        replicas: 1
         containers:
           app:
             image:
@@ -37,7 +37,7 @@ spec:
                     fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
               TZ: ${TIMEZONE}
             args:
-              - --id=$(POD_ID)
+              - --id=1
               - --plugins-default-startups=rmqtt-cluster-raft
               - --node-grpc-addrs
               - 1@rmqtt-1.rmqtt.default.svc.cluster.local:5363
