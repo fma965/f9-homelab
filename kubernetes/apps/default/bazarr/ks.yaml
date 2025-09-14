@@ -13,6 +13,7 @@ spec:
     - ../../../../components/gatus/guarded
     - ../../../../components/keda/nfs-scaler
     - ../../../../components/volsync
+    - ../../../../components/ext-auth
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
