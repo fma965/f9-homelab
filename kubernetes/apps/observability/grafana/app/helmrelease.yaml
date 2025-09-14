@@ -32,7 +32,7 @@ spec:
       GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "https://auth.${SECRET_EXTERNAL_DOMAIN}/api/oidc/token"
     envFrom:
       - secretRef:
-          name: grafana--secret
+          name: grafana-secret
     grafana.ini:
       analytics:
         check_for_updates: false
