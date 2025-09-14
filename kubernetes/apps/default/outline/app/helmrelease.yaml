@@ -73,6 +73,8 @@ spec:
               SMTP_HOST: smtp-relay.network.svc.cluster.local
               SMTP_PORT: "25"
               SMTP_SECURE: false
+              SMTP_FROM_EMAIL: outline@${SECRET_DOMAIN}
+              SMTP_REPLY_EMAIL: ${SECRET_CLUSTER_DOMAIN_EMAIL}
             envFrom: *envFrom
             command: ["/bin/sh", "-c", "yarn db:migrate --env=production-ssl-disabled && yarn start --env=production-ssl-disabled"]
 
