@@ -20,7 +20,7 @@ spec:
       namespace: kube-system
     - name: onepassword-store
       namespace: external-secrets
-    - name: mosquitto
+    - name: rmqtt
       namespace: default
     - name: intel-device-plugin-gpu
       namespace: kube-system

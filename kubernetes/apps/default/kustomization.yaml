@@ -11,7 +11,7 @@ resources:
 - ./homepage/ks.yaml
 - ./jellyfin/ks.yaml
 - ./lldap/ks.yaml
-- ./mosquitto/ks.yaml
+- ./rmqtt/ks.yaml
 - ./outline/ks.yaml
 - ./prowlarr/ks.yaml
 - ./qbittorrent/ks.yaml

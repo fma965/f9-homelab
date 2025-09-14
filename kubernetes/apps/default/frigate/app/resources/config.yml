@@ -20,7 +20,7 @@ model:
   labelmap_path: /openvino-model/coco_91cl_bkgr.txt
 
 mqtt: # If you have a MQTT server then update this section, if not delete it.
-  host: mosquitto.default.svc.cluster.local
+  host: rmqtt.default.svc.cluster.local
   topic_prefix: frigate
 
 birdseye:
