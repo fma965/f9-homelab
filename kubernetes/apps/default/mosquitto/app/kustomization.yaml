@@ -1,0 +1,20 @@
+<<<<<<< HEAD:kubernetes/apps/default/rmqtt/app/kustomization.yaml
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./gatus.yaml
+  - ./helmrelease.yaml
+  - ./ocirepository.yaml
+=======
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./gatus.yaml
+  - ./helmrelease.yaml
+  - ./ocirepository.yaml
+  - ./pvc.yaml
+>>>>>>> parent of f848d52 (chore: move to rmqtt from mosquitto):kubernetes/apps/default/mosquitto/app/kustomization.yaml
