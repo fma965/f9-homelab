@@ -25,13 +25,6 @@ spec:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
-        pod:
-          securityContext:
-            fsGroup: 1000
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroupChangePolicy: "OnRootMismatch"
-
         initContainers:
           init-db:
             image:
@@ -40,16 +33,15 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: outline-secret
-
         containers:
           app:
             image:
               repository: docker.io/outlinewiki/outline
               tag: 0.87.3@sha256:78909357ebf4f6165e1ad2a41567abfb62537c30da5832deba72fb16c0995651
               pullPolicy: IfNotPresent
-
+            command: ["/bin/sh", "-c", "yarn db:migrate --env=production-ssl-disabled && yarn start --env=production-ssl-disabled"]
             env:
-              TZ: Europe/London
+              TZ: ${TIMEZONE}
               NODE_ENV: production
               PGSSLMODE: disable
               URL: https://docs.${SECRET_EXTERNAL_DOMAIN}
@@ -76,32 +68,28 @@ spec:
               SMTP_FROM_EMAIL: outline@${SECRET_DOMAIN}
               SMTP_REPLY_EMAIL: ${SECRET_CLUSTER_DOMAIN_EMAIL}
             envFrom: *envFrom
-            command: ["/bin/sh", "-c", "yarn db:migrate --env=production-ssl-disabled && yarn start --env=production-ssl-disabled"]
-
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 10m
               limits:
                 memory: 500Mi
-
-            probes:
-              liveness:
-                enabled: true
-              readiness:
-                enabled: true
-              startup:
-                enabled: true
-                spec:
-                  failureThreshold: 30
-                  periodSeconds: 5
-
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         controller: *app
         ports:
           http:
             port: *port
-
     route:
       app:
         hostnames: ["docs.${SECRET_EXTERNAL_DOMAIN}"]
@@ -113,7 +101,6 @@ spec:
           - backendRefs:
               - name: *app
                 port: *port
-
     persistence:
       file-storage:
         existingClaim: "{{ .Release.Name }}"

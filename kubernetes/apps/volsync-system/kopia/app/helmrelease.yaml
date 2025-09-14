@@ -29,7 +29,7 @@ spec:
             env:
               KOPIA_WEB_ENABLED: true
               KOPIA_WEB_PORT: &port 80
-              TZ: Europe/London
+              TZ: ${TIMEZONE}
             envFrom:
               - secretRef:
                   name: kopia-secret

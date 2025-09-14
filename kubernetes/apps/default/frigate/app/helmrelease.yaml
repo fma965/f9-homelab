@@ -32,7 +32,7 @@ spec:
               repository: &imageRepo ghcr.io/blakeblackshear/frigate
               tag: &imageTag 0.16.1@sha256:cb6624b9075f76ece626139eedca7e728cab1456a5f8c351afbf877320826bc1
             env:
-              TZ: Europe/London
+              TZ: ${TIMEZONE}
             envFrom:
               - secretRef:
                   name: frigate-secret

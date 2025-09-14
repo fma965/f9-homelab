@@ -43,7 +43,7 @@ spec:
               repository: ghcr.io/home-operations/home-assistant
               tag: 2025.9.3@sha256:3191141730b5062769f806ea6130c30709b19c8289e77e49c5d28061bbad6e7a
             env:
-              TZ: Europe/London
+              TZ: ${TIMEZONE}
             envFrom:
               - secretRef:
                   name: home-assistant-secret

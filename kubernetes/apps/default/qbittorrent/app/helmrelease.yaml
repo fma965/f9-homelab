@@ -117,7 +117,7 @@ spec:
               UMASK: '022'
               QBT_WEBUI_PORT: &port 80
               #PUSHOVER_ENABLED: true
-              TZ: Europe/London
+              TZ: ${TIMEZONE}
             envFrom:
               - secretRef:
                   name: qbittorrent-secret

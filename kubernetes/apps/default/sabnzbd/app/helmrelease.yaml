@@ -35,7 +35,7 @@ spec:
                 sabnzbd.default.svc.cluster,
                 sabnzbd.default.svc.cluster.local,
                 sabnzbd.${SECRET_EXTERNAL_DOMAIN}
-              TZ: Europe/London
+              TZ: ${TIMEZONE}
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
