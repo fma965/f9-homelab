@@ -42,13 +42,14 @@ spec:
             command: ["/bin/sh", "-c", "yarn db:migrate --env=production-ssl-disabled && yarn start --env=production-ssl-disabled"]
             env:
               TZ: ${TIMEZONE}
-              NODE_ENV: production
               PGSSLMODE: disable
               URL: https://docs.${SECRET_EXTERNAL_DOMAIN}
               PORT: &port 3000
               ENABLE_UPDATES: false
-
+              LOG_LEVEL: debug
               FILE_STORAGE: local
+              NODE_TLS_REJECT_UNAUTHORIZED: "0"
+
               FILE_STORAGE_UPLOAD_MAX_SIZE: "26214400" # Requires string
               FILE_STORAGE_IMPORT_MAX_SIZE: "26214400" # Requires string
 
@@ -62,23 +63,14 @@ spec:
               OIDC_DISPLAY_NAME: Home
               OIDC_SCOPES: openid offline_access profile email
 
+              REDIS_URL: redis://dragonfly.database.svc.cluster.local.:6379
+
               SMTP_HOST: smtp-relay.network.svc.cluster.local
               SMTP_PORT: "25"
               SMTP_SECURE: false
               SMTP_FROM_EMAIL: outline@${SECRET_DOMAIN}
               SMTP_REPLY_EMAIL: ${SECRET_CLUSTER_DOMAIN_EMAIL}
             envFrom: *envFrom
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
-    defaultPodOptions:
-      securityContext:
-#        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         controller: *app
