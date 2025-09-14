@@ -64,7 +64,7 @@ spec:
       app:
         hostnames: ["chat.${SECRET_EXTERNAL_DOMAIN}"]
         parentRefs:
-          - name: external
+          - name: envoy-external
             namespace: network
             sectionName: https
         rules:

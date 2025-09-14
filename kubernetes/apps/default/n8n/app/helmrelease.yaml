@@ -78,7 +78,7 @@ spec:
         hostnames:
           - *hostName
         parentRefs:
-          - name: external
+          - name: envoy-external
             namespace: network
             sectionName: https
 
@@ -86,7 +86,7 @@ spec:
         hostnames:
           - n8n-webhook.${SECRET_EXTERNAL_DOMAIN}
         parentRefs:
-          - name: external
+          - name: envoy-external
             namespace: network
             sectionName: https
         rules:

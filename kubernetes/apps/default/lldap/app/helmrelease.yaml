@@ -99,7 +99,7 @@ spec:
           gethomepage.dev/name: LLDAP
           gethomepage.dev/icon: mdi-account-key
         parentRefs:
-          - name: external
+          - name: envoy-external
             namespace: network
             sectionName: https
         rules:

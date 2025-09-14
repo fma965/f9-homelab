@@ -30,7 +30,7 @@ metadata:
   name: homeassistant
 spec:
   parentRefs:
-    - name: external
+    - name: envoy-external
       namespace: network
       sectionName: https
   hostnames:
@@ -72,7 +72,7 @@ metadata:
   name: truenas
 spec:
   parentRefs:
-    - name: external
+    - name: envoy-external
       namespace: network
       sectionName: https
   hostnames:
@@ -145,7 +145,7 @@ metadata:
   name: adguardhome
 spec:
   parentRefs:
-    - name: external
+    - name: envoy-external
       namespace: network
       sectionName: https
   hostnames:
@@ -218,7 +218,7 @@ metadata:
   name: forgeui
 spec:
   parentRefs:
-    - name: external
+    - name: envoy-external
       namespace: network
       sectionName: https
   hostnames:
@@ -260,7 +260,7 @@ metadata:
   name: remote
 spec:
   parentRefs:
-    - name: external
+    - name: envoy-external
       namespace: network
       sectionName: https
   hostnames:
@@ -333,7 +333,7 @@ metadata:
   name: nanokvm
 spec:
   parentRefs:
-    - name: external
+    - name: envoy-external
       namespace: network
       sectionName: https
   hostnames:
@@ -406,7 +406,7 @@ metadata:
   name: doco-cd
 spec:
   parentRefs:
-    - name: external
+    - name: envoy-external
       namespace: network
       sectionName: https
   hostnames:
