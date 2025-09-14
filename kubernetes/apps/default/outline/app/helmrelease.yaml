@@ -101,3 +101,5 @@ spec:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /var/lib/outline/data
+      tmp:
+        type: emptyDir
