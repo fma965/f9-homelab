@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://schemas.budimanjojo.com/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: adguardhome-external-dns
+spec:
+  interval: 30m
+  timeout: 60s
+  url: oci://ghcr.io/home-operations/charts-mirror/external-dns
+  ref:
+    tag: 1.19.0
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
