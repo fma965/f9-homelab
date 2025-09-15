@@ -40,7 +40,7 @@ spec:
               TZ: ${TIMEZONE}
               # Core config
               CORE_RETURN_HTTPS_URLS: true
-              CORE_DEFAULT_DOMAIN: i.${SECRET_EXTERNAL_DOMAIN}
+              CORE_DEFAULT_DOMAIN: i.${SECRET_DOMAIN}
               # Datasources
               DATASOURCE_TYPE: local
               # Features
@@ -50,9 +50,9 @@ spec:
               FEATURES_OAUTH_REGISTRATION: true
               FEATURES_VERSION_CHECKING: false
               # OIDC
-              OAUTH_OIDC_AUTHORIZE_URL: https://auth.${SECRET_EXTERNAL_DOMAIN}/api/oidc/authorization
-              OAUTH_OIDC_USERINFO_URL: https://auth.${SECRET_EXTERNAL_DOMAIN}/api/oidc/userinfo
-              OAUTH_OIDC_TOKEN_URL: https://auth.${SECRET_EXTERNAL_DOMAIN}/api/oidc/token
+              OAUTH_OIDC_AUTHORIZE_URL: https://auth.${SECRET_DOMAIN}/api/oidc/authorization
+              OAUTH_OIDC_USERINFO_URL: https://auth.${SECRET_DOMAIN}/api/oidc/userinfo
+              OAUTH_OIDC_TOKEN_URL: https://auth.${SECRET_DOMAIN}/api/oidc/token
               # Files
               FILES_ROUTE: /u
               FILES_LENGTH: 6
@@ -92,7 +92,7 @@ spec:
             port: &port 3000
     route:
       app:
-        hostnames: ["i.${SECRET_EXTERNAL_DOMAIN}"]
+        hostnames: ["i.${SECRET_DOMAIN}"]
         parentRefs:
           - name: envoy-external
             namespace: network

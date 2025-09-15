@@ -36,9 +36,9 @@ session:
   remember_me: 6M
   cookies:
     - name: authelia_session
-      domain: ${SECRET_EXTERNAL_DOMAIN}
-      authelia_url: https://auth.${SECRET_EXTERNAL_DOMAIN}
-      default_redirection_url: https://${SECRET_EXTERNAL_DOMAIN}
+      domain: ${SECRET_DOMAIN}
+      authelia_url: https://auth.${SECRET_DOMAIN}
+      default_redirection_url: https://${SECRET_DOMAIN}
   redis:
     host: dragonfly.database.svc.cluster.local
     port: 6379
@@ -58,47 +58,47 @@ access_control:
         - 10.42.0.0/16
   rules:
     - domain:
-        - sonarr.${SECRET_EXTERNAL_DOMAIN}
-        - radarr.${SECRET_EXTERNAL_DOMAIN}
-        - prowlarr.${SECRET_EXTERNAL_DOMAIN}
-        - sabnzbd.${SECRET_EXTERNAL_DOMAIN}
+        - sonarr.${SECRET_DOMAIN}
+        - radarr.${SECRET_DOMAIN}
+        - prowlarr.${SECRET_DOMAIN}
+        - sabnzbd.${SECRET_DOMAIN}
       resources: ["^/api.*$"]
       policy: bypass
 
     - domain:
-        - "*.${SECRET_EXTERNAL_DOMAIN}"
+        - "*.${SECRET_DOMAIN}"
       policy: bypass
       networks:
         - cluster
 
     - domain:
-        - sonarr.${SECRET_EXTERNAL_DOMAIN}
-        - radarr.${SECRET_EXTERNAL_DOMAIN}
-        - prowlarr.${SECRET_EXTERNAL_DOMAIN}
-        - sabnzbd.${SECRET_EXTERNAL_DOMAIN}
-        - torrents.${SECRET_EXTERNAL_DOMAIN}
-        - recommendarr.${SECRET_EXTERNAL_DOMAIN}
-        - docs.${SECRET_EXTERNAL_DOMAIN}
+        - sonarr.${SECRET_DOMAIN}
+        - radarr.${SECRET_DOMAIN}
+        - prowlarr.${SECRET_DOMAIN}
+        - sabnzbd.${SECRET_DOMAIN}
+        - torrents.${SECRET_DOMAIN}
+        - recommendarr.${SECRET_DOMAIN}
+        - docs.${SECRET_DOMAIN}
       subject:
         - "group:media"
       policy: one_factor
 
     - domain:
-        - zigbee.${SECRET_EXTERNAL_DOMAIN}
-        - cctv.${SECRET_EXTERNAL_DOMAIN}
-        - home.${SECRET_EXTERNAL_DOMAIN}
+        - zigbee.${SECRET_DOMAIN}
+        - cctv.${SECRET_DOMAIN}
+        - home.${SECRET_DOMAIN}
       subject:
         - "group:home"
       policy: two_factor
 
     - domain:
-        - "*.${SECRET_EXTERNAL_DOMAIN}"
+        - "*.${SECRET_DOMAIN}"
       subject:
         - "group:admin"
       policy: two_factor
 
     - domain:
-        - "*.${SECRET_EXTERNAL_DOMAIN}"
+        - "*.${SECRET_DOMAIN}"
       policy: deny
 
 notifier:
@@ -138,8 +138,8 @@ identity_providers:
         require_pkce: false
         pkce_challenge_method: ''
         redirect_uris:
-          - 'https://photos.${SECRET_EXTERNAL_DOMAIN}/auth/login'
-          - 'https://photos.${SECRET_EXTERNAL_DOMAIN}/user-settings'
+          - 'https://photos.${SECRET_DOMAIN}/auth/login'
+          - 'https://photos.${SECRET_DOMAIN}/user-settings'
           - 'app.immich:///oauth-callback'
         scopes:
           - 'openid'
@@ -161,8 +161,8 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://git.${SECRET_EXTERNAL_DOMAIN}/user/oauth2/F9/callback'
-          - 'https://git.${SECRET_EXTERNAL_DOMAIN}/user/oauth2/authelia/callback'
+          - 'https://git.${SECRET_DOMAIN}/user/oauth2/F9/callback'
+          - 'https://git.${SECRET_DOMAIN}/user/oauth2/authelia/callback'
         scopes:
           - 'openid'
           - 'email'
@@ -187,7 +187,7 @@ identity_providers:
           - profile
           - email
         redirect_uris:
-          - https://gamesdb.${SECRET_EXTERNAL_DOMAIN}/auth/login/authentik/callback
+          - https://gamesdb.${SECRET_DOMAIN}/auth/login/authentik/callback
         userinfo_signed_response_alg: none
         claims_policy: default
         token_endpoint_auth_method: 'client_secret_basic'
@@ -200,7 +200,7 @@ identity_providers:
         require_pkce: false
         pkce_challenge_method: ''
         redirect_uris:
-          - 'https://chat.${SECRET_EXTERNAL_DOMAIN}/oauth/oidc/callback'
+          - 'https://chat.${SECRET_DOMAIN}/oauth/oidc/callback'
         scopes:
           - 'openid'
           - 'profile'
@@ -222,7 +222,7 @@ identity_providers:
         require_pkce: false
         pkce_challenge_method: ''
         redirect_uris:
-          - 'https://docs.${SECRET_EXTERNAL_DOMAIN}/auth/oidc.callback'
+          - 'https://docs.${SECRET_DOMAIN}/auth/oidc.callback'
         scopes:
           - 'openid'
           - 'offline_access'
@@ -244,7 +244,7 @@ identity_providers:
         require_pkce: false
         pkce_challenge_method: ''
         redirect_uris:
-          - 'https://i.${SECRET_EXTERNAL_DOMAIN}/api/auth/oauth/oidc'
+          - 'https://i.${SECRET_DOMAIN}/api/auth/oauth/oidc'
         scopes:
           - 'openid'
           - 'offline_access'
@@ -267,7 +267,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://grafana.${SECRET_EXTERNAL_DOMAIN}/login/generic_oauth'
+          - 'https://grafana.${SECRET_DOMAIN}/login/generic_oauth'
         scopes:
           - 'openid'
           - 'profile'

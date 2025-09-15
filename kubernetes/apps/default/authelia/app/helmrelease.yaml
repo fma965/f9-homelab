@@ -105,7 +105,7 @@ spec:
             scrapeTimeout: 10s
     route:
       app:
-        hostnames: ["auth.${SECRET_EXTERNAL_DOMAIN}"]
+        hostnames: ["auth.${SECRET_DOMAIN}"]
         parentRefs:
           - name: envoy-external
             namespace: network

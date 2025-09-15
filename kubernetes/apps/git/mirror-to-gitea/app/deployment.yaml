@@ -31,6 +31,6 @@ spec:
         - name: GITHUB_USERNAME
           value: "fma965"
         - name: GITEA_URL
-          value: "https://git.${SECRET_EXTERNAL_DOMAIN}"
+          value: "https://git.${SECRET_DOMAIN}"
         - name: MIRROR_PRIVATE_REPOSITORIES
           value: "1"

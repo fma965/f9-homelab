@@ -2,7 +2,7 @@
 endpoints:
   - name: "${APP}"
     group: ${GATUS_GROUP:=guarded}
-    url: "https://${GATUS_SUBDOMAIN:=${APP}}.${SECRET_EXTERNAL_DOMAIN}${GATUS_PATH:=/}"
+    url: "https://${GATUS_SUBDOMAIN:=${APP}}.${SECRET_DOMAIN}${GATUS_PATH:=/}"
     ui:
       hide-hostname: true
       hide-url: true

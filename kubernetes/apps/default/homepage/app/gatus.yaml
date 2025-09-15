@@ -11,7 +11,7 @@ data:
     endpoints:
       - name: "homepage"
         group: guarded
-        url: "https://${SECRET_EXTERNAL_DOMAIN}/"
+        url: "https://${SECRET_DOMAIN}/"
         interval: 1m
         client:
           dns-resolver: tcp://1.1.1.1:53

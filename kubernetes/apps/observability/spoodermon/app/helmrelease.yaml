@@ -31,7 +31,7 @@ spec:
               GATUS_DELAY_START_SECONDS: 5
               GATUS_WEB_PORT: &port 80
               TZ: ${TIMEZONE}
-              SECRET_EXTERNAL_DOMAIN: ${SECRET_EXTERNAL_DOMAIN}
+              SECRET_EXTERNAL_DOMAIN: ${SECRET_DOMAIN}
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
@@ -67,7 +67,7 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_EXTERNAL_DOMAIN}"
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-external
             namespace: network

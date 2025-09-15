@@ -7,7 +7,7 @@ connectivity:
 endpoints:
   - name: flux-webhook
     group: guarded
-    url: https://flux-webhook.${SECRET_EXTERNAL_DOMAIN}
+    url: https://flux-webhook.${SECRET_DOMAIN}
     interval: 1m
     ui:
       hide-hostname: true

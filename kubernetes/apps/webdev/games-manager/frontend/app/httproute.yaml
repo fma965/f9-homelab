@@ -5,7 +5,7 @@ kind: HTTPRoute
 metadata:
   name: games-manager-frontend
 spec:
-  hostnames: ["games.${SECRET_EXTERNAL_DOMAIN}"]
+  hostnames: ["games.${SECRET_DOMAIN}"]
   parentRefs:
     - name: envoy-external
       namespace: network

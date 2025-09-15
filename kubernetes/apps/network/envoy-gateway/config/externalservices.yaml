@@ -34,7 +34,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "home.${SECRET_EXTERNAL_DOMAIN}"
+    - "home.${SECRET_DOMAIN}"
   rules:
     - backendRefs:
         - name: homeassistant-external
@@ -76,7 +76,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "truenas.${SECRET_EXTERNAL_DOMAIN}"
+    - "truenas.${SECRET_DOMAIN}"
   rules:
     - backendRefs:
         - name: truenas-external
@@ -149,7 +149,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "adguard.${SECRET_EXTERNAL_DOMAIN}"
+    - "adguard.${SECRET_DOMAIN}"
   rules:
     - backendRefs:
         - name: adguardhome-external
@@ -222,7 +222,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "sd.${SECRET_EXTERNAL_DOMAIN}"
+    - "sd.${SECRET_DOMAIN}"
   rules:
     - backendRefs:
         - name: forgeui-external
@@ -264,7 +264,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "remote.${SECRET_EXTERNAL_DOMAIN}"
+    - "remote.${SECRET_DOMAIN}"
   rules:
     - backendRefs:
         - name: remote-external
@@ -337,7 +337,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "kvm.${SECRET_EXTERNAL_DOMAIN}"
+    - "kvm.${SECRET_DOMAIN}"
   rules:
     - backendRefs:
         - name: nanokvm-external
@@ -410,7 +410,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "doco-cd.${SECRET_EXTERNAL_DOMAIN}"
+    - "doco-cd.${SECRET_DOMAIN}"
   rules:
     - backendRefs:
         - name: doco-cd-external

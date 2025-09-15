@@ -20,7 +20,7 @@ spec:
               tag: v1.4.4@sha256:c946dd24542ab3cf6b0d56ab1d69e1ea1ff1d84f8a293ceeeaf3f53f09e50db6
             env:
               TZ: ${TIMEZONE}
-              PUBLIC_URL: https://recommendarr.${SECRET_EXTERNAL_DOMAIN}
+              PUBLIC_URL: https://recommendarr.${SECRET_DOMAIN}
               DOCKER_ENV: true
               FORCE_SECURE_COOKIES: true
             securityContext:
@@ -46,7 +46,7 @@ spec:
             port: &port 3000
     route:
       app:
-        hostnames: ["{{ .Release.Name }}.${SECRET_EXTERNAL_DOMAIN}"]
+        hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
         parentRefs:
           - name: envoy-external
             namespace: network

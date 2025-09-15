@@ -196,7 +196,7 @@ spec:
     route:
       app:
         hostnames:
-          - 'torrents.${SECRET_EXTERNAL_DOMAIN}'
+          - 'torrents.${SECRET_DOMAIN}'
         parentRefs:
           - name: envoy-external
             namespace: network

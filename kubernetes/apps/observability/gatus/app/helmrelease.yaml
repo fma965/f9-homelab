@@ -48,7 +48,7 @@ spec:
               GATUS_CONFIG_PATH: /config
               GATUS_DELAY_START_SECONDS: 5
               GATUS_WEB_PORT: &port 80
-              SECRET_EXTERNAL_DOMAIN: ${SECRET_EXTERNAL_DOMAIN}
+              SECRET_EXTERNAL_DOMAIN: ${SECRET_DOMAIN}
               TZ: ${TIMEZONE}
             probes:
               liveness: &probes
@@ -89,8 +89,8 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_EXTERNAL_DOMAIN}"
-          - status.${SECRET_EXTERNAL_DOMAIN}
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - status.${SECRET_DOMAIN}
         parentRefs:
           - name: envoy-external
             namespace: network

@@ -72,7 +72,7 @@ spec:
 
     route:
       app:
-        hostnames: ["cctv.${SECRET_EXTERNAL_DOMAIN}"]
+        hostnames: ["cctv.${SECRET_DOMAIN}"]
         parentRefs:
           - name: envoy-external
             namespace: network

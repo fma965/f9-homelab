@@ -55,7 +55,7 @@ spec:
         - name: DB_USER
           value: "games"
         - name: EMAIL_FROM
-          value: "gamemanager@${SECRET_EXTERNAL_DOMAIN}"
+          value: "gamemanager@${SECRET_DOMAIN}"
         - name: EMAIL_SMTP_HOST
           value: "10.10.10.254"
         - name: EMAIL_SMTP_PORT
@@ -67,7 +67,7 @@ spec:
         - name: PORT
           value: "8055"
         - name: PUBLIC_URL
-          value: "https://gamesdb.${SECRET_EXTERNAL_DOMAIN}"
+          value: "https://gamesdb.${SECRET_DOMAIN}"
         - name: REDIS_HOST
           value: "dragonfly.database.svc.cluster.local"
         - name: REDIS_PORT
@@ -83,4 +83,4 @@ spec:
         - name: STORAGE_S3_REGION
           value: "eu-west-2"
         - name: STORAGE_S3_ENDPOINT
-          value: "s3.${SECRET_EXTERNAL_DOMAIN}"
+          value: "s3.${SECRET_DOMAIN}"
