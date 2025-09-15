@@ -12,6 +12,7 @@ spec:
   components:
     - ../../../../components/gatus/guarded
     - ../../../../components/keda/nfs-scaler
+    - ../../../../components/ext-auth
   dependsOn:
     - name: multus-networks
       namespace: kube-system
