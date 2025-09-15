@@ -61,10 +61,9 @@ spec:
     policy: sync
     sources:
       - gateway-httproute
-      - gateway-tlsroute
       - service
     txtOwnerId: main
-    txtPrefix: k8s.main.
+    txtPrefix: k8s.
     domainFilters:
       - ${SECRET_DOMAIN}
     serviceMonitor:
