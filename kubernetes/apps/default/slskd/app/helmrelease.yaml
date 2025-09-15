@@ -106,10 +106,9 @@ spec:
       media:
         type: nfs
         server: f9-nas.internal
-        path: /mnt/F9/Media
+        path: /mnt/F9/Media/Downloads/soulseek
         globalMounts:
           - path: /downloads/soulseek
-            subPath: Downloads/soulseek
       tmpfs:
         type: emptyDir
         advancedMounts:
