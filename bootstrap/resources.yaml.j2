@@ -15,8 +15,6 @@ metadata:
   namespace: flux-system
 stringData:
   age.agekey: op://F9-HomeLab/sops/SOPS_PRIVATE_KEY
-
-{#
 ---
 apiVersion: v1
 kind: Secret
@@ -25,7 +23,6 @@ metadata:
   namespace: network
 stringData:
   CLOUDFLARE_TUNNEL_ID: op://F9-HomeLab/cloudflare/CLOUDFLARE_TUNNEL_ID
-#}
 ---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
