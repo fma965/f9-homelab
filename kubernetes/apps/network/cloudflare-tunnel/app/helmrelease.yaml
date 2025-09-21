@@ -83,7 +83,7 @@ spec:
             ingress:
               - hostname: "*.${SECRET_DOMAIN}"
                 originRequest:
-                  originServerName: ${SECRET_DOMAIN}
+                  originServerName: ${SECRET_EXTERNAL_DOMAIN}
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
               - hostname: ${SECRET_DOMAIN}
                 originRequest:
