@@ -2,9 +2,9 @@
 version: v1alpha1
 machine:
   ca:
-    crt: op://F9-HomeLab/talos/MACHINE_CA_CRT
+    crt: op://kubernetes/talos/MACHINE_CA_CRT
     {% if ENV.IS_CONTROLLER %}
-    key: op://F9-HomeLab/talos/MACHINE_CA_KEY
+    key: op://kubernetes/talos/MACHINE_CA_KEY
     {% endif %}
   certSANs:
     - 127.0.0.1
@@ -79,17 +79,17 @@ machine:
     net.ipv4.tcp_fastopen: "3"
     vm.nr_hugepages: "1024"
     user.max_user_namespaces: "11255"
-  token: op://F9-HomeLab/talos/MACHINE_TOKEN
+  token: op://kubernetes/talos/MACHINE_TOKEN
 cluster:
   ca:
-    crt: op://F9-HomeLab/talos/CLUSTER_CA_CRT
+    crt: op://kubernetes/talos/CLUSTER_CA_CRT
     {% if ENV.IS_CONTROLLER %}
-    key: op://F9-HomeLab/talos/CLUSTER_CA_KEY
+    key: op://kubernetes/talos/CLUSTER_CA_KEY
     {% endif %}
   clusterName: main
   controlPlane:
     endpoint: https://10.10.100.10:6443
-  id: op://F9-HomeLab/talos/CLUSTER_ID
+  id: op://kubernetes/talos/CLUSTER_ID
   network:
     cni:
       name: none
@@ -98,12 +98,12 @@ cluster:
       - 10.42.0.0/16
     serviceSubnets:
       - 10.43.0.0/16
-  secret: op://F9-HomeLab/talos/CLUSTER_SECRET
-  token: op://F9-HomeLab/talos/CLUSTER_TOKEN
+  secret: op://kubernetes/talos/CLUSTER_SECRET
+  token: op://kubernetes/talos/CLUSTER_TOKEN
     {% if ENV.IS_CONTROLLER %}
   aggregatorCA:
-    crt: op://F9-HomeLab/talos/CLUSTER_AGGREGATORCA_CRT
-    key: op://F9-HomeLab/talos/CLUSTER_AGGREGATORCA_KEY
+    crt: op://kubernetes/talos/CLUSTER_AGGREGATORCA_CRT
+    key: op://kubernetes/talos/CLUSTER_AGGREGATORCA_KEY
   allowSchedulingOnControlPlanes: true
   apiServer:
     auditPolicy:
@@ -130,8 +130,8 @@ cluster:
     advertisedSubnets:
       - 10.10.100.0/24
     ca:
-      crt: op://F9-HomeLab/talos/CLUSTER_ETCD_CA_CRT
-      key: op://F9-HomeLab/talos/CLUSTER_ETCD_CA_KEY
+      crt: op://kubernetes/talos/CLUSTER_ETCD_CA_CRT
+      key: op://kubernetes/talos/CLUSTER_ETCD_CA_KEY
     extraArgs:
       listen-metrics-urls: http://0.0.0.0:2381
   proxy:
@@ -158,9 +158,9 @@ cluster:
     extraArgs:
       bind-address: 0.0.0.0
     image: registry.k8s.io/kube-scheduler:v1.34.1
-  secretboxEncryptionSecret: op://F9-HomeLab/talos/CLUSTER_SECRETBOXENCRYPTIONSECRET
+  secretboxEncryptionSecret: op://kubernetes/talos/CLUSTER_SECRETBOXENCRYPTIONSECRET
   serviceAccount:
-    key: op://F9-HomeLab/talos/CLUSTER_SERVICEACCOUNT_KEY
+    key: op://kubernetes/talos/CLUSTER_SERVICEACCOUNT_KEY
   {% endif %}
 ---
 apiVersion: v1alpha1
