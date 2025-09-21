@@ -32,3 +32,4 @@ resources:
 - ./zipline/ks.yaml
 - ./n8n/ks.yaml
 - ./flaresolverr/ks.yaml
+- ./homebox/ks.yaml
