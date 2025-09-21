@@ -81,13 +81,17 @@ spec:
         data:
           config.yaml: |-
             ingress:
-              - hostname: ${SECRET_DOMAIN}
+              - hostname: "*.s3.${SECRET_DOMAIN}"
                 originRequest:
-                  originServerName: ${SECRET_DOMAIN}
+                  originServerName: ${SECRET_EXTERNAL_DOMAIN}
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
               - hostname: "*.${SECRET_DOMAIN}"
                 originRequest:
                   originServerName: ${SECRET_EXTERNAL_DOMAIN}
+                service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
+              - hostname: ${SECRET_DOMAIN}
+                originRequest:
+                  originServerName: ${SECRET_DOMAIN}
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
               - service: http_status:404
     persistence:
