@@ -82,9 +82,6 @@ spec:
           config.yaml: |-
             ingress:
               - hostname: "*.s3.${SECRET_DOMAIN}"
-                originRequest:
-                  originServerName: ${SECRET_EXTERNAL_DOMAIN}
-                  noTLSVerify: true
                 service: http://garage.default.svc.cluster.local:3900
               - hostname: "*.${SECRET_DOMAIN}"
                 originRequest:
