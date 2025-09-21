@@ -22,6 +22,7 @@ resources:
 - ./sabnzbd/ks.yaml
 - ./slskd/ks.yaml
 - ./sonarr/ks.yaml
+- ./lidarr/ks.yaml
 # - ./zigbee/ks.yaml
 - ./externalsecret.yaml
 - ./immich/ks.yaml
