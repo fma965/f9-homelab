@@ -62,6 +62,7 @@ access_control:
         - radarr.${SECRET_DOMAIN}
         - prowlarr.${SECRET_DOMAIN}
         - sabnzbd.${SECRET_DOMAIN}
+        - lidarr.${SECRET_DOMAIN}
       resources: ["^/api.*$"]
       policy: bypass
 
@@ -75,9 +76,11 @@ access_control:
         - sonarr.${SECRET_DOMAIN}
         - radarr.${SECRET_DOMAIN}
         - prowlarr.${SECRET_DOMAIN}
+        - lidarr.${SECRET_DOMAIN}
         - sabnzbd.${SECRET_DOMAIN}
         - torrents.${SECRET_DOMAIN}
         - recommendarr.${SECRET_DOMAIN}
+        - slskd.${SECRET_DOMAIN}
         - docs.${SECRET_DOMAIN}
       subject:
         - "group:media"
