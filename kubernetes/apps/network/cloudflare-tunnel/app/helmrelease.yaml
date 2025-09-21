@@ -83,6 +83,8 @@ spec:
             ingress:
               - hostname: "*.s3.${SECRET_DOMAIN}"
                 service: http://garage.default.svc.cluster.local:3900
+              - hostname: "s3.${SECRET_DOMAIN}"
+                service: http://garage.default.svc.cluster.local:3900
               - hostname: "*.${SECRET_DOMAIN}"
                 originRequest:
                   originServerName: ${SECRET_EXTERNAL_DOMAIN}
