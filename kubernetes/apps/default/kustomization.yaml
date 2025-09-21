@@ -31,3 +31,4 @@ resources:
 - ./openwebui/ks.yaml
 - ./zipline/ks.yaml
 - ./n8n/ks.yaml
+- ./flaresolverr/ks.yaml
