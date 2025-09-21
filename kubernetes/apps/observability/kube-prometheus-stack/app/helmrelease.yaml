@@ -58,6 +58,7 @@ spec:
               sectionName: https
 
       prometheusSpec:
+        externalUrl: https://prometheus.${SECRET_DOMAIN}
         image:
           registry: docker.io
           repository: prompp/prompp
