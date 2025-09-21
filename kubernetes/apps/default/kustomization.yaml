@@ -24,7 +24,6 @@ resources:
 - ./sonarr/ks.yaml
 - ./lidarr/ks.yaml
 # - ./zigbee/ks.yaml
-- ./externalsecret.yaml
 - ./immich/ks.yaml
 - ./garage/ks.yaml
 - ./frigate/ks.yaml
