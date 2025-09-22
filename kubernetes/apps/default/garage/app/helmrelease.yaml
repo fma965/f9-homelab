@@ -87,7 +87,7 @@ spec:
         hostnames:
           - "s3.${SECRET_DOMAIN}"
           - "*.s3.${SECRET_DOMAIN}"
-          - "default.${SECRET_DOMAIN}" # https://meta.discourse.org/t/s3-not-aws-backups-stopped-working-presumably-since-an-update/382582
+          - "community.${SECRET_DOMAIN}" # https://meta.discourse.org/t/s3-not-aws-backups-stopped-working-presumably-since-an-update/382582
         parentRefs:
           - name: envoy-external
             namespace: network
