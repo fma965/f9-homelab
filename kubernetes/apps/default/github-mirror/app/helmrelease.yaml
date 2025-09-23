@@ -31,8 +31,8 @@ spec:
               - secretRef:
                   name: github-mirror
             image:
-              repository: ghcr.io/martinohmann/github-to-gitea-mirror
-              tag: latest@sha256:c4130de04a9ff6507d9288dfbde77cb65b401b3c97687090fa63e65bd4fae130
+              repository: ghcr.io/raylabshq/gitea-mirror
+              tag: latest@sha256:2e2937aebe407e31bafb6eba697335e9013713617f9a9cafdb5589d4a925de3e
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
