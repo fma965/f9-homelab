@@ -27,6 +27,7 @@ spec:
               GITEA_URL: https://git.${SECRET_DOMAIN}
               MIRROR_INTERVAL: 12h
               NO_DRY_RUN: 'true'
+              BETTER_AUTH_TRUSTED_ORIGINS: https://git.${SECRET_DOMAIN}
             # envFrom:
             #   - secretRef:
             #       name: github-mirror
