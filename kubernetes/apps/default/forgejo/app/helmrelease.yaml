@@ -73,12 +73,12 @@ spec:
             app:
             - path: /etc/gitea
               subPath: gitea-config # Directory within the PVC for config files
-            - path: /var/lib/gitea
+            - path: /data/gitea
               subPath: gitea-data # Directory within the PVC for data files
       data:
         type: nfs
         server: f9-nas.internal
         path: /mnt/Data/Forgejo
         globalMounts:
-          - path: /data
+          - path: /var/lib/gitea/git/repositories
         enabled: true

@@ -74,6 +74,6 @@ spec:
             sectionName: https
     persistence:
       data:
-          type: emptyDir
-          globalMounts:
-            - path: /app/data
+        type: emptyDir
+        globalMounts:
+          - path: /app/data
