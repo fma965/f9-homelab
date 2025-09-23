@@ -14,8 +14,6 @@ spec:
     - ../../../../components/keda/nfs-scaler
     - ../../../../components/ext-auth
   dependsOn:
-    - name: multus-networks
-      namespace: kube-system
     - name: rook-ceph-cluster
       namespace: rook-ceph
   interval: 1h
