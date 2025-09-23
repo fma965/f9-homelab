@@ -28,21 +28,9 @@ spec:
             image:
               repository: ghcr.io/home-operations/postgres-init
               tag: 17.6.0@sha256:86a1992d46273c58fd4ad95b626081dfaabfe16bd56944675169e406d1a660dd
-            env:
-              INIT_POSTGRES_DBNAME: &dbName forgejo
-              INIT_POSTGRES_HOST: &dbHost postgresql.postgresql.svc.cluster.local
-              INIT_POSTGRES_USER: &dbUser forgejo
-              INIT_POSTGRES_PASS: &dbPass
-                valueFrom:
-                  secretKeyRef:
-                    name: forgejo-secret
-                    key: FORGEJO_DB_PASS
-              INIT_POSTGRES_SUPER_USER: admin
-              INIT_POSTGRES_SUPER_PASS:
-                valueFrom:
-                  secretKeyRef:
-                    name: database-superuser-secret
-                    key: POSTGRESQL_PASS
+            envFrom: &envFrom
+              - secretRef:
+                  name: forgejo-secret
 
         containers:
           app:
@@ -54,45 +42,7 @@ spec:
               TZ: ${TIMEZONE}
               USER_UID: 1000
               USER_GID: 1000
-              FORGEJO__APP_NAME: "F9 Git"
-              FORGEJO__APP_SLOGAN: ""
-              FORGEJO__cache__ENABLED: "true"
-              FORGEJO__cache__ADAPTER: "redis"
-              FORGEJO__cache__HOST: "redis://:${REDIS_PASSWORD}@redis.redis.svc.cluster.local:6379"
-              FORGEJO__database__DB_TYPE: "postgres"
-              FORGEJO__database__HOST: *dbHost
-              FORGEJO__database__NAME: *dbName
-              FORGEJO__database__USER: *dbUser
-              FORGEJO__database__PASSWD: &dbPass
-                valueFrom:
-                  secretKeyRef:
-                    name: forgejo-secret
-                    key: FORGEJO_DB_PASS
-              FORGEJO__federation__ENABLED: "false"
-              FORGEJO__git.timeout__MIGRATE: "3000"
-              FORGEJO__git.timeout__MIRROR: "3000"
-              FORGEJO__mailer__ENABLED: "true"
-              FORGEJO__mailer__PROTOCOL: "smtp"
-              FORGEJO__mailer__SMTP_ADDR: "smtp-relay.network.svc.cluster.local"
-              FORGEJO__mailer__SMTP_PORT: "25"
-              FORGEJO__mailer__FROM: "git@${SECRET_DOMAIN}"
-              FORGEJO__repository__DEFAULT_PRIVATE: "true"
-              FORGEJO__repository__DEFAULT_REPO_UNITS: "repo.code,repo.releases,repo.issues,repo.pulls,repo.packages"
-              FORGEJO__repository__DEFAULT_PUSH_CREATE_PRIVATE: "true"
-              FORGEJO__repository__ENABLE_PUSH_CREATE_USER: "true"
-              FORGEJO__repository__ENABLE_PUSH_CREATE_ORG: "true"
-              FORGEJO__server__ROOT_URL: "https://git.${SECRET_DOMAIN}"
-              FORGEJO__server__APP_DATA_PATH: "/data/gitea"
-              FORGEJO__server__SSH_PORT: "22"
-              FORGEJO__server__SSH_LISTEN_PORT: "2222"
-              FORGEJO__service__DISABLE_REGISTRATION: "true"
-              FORGEJO__service__ENABLE_NOTIFY_MAIL: "true"
-              FORGEJO__service__REQUIRE_SIGNIN_VIEW: "false"
-              FORGEJO__ui__DEFAULT_SHOW_FULL_NAME: "true"
-              FORGEJO__ui__DEFAULT_THEME: "gitea-dark"
-            envFrom:
-              - secretRef:
-                  name: "{{ .Release.Name }}-secret"
+            envFrom: *envFrom
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true

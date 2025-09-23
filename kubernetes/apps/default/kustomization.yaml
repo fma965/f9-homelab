@@ -27,7 +27,7 @@ resources:
 - ./immich/ks.yaml
 - ./garage/ks.yaml
 - ./frigate/ks.yaml
-# - ./forgejo/ks.yaml
+- ./forgejo/ks.yaml
 - ./openwebui/ks.yaml
 - ./zipline/ks.yaml
 - ./n8n/ks.yaml
