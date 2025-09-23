@@ -72,8 +72,8 @@ spec:
           - name: envoy-external
             namespace: network
             sectionName: https
-    # persistence:
-    #   data:
-    #     existingClaim: "{{ .Release.Name }}"
-    #     globalMounts:
-    #       - path: /app/data
+    persistence:
+      data:
+          type: emptyDir
+          globalMounts:
+            - path: /app/data
