@@ -27,9 +27,9 @@ spec:
               GITEA_URL: https://git.${SECRET_DOMAIN}
               MIRROR_INTERVAL: 12h
               NO_DRY_RUN: 'true'
-            envFrom:
-              - secretRef:
-                  name: github-mirror
+            # envFrom:
+            #   - secretRef:
+            #       name: github-mirror
             image:
               repository: ghcr.io/raylabshq/gitea-mirror
               tag: latest@sha256:2e2937aebe407e31bafb6eba697335e9013713617f9a9cafdb5589d4a925de3e
