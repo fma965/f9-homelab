@@ -164,7 +164,6 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://git.${SECRET_DOMAIN}/user/oauth2/F9/callback'
           - 'https://git.${SECRET_DOMAIN}/user/oauth2/authelia/callback'
         scopes:
           - 'openid'
