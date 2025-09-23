@@ -33,10 +33,18 @@ spec:
               HEADER_AUTH_EMAIL_HEADER: Remote-Email
               HEADER_AUTH_NAME_HEADER: Remote-Name
               HEADER_AUTH_AUTO_PROVISION: 'true'
-
-            # envFrom:
-            #   - secretRef:
-            #       name: github-mirror
+              GITHUB_USERNAME: "fma965"
+              PRIVATE_REPOSITORIES: "true"
+              INCLUDE_ARCHIVED: "true"
+              SKIP_FORKS: "true"
+              MIRROR_STARRED: "true"
+              MIRROR_ORGANIZATIONS: "true"
+              PRESERVE_ORG_STRUCTURE: "true"
+              SKIP_STARRED_ISSUES: "true"
+              GITEA_PRESERVE_VISIBILITY: "true"
+            envFrom:
+              - secretRef:
+                  name: github-mirror-secret
             image:
               repository: ghcr.io/raylabshq/gitea-mirror
               tag: latest@sha256:2e2937aebe407e31bafb6eba697335e9013713617f9a9cafdb5589d4a925de3e
@@ -64,8 +72,8 @@ spec:
           - name: envoy-external
             namespace: network
             sectionName: https
-    persistence:
-      data:
-        existingClaim: "{{ .Release.Name }}"
-        globalMounts:
-          - path: /app/data
+    # persistence:
+    #   data:
+    #     existingClaim: "{{ .Release.Name }}"
+    #     globalMounts:
+    #       - path: /app/data
