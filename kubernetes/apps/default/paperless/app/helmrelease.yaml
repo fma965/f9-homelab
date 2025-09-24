@@ -49,6 +49,10 @@ spec:
               PAPERLESS_REDIS: redis://dragonfly.database.svc.cluster.local:6379
               # Configure user permissions
               USERMAP_GID: "1000" # gladius:external-services
+              # Configure SSO
+              PAPERLESS_ENABLE_HTTP_REMOTE_USER: "true"
+              PAPERLESS_HTTP_REMOTE_USER_HEADER_NAME: "HTTP_REMOTE_USER"
+              PAPERLESS_LOGOUT_REDIRECT_URL: "https://auth.${SECRET_DOMAIN}/logout"
               # Configure admin user
               PAPERLESS_ADMIN_USER:
                 valueFrom:
