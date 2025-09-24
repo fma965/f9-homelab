@@ -34,3 +34,4 @@ resources:
 - ./flaresolverr/ks.yaml
 - ./homebox/ks.yaml
 - ./github-mirror/ks.yaml
+- ./spoolman/ks.yaml
