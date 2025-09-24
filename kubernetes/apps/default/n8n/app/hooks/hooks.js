@@ -35,6 +35,9 @@ module.exports = {
                         res.end(`User ${email} not found, please have an admin invite the user first.`)
                         return
                     }
+                    if (!user.role) {
+                        user.role = {}
+                    }
 
                     // issue cookie if all is OK
                     issueCookie(res, user)
