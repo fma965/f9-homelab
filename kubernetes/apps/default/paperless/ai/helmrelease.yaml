@@ -31,9 +31,10 @@ spec:
               AI_PROCESSED_TAG_NAME: ai-processed
               AI_PROVIDER: ollama
               OLLAMA_API_URL: "http://f9-nas.internal:11434"
-              OLLAMA_MODEL: llama3.2:3b
+              OLLAMA_MODEL: llama3.2:latest
               PAPERLESS_API_URL: http://paperless.default.svc.cluster.local:8000/api
-              PROCESS_PREDEFINED_DOCUMENTS: "yes"
+              PAPERLESS_USERNAME: scott
+              PROCESS_PREDEFINED_DOCUMENTS: no
               SCAN_INTERVAL: "*/30 * * * *"
               USE_PROMPT_TAGS: "no"
               TZ: "${TIMEZONE}"
