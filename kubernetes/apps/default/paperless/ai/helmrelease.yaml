@@ -92,3 +92,5 @@ spec:
             subPath: node
           - path: /app/public/images
             subPath: images
+          - path: /app/OPENAPI
+            subPath: OPENAPI
