@@ -26,6 +26,7 @@ spec:
       namespace: volsync-system
   components:
     - ../../../../components/volsync
+    - ../../../../components/ext-auth
   postBuild:
     substitute:
       APP: *appname
