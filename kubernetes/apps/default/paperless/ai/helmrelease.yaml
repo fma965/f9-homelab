@@ -90,3 +90,5 @@ spec:
             subPath: logs
           - path: /home/node
             subPath: node
+          - path: /app/public/images
+            subPath: images
