@@ -17,7 +17,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      EXT_AUTH_TARGET: *app-app
+      EXT_AUTH_TARGET: n8n-app
   prune: true
   retryInterval: 2m
   sourceRef:
