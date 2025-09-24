@@ -34,6 +34,7 @@ spec:
               HEADER_AUTH_NAME_HEADER: Remote-Name
               HEADER_AUTH_AUTO_PROVISION: 'true'
               GITHUB_USERNAME: "fma965"
+              GITEA_USERNAME: "scott"
               PRIVATE_REPOSITORIES: "true"
               INCLUDE_ARCHIVED: "true"
               SKIP_FORKS: "true"
@@ -47,7 +48,7 @@ spec:
                   name: github-mirror-secret
             image:
               repository: ghcr.io/raylabshq/gitea-mirror
-              tag: latest@sha256:2e2937aebe407e31bafb6eba697335e9013713617f9a9cafdb5589d4a925de3e
+              tag: v3.7.2@sha256:5fef0e6625e4fa24565781a1b879ec21a24d8e82266fea5b14f4b1d9d33641fc
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
