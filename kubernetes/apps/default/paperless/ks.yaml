@@ -19,7 +19,7 @@ spec:
       namespace: volsync-system
   interval: 1h
   timeout: 5m
-  path: "./kubernetes/apps/selfhosted/default/app"
+  path: "./kubernetes/apps/default/paperless/app"
   prune: true
   sourceRef:
     kind: GitRepository
