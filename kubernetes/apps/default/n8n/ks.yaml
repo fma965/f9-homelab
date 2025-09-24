@@ -11,6 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   components:
+    - ../../../../components/volsync
     - ../../../../components/ext-auth
   interval: 30m
   timeout: 5m
@@ -28,8 +29,6 @@ spec:
       namespace: volsync-system
     - name: rook-ceph-cluster
       namespace: rook-ceph
-  components:
-    - ../../../../components/volsync
   postBuild:
     substitute:
       APP: *appname
