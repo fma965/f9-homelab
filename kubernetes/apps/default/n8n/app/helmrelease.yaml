@@ -70,11 +70,9 @@ spec:
 
     persistence:
       data:
-        existingClaim: n8n
-        advancedMounts:
-          n8n:
-            app:
-              - path: /home/node/.n8n
+        existingClaim: "{{ .Release.Name }}"
+        globalMounts:
+            - path: /home/node/.n8n
       hook-files:
         type: configMap
         name: n8n-configmap
