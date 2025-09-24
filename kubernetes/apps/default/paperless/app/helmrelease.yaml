@@ -85,11 +85,6 @@ spec:
         ports:
           http:
             port: &port 8000
-      redis:
-        controller: redis
-        ports:
-          http:
-            port: 6379
 
     persistence:
       data:
