@@ -30,5 +30,4 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      VOLSYNC_CLAIM: paperless-data
       VOLSYNC_CAPACITY: 15Gi
