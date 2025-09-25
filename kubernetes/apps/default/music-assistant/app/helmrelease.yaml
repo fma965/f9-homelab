@@ -75,3 +75,4 @@ spec:
           - path: /.cache
           - path: /tmp
           - path: /.audio
+          - path: /app/venv/lib/python3.13/site-packages/
