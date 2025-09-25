@@ -36,3 +36,4 @@ resources:
 - ./github-mirror/ks.yaml
 - ./spoolman/ks.yaml
 - ./paperless/ks.yaml
+- ./searxng/ks.yaml
