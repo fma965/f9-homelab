@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: music-assistant
+  name: &app music-assistant
 spec:
   interval: 30m
   chartRef:
