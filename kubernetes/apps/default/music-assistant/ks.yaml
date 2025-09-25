@@ -13,11 +13,14 @@ spec:
     - ../../../../components/gatus/guarded
     - ../../../../components/keda/nfs-scaler
     - ../../../../components/ext-auth
+    - ../../../../components/volsync
   dependsOn:
     - name: keda
       namespace: observability
     - name: csi-driver-nfs
       namespace: kube-system
+    - name: volsync
+      namespace: volsync-system
   interval: 1h
   path: ./kubernetes/apps/default/music-assistant/app
   postBuild:
