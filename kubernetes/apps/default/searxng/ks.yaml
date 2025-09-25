@@ -8,7 +8,7 @@ spec:
   targetNamespace: *namespace
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *appname
+      app.kubernetes.io/name: *app
   components:
     - ../../../../components/ext-auth
   dependsOn:
