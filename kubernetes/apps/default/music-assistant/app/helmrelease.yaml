@@ -29,10 +29,6 @@ spec:
                 enabled: true
               startup:
                 enabled: true
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 10m
@@ -56,13 +52,6 @@ spec:
                 drop:
                   - ALL
 
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         controller: *app
@@ -94,4 +83,3 @@ spec:
           - path: /.cache
           - path: /tmp
           - path: /.audio
-          - path: /app/venv/lib/python3.13/site-packages/yt_dlp
