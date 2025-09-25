@@ -1,0 +1,61 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: music-assistant
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: music-assistant
+  values:
+    controllers:
+      music-assistant:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/music-assistant/server
+              tag: 2.6.0@sha256:9b0b0c8476e5b208265cbede313558ca20202bbeaebfd70a3467081e75827e67
+            env:
+              TZ: ${TIMEZONE}
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: {type: RuntimeDefault}
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: &port 8095
+    route:
+      app:
+        hostnames:
+          - music.${SECRET_DOMAIN}
+        parentRefs:
+          - name: envoy-external
+            namespace: networking
+            sectionName: https
+    persistence:
+      config:
+        existingClaim: music-assistant
+        globalMounts:
+          - path: /config
+      media:
+        type: nfs
+        server: f9-nas.internal
+        path: /mnt/F9/Media/Music
+        globalMounts:
+          - path: /data

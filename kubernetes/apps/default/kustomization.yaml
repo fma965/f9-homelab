@@ -38,3 +38,4 @@ resources:
 - ./paperless/ks.yaml
 - ./searxng/ks.yaml
 - ./it-tools/ks.yaml
+- ./music-assistant/ks.yaml
