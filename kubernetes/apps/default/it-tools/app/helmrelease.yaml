@@ -1,0 +1,48 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app it-tools
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: it-tools
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      it-tools:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/corentinth/it-tools
+              tag: 2024.10.22-7ca5933
+            resources:
+              requests:
+                cpu: 5m
+                memory: 32Mi
+              limits:
+                memory: 256Mi
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: &port 80
+    route:
+      app:
+        hostnames:
+          - it.${SECRET_DOMAIN}
+        parentRefs:
+          - name: external
+            namespace: networking
+            sectionName: https
