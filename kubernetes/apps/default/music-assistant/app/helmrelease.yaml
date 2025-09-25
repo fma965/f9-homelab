@@ -67,3 +67,7 @@ spec:
         path: /mnt/F9/Media/Music
         globalMounts:
           - path: /data
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
