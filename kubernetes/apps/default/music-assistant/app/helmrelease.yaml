@@ -19,12 +19,19 @@ spec:
             image:
               repository: ghcr.io/music-assistant/server
               tag: 2.5.8@sha256:f534116c53d49b3120961c908a5fa24f28684806bf222ccd74add9e16b105aa4
+            command:
+              - "/bin/sh"
+              - "-c"
+            args:
+              - find /app/venv -type f -exec grep -l 'interfaces=InterfaceChoice.Default' {} \; | xargs -r sed -i 's/interfaces=InterfaceChoice.Default/interfaces=InterfaceChoice.All/g' && exec mass --config /data
             env:
               TZ: ${TIMEZONE}
             probes:
               liveness:
                 enabled: true
               readiness:
+                enabled: true
+              startup:
                 enabled: true
             securityContext:
               allowPrivilegeEscalation: false
