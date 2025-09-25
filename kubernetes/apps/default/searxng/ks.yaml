@@ -10,7 +10,6 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/gatus/guarded
-    - ../../../../components/ext-auth
   dependsOn:
     - name: dragonfly-cluster
       namespace: database
