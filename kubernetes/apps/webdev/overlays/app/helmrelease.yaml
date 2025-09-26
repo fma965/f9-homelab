@@ -29,10 +29,10 @@ spec:
             envFrom:
             - secretRef:
                 name: overlays-secret
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+            # securityContext:
+            #   allowPrivilegeEscalation: false
+            #   readOnlyRootFilesystem: true
+            #   capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 10m
@@ -40,7 +40,7 @@ spec:
                 memory: 50m
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: true
+#        runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
