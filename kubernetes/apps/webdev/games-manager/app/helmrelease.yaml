@@ -59,10 +59,10 @@ spec:
             envFrom: &envFrom
             - secretRef:
                 name: games-manager-secret
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+#            securityContext:
+#              allowPrivilegeEscalation: false
+#              readOnlyRootFilesystem: true
+#              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 10m
