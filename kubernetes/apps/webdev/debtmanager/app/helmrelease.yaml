@@ -36,7 +36,7 @@ spec:
             - secretRef:
                 name: debtmanager-secret
             securityContext:
-              allowPrivilegeEscalation: false
+#              allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
             resources:
@@ -46,7 +46,7 @@ spec:
                 memory: 1Gi
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: true
+#        runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
