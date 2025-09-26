@@ -18,7 +18,7 @@ kind: Gateway
 metadata:
   name: envoy-external
   annotations:
-    external-dns.alpha.kubernetes.io/target: &ip 10.10.100.210 # This doesn't work when set to a domain using AdGuardHome as the DNS provider, presumably because ${SECRET_EXTERNAL_DOMAIN} doesn't parse as a IP
+    external-dns.alpha.kubernetes.io/target: &ip ${SECRET_EXTERNAL_DOMAIN} # This doesn't work when set to a domain using AdGuardHome as the DNS provider, presumably because ${SECRET_EXTERNAL_DOMAIN} doesn't parse as a IP
 spec:
   gatewayClassName: envoy
   infrastructure:
