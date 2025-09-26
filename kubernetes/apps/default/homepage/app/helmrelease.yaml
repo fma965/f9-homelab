@@ -68,6 +68,59 @@ spec:
     serviceAccount:
       *app : {}
 
+    rbac:
+      bindings:
+        homepage:
+          type: ClusterRoleBinding
+          roleRef:
+            identifier: *app
+          subjects:
+            - identifier: *app
+      roles:
+        homepage:
+          type: ClusterRole
+          rules:
+            - apiGroups:
+                - ""
+              resources:
+                - namespaces
+                - pods
+                - nodes
+              verbs:
+                - get
+                - list
+            - apiGroups:
+                - extensions
+                - networking.k8s.io
+              resources:
+                - ingresses
+              verbs:
+                - get
+                - list
+            - apiGroups:
+                - traefik.io
+              resources:
+                - ingressroutes
+              verbs:
+                - get
+                - list
+            - apiGroups:
+                - gateway.networking.k8s.io
+              resources:
+                - httproutes
+                - gateways
+              verbs:
+                - get
+                - list
+            - apiGroups:
+                - metrics.k8s.io
+              resources:
+                - nodes
+                - pods
+              verbs:
+                - get
+                - list
+
     route:
       homepage:
         hostnames:
@@ -82,29 +135,13 @@ spec:
                 port: *port
 
     persistence:
-      config:
+      homepage-config:
         type: configMap
         name: homepage-config
         globalMounts:
-          - subPath: bookmarks.yaml
-            path: /app/config/bookmarks.yaml
-          - subPath: docker.yaml
-            path: /app/config/docker.yaml
-          - subPath: kubernetes.yaml
-            path: /app/config/kubernetes.yaml
-          - subPath: services.yaml
-            path: /app/config/services.yaml
-          - subPath: settings.yaml
-            path: /app/config/settings.yaml
-          - subPath: widgets.yaml
-            path: /app/config/widgets.yaml
-
-      tmpfs:
+          - path: /app/config
+      logs:
         type: emptyDir
-        advancedMounts:
-          *app :
-            *app :
-              - path: /app/config/logs
-                subPath: logs
-              - path: /tmp
-                subPath: tmp
+        sizeLimit: 100Mi
+        globalMounts:
+          - path: /app/config/logs

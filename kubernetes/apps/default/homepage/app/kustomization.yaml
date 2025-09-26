@@ -6,16 +6,18 @@ resources:
   - ./externalsecret.yaml
   - ./gatus.yaml
   - ./helmrelease.yaml
-  - ./rbac.yaml
   - ./ocirepository.yaml
 configMapGenerator:
   - name: homepage-config
     files:
-      - bookmarks.yaml=./config/bookmarks.yaml
-      - docker.yaml=./config/docker.yaml
-      - kubernetes.yaml=./config/kubernetes.yaml
-      - services.yaml=./config/services.yaml
-      - settings.yaml=./config/settings.yaml
-      - widgets.yaml=./config/widgets.yaml
+      - ./resources/bookmarks.yaml
+      - ./resources/custom.css
+      - ./resources/custom.js
+      - ./resources/docker.yaml
+      - ./resources/kubernetes.yaml
+      - ./resources/proxmox.yaml
+      - ./resources/services.yaml
+      - ./resources/settings.yaml
+      - ./resources/widgets.yaml
 generatorOptions:
   disableNameSuffixHash: true
