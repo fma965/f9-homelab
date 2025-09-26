@@ -1,0 +1,138 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app games-manager
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: debtmanager
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      debtmanager:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          backend:
+            image:
+              repository: directus/directus
+              tag: 11.12.0
+            env:
+              AUTH_AUTHENTIK_ALLOW_PUBLIC_REGISTRATION: "true"
+              AUTH_AUTHENTIK_DRIVER: "openid"
+              AUTH_AUTHENTIK_IDENTIFIER_KEY: "email"
+              AUTH_AUTHENTIK_LABEL: "F9 Auth"
+              AUTH_DISABLE_DEFAULT: "true"
+              AUTH_PROVIDERS: "authentik"
+              CACHE_AUTO_PURGE: "true"
+              CACHE_ENABLED: "false"
+              CACHE_STORE: "redis"
+              DB_CLIENT: "postgres"
+              DB_DATABASE: "games"
+              DB_HOST: "postgres-rw.database.svc.cluster.local"
+              DB_PORT: "5432"
+              DB_USER: "games"
+              EMAIL_FROM: "gamemanager@${SECRET_DOMAIN}"
+              EMAIL_SMTP_HOST: "10.10.10.254"
+              EMAIL_SMTP_PORT: "25"
+              EMAIL_TRANSPORT: "smtp"
+              EXTENSIONS_PATH: "/directus/extensions"
+              PORT: "8055"
+              PUBLIC_URL: "https://gamesdb.${SECRET_DOMAIN}"
+              REDIS_HOST: "dragonfly.database.svc.cluster.local"
+              REDIS_PORT: "6379"
+              STORAGE_LOCATIONS: "s3"
+              STORAGE_S3_DRIVER: "s3"
+              STORAGE_S3_KEY: "GK242cc9d55149cdda6a1a465c"
+              STORAGE_S3_BUCKET: "${SECRET_EXTERNAL_DOMAIN//./-}-games-manager-backend"
+              STORAGE_S3_REGION: "eu-west-2"
+              STORAGE_S3_ENDPOINT: "s3.${SECRET_DOMAIN}"
+            envFrom: &envFrom
+            - secretRef:
+                name: games-manager-secret
+#            securityContext:
+#              allowPrivilegeEscalation: false
+#              readOnlyRootFilesystem: true
+#              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 1Gi
+
+          frontend:
+            image:
+              repository: ghcr.io/fma965/games-manager-frontend
+              tag: v1.0.5
+            env:
+              APP_HOST: "https://games.${SECRET_DOMAIN}"
+              APP_BACKEND: "https://gamesdb.${SECRET_DOMAIN}"
+              #DEBUG: true
+            envFrom: *envFrom
+#            securityContext:
+#              allowPrivilegeEscalation: false
+#              readOnlyRootFilesystem: true
+#              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 1Gi
+
+    defaultPodOptions:
+      securityContext:
+#        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      backend:
+        ports:
+          web:
+            port: 8055
+      frontend:
+        ports:
+          api:
+            port: 80
+
+    # route:
+    #   app:
+    #     hostnames:
+    #       - "gamesdb.${SECRET_DOMAIN}"
+    #     parentRefs:
+    #       - name: envoy-external
+    #         namespace: network
+    #         sectionName: https
+    #     rules:
+    #       - backendRefs:
+    #           - name: *app
+    #             port: 80
+    # api:
+    #   hostnames:
+    #     - "api.${SECRET_DOMAIN}"
+    #   parentRefs:
+    #     - name: envoy-external
+    #       namespace: network
+    #       sectionName: https
+    # rules:
+    #   - matches:
+    #       - path:
+    #           type: PathPrefix
+    #           value: /ws
+    #     backendRefs:
+    #       - name: ws-broadcast
+    #         port: 13370
+    #   - backendRefs:
+    #       - name: games-manager-frontend
+    #         port: 80
