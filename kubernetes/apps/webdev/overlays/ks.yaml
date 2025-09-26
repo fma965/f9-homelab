@@ -16,6 +16,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      GATUS_PATH: /timer/index.html
   prune: true
   retryInterval: 2m
   sourceRef:

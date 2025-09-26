@@ -18,14 +18,14 @@ spec:
       retries: 3
   values:
     controllers:
-      overlays:
+      app:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
               repository: ghcr.io/fma965/obs-overlays
-              tag: v1.0.0
+              tag: v1.0.0@sha256:9ca32f6b8e1a00c3f51b72be48ab643e9a00e28cf426ec00d34c9a3d0bf21bb0
             envFrom:
             - secretRef:
                 name: overlays-secret
