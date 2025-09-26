@@ -8,5 +8,5 @@ components:
 resources:
   - ./debtmanager/ks.yaml
   - ./games-manager/ks.yaml
-  - ./overlays/ks.yaml
+  # - ./overlays/ks.yaml
   - ./ws-broadcast/ks.yaml
