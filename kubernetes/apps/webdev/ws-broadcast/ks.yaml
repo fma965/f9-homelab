@@ -17,6 +17,7 @@ spec:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: "ws"
+      GATUS_STATUS: "404"
   prune: true
   retryInterval: 2m
   sourceRef:
