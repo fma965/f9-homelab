@@ -10,7 +10,7 @@ spec:
       app.kubernetes.io/name: *app
   components:
     # - ../../../../components/cnpg
-    - ../../../../components/gatus/guarded
+    - ../../../../components/gatus/external
   dependsOn:
     - name: cloudnative-pg
       namespace: database

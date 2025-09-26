@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../../components/gatus/guarded
+    - ../../../../../components/gatus/external
   dependsOn:
     - name: cloudnative-pg
       namespace: database
@@ -45,7 +45,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../../components/gatus/guarded
+    - ../../../../../components/gatus/external
   dependsOn:
     - name: games-manager-backend
   interval: 1h

@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/volsync
-    - ../../../../components/gatus/guarded
+    - ../../../../components/gatus/external
     - ../../../../components/ext-auth
   dependsOn:
     - name: rook-ceph-cluster
