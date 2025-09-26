@@ -12,6 +12,7 @@ spec:
   components:
     - ../../../../components/ext-auth
     - ../../../../components/volsync
+    - ../../../../components/gatus/external
   interval: 1h
   path: ./kubernetes/apps/default/n8n/app
   postBuild:
