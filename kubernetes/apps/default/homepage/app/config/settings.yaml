@@ -1,0 +1,51 @@
+---
+title: HomeLab
+
+background:
+  image: https://unsplash.it/2560/1440?random
+  blur: md # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
+  saturate: 50 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+  brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+  opacity: 50 # 0-100
+
+hideVersion: true
+iconStyle: flat
+headerStyle: boxed
+
+theme: dark
+color: slate
+
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: false
+  showSearchSuggestions: true
+  hideVisitURL: true
+
+layout:
+  Media:
+    icon: mdi-play
+  Calendar:
+    icon: mdi-calendar
+    columns: 2
+  Media Management:
+    icon: mdi-multimedia
+  Downloaders:
+    icon: mdi-cloud-download
+  Networking:
+    icon: mdi-lan
+    style: row
+    columns: 3
+  Management:
+    icon: mdi-tools
+    style: row
+    columns: 3
+  Home Automation:
+    icon: mdi-home-automation
+    style: row
+    columns: 2
+  Authentication:
+    icon: mdi-shield-account
+  Monitoring:
+    icon: mdi-lan
+  Finance:
+    icon: mdi-cash
