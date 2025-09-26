@@ -10,7 +10,7 @@ data:
   config.yaml: |
     endpoints:
       - name: "homepage"
-        group: guarded
+        group: external
         url: "https://${SECRET_DOMAIN}/"
         interval: 1m
         client:
