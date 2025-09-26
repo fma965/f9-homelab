@@ -104,4 +104,3 @@ spec:
                 subPath: log
               - path: /tmp
                 subPath: tmp
-# ignore.

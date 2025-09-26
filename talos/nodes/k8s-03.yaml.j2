@@ -32,8 +32,3 @@ machine:
   nodeLabels:
     topology.kubernetes.io/zone: F9
   type: controlplane
----
-apiVersion: v1alpha1
-kind: WatchdogTimerConfig
-device: /dev/watchdog0
-timeout: 5m

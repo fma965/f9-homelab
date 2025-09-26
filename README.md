@@ -1,5 +1,7 @@
 <div align="center">
 
+## Outdated readme, don't believe it!
+
 <img src="https://i.imgur.com/29sG16L.png" align="center" width="175px" height="175px"/>
 
 ### <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif" alt="🚀" width="16" height="16"> F9's Homelab <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f6a7/512.gif" alt="🚧" width="16" height="16">

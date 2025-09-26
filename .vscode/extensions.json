@@ -1,13 +1,13 @@
 {
-    "recommendations": [
-      "bluebrown.yamlfmt",
-      "blueglassblock.better-json5",
-      "irongeek.vscode-env",
-      "PKief.material-icon-theme",
-      "redhat.vscode-yaml",
-      "signageos.signageos-vscode-sops",
-      "mikestead.dotenv",
-      "bierner.github-markdown-preview",
-      "github.vscode-pull-request-github"
-    ]
-  }
+  "recommendations": [
+    "bluebrown.yamlfmt",
+    "blueglassblock.better-json5",
+    "irongeek.vscode-env",
+    "PKief.material-icon-theme",
+    "redhat.vscode-yaml",
+    "signageos.signageos-vscode-sops",
+    "mikestead.dotenv",
+    "bierner.github-markdown-preview",
+    "github.vscode-pull-request-github"
+  ]
+}

@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app gatus
+  name: gatus
 spec:
   interval: 1h
   chartRef:
@@ -48,7 +48,6 @@ spec:
               GATUS_CONFIG_PATH: /config
               GATUS_DELAY_START_SECONDS: 5
               GATUS_WEB_PORT: &port 80
-              SECRET_EXTERNAL_DOMAIN: ${SECRET_DOMAIN}
               TZ: ${TIMEZONE}
             probes:
               liveness: &probes
@@ -66,12 +65,12 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
             resources:
               requests:
                 cpu: 10m
               limits:
-                memory: 128Mi
+                memory: 256Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -127,4 +126,3 @@ spec:
         globalMounts:
           - path: /config/config.yaml
             subPath: config.yaml
-            readOnly: true

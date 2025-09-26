@@ -8,10 +8,13 @@ spec:
   clientIPDetection:
     xForwardedFor:
       numTrustedHops: 1
-  # http3: {}
+  http2:
+    onInvalidMessage: TerminateStream
+  http3: {}
   targetSelectors:
     - group: gateway.networking.k8s.io
       kind: Gateway
+  tcpKeepalive: {}
   tls:
     minVersion: "1.2"
     alpnProtocols:

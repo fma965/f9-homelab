@@ -12,6 +12,7 @@ spec:
   components:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
+    - ../../../../components/gatus/guarded
   dependsOn:
     - name: forgejo
       namespace: default

@@ -6,6 +6,6 @@ metadata:
   name: github-status
 spec:
   type: github
-  address: https://github.com/fma965/f9-homelab
+  address: https://github.com/onedr0p/home-ops
   secretRef:
     name: github-status-token-secret

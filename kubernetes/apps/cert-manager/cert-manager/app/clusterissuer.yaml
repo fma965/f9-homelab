@@ -10,11 +10,11 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-production
     solvers:
-    - dns01:
-        cloudflare:
-          apiTokenSecretRef:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
               name: cloudflare-issuer-secret
               key: CLOUDFLARE_DNS_TOKEN
-      selector:
-        dnsZones:
-        - ${SECRET_DOMAIN}
+        selector:
+          dnsZones:
+          - ${SECRET_DOMAIN}

@@ -124,13 +124,13 @@ spec:
           gnetId: 17457
           revision: 6
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - {name: DS_PROMETHEUS, value: Prometheus}
         doco-cd:
           # renovate: depName="Doco-CD Dashboard"
           gnetId: 23980
           revision: 1
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - {name: DS_PROMETHEUS, value: Prometheus}
         envoy-gateway:
           url: https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-gateway-global.json
           datasource: Prometheus
@@ -188,14 +188,14 @@ spec:
           gnetId: 1860
           revision: 41
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - {name: DS_PROMETHEUS, value: Prometheus}
         nut-ups:
           # renovate: depName="UPS (NUT Exporter)"
           gnetId: 23972
           revision: 1
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
-            - { name: VAR_UPS, value: primary }
+            - {name: DS_PROMETHEUS, value: Prometheus}
+            - {name: VAR_UPS, value: primary}
         prometheus:
           # renovate: depName="Prometheus"
           gnetId: 19105
@@ -238,8 +238,8 @@ spec:
           gnetId: 21356
           revision: 3
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
-            - { name: VAR_REPLICATIONDESTNAME, value: .*-bootstrap }
+            - {name: DS_PROMETHEUS, value: Prometheus}
+            - {name: VAR_REPLICATIONDESTNAME, value: .*-bootstrap}
         zfs:
           # renovate: depName="ZFS"
           gnetId: 7845

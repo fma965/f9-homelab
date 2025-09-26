@@ -1,13 +1,14 @@
 ---
 endpoints:
   - name: "${APP}"
-    group: ${GATUS_GROUP:=guarded}
-    url: "https://${GATUS_SUBDOMAIN:=${APP}}.${SECRET_DOMAIN}${GATUS_PATH:=/}"
+    group: guarded
+    url: 1.1.1.1
+    interval: 1m
     ui:
       hide-hostname: true
       hide-url: true
-    interval: 1m
-    client:
-      dns-resolver: tcp://1.1.1.1:53
+    dns:
+      query-name: "${GATUS_SUBDOMAIN:=${APP}}.${SECRET_DOMAIN}"
+      query-type: A
     conditions:
-      - "[STATUS] == any(${GATUS_STATUS:=200,401})"
+      - len([BODY]) == 0
