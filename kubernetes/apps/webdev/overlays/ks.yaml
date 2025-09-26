@@ -11,15 +11,11 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/gatus/external
-  dependsOn:
-    - name: onepassword-store
-      namespace: external-secrets
   interval: 1h
   path: ./kubernetes/apps/webdev/overlays/app
   postBuild:
     substitute:
       APP: *app
-      GATUS_PATH: /timer/index.html
   prune: true
   retryInterval: 2m
   sourceRef:
