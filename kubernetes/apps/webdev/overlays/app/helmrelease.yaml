@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: overlays
+  name: &app overlays
 spec:
   interval: 1h
   chartRef:
@@ -18,7 +18,7 @@ spec:
       retries: 3
   values:
     controllers:
-      app:
+      overlays:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -36,13 +36,13 @@ spec:
             resources:
               requests:
                 cpu: 10m
-    defaultPodOptions:
-      securityContext:
-#        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
+#     defaultPodOptions:
+#       securityContext:
+#         runAsNonRoot: true
+#         runAsUser: 1000
+#         runAsGroup: 1000
+#         fsGroup: 1000
+#         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         ports:
