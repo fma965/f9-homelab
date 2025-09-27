@@ -80,7 +80,7 @@ spec:
                 enabled: false
             resources:
               requests:
-                cpu: 50m
+                cpu: 10m
                 memory: 50Mi
               limits:
                 memory: 100Mi
