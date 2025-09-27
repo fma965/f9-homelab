@@ -61,10 +61,10 @@ spec:
               - "pg_dumpall -U $PGUSER | gzip > /backup/postgres17-cluster.dump.gz"
             resources:
               requests:
-                cpu: 50m
+                cpu: 10m
                 memory: 128Mi
               limits:
-                memory: 512Mi
+                memory: 256Mi
     persistence:
       backup:
         type: nfs

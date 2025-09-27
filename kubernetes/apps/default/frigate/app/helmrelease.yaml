@@ -56,7 +56,7 @@ spec:
                   - CAP_PERFMON
             resources:
               requests:
-                cpu: 100m
+                cpu: 50m
                 memory: 1Gi
               limits:
                 memory: 2Gi
