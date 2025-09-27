@@ -77,13 +77,13 @@ spec:
       config:
         existingClaim: music-assistant
         globalMounts:
-          - path: /config
+          - path: /data
       media:
         type: nfs
         server: f9-nas.internal
         path: /mnt/F9/Media/Music
         globalMounts:
-          - path: /data
+          - path: /music
       cache:
         type: emptyDir
         globalMounts:
