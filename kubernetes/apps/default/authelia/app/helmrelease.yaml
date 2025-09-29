@@ -4,15 +4,10 @@ kind: HelmRelease
 metadata:
   name: &app authelia
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: authelia
-  maxHistory: 2
-
-
-  uninstall:
-    keepHistory: false
   values:
     defaultPodOptions:
       enableServiceLinks: false

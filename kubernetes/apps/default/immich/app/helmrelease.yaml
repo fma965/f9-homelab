@@ -8,14 +8,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: immich
-  maxHistory: 3
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-
-  uninstall:
-    keepHistory: false
   values:
     controllers:
       server:

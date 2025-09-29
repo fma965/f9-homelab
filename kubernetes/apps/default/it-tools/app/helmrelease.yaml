@@ -5,11 +5,10 @@ kind: HelmRelease
 metadata:
   name: it-tools
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: it-tools
-
   values:
     controllers:
       it-tools:

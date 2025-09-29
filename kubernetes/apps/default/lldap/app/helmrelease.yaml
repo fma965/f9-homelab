@@ -4,15 +4,10 @@ kind: HelmRelease
 metadata:
   name: &app lldap
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: lldap
-  maxHistory: 2
-
-
-  uninstall:
-    keepHistory: false
   values:
     defaultPodOptions:
       topologySpreadConstraints:
