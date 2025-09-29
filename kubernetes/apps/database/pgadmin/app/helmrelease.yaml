@@ -36,7 +36,6 @@ spec:
                   name: pgadmin-secret
             resources:
               requests:
-                cpu: 5m
                 memory: 256Mi
               limits:
                 memory: 256Mi

@@ -87,8 +87,6 @@ spec:
               capabilities:
                 add: [NET_ADMIN]
             resources:
-              requests:
-                cpu: 20m
               limits:
                 squat.ai/tun: 1
           # TODO: Replace once gluetun supports socks5, nothing supports shadowsocks
@@ -101,8 +99,6 @@ spec:
               PROXY_PORT: &proxy-port 8388
               REQUIRE_AUTH: false
             resources:
-              requests:
-                cpu: 5m
               limits:
                 memory: 32Mi
             securityContext: &securityContext
@@ -133,9 +129,6 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 10
             securityContext: *securityContext
-            resources:
-              requests:
-                cpu: 50m
           vuetorrent:
             dependsOn: app
             image:
@@ -169,8 +162,6 @@ spec:
               CRON_SCHEDULE: '*/5 * * * *'
               LOG_TIMESTAMP: false
             resources:
-              requests:
-                cpu: 5m
               limits:
                 memory: 32Mi
             securityContext: *securityContext

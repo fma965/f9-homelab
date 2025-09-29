@@ -33,9 +33,6 @@ spec:
             #   allowPrivilegeEscalation: false
             #   readOnlyRootFilesystem: true
             #   capabilities: { drop: ["ALL"] }
-            resources:
-              requests:
-                cpu: 10m
     defaultPodOptions:
       securityContext:
 #         runAsNonRoot: true

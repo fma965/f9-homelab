@@ -37,8 +37,6 @@ spec:
               startup:
                 enabled: true
             resources:
-              requests:
-                cpu: 10m
               limits:
                 memory: 1Gi
 

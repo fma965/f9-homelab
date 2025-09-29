@@ -33,7 +33,6 @@ spec:
               tag: 2024.10.22@sha256:7f26ae8d7a4a58b8d70b685cba5cbaa54d7df876d9f8bae702207f45b06d9b7c
             resources:
               requests:
-                cpu: 5m
                 memory: 32Mi
               limits:
                 memory: 256Mi

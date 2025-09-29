@@ -75,7 +75,7 @@ spec:
               - /config
             resources:
               requests:
-                cpu: 10m
+                cpu: 5m
               limits:
                 memory: 512Mi
 
