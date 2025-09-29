@@ -10,8 +10,9 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   components:
+    - ../../../../components/defaults
     - ../../../../components/volsync
-    - ../../../../components/keda/nfs-scaler
+    - ../../../../components/nfs-scaler
     - ../../../../components/ext-auth
     - ../../../../components/gatus/external
   dependsOn:
