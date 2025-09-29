@@ -89,6 +89,13 @@ cluster:
   clusterName: main
   controlPlane:
     endpoint: https://10.10.100.10:6443
+  discovery:
+    enabled: true
+    registries:
+      kubernetes:
+        disabled: true
+      service:
+        disabled: false
   id: op://kubernetes/talos/CLUSTER_ID
   network:
     cni:
