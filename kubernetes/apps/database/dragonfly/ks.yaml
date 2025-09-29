@@ -10,6 +10,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/defaults
   path: ./kubernetes/apps/database/dragonfly/app
   prune: true
   sourceRef:

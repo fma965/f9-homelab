@@ -9,6 +9,10 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/defaults
+    - ../../../../components/gatus/external
+    - ../../../../components/nfs-scaler
   dependsOn:
     - name: cloudnative-pg
       namespace: database
@@ -16,9 +20,6 @@ spec:
       namespace: observability
     - name: csi-driver-nfs
       namespace: kube-system
-  components:
-    - ../../../../components/gatus/external
-    - ../../../../components/keda/nfs-scaler
   path: ./kubernetes/apps/default/zipline/app
   prune: true
   sourceRef:

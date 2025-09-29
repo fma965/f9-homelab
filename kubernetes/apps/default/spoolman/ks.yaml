@@ -10,6 +10,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
+  components:
+    - ../../../../components/defaults
+    - ../../../../components/volsync
+    - ../../../../components/ext-auth
+    - ../../../../components/gatus/external
   interval: 1h
   timeout: 5m
   path: ./kubernetes/apps/default/spoolman/app
@@ -24,10 +29,6 @@ spec:
       namespace: external-secrets
     - name: volsync
       namespace: volsync-system
-  components:
-    - ../../../../components/volsync
-    - ../../../../components/ext-auth
-    - ../../../../components/gatus/external
   postBuild:
     substitute:
       APP: *appname
