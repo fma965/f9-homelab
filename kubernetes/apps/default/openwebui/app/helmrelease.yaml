@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/open-webui/open-webui
-              tag: v0.6.31
+              tag: 0.6.32
             env:
               WEBUI_URL: https://chat.${SECRET_DOMAIN}
               OLLAMA_BASE_URL: "http://f9-nas.internal:11434"
