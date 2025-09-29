@@ -9,8 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: homepage
-  driftDetection:
-    mode: enabled
   values:
     defaultPodOptions:
       securityContext:
