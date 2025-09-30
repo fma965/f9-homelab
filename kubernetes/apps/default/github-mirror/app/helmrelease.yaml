@@ -67,7 +67,7 @@ spec:
             namespace: network
             sectionName: https
     persistence:
-      data:
-        type: emptyDir
+      config:
+        existingClaim: github-mirror
         globalMounts:
           - path: /app/data
