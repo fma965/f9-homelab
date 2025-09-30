@@ -15,6 +15,9 @@ spec:
     - group: gateway.networking.k8s.io
       kind: Gateway
   tcpKeepalive: {}
+  timeout:
+    http:
+      requestReceivedTimeout: 0s
   tls:
     minVersion: "1.2"
     alpnProtocols:
