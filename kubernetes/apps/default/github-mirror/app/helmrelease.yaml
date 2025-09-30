@@ -21,11 +21,11 @@ spec:
               MIRROR_INTERVAL: 12h
               NO_DRY_RUN: 'true'
               BETTER_AUTH_TRUSTED_ORIGINS: https://{{ .Release.Name }}.${SECRET_DOMAIN}
-              HEADER_AUTH_ENABLED: 'true'
-              HEADER_AUTH_USER_HEADER: Remote-User
-              HEADER_AUTH_EMAIL_HEADER: Remote-Email
-              HEADER_AUTH_NAME_HEADER: Remote-Name
-              HEADER_AUTH_AUTO_PROVISION: 'true'
+              # HEADER_AUTH_ENABLED: 'true'
+              # HEADER_AUTH_USER_HEADER: Remote-User
+              # HEADER_AUTH_EMAIL_HEADER: Remote-Email
+              # HEADER_AUTH_NAME_HEADER: Remote-Name
+              # HEADER_AUTH_AUTO_PROVISION: 'true'
               GITHUB_USERNAME: "fma965"
               GITEA_USERNAME: "scott"
               PRIVATE_REPOSITORIES: "true"
