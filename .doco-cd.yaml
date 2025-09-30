@@ -34,3 +34,6 @@ working_dir: docker/system/ser2net
 ---
 name: pbs
 working_dir: docker/system/pbs
+---
+name: onepassword
+working_dir: docker/system/onepassword
