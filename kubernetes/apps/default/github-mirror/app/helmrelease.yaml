@@ -41,7 +41,7 @@ spec:
                   name: github-mirror-secret
             image:
               repository: ghcr.io/raylabshq/gitea-mirror
-              tag: v3.7.2@sha256:5fef0e6625e4fa24565781a1b879ec21a24d8e82266fea5b14f4b1d9d33641fc
+              tag: pr-105
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
