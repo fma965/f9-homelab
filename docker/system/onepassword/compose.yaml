@@ -5,7 +5,7 @@ services:
       - "8080:8080"
     volumes:
       - "/mnt/apps-pool/appdata/onepassword/1password-credentials.json:/home/opuser/.op/1password-credentials.json"
-      - "/mnt/apps-pool/appdata/onepassword/data"
+      - "/mnt/apps-pool/appdata/onepassword/data:/home/opuser/.op/data"
   op-connect-sync:
     image: 1password/connect-sync:latest
     volumes:
