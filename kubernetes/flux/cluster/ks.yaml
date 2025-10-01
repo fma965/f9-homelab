@@ -18,13 +18,6 @@ spec:
     namespace: flux-system
   timeout: 5m
   wait: false
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-settings
-      - kind: Secret
-        name: cluster-secrets
   patches:
     - # Add Sops decryption to all Kustomizations
       patch: |-
@@ -57,28 +50,16 @@ spec:
                     strategy:
                       name: RetryOnFailure
                   upgrade:
+                    cleanupOnFail: true
                     crds: CreateReplace
                     strategy:
-                      name: RetryOnFailure
+                      name: RemediateOnFailure
+                    remediation:
+                      remediateLastFailure: true
+                      retries: 2
               target:
                 group: helm.toolkit.fluxcd.io
                 kind: HelmRelease
-      target:
-        group: kustomize.toolkit.fluxcd.io
-        kind: Kustomization
-    - # Add cluster-settings to child Kustomizations
-      patch: |-
-        apiVersion: kustomize.toolkit.fluxcd.io/v1
-        kind: Kustomization
-        metadata:
-          name: not-used
-        spec:
-          postBuild:
-            substituteFrom:
-              - kind: ConfigMap
-                name: cluster-settings
-              - kind: Secret
-                name: cluster-secrets
       target:
         group: kustomize.toolkit.fluxcd.io
         kind: Kustomization
