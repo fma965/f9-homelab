@@ -409,6 +409,9 @@ spec:
     - name: envoy-external
       namespace: network
       sectionName: https
+  annotations:
+    gatus.home-operations.com/endpoint: |-
+      url: "https://doco-cd.${SECRET_DOMAIN}/api/v1/status"
   hostnames:
     - "doco-cd.${SECRET_DOMAIN}"
   rules:

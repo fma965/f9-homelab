@@ -64,6 +64,9 @@ spec:
               - name: *app
                 port: 80
       api:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == 403"]
         hostnames:
           - "api.${SECRET_DOMAIN}"
         parentRefs:

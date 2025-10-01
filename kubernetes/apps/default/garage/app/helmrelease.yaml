@@ -75,6 +75,9 @@ spec:
             port: 3909
     route:
       s3:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == 403"]
         hostnames:
           - "s3.${SECRET_DOMAIN}"
           - "*.s3.${SECRET_DOMAIN}"
