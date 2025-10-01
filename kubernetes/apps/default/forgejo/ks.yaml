@@ -10,7 +10,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
     - ../../../../components/volsync
   dependsOn:
     - name: cloudnative-pg
@@ -22,7 +21,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: git
       VOLSYNC_CAPACITY: 1Gi
   prune: true
   retryInterval: 2m

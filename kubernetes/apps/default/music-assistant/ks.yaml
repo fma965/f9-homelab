@@ -10,7 +10,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
     - ../../../../components/nfs-scaler
     - ../../../../components/ext-auth
     - ../../../../components/volsync
@@ -25,8 +24,7 @@ spec:
   path: ./kubernetes/apps/default/music-assistant/app
   postBuild:
     substitute:
-      APP: *app
-      GATUS_SUBDOMAIN: music
+            APP: *app
   prune: true
   retryInterval: 2m
   sourceRef:

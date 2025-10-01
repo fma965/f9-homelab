@@ -10,7 +10,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
     - ../../../../components/volsync
   dependsOn:
     - name: onepassword-store
@@ -21,8 +20,7 @@ spec:
   path: ./kubernetes/apps/default/openwebui/app
   postBuild:
     substitute:
-      APP: *app
-      GATUS_SUBDOMAIN: chat
+            APP: *app
   prune: true
   retryInterval: 2m
   sourceRef:
