@@ -406,7 +406,7 @@ metadata:
   name: doco-cd
   annotations:
     gatus.home-operations.com/endpoint: |-
-      url: "https://doco-cd.${SECRET_DOMAIN}/api/v1/status"
+      url: "https://doco-cd.${SECRET_DOMAIN}/v1/health"
 spec:
   hostnames:
     - "doco-cd.${SECRET_DOMAIN}"
