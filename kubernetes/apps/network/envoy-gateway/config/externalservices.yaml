@@ -408,12 +408,12 @@ metadata:
     gatus.home-operations.com/endpoint: |-
       url: "https://doco-cd.${SECRET_DOMAIN}/api/v1/status"
 spec:
+  hostnames:
+    - "doco-cd.${SECRET_DOMAIN}"
   parentRefs:
     - name: envoy-external
       namespace: network
       sectionName: https
-  hostnames:
-    - "doco-cd.${SECRET_DOMAIN}"
   rules:
     - backendRefs:
         - name: doco-cd-external
