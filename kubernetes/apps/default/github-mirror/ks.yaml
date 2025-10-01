@@ -24,7 +24,7 @@ spec:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi
   prune: true
-    sourceRef:
+  sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
