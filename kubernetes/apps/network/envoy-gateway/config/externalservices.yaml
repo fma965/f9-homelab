@@ -404,14 +404,14 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: doco-cd
+  annotations:
+    gatus.home-operations.com/endpoint: |-
+      url: "https://doco-cd.${SECRET_DOMAIN}/api/v1/status"
 spec:
   parentRefs:
     - name: envoy-external
       namespace: network
       sectionName: https
-  annotations:
-    gatus.home-operations.com/endpoint: |-
-      url: "https://doco-cd.${SECRET_DOMAIN}/api/v1/status"
   hostnames:
     - "doco-cd.${SECRET_DOMAIN}"
   rules:
