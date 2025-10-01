@@ -12,13 +12,11 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/app
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: true
 ---
 # yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -44,13 +42,11 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: true
 ---
 # yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -69,10 +65,8 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/backup
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
