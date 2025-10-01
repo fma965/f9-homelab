@@ -9,7 +9,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
   dependsOn:
     - name: cloudnative-pg
       namespace: database
@@ -19,8 +18,7 @@ spec:
   path: ./kubernetes/apps/default/authelia/app
   postBuild:
     substitute:
-      APP: *app
-      GATUS_SUBDOMAIN: auth
+            APP: *app
   prune: true
   retryInterval: 1m
   sourceRef:

@@ -10,7 +10,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
     - ../../../../components/nfs-scaler
   dependsOn:
     - name: keda
@@ -25,8 +24,7 @@ spec:
   path: ./kubernetes/apps/default/immich/app
   postBuild:
     substitute:
-      APP: *app
-      GATUS_SUBDOMAIN: photos
+            APP: *app
   prune: true
   retryInterval: 2m
   sourceRef:

@@ -10,7 +10,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
   dependsOn:
     - name: cloudnative-pg
       namespace: database
@@ -22,8 +21,7 @@ spec:
   path: ./kubernetes/apps/webdev/games-manager/app
   postBuild:
     substitute:
-      APP: *app
-      GATUS_SUBDOMAIN: games
+            APP: *app
   prune: true
   retryInterval: 2m
   sourceRef:

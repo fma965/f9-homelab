@@ -10,13 +10,12 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
   interval: 1h
   path: ./kubernetes/apps/webdev/ws-broadcast/app
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: "ws"
+
       GATUS_STATUS: "404"
   prune: true
   retryInterval: 2m

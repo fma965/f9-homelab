@@ -10,15 +10,13 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
     - ../../../../components/ext-auth
     - ../../../../components/volsync
   interval: 1h
   path: ./kubernetes/apps/default/homebox/app
   postBuild:
     substitute:
-      APP: *app
-      GATUS_SUBDOMAIN: inventory
+            APP: *app
   prune: true
   retryInterval: 2m
   sourceRef:

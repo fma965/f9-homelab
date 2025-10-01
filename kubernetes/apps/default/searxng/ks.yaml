@@ -9,7 +9,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
   dependsOn:
     - name: dragonfly-cluster
       namespace: database
@@ -19,8 +18,7 @@ spec:
   path: ./kubernetes/apps/default/searxng/app
   postBuild:
     substitute:
-      APP: *app
-      GATUS_SUBDOMAIN: search
+            APP: *app
   prune: true
   retryInterval: 2m
   sourceRef:

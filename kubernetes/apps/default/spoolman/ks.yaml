@@ -13,7 +13,6 @@ spec:
   components:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
-    - ../../../../components/gatus/external
   interval: 1h
   timeout: 5m
   path: ./kubernetes/apps/default/spoolman/app
