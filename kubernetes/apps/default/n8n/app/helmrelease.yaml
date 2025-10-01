@@ -90,6 +90,9 @@ spec:
             sectionName: https
 
       webhooks:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            url: "https://{{ .Release.Name }}.${SECRET_DOMAIN}/healthz/readiness"
         hostnames:
           - n8n-webhook.${SECRET_DOMAIN}
         parentRefs:
