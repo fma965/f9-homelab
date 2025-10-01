@@ -40,6 +40,9 @@ spec:
             port: 80
     route:
       app:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            url: "https://{{ .Release.Name }}.${SECRET_DOMAIN}/timer/index.html"
         hostnames:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         parentRefs:
