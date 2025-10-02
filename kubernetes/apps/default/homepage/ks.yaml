@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: homepage
+  name: &app homepage
 spec:
   components:
     - ../../../../components/ext-auth
@@ -11,7 +11,7 @@ spec:
   path: ./kubernetes/apps/default/homepage/app
   postBuild:
     substitute:
-      APP: homepage
+      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository

@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: zipline
+  name: &app zipline
 spec:
   components:
     - ../../../../components/nfs-scaler
@@ -16,7 +16,7 @@ spec:
   path: ./kubernetes/apps/default/zipline/app
   postBuild:
     substitute:
-      APP: zipline
+      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository

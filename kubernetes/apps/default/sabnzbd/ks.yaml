@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: sabnzbd
+  name: &app sabnzbd
 spec:
   components:
     - ../../../../components/nfs-scaler
@@ -20,7 +20,7 @@ spec:
   path: ./kubernetes/apps/default/sabnzbd/app
   postBuild:
     substitute:
-      APP: sabnzbd
+      APP: *app
       VOLSYNC_CAPACITY: 1Gi
   prune: true
   sourceRef:

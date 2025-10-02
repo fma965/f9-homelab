@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: garage
+  name: &app garage
 spec:
   components:
     - ../../../../components/nfs-scaler
@@ -16,7 +16,7 @@ spec:
   path: ./kubernetes/apps/default/garage/app
   postBuild:
     substitute:
-      APP: garage
+      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository

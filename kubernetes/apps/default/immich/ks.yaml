@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: immich
+  name: &app immich
 spec:
   components:
     - ../../../../components/nfs-scaler
@@ -20,7 +20,7 @@ spec:
   path: ./kubernetes/apps/default/immich/app
   postBuild:
     substitute:
-      APP: immich
+      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository

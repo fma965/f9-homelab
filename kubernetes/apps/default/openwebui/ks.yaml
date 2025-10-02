@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: openwebui
+  name: &app openwebui
 spec:
   components:
     - ../../../../components/volsync
@@ -14,7 +14,7 @@ spec:
   path: ./kubernetes/apps/default/openwebui/app
   postBuild:
     substitute:
-      APP: openwebui
+      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository
