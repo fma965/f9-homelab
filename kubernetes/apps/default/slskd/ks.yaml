@@ -13,6 +13,9 @@ spec:
       namespace: rook-ceph
   interval: 1h
   path: ./kubernetes/apps/default/slskd/app
+  postBuild:
+    substitute:
+      APP: slskd
   prune: true
   sourceRef:
     kind: GitRepository

@@ -17,6 +17,9 @@ spec:
       namespace: database
   interval: 1h
   path: ./kubernetes/apps/default/sonarr/app
+  postBuild:
+    substitute:
+      APP: sonarr
   prune: true
   sourceRef:
     kind: GitRepository

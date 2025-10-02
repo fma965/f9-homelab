@@ -18,6 +18,9 @@ spec:
       namespace: kube-system
   interval: 1h
   path: ./kubernetes/apps/default/immich/app
+  postBuild:
+    substitute:
+      APP: immich
   prune: true
   sourceRef:
     kind: GitRepository

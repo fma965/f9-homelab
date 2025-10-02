@@ -14,6 +14,9 @@ spec:
     - name: csi-driver-nfs
       namespace: kube-system
   path: ./kubernetes/apps/default/garage/app
+  postBuild:
+    substitute:
+      APP: garage
   prune: true
   sourceRef:
     kind: GitRepository
