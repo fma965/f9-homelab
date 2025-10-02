@@ -9,6 +9,9 @@ spec:
     - ../../../../components/ext-auth
   interval: 1h
   path: ./kubernetes/apps/network/echo/app
+  postBuild:
+    substitute:
+      APP: echo
   prune: true
   sourceRef:
     kind: GitRepository

@@ -13,6 +13,10 @@ spec:
     - name: volsync
       namespace: volsync-system
   path: ./kubernetes/apps/default/recommendarr/app
+  postBuild:
+    substitute:
+      APP: recommendarr
+      VOLSYNC_CAPACITY: 1Gi
   prune: true
   sourceRef:
     kind: GitRepository
@@ -20,7 +24,3 @@ spec:
     namespace: flux-system
   wait: false
   interval: 1h
-  postBuild:
-    substitute:
-      APP: recommendarr
-      VOLSYNC_CAPACITY: 1Gi
