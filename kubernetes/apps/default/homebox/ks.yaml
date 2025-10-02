@@ -3,8 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app homebox
-  namespace: &namespace default
+  name: homebox
 spec:
   components:
     - ../../../../components/ext-auth
@@ -13,11 +12,10 @@ spec:
   path: ./kubernetes/apps/default/homebox/app
   postBuild:
     substitute:
-            APP: *app
+      APP: homebox
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
   wait: false

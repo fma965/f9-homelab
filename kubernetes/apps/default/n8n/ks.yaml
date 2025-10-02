@@ -3,8 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app n8n
-  namespace: &namespace default
+  name: n8n
 spec:
   components:
     - ../../../../components/ext-auth
@@ -13,12 +12,11 @@ spec:
   path: ./kubernetes/apps/default/n8n/app
   postBuild:
     substitute:
-      APP: *app
+      APP: n8n
       EXT_AUTH_TARGET: n8n-app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
   wait: false
