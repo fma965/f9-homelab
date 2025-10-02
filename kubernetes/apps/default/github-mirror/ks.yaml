@@ -10,7 +10,6 @@ spec:
     - ../../../../components/ext-auth
   dependsOn:
     - name: forgejo
-      namespace: default
     - name: volsync
       namespace: volsync-system
   interval: 1h

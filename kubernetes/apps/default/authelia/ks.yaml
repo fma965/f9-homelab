@@ -8,7 +8,6 @@ spec:
     - name: cloudnative-pg
       namespace: database
     - name: lldap
-      namespace: default
   interval: 30m
   path: ./kubernetes/apps/default/authelia/app
   prune: true
