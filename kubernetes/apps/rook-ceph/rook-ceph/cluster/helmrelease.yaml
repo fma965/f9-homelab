@@ -5,11 +5,10 @@ kind: HelmRelease
 metadata:
   name: rook-ceph-cluster
 spec:
-  interval: 1h
-  timeout: 15m
   chartRef:
     kind: OCIRepository
     name: rook-ceph-cluster
+  interval: 1h
   values:
     monitoring:
       enabled: true
@@ -125,7 +124,7 @@ spec:
             resources:
               requests:
                 cpu: 100m
-                memory: 2Gi
+                memory: 1Gi
               limits:
                 memory: 4Gi
         storageClass:
