@@ -17,9 +17,6 @@ spec:
       namespace: database
   interval: 1h
   path: ./kubernetes/apps/default/prowlarr/app
-  postBuild:
-    substitute:
-      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository
