@@ -3,8 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app echo
-  namespace: &namespace network
+  name: echo
 spec:
   components:
     - ../../../../components/ext-auth
@@ -15,6 +14,4 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
-
   wait: false

@@ -3,8 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname paperless
-  namespace: &namespace default
+  name: paperless
 spec:
   components:
     - ../../../../components/volsync
@@ -15,25 +14,22 @@ spec:
       namespace: volsync-system
   interval: 1h
   path: "./kubernetes/apps/default/paperless/app"
+  postBuild:
+    substitute:
+      APP: paperless
+      VOLSYNC_CAPACITY: 15Gi
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
   wait: false
-  postBuild:
-    substitute:
-      APP: *appname
-      VOLSYNC_CAPACITY: 15Gi
-
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app paperless-ai
-  namespace: &namespace default
+  name: paperless-ai
 spec:
   components:
     - ../../../../components/volsync
@@ -43,12 +39,11 @@ spec:
   path: ./kubernetes/apps/default/paperless/ai
   postBuild:
     substitute:
-      APP: *app
+      APP: paperless-ai
       VOLSYNC_CAPACITY: 128Mi
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
   wait: false

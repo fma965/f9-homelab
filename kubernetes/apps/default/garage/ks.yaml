@@ -3,10 +3,8 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app garage
-  namespace: &namespace default
+  name: garage
 spec:
-  targetNamespace: *namespace
   components:
     - ../../../../components/nfs-scaler
     - ../../../../components/ext-auth
@@ -23,6 +21,3 @@ spec:
     namespace: flux-system
   wait: false
   interval: 30m
-  postBuild:
-    substitute:
-      APP: *app

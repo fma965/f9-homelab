@@ -3,8 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app openwebui
-  namespace: &namespace default
+  name: openwebui
 spec:
   components:
     - ../../../../components/volsync
@@ -15,11 +14,10 @@ spec:
   path: ./kubernetes/apps/default/openwebui/app
   postBuild:
     substitute:
-            APP: *app
+      APP: openwebui
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
   wait: false
