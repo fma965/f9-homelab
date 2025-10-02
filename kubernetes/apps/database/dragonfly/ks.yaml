@@ -7,10 +7,6 @@ metadata:
   namespace: &namespace database
 spec:
   targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  components:
   path: ./kubernetes/apps/database/dragonfly/app
   prune: true
   sourceRef:
@@ -28,9 +24,6 @@ metadata:
   namespace: &namespace database
 spec:
   targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   dependsOn:
     - name: dragonfly
   path: ./kubernetes/apps/database/dragonfly/cluster

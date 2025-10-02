@@ -6,9 +6,6 @@ metadata:
   name: &appname paperless
   namespace: &namespace default
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
   components:
     - ../../../../components/volsync
     - ../../../../components/nfs-scaler
@@ -38,9 +35,6 @@ metadata:
   name: &app paperless-ai
   namespace: &namespace default
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
     - ../../../../components/volsync
   dependsOn:

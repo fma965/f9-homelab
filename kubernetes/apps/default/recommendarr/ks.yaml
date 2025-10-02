@@ -6,9 +6,6 @@ metadata:
   namespace: &namespace default
 spec:
   targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
