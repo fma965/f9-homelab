@@ -9,7 +9,7 @@ metrics: true
 ui:
   title: Status | Gatus
   header: Status
-  logo: https://i.imgur.com/Lach8Ba.png
+  logo: https://iili.io/KW3ZzHx.png
   link: https://github.com/fma965
   buttons:
     - name: Github
