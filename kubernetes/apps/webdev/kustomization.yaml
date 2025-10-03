@@ -5,20 +5,10 @@ kind: Kustomization
 namespace: webdev
 components:
   - ../../components/namespace
+replacements:
+  - path: ../../components/replacements/ks.yaml
 resources:
   - ./debtmanager/ks.yaml
   - ./games-manager/ks.yaml
   - ./overlays/ks.yaml
   - ./ws-broadcast/ks.yaml
-replacements:
-  - source:
-      kind: Namespace
-      fieldPath: metadata.name
-    targets:
-      - select:
-          kind: Kustomization
-          group: kustomize.toolkit.fluxcd.io
-        fieldPaths:
-          - spec.targetNamespace
-        options:
-          create: true

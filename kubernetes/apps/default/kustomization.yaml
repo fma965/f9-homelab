@@ -4,6 +4,8 @@ kind: Kustomization
 namespace: default
 components:
   - ../../components/namespace
+replacements:
+  - path: ../../components/replacements/ks.yaml
 resources:
 - ./authelia/ks.yaml
 - ./bazarr/ks.yaml
@@ -38,15 +40,3 @@ resources:
 - ./spoolman/ks.yaml
 # - ./zigbee/ks.yaml
 - ./zipline/ks.yaml
-replacements:
-  - source:
-      kind: Namespace
-      fieldPath: metadata.name
-    targets:
-      - select:
-          kind: Kustomization
-          group: kustomize.toolkit.fluxcd.io
-        fieldPaths:
-          - spec.targetNamespace
-        options:
-          create: true
