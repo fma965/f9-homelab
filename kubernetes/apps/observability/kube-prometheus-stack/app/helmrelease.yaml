@@ -15,8 +15,12 @@ spec:
       route:
         main:
           enabled: true
+          annotations:
+            gatus.home-operations.com/enabled: "true"
+            gatus.home-operations.com/endpoint: |-
+              conditions: ["[STATUS] == any(200,401)"]
           hostnames:
-            - alertmanager.${SECRET_DOMAIN}
+              - alertmanager.${SECRET_DOMAIN}
           parentRefs:
             - name: envoy-external
               namespace: network
@@ -44,7 +48,11 @@ spec:
       route:
         main:
           enabled: true
-          hostnames:
+          annotations:
+          gatus.home-operations.com/enabled: "true"
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
+        hostnames:
             - prometheus.${SECRET_DOMAIN}
           parentRefs:
             - name: envoy-external

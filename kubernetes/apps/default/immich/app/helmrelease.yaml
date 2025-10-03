@@ -54,6 +54,10 @@ spec:
             port: &port 2283
     route:
       app:
+        annotations:
+          gatus.home-operations.com/enabled: "true"
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
         hostnames: ["photos.${SECRET_DOMAIN}"]
         parentRefs:
           - name: envoy-external

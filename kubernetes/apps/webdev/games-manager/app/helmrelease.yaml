@@ -101,6 +101,10 @@ spec:
 
     route:
       app:
+        annotations:
+          gatus.home-operations.com/enabled: "true"
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
         hostnames:
           - "gamesdb.${SECRET_DOMAIN}"
         parentRefs:
@@ -112,6 +116,10 @@ spec:
               - name: games-manager-backend
                 port: 8055
       api:
+        annotations:
+          gatus.home-operations.com/enabled: "true"
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
         hostnames:
           - "games.${SECRET_DOMAIN}"
         parentRefs:

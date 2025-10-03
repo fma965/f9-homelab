@@ -57,6 +57,10 @@ spec:
 
     route:
       app:
+        annotations:
+          gatus.home-operations.com/enabled: "true"
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
         hostnames:
           - it.${SECRET_DOMAIN}
         parentRefs:

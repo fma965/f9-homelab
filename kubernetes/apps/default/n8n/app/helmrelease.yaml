@@ -82,6 +82,10 @@ spec:
             readOnly: true
     route:
       app:
+        annotations:
+          gatus.home-operations.com/enabled: "true"
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
         hostnames:
           - *hostName
         parentRefs:
@@ -91,7 +95,9 @@ spec:
 
       webhooks:
         annotations:
+          gatus.home-operations.com/enabled: "true"
           gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
             url: "https://{{ .Release.Name }}.${SECRET_DOMAIN}/healthz/readiness"
         hostnames:
           - n8n-webhook.${SECRET_DOMAIN}

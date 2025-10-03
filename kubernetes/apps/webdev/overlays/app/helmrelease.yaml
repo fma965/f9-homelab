@@ -43,6 +43,10 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             url: "https://{{ .Release.Name }}.${SECRET_DOMAIN}/timer/index.html"
+        annotations:
+          gatus.home-operations.com/enabled: "true"
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
         hostnames:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         parentRefs:

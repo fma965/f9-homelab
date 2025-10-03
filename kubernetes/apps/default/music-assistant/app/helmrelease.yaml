@@ -65,6 +65,10 @@ spec:
             port: &port 8095
     route:
       app:
+        annotations:
+          gatus.home-operations.com/enabled: "true"
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
         hostnames:
           - music.${SECRET_DOMAIN}
         parentRefs:
