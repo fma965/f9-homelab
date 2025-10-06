@@ -6,17 +6,9 @@ metadata:
   name: rook-ceph-cluster
 spec:
   interval: 1h
-  timeout: 15m
   chartRef:
     kind: OCIRepository
     name: rook-ceph-cluster
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     monitoring:
       enabled: true
@@ -26,11 +18,11 @@ spec:
     route:
       dashboard:
         host:
-          name: rook.${CLUSTER_DOMAIN}
+          name: rook.${SECRET_DOMAIN}
           path: /
           pathType: PathPrefix
         parentRefs:
-          - name: envoy-internal
+          - name: envoy-external
             namespace: network
             sectionName: https
     cephClusterSpec:
@@ -40,8 +32,6 @@ spec:
           bdev_async_discard_threads: "1" # quote
           osd_class_update_on_start: "false" # quote
           device_failure_prediction_mode: local # requires mgr module
-          bluestore_slow_ops_warn_lifetime: "300"
-          bluestore_slow_ops_warn_threshold: "5"
         mon:
           mon_data_avail_warn: "20" # quote
       cleanupPolicy:
@@ -77,39 +67,6 @@ spec:
           - name: /dev/nvme0n1
         config:
           osdsPerDevice: "1"
-      healthCheck:
-        livenessProbe:
-          mon:
-            probe:
-              initialDelaySeconds: 30
-              periodSeconds: 30
-              timeoutSeconds: 10
-          mgr:
-            probe:
-              initialDelaySeconds: 30
-              periodSeconds: 30
-              timeoutSeconds: 10
-          osd:
-            probe:
-              initialDelaySeconds: 30
-              periodSeconds: 30
-              timeoutSeconds: 10
-        startupProbe:
-          mon:
-            probe:
-              initialDelaySeconds: 15
-              periodSeconds: 30
-              timeoutSeconds: 10
-          mgr:
-            probe:
-              initialDelaySeconds: 15
-              periodSeconds: 30
-              timeoutSeconds: 10
-          osd:
-            probe:
-              initialDelaySeconds: 15
-              periodSeconds: 30
-              timeoutSeconds: 10
       resources:
         mgr:
           limits:
