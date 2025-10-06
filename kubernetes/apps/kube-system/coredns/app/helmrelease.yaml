@@ -66,3 +66,9 @@ spec:
       - key: node-role.kubernetes.io/control-plane
         operator: Exists
         effect: NoSchedule
+    resources:
+      limits:
+        memory: 128Mi
+      requests:
+        cpu: 25m
+        memory: 128Mi
