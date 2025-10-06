@@ -1,14 +1,22 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: rook-ceph-cluster
 spec:
+  interval: 1h
+  timeout: 15m
   chartRef:
     kind: OCIRepository
     name: rook-ceph-cluster
-  interval: 1h
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
     monitoring:
       enabled: true
@@ -18,11 +26,11 @@ spec:
     route:
       dashboard:
         host:
-          name: rook.${SECRET_DOMAIN}
+          name: rook.${CLUSTER_DOMAIN}
           path: /
           pathType: PathPrefix
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: network
             sectionName: https
     cephClusterSpec:
@@ -32,6 +40,10 @@ spec:
           bdev_async_discard_threads: "1" # quote
           osd_class_update_on_start: "false" # quote
           device_failure_prediction_mode: local # requires mgr module
+          bluestore_slow_ops_warn_lifetime: "300"
+          bluestore_slow_ops_warn_threshold: "5"
+        mon:
+          mon_data_avail_warn: "20" # quote
       cleanupPolicy:
         wipeDevicesFromOtherClusters: true
       crashCollector:
@@ -65,6 +77,96 @@ spec:
           - name: /dev/nvme0n1
         config:
           osdsPerDevice: "1"
+      healthCheck:
+        livenessProbe:
+          mon:
+            probe:
+              initialDelaySeconds: 30
+              periodSeconds: 30
+              timeoutSeconds: 10
+          mgr:
+            probe:
+              initialDelaySeconds: 30
+              periodSeconds: 30
+              timeoutSeconds: 10
+          osd:
+            probe:
+              initialDelaySeconds: 30
+              periodSeconds: 30
+              timeoutSeconds: 10
+        startupProbe:
+          mon:
+            probe:
+              initialDelaySeconds: 15
+              periodSeconds: 30
+              timeoutSeconds: 10
+          mgr:
+            probe:
+              initialDelaySeconds: 15
+              periodSeconds: 30
+              timeoutSeconds: 10
+          osd:
+            probe:
+              initialDelaySeconds: 15
+              periodSeconds: 30
+              timeoutSeconds: 10
+      resources:
+        mgr:
+          limits:
+            cpu: 500m
+            memory: 640Mi
+          requests:
+            cpu: 50m
+            memory: 320Mi
+        mon:
+          limits:
+            cpu: 500m
+            memory: 640Mi
+          requests:
+            cpu: 100m
+            memory: 320Mi
+        osd:
+          limits:
+            cpu: 500m
+            memory: 1600Mi
+          requests:
+            cpu: 150m
+            memory: 800Mi
+        prepareosd:
+          limits:
+            cpu: 1000m
+            memory: 400Mi
+          requests:
+            cpu: 50m
+            memory: 200Mi
+        mgr-sidecar:
+          limits:
+            cpu: 256m
+            memory: 100Mi
+          requests:
+            cpu: 50m
+            memory: 40Mi
+        crashcollector:
+          limits:
+            cpu: 100m
+            memory: 64M
+          requests:
+            cpu: 15m
+            memory: 32M
+        logcollector:
+          limits:
+            cpu: 50m
+            memory: 32Mi
+          requests:
+            cpu: 5m
+            memory: 16Mi
+        cleanup:
+          limits:
+            cpu: 500m
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 100Mi
     cephBlockPools:
       - name: ceph-blockpool
         spec:
