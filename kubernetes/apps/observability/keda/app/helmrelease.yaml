@@ -12,5 +12,21 @@ spec:
   values:
     enableServiceLinks: false
     resources:
-      requests:
-        cpu: 25m
+      operator:
+        requests:
+          cpu: 10m
+          memory: 128Mi
+        limits:
+          memory: 256Mi
+      metricServer:
+        requests:
+          cpu: 10m
+          memory: 128Mi
+        limits:
+          memory: 128Mi
+      webhooks:
+        requests:
+          cpu: 10m
+          memory: 128Mi
+        limits:
+          memory: 128Mi
