@@ -6,6 +6,7 @@ metadata:
   name: &app immich
 spec:
   components:
+    - ../../../../components/gpu
     - ../../../../components/nfs-scaler
   dependsOn:
     - name: keda
@@ -14,7 +15,7 @@ spec:
       namespace: kube-system
     - name: cloudnative-pg
       namespace: database
-    - name: intel-device-plugin-gpu
+    - name: intel-gpu-resource-driver
       namespace: kube-system
   interval: 1h
   path: ./kubernetes/apps/default/immich/app
