@@ -9,6 +9,7 @@ replacements:
 resources:
 - ./authelia/ks.yaml
 - ./bazarr/ks.yaml
+- ./esphome/ks.yaml
 - ./flaresolverr/ks.yaml
 - ./forgejo/ks.yaml
 - ./frigate/ks.yaml
