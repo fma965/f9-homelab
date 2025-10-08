@@ -44,8 +44,12 @@ spec:
               - secretRef:
                   name: immich-secret
             resources:
-              limits:
-                gpu.intel.com/i915: 1
+              claims:
+                - name: gpu
+    defaultPodOptions:
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: immich-gpu
     service:
       server:
         controller: server

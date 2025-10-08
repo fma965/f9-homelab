@@ -44,12 +44,17 @@ spec:
                 add:
                   - CAP_PERFMON
             resources:
+              claims:
+                - name: gpu
               requests:
                 cpu: 50m
                 memory: 1Gi
               limits:
                 memory: 2Gi
-                gpu.intel.com/i915: 1
+    defaultPodOptions:
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: frigate-gpu
     service:
       app:
         controller: frigate
