@@ -120,6 +120,9 @@ spec:
       #           subPath: id_ed25519
     route:
       app:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
         hostnames:
           - esphome.${SECRET_DOMAIN}
         parentRefs:
