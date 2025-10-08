@@ -111,8 +111,10 @@ spec:
           port: 80
       path: /api/authz/ext-authz/
       headersToBackend:
-        - 'remote-*'
-        - 'authelia-*'
+        - Remote-User
+        - Remote-Groups
+        - Remote-Name
+        - Remote-Email
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
@@ -188,8 +190,10 @@ spec:
           port: 80
       path: /api/authz/ext-authz/
       headersToBackend:
-        - 'remote-*'
-        - 'authelia-*'
+        - Remote-User
+        - Remote-Groups
+        - Remote-Name
+        - Remote-Email
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
@@ -311,8 +315,10 @@ spec:
           port: 80
       path: /api/authz/ext-authz/
       headersToBackend:
-        - 'remote-*'
-        - 'authelia-*'
+        - Remote-User
+        - Remote-Groups
+        - Remote-Name
+        - Remote-Email
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
@@ -384,8 +390,10 @@ spec:
           port: 80
       path: /api/authz/ext-authz/
       headersToBackend:
-        - 'remote-*'
-        - 'authelia-*'
+        - Remote-User
+        - Remote-Groups
+        - Remote-Name
+        - Remote-Email
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
