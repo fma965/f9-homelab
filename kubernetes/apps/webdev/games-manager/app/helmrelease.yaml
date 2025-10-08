@@ -102,7 +102,6 @@ spec:
     route:
       app:
         annotations:
-          gatus.home-operations.com/enabled: "true"
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
         hostnames:
@@ -117,7 +116,6 @@ spec:
                 port: 8055
       api:
         annotations:
-          gatus.home-operations.com/enabled: "true"
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
         hostnames:
