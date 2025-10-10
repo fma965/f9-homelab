@@ -12,16 +12,15 @@
         password: "{{HOMEPAGE_VAR_OPENWRT_PASSWORD}}"
         interfaceName: eth0 # optional
 
-  - Adguard Home:
-      icon: adguard-home.png
-      href: "{{HOMEPAGE_VAR_ADGUARD_HREF}}"
-      description: AdBlock DNS Server
-      siteMonitor: "{{HOMEPAGE_VAR_ADGUARD_URL}}"
+  - Unifi:
+      icon: unifi.png
+      href: "https://unifi.ui.com"
+      description: Unifi Gateway
+      siteMonitor: https://unifi.internal
       widget:
-        type: adguard
-        url: "{{HOMEPAGE_VAR_ADGUARD_URL}}"
-        username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
-        password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
+        type: unifi
+        url: https://unifi.internal
+        key: {{HOMEPAGE_VAR_UNIFI_KEY}}
 
   - Gatus:
       icon: gatus.png
