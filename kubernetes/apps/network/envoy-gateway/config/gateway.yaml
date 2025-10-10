@@ -18,13 +18,17 @@ kind: Gateway
 metadata:
   name: envoy-external
   annotations:
-    external-dns.alpha.kubernetes.io/target: &ip 10.10.100.210 # This doesn't work when set to a domain using AdGuardHome as the DNS provider, presumably because ${SECRET_EXTERNAL_DOMAIN} doesn't parse as a IP
+    external-dns.alpha.kubernetes.io/target: &hostname ${SECRET_EXTERNAL_DOMAIN}
+    gatus.home-operations.com/endpoint: |-
+      client:
+        dns-resolver: tcp://1.1.1.1:53
+      group: external
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: ${SECRET_EXTERNAL_DOMAIN}
-      lbipam.cilium.io/ips: *ip
+      external-dns.alpha.kubernetes.io/hostname: *hostname
+      lbipam.cilium.io/ips: 10.10.100.210
   listeners:
     - name: http
       protocol: HTTP
@@ -49,13 +53,19 @@ kind: Gateway
 metadata:
   name: envoy-internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: &ip 10.10.100.211 # This doesn't work when set to a domain using AdGuardHome as the DNS provider, presumably because ${SECRET_INTERNAL_DOMAIN} doesn't parse as a IP
+    external-dns.alpha.kubernetes.io/target: &hostname ${SECRET_INTERNAL_DOMAIN}
+    gatus.home-operations.com/endpoint: |-
+      group: internal
+      guarded: true
+      ui:
+        hide-hostname: true
+        hide-url: true
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: &hostname ${SECRET_INTERNAL_DOMAIN}
-      lbipam.cilium.io/ips: *ip
+      external-dns.alpha.kubernetes.io/hostname: *hostname
+      lbipam.cilium.io/ips: 10.10.100.211
   listeners:
     - name: http
       protocol: HTTP
