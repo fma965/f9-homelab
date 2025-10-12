@@ -27,6 +27,7 @@ resources:
 - ./mosquitto/ks.yaml
 - ./music-assistant/ks.yaml
 - ./n8n/ks.yaml
+- ./openspeedtest/ks.yaml
 - ./openwebui/ks.yaml
 - ./paperless/ks.yaml
 - ./prowlarr/ks.yaml
