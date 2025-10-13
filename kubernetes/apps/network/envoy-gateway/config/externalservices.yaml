@@ -274,6 +274,9 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: nanokvm
+  annotations:
+    gatus.home-operations.com/endpoint: |-
+      conditions: ["[STATUS] == any(200,401)"]
 spec:
   parentRefs:
     - name: envoy-external
