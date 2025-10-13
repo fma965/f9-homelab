@@ -78,19 +78,22 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
-        hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-external
             namespace: network
             sectionName: https
-        rules:
-          - backendRefs:
-              - name: sonarr
-                port: *port
 
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
+      scripts:
+        type: configMap
+        name: sonarr-configmap
+        defaultMode: 0775
+        globalMounts:
+          - readOnly: true
       media:
         type: nfs
         server: f9-nas.internal
