@@ -13,6 +13,8 @@ spec:
       namespace: observability
     - name: csi-driver-nfs
       namespace: kube-system
+    - name: onepassword
+      namespace: external-secrets
   path: ./kubernetes/apps/default/garage/app
   postBuild:
     substitute:
