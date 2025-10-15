@@ -50,11 +50,24 @@ spec:
             envFrom:
               - secretRef:
                   name: minio-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 200m
               limits:
                 memory: 2Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 3000
+        runAsGroup: 3002
+        fsGroup: 3002
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [10000]
+        seccompProfile: { type: RuntimeDefault }
     service:
       main:
         ports:
