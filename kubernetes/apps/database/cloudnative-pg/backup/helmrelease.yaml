@@ -51,13 +51,13 @@ spec:
               - "/bin/sh"
             args:
               - "-c"
-              - "pg_dumpall -U $PGUSER | gzip > /backup/postgres17-cluster.dump.gz"
+              - "pg_dumpall -U $PGUSER -F c | gzip > /backup/postgres17-cluster.dump.gz"
             resources:
               requests:
-                cpu: 10m
+                cpu: 50m
                 memory: 128Mi
               limits:
-                memory: 256Mi
+                memory: 512Mi
     persistence:
       backup:
         type: nfs
