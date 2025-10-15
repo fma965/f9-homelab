@@ -9,7 +9,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: minio
-values:
+  values:
     controllers:
       minio:
         annotations:
