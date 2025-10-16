@@ -139,6 +139,9 @@ cluster:
       enable-aggregator-routing: "true"
       feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true,ResourceHealthStatus=true
       runtime-config: admissionregistration.k8s.io/v1beta1=true
+      oidc-client-id: op://kubernetes/authelia/HEADLAMP_OAUTH_CLIENT_ID
+      oidc-issuer-url: op://kubernetes/authelia/OIDC_ISSUER_URL
+      oidc-username-claim: email
     image: registry.k8s.io/kube-apiserver:v1.34.1
   controllerManager:
     extraArgs:

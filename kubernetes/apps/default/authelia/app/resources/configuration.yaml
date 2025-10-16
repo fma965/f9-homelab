@@ -292,13 +292,8 @@ identity_providers:
           - 'https://k8s.${SECRET_DOMAIN}/oidc-callback'
         scopes:
           - 'openid'
+          - 'profile'
           - 'groups'
           - 'email'
-          - 'profile'
-        response_types:
-          - 'code'
-        grant_types:
-          - 'authorization_code'
-        access_token_signed_response_alg: 'none'
-        userinfo_signed_response_alg: 'none'
+        claims_policy: default
         token_endpoint_auth_method: 'client_secret_basic'
