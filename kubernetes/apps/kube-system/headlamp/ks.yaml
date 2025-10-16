@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: headlamp
 spec:
-  components:
-    - ../../../../components/ext-auth
   interval: 1h
   path: ./kubernetes/apps/kube-system/headlamp/app
   prune: true
