@@ -1,27 +1,20 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: headlamp
 spec:
-  interval: 30m
   chartRef:
     kind: OCIRepository
     name: headlamp
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
+  interval: 15m
   values:
-    config:
-      pluginsDir: /build/plugins
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
     fullnameOverride: headlamp
     initContainers:
-      - image: ghcr.io/headlamp-k8s/headlamp-plugin-flux:v0.1.0-beta-2@sha256:c63dc4e10d7ddb95c966194b5e6fbe2012feb7f932bafa24692daed3cf6c248a
+      - image: ghcr.io/headlamp-k8s/headlamp-plugin-flux:v0.4.0@sha256:8d14174a166e2ccb2080a9f745b2ce8e19587ff8a2f41753eb1294875e650474
         command:
           - /bin/sh
           - -c
@@ -30,18 +23,23 @@ spec:
         volumeMounts:
           - mountPath: /build/plugins
             name: headlamp-plugins
-    persistentVolumeClaim:
-      enabled: true
-      accessModes:
-        - ReadWriteOnce
-      size: 100Mi
-      storageClassName: ceph-block
-    podAnnotations:
-      reloader.stakater.com/auto: "true"
+    config:
+      oidc:
+        secret:
+          create: false
+        externalSecret:
+          enabled: true
+          name: headlamp-secret
+    env:
+      - name: HEADLAMP_CONFIG_TRACING_ENABLED
+        value: "false"
+      - name: HEADLAMP_CONFIG_METRICS_ENABLED
+        value: "false"
+
     volumeMounts:
       - mountPath: /build/plugins
         name: headlamp-plugins
     volumes:
       - name: headlamp-plugins
-        persistentVolumeClaim:
-          claimName: headlamp
+        emptyDir:
+          sizeLimit: 100Mi
