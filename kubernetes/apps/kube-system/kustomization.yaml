@@ -13,6 +13,7 @@ resources:
   - ./csi-driver-nfs/ks.yaml
   - ./descheduler/ks.yaml
   - ./generic-device-plugin/ks.yaml
+  - ./headlamp/ks.yaml
   - ./intel-gpu-resource-driver/ks.yaml
   - ./metrics-server/ks.yaml
   - ./multus/ks.yaml
