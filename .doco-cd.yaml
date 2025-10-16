@@ -29,8 +29,5 @@ working_dir: docker/observability/nut-exporter
 # name: cups
 # working_dir: docker/system/cups
 ---
-name: ser2net
-working_dir: docker/system/ser2net
----
 name: pbs
 working_dir: docker/system/pbs
