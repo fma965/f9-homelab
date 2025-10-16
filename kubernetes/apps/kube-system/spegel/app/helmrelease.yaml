@@ -5,13 +5,15 @@ kind: HelmRelease
 metadata:
   name: spegel
 spec:
-  interval: 1h
   chartRef:
     kind: OCIRepository
     name: spegel
+  interval: 1h
   values:
     grafanaDashboard:
       enabled: true
+      annotations:
+        grafana_folder: kube-system
     service:
       registry:
         hostPort: 29999
