@@ -35,7 +35,7 @@ spec:
               DB_PORT: "5432"
               DB_USER: "games"
               EMAIL_FROM: "gamemanager@${SECRET_DOMAIN}"
-              EMAIL_SMTP_HOST: "10.10.10.254"
+              EMAIL_SMTP_HOST: "smtp-relay.network.svc.cluster.local"
               EMAIL_SMTP_PORT: "25"
               EMAIL_TRANSPORT: "smtp"
               EXTENSIONS_PATH: "/directus/extensions"
