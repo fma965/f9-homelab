@@ -44,7 +44,7 @@ spec:
   relabelings:
     - action: replace
       targetLabel: job
-      replacement: *nut-exporter
+      replacement: nut-exporter
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
 apiVersion: monitoring.coreos.com/v1alpha1

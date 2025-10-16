@@ -5,22 +5,18 @@ kind: HelmRelease
 metadata:
   name: kube-prometheus-stack
 spec:
-  interval: 1h
   chartRef:
     kind: OCIRepository
     name: kube-prometheus-stack
+  interval: 1h
   values:
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
       route:
         main:
           enabled: true
-          annotations:
-            gatus.home-operations.com/enabled: "true"
-            gatus.home-operations.com/endpoint: |-
-              conditions: ["[STATUS] == any(200,401)"]
           hostnames:
-              - alertmanager.${SECRET_DOMAIN}
+            - alertmanager.${SECRET_DOMAIN}
           parentRefs:
             - name: envoy-external
               namespace: network
@@ -48,12 +44,8 @@ spec:
       route:
         main:
           enabled: true
-          annotations:
-            gatus.home-operations.com/enabled: "true"
-            gatus.home-operations.com/endpoint: |-
-              conditions: ["[STATUS] == any(200,401)"]
           hostnames:
-              - prometheus.${SECRET_DOMAIN}
+            - prometheus.${SECRET_DOMAIN}
           parentRefs:
             - name: envoy-external
               namespace: network
@@ -120,6 +112,15 @@ spec:
     grafana:
       enabled: false
       forceDeployDashboards: true
+      operator:
+        dashboardsConfigMapRefEnabled: true
+        folder: observability
+        matchLabels:
+          grafana.internal/instance: grafana
+      sidecar:
+        dashboards:
+          label: grafana_dashboard_ignored # GrafanaDashboard is used instead, don't conflict with k8s-sidecar
+          labelValue: "1"
     additionalPrometheusRulesMap:
       dockerhub-rules:
         groups:

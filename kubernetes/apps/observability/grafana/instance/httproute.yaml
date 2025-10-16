@@ -3,15 +3,15 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: victoria-logs-server
+  name: grafana
 spec:
   hostnames:
-    - logs.${SECRET_DOMAIN}
+    - grafana.${SECRET_DOMAIN}
   parentRefs:
     - name: envoy-external
       namespace: network
       sectionName: https
   rules:
     - backendRefs:
-        - name: victoria-logs-server
-          port: 9428
+        - name: grafana-service
+          port: 3000
