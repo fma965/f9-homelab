@@ -24,8 +24,6 @@ spec:
     - name: cloudnative-pg
     - name: openebs
       namespace: openebs-system
-    # - name: minio
-    #   namespace: default
   healthCheckExprs:
     - apiVersion: &postgresVersion postgresql.cnpg.io/v1
       kind: &postgresKind Cluster
