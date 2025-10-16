@@ -14,5 +14,5 @@ spec:
   rules:
     - backendRefs:
         - name: headlamp
-          namespace: tools
+          namespace: kube-system
           port: 80
