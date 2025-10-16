@@ -292,7 +292,6 @@ identity_providers:
           - 'https://k8s.${SECRET_DOMAIN}/oidc-callback'
         scopes:
           - 'openid'
-          - 'offline_access'
           - 'groups'
           - 'email'
           - 'profile'
