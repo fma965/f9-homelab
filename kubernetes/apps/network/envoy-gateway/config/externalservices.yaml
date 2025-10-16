@@ -366,3 +366,107 @@ spec:
     - backendRefs:
         - name: doco-cd-external
           port: 6584
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: garage-external
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 3909
+    - name: s3
+      port: 3900
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: garage-external
+  labels:
+    kubernetes.io/service-name: garage-external
+addressType: IPv4
+endpoints:
+  - addresses:
+      - 10.10.10.3
+ports:
+  - name: http
+    protocol: TCP
+    port: 3909
+  - name: s3
+    protocol: TCP
+    port: 3900
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: garage
+  annotations:
+    gatus.home-operations.com/endpoint: |-
+      conditions: ["[STATUS] == any(200,401)"]
+spec:
+  parentRefs:
+    - name: envoy-external
+      namespace: network
+      sectionName: https
+  hostnames:
+    - "garage.${SECRET_DOMAIN}"
+  rules:
+    - backendRefs:
+        - name: garage-external
+          port: 3909
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: s3
+  annotations:
+    gatus.home-operations.com/endpoint: |-
+      conditions: ["[STATUS] == 403"]
+spec:
+  parentRefs:
+    - name: envoy-external
+      namespace: network
+      sectionName: https
+  hostnames:
+    - "s3.${SECRET_DOMAIN}"
+    - "*.s3.${SECRET_DOMAIN}"
+    - "community.${SECRET_DOMAIN}" # https://meta.discourse.org/t/s3-not-aws-backups-stopped-working-presumably-since-an-update/382582
+  rules:
+    - backendRefs:
+        - name: garage-external
+          port: 3900
+---
+# yaml-language-server: $schema=https://schemas.budimanjojo.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: garage
+spec:
+  extAuth:
+    headersToExtAuth:
+      - X-Forwarded-For # this is here so we can get the real IP
+      - X-Forwarded-Proto
+      - authorization
+      - header-authorization
+      - proxy-authorization
+      - accept
+      - cookie
+    failOpen: false
+    http:
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: authelia
+          namespace: default
+          port: 80
+      path: /api/authz/ext-authz/
+      headersToBackend:
+        - Remote-User
+        - Remote-Groups
+        - Remote-Name
+        - Remote-Email
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: garage
