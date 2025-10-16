@@ -1,0 +1,26 @@
+services:
+  garage:
+    image: dxflrs/garage:v2.0.0
+    container_name: garage
+    volumes:
+      - /mnt/apps-pool/appdata/garage/garage.toml:/etc/garage.toml
+      - /mnt/Data/S3:/var/lib/garage/meta
+      - /mnt/Data/S3:/var/lib/garage/data
+    restart: unless-stopped
+    ports:
+      - 3900:3900
+      - 3901:3901
+      - 3902:3902
+      - 3903:3903
+
+  webui:
+    image: khairul169/garage-webui:latest
+    container_name: garage-webui
+    restart: unless-stopped
+    volumes:
+      - /mnt/apps-pool/appdata/garage/garage.toml:/etc/garage.toml:ro
+    ports:
+      - 3909:3909
+    environment:
+      API_BASE_URL: "http://garage:3903"
+      S3_ENDPOINT_URL: "http://garage:3900"
