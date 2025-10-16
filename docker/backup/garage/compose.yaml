@@ -4,8 +4,8 @@ services:
     container_name: garage
     volumes:
       - /mnt/apps-pool/appdata/garage/garage.toml:/etc/garage.toml
-      - /mnt/Data/S3:/var/lib/garage/meta
-      - /mnt/Data/S3:/var/lib/garage/data
+      - /mnt/Data/S3/meta:/var/lib/garage/meta
+      - /mnt/Data/S3/data:/var/lib/garage/data
     restart: unless-stopped
     ports:
       - 3900:3900
