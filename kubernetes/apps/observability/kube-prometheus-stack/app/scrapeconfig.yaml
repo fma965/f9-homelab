@@ -3,7 +3,7 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: &name node-exporter
+  name: node-exporter
 spec:
   staticConfigs:
     - targets:
@@ -12,13 +12,13 @@ spec:
   relabelings:
     - action: replace
       targetLabel: job
-      replacement: *name
+      replacement: node-exporter
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: &name smartctl-exporter
+  name: smartctl-exporter
 spec:
   staticConfigs:
     - targets:
@@ -27,13 +27,13 @@ spec:
   relabelings:
     - action: replace
       targetLabel: job
-      replacement: *name
+      replacement: smartctl-exporter
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: &name nut-exporter
+  name: nut-exporter
 spec:
   staticConfigs:
     - targets:
@@ -44,13 +44,13 @@ spec:
   relabelings:
     - action: replace
       targetLabel: job
-      replacement: *name
+      replacement: *nut-exporter
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: &name doco-cd-exporter
+  name: doco-cd-exporter
 spec:
   staticConfigs:
     - targets:
@@ -59,4 +59,4 @@ spec:
   relabelings:
     - action: replace
       targetLabel: job
-      replacement: *name
+      replacement: doco-cd-exporter
