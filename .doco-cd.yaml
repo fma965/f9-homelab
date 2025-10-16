@@ -31,3 +31,6 @@ working_dir: docker/observability/nut-exporter
 ---
 name: pbs
 working_dir: docker/system/pbs
+---
+name: backup
+working_dir: docker/backup/garage
