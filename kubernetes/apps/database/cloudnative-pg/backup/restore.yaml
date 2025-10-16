@@ -27,7 +27,7 @@ spec:
           command: ["/bin/sh"]
           args:
             - "-c"
-            - "gunzip < /backup/postgres17-cluster.dump.gz | pg_restore -U $PGUSER -f -"
+            - "gunzip < /backup/postgres17-cluster.dump.gz | psql -U $PGUSER postgres"
           env:
             - name: PGHOST
               value: postgres-rw.database
