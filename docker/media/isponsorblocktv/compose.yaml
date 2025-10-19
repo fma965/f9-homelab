@@ -3,7 +3,7 @@ services:
     container_name: "isponsorblocktv"
     environment:
       TZ: "Europe/London"
-    image: "dmunozv04/isponsorblocktv:v2.6.0"
+    image: "dmunozv04/isponsorblocktv:v2.6.1"
     network_mode: "host"
     restart: unless-stopped
     volumes:
