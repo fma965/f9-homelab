@@ -77,8 +77,8 @@ spec:
             memory: 320Mi
         mon:
           limits:
-            cpu: 500m
-            memory: 640Mi
+            cpu: 1000m
+            memory: 1024Mi
           requests:
             cpu: 100m
             memory: 320Mi
