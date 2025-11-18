@@ -34,7 +34,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "home.${SECRET_DOMAIN}"
+    - "oldhome.${SECRET_DOMAIN}"
   rules:
     - backendRefs:
         - name: homeassistant-external
