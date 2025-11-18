@@ -74,9 +74,6 @@ spec:
         data:
           config.yaml: |-
             ingress:
-              - hostname: "${SECRET_DOMAIN}"
-                originRequest:
-                  http2Origin: true
               - hostname: "*.${SECRET_DOMAIN}"
                 originRequest:
                   http2Origin: true
