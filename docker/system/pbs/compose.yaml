@@ -3,7 +3,7 @@ services:
     container_name: "proxmox-backup-server"
     environment:
       TZ: "Europe/London"
-    image: "ayufan/proxmox-backup-server:v4.0.13"
+    image: "ayufan/proxmox-backup-server:v4.0.18"
     network_mode: "host"
     restart: unless-stopped
     deploy:
