@@ -7,6 +7,7 @@ metadata:
 spec:
   components:
     - ../../../../components/volsync
+    - ../../../../components/ext-auth
   dependsOn:
     - name: mosquitto
     - name: cloudnative-pg
@@ -26,4 +27,5 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+
   wait: true
