@@ -22,6 +22,7 @@ resources:
 - ./jellyseerr/ks.yaml
 - ./lidarr/ks.yaml
 - ./lldap/ks.yaml
+- ./matter-server/ks.yaml
 - ./mosquitto/ks.yaml
 - ./music-assistant/ks.yaml
 - ./n8n/ks.yaml
