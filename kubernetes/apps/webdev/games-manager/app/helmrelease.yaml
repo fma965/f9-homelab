@@ -109,7 +109,6 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
-            sectionName: https
         rules:
           - backendRefs:
               - name: games-manager-backend
@@ -123,7 +122,6 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
-            sectionName: https
         rules:
           - matches:
               - path:
