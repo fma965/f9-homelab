@@ -115,6 +115,18 @@ spec:
           - name: envoy-external
             namespace: network
         rules:
+          - backendRefs:
+              - identifier: app
+                port: 8123
+
+      code: # The resulting HTTPRoute will be named home-assistant-code
+        enabled: true
+        hostnames:
+          - home.${SECRET_DOMAIN}
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
           - matches:
               - path:
                   type: PathPrefix
@@ -128,9 +140,6 @@ spec:
             backendRefs:
               - identifier: code-server
                 port: 12321
-          - backendRefs:
-              - identifier: app
-                port: 8123
 
     persistence:
       config:

@@ -22,6 +22,7 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 5Gi
+      EXT_AUTH_TARGET: home-assistant-code
   prune: true
   sourceRef:
     kind: GitRepository
