@@ -1,20 +1,17 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/tags/app-template-4.1.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: matter-server
 spec:
+  interval: 12h
   chartRef:
     kind: OCIRepository
     name: matter-server
-  dependsOn: []
-  interval: 15m
   values:
     controllers:
       matter-server:
-        annotations:
-          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
@@ -22,27 +19,34 @@ spec:
               tag: 8.1.0@sha256:170aa093ce91c76cde4cc390918307590f0f5558fcec93f913af3cb019e6562a
             env:
               TZ: ${TIMEZONE}
-              MATTER_SERVER__INSTANCE_NAME: "matter"
-              MATTER_SERVER__PORT: &port 5580
-              MATTER_SERVER__APPLICATION_URL: &host "matter.{SECRET_DOMAIN}"
-              MATTER_SERVER__LOG_LEVEL: info
-            args:
-              - --storage-path=/data
-              - --primary-interface=net1
-              - --log-level=debug
-              - --log-level-sdk=info
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
             resources:
+              requests:
+                cpu: 10m
               limits:
-                memory: 100Mi
+                memory: 1Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
               "name":"iot",
               "namespace": "kube-system",
-              "ips": ["10.10.20.243/24"]
+              "ips": ["10.10.20.243/24"],
+              "mac": "2e:37:2e:6d:ab:4a"
           }]
-      hostUsers: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 568
@@ -50,12 +54,6 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
         sysctls:
-        - name: net.ipv6.conf.eth0.accept_ra
-          value: "2"
-        - name: net.ipv6.conf.eth0.accept_ra_rt_info_max_plen
-          value: "64"
-        - name: net.ipv6.conf.eth0.forwarding
-          value: "1"
         - name: net.ipv6.conf.net1.accept_ra
           value: "2"
         - name: net.ipv6.conf.net1.accept_ra_rt_info_max_plen
@@ -66,19 +64,11 @@ spec:
       app:
         ports:
           http:
-            port: *port
-    route:
-      app:
-        hostnames: [*host]
-        parentRefs:
-          - name: envoy-external
-            namespace: network
-        rules:
-          - backendRefs:
-              - name: "{{ .Release.Name }}"
-                port: *port
+            port: 5580
     persistence:
-      data:
-        existingClaim: "{{ .Release.Name }}"
+      config:
+        existingClaim: matter-server
+        globalMounts:
+        - path: /data
       tmp:
         type: emptyDir

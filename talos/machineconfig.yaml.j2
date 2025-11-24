@@ -58,6 +58,8 @@ machine:
       featureGates:
         ImageVolume: true
       serializeImagePulls: false
+      allowedUnsafeSysctls:
+        - "net.ipv6.conf.net1.*" # Allow IPv6 syscalls, required for matter/thread
     image: ghcr.io/siderolabs/kubelet:v1.34.2
     nodeIP:
       validSubnets:
