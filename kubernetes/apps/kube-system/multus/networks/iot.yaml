@@ -22,6 +22,16 @@ spec:
               { "dst": "10.0.21.0/24", "gw": "10.10.20.254" }
             ]
           }
+        },
+        {
+            "type": "tuning",
+            "capabilities": {
+                "mac": true
+            },
+            "sysctl": {
+              "net.ipv6.conf.net1.accept_ra": "1",
+              "net.ipv6.conf.net1.accept_ra_rt_info_max_plen": "128"
+            }
         }
       ]
     }
