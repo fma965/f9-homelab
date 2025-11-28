@@ -143,7 +143,7 @@ spec:
       tls:
         certificateRefs:
           - kind: Secret
-            name: ${SECRET_EXTERNAL_DOMAIN//./-}-tls
+            name: ${SECRET_INTERNAL_DOMAIN//./-}-tls
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.envoyproxy.io/envoypatchpolicy_v1alpha1.json
 apiVersion: gateway.envoyproxy.io/v1alpha1
