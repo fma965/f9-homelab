@@ -19,6 +19,6 @@ services:
       OLLAMA_HOST: "0.0.0.0:11434"
     ports:
       - 11434:11434/tcp
-    image: ollama/ollama:0.13.1
+    image: ollama/ollama:0.13.2
     volumes:
       - /mnt/AI/appdata/ollama:/root/.ollama
