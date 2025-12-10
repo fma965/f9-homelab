@@ -43,8 +43,6 @@ spec:
                     cleanupOnFail: true
                     recreate: true
                   upgrade:
-                    # TEMPORARY FIX: INCREASED TIMEOUT FOR SLOW CONNECTIONS
-                    timeout: 30m
                     cleanupOnFail: true
                     crds: CreateReplace
                     strategy:
