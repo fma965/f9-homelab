@@ -6,8 +6,8 @@ metadata:
   name: &app node-red
 spec:
   components:
-    - ../../../../components/volsync
     - ../../../../components/ext-auth
+    - ../../../../components/volsync
   dependsOn:
     - name: volsync
       namespace: volsync-system
