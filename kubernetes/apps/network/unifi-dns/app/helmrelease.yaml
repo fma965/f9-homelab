@@ -46,10 +46,9 @@ spec:
     txtPrefix: k8s.main.
     domainFilters:
       - ${SECRET_DOMAIN}
+    excludeDomains:
+      - "*.s3.${SECRET_DOMAIN}"
     serviceMonitor:
       enabled: true
-    args:
-      # Use this flag to exclude the problematic wildcard FQDN entirely.
-      - --exclude-hostname=*.s3.${SECRET_DOMAIN}
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret
