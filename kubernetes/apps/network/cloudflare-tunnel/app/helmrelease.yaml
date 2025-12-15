@@ -85,6 +85,12 @@ spec:
                   originServerName: ${SECRET_EXTERNAL_DOMAIN}
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
               - service: http_status:404
+              - hostname: "*.s3.${SECRET_DOMAIN}"
+                originRequest:
+                  http2Origin: true
+                  originServerName: ${SECRET_EXTERNAL_DOMAIN}
+                service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
+              - service: http_status:404
     persistence:
       config-file:
         type: configMap
