@@ -8,7 +8,7 @@ replacements:
   - path: ../../components/replacements/ks.yaml
 resources:
 - ./authelia/ks.yaml
- - ./esphome/ks.yaml
+- ./esphome/ks.yaml
 - ./flaresolverr/ks.yaml
 - ./forgejo/ks.yaml
 - ./frigate/ks.yaml
@@ -42,3 +42,4 @@ resources:
 - ./zigbee/ks.yaml
 
 - ./zipline/ks.yaml
+
