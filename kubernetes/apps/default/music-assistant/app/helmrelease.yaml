@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: ghcr.io/music-assistant/server
-              tag: 2.5.8@sha256:f534116c53d49b3120961c908a5fa24f28684806bf222ccd74add9e16b105aa4
+              tag: 2.7.2@sha256:8fc7f780a0a30594e170d5a71138852b1a1e7ce33d2d460e50bf8cadf9eda74f
             env:
               TZ: ${TIMEZONE}
             probes:
