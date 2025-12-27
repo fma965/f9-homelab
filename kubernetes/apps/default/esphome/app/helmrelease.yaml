@@ -104,11 +104,14 @@ spec:
             app:
               - path: /cache
                 subPath: cache
+              - path: /tmp
+                subPath: esphome-tmp
             code-server:
               - path: /tmp
                 subPath: code-server-tmp
               - path: /nonexistent
                 subPath: nonexistent
+
       # deploy-key:
       #   type: secret
       #   name: esphome-deploykey
