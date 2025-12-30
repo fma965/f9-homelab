@@ -1,6 +1,6 @@
 services:
   nut-exporter:
     container_name: "nut-exporter"
-    image: druggeri/nut_exporter:3.2.2
+    image: druggeri/nut_exporter:3.2.3
     network_mode: "host"
     restart: unless-stopped
