@@ -21,12 +21,18 @@ kind: Kustomization
 metadata:
   name: grafana-instance
 spec:
+  components:
+    - ../../../../components/ext-auth
   dependsOn:
     - name: grafana
     - name: rook-ceph-cluster
       namespace: rook-ceph
   interval: 1h
   path: ./kubernetes/apps/observability/grafana/instance
+  postBuild:
+    substitute:
+      APP: grafana-instance
+      EXT_AUTH_TARGET: grafana-service
   prune: true
   sourceRef:
     kind: GitRepository
