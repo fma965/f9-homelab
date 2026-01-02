@@ -21,6 +21,6 @@ streams:
   back_camera:
     - ${BACK_CAMERA}
     - ffmpeg:back_camera#audio=opus
-  side_cameras:
+  side_camera:
     - ${SIDE_CAMERA}
     - ffmpeg:side_camera#audio=opus
