@@ -51,17 +51,15 @@ spec:
         runAsGroup: 1000
     service:
       app:
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: 10.10.100.204
+        externalTrafficPolicy: Local
         forceRename: "{{ .Release.Name }}"
         primary: true
         ports:
           http:
             port: *port
-      streams:
-        type: LoadBalancer
-        annotations:
-          lbipam.cilium.io/ips: 10.10.100.204
-        externalTrafficPolicy: Local
-        ports:
           streams-rtsp:
             port: 554
           streams-webrtc-tcp:
