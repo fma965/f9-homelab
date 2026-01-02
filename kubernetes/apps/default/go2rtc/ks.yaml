@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: go2rtc
 spec:
+  components:
+    - ../../../../components/ext-auth
   interval: 1h
   path: ./kubernetes/apps/default/go2rtc/app
   prune: true
