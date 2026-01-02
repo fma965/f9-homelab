@@ -22,9 +22,6 @@ spec:
               tag: 1.9.13@sha256:f394f6329f5389a4c9a7fc54b09fdec9621bbb78bf7a672b973440bbdfb02241
             env:
               TZ: ${TIMEZONE}
-            envFrom:
-              - secretRef:
-                  name: go2rtc-secret
             probes:
               liveness: &probes
                 enabled: true
@@ -87,10 +84,9 @@ spec:
               - identifier: app
                 port: *port
     persistence:
-      config:
-        type: configMap
-        name: go2rtc-config
+      config-file:
+        type: secret
+        name: go2rtc-secret
         globalMounts:
           - path: /config/go2rtc.yaml
             subPath: go2rtc.yaml
-            readOnly: true
