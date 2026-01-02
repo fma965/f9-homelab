@@ -6,9 +6,6 @@ machine:
     {% if ENV.IS_CONTROLLER %}
     key: op://kubernetes/talos/MACHINE_CA_KEY
     {% endif %}
-  certSANs:
-    - 127.0.0.1
-    - 10.10.100.10
   features:
     apidCheckExtKeyUsage: true
     diskQuotaSupport: true
@@ -29,7 +26,6 @@ machine:
       enabled: true
     {% endif %}
     rbac: true
-    stableHostname: true
   files:
     - op: create
       path: /etc/cri/conf.d/20-customization.part
@@ -49,19 +45,17 @@ machine:
         nconnect=16
         noatime=True
   install:
-    image: factory.talos.dev/metal-installer/661d95a3f35e1daf5717ae21de62feb849072d3ad9abd46e68984b5f8af4524c:v1.11.5
+    image: factory.talos.dev/metal-installer/661d95a3f35e1daf5717ae21de62feb849072d3ad9abd46e68984b5f8af4524c:v1.12.0
     wipe: false
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true
     disableManifestsDirectory: true
     extraConfig:
-      featureGates:
-        ImageVolume: true
       serializeImagePulls: false
       allowedUnsafeSysctls:
         - "net.ipv6.conf.net1.*" # Allow IPv6 syscalls, required for matter/thread
         - "net.ipv6.conf.eth0.*" # Allow IPv6 syscalls, required for matter/thread
-    image: ghcr.io/siderolabs/kubelet:v1.34.3
+    image: ghcr.io/siderolabs/kubelet:v1.35.0
     nodeIP:
       validSubnets:
         - 10.10.100.0/24
@@ -106,7 +100,7 @@ cluster:
     {% endif %}
   clusterName: main
   controlPlane:
-    endpoint: https://10.10.100.10:6443
+    endpoint: https://k8s.internal:6443
   discovery:
     enabled: true
     registries:
@@ -125,7 +119,7 @@ cluster:
       - 10.43.0.0/16
   secret: op://kubernetes/talos/CLUSTER_SECRET
   token: op://kubernetes/talos/CLUSTER_TOKEN
-    {% if ENV.IS_CONTROLLER %}
+  {% if ENV.IS_CONTROLLER %}
   aggregatorCA:
     crt: op://kubernetes/talos/CLUSTER_AGGREGATORCA_CRT
     key: op://kubernetes/talos/CLUSTER_AGGREGATORCA_KEY
@@ -137,21 +131,20 @@ cluster:
       rules:
         - level: Metadata
     certSANs:
-      - 127.0.0.1
-      - 10.10.100.10
+      - k8s.internal
     disablePodSecurityPolicy: true
     extraArgs:
       enable-aggregator-routing: "true"
-      feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
+      feature-gates: MutatingAdmissionPolicy=true
       runtime-config: admissionregistration.k8s.io/v1beta1=true
       oidc-client-id: op://kubernetes/authelia/HEADLAMP_OAUTH_CLIENT_ID
       oidc-issuer-url: op://kubernetes/authelia/OIDC_ISSUER_URL
       oidc-username-claim: email
-    image: registry.k8s.io/kube-apiserver:v1.34.3
+    image: registry.k8s.io/kube-apiserver:v1.35.0
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-controller-manager:v1.34.3
+    image: registry.k8s.io/kube-controller-manager:v1.35.0
   coreDNS:
     disabled: true
   etcd:
@@ -164,7 +157,7 @@ cluster:
       listen-metrics-urls: http://0.0.0.0:2381
   proxy:
     disabled: true
-    image: registry.k8s.io/kube-proxy:v1.34.3
+    image: registry.k8s.io/kube-proxy:v1.35.0
   scheduler:
     config:
       apiVersion: kubescheduler.config.k8s.io/v1
@@ -185,7 +178,7 @@ cluster:
                     whenUnsatisfiable: ScheduleAnyway
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-scheduler:v1.34.3
+    image: registry.k8s.io/kube-scheduler:v1.35.0
   secretboxEncryptionSecret: op://kubernetes/talos/CLUSTER_SECRETBOXENCRYPTIONSECRET
   serviceAccount:
     key: op://kubernetes/talos/CLUSTER_SERVICEACCOUNT_KEY
@@ -195,6 +188,10 @@ apiVersion: v1alpha1
 kind: WatchdogTimerConfig
 device: /dev/watchdog0
 timeout: 5m
+---
+apiVersion: v1alpha1
+kind: OOMConfig
+triggerExpression: "false"
 ---
 apiVersion: v1alpha1
 kind: ExtensionServiceConfig

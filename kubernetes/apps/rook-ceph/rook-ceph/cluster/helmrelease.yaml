@@ -1,14 +1,14 @@
 ---
-# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/helm.toolkit.fluxcd.io/helmrelease_v2.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: rook-ceph-cluster
 spec:
-  interval: 1h
   chartRef:
     kind: OCIRepository
     name: rook-ceph-cluster
+  interval: 1h
   values:
     monitoring:
       enabled: true
@@ -84,7 +84,7 @@ spec:
         osd:
           limits:
             cpu: 500m
-            memory: 1600Mi
+            memory: 2Gi
           requests:
             cpu: 150m
             memory: 800Mi
