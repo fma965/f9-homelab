@@ -7,8 +7,7 @@ machine:
     key: op://kubernetes/talos/MACHINE_CA_KEY
     {% endif %}
   certSANs:
-    - 127.0.0.1
-    - 10.10.100.10
+    - k8s.internal
   features:
     apidCheckExtKeyUsage: true
     diskQuotaSupport: true

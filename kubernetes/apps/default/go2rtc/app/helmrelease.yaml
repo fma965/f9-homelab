@@ -53,7 +53,7 @@ spec:
       app:
         type: LoadBalancer
         annotations:
-          lbipam.cilium.io/ips: 10.10.100.204
+          lbipam.cilium.io/ips: 10.10.69.204
         forceRename: "{{ .Release.Name }}"
         sessionAffinity: ClientIP
         primary: true
