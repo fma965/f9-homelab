@@ -6,6 +6,7 @@ namespace: cert-manager
 
 components:
   - ../../components/alerts
+  - ../../components/vars
 
 resources:
   - ./namespace.yaml
