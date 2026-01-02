@@ -54,8 +54,8 @@ spec:
         type: LoadBalancer
         annotations:
           lbipam.cilium.io/ips: 10.10.100.204
-        externalTrafficPolicy: Local
         forceRename: "{{ .Release.Name }}"
+        sessionAffinity: ClientIP
         primary: true
         ports:
           http:
