@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app kopia
+  name: kopia
 spec:
   components:
     - ../../../../components/nfs-scaler
@@ -13,10 +13,11 @@ spec:
   path: ./kubernetes/apps/volsync-system/kopia/app
   postBuild:
     substitute:
-      APP: *app
+      APP: kopia
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  targetNamespace: volsync-system
   wait: false

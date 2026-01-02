@@ -22,4 +22,5 @@ kind: ServiceAccount
 metadata:
   name: f9-runner
 spec:
-  roles: ["os:admin"]
+  roles:
+    - os:admin
