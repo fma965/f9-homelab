@@ -13,14 +13,14 @@ webrtc:
         - stun:stun.cloudflare.com:3478
 streams:
   doorbell:
-    - $${DOORBELL}
+    - ${DOORBELL}
     - ffmpeg:doorbell#audio=opus
   front_camera:
-    - $${FRONT_CAMERA}
+    - ${FRONT_CAMERA}
     - ffmpeg:front_camera#audio=opus
   back_camera:
-    - $${BACK_CAMERA}
+    - ${BACK_CAMERA}
     - ffmpeg:back_camera#audio=opus
   side_cameras:
-    - $${SIDE_CAMERA}
+    - ${SIDE_CAMERA}
     - ffmpeg:side_camera#audio=opus
