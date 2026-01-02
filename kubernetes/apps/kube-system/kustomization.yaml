@@ -4,19 +4,19 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kube-system
 components:
-  - ../../components/namespace
-replacements:
-  - path: ../../components/replacements/ks.yaml
+  - ../../components/alerts
+  - ../../components/vars  
+  
 resources:
+  - ./namespace.yaml
   - ./cilium/ks.yaml
   - ./coredns/ks.yaml
   - ./csi-driver-nfs/ks.yaml
   - ./descheduler/ks.yaml
   - ./generic-device-plugin/ks.yaml
-  # - ./headlamp/ks.yaml
   - ./intel-gpu-resource-driver/ks.yaml
   - ./metrics-server/ks.yaml
   - ./multus/ks.yaml
-  - ./reloader/ks.yaml
   - ./snapshot-controller/ks.yaml
+  - ./reloader/ks.yaml
   - ./spegel/ks.yaml
