@@ -14,13 +14,13 @@ webrtc:
 streams:
   doorbell:
     - ${DOORBELL}
-    - ffmpeg:doorbell#audio=opus
+#    - ffmpeg:doorbell#audio=opus
   front_camera:
     - ${FRONT_CAMERA}
-    - ffmpeg:front_camera#audio=opus
+#    - ffmpeg:front_camera#audio=opus
   back_camera:
     - ${BACK_CAMERA}
-    - ffmpeg:back_camera#audio=opus
+#    - ffmpeg:back_camera#audio=opus
   side_camera:
     - ${SIDE_CAMERA}
-    - ffmpeg:side_camera#audio=opus
+#    - ffmpeg:side_camera#audio=opus
