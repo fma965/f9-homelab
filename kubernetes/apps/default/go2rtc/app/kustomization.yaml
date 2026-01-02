@@ -10,3 +10,5 @@ configMapGenerator:
   - name: go2rtc-config
     files:
       - go2rtc.yaml=./config/go2rtc.yaml
+generatorOptions:
+  disableNameSuffixHash: true
