@@ -13,11 +13,18 @@ spec:
     controllers:
       go2rtc:
         strategy: RollingUpdate
+        annotations:
+          secret.reloader.stakater.com/reload: &secret go2rtc-secret
         containers:
           app:
             image:
               repository: ghcr.io/alexxit/go2rtc
               tag: 1.9.13@sha256:f394f6329f5389a4c9a7fc54b09fdec9621bbb78bf7a672b973440bbdfb02241
+            env:
+              TZ: ${TIMEZONE}
+            envFrom:
+              - secretRef:
+                  name: *secret
             probes:
               liveness: &probes
                 enabled: true
@@ -77,32 +84,11 @@ spec:
           - backendRefs:
               - identifier: app
                 port: *port
-    configMaps:
-      config:
-        data:
-          go2rtc.yaml: |-
-            log:
-              streams: error # Prevent log spam from UniFi Protect
-            api:
-              listen: :80
-              origin: "*"
-            rtsp:
-              listen: :554
-            webrtc:
-              listen: :8555
-              candidates:
-                - 10.10.100.204:8555
-                - stun:8555
-              ice_servers:
-                - urls:
-                    - stun:stun.cloudflare.com:3478
-            streams:
-              doorbell:
-                - rtsp://114:529@10.10.20.146:8554/ch1
     persistence:
-      config-file:
+      config:
         type: configMap
-        identifier: config
+        name: go2rtc-config
         globalMounts:
           - path: /config/go2rtc.yaml
             subPath: go2rtc.yaml
+            readOnly: true
