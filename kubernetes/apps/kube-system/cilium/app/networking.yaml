@@ -50,7 +50,7 @@ spec:
       kubernetes.io/os: linux
   bgpInstances:
     - name: cilium
-      localASN: 64514
+      localASN: 64520
       peers:
         - name: "peer-64521"
           peerASN: 64521
