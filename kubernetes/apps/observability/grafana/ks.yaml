@@ -32,7 +32,7 @@ spec:
   postBuild:
     substitute:
       APP: grafana-instance
-      EXT_AUTH_TARGET: grafana-service
+      EXT_AUTH_TARGET: grafana-httproute
   prune: true
   sourceRef:
     kind: GitRepository
