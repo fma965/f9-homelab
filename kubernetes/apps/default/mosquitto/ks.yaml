@@ -16,4 +16,5 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: default
+  targetNamespace: default
   wait: false
