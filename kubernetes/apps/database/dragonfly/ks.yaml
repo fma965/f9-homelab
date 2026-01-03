@@ -12,6 +12,7 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: true
+  targetNamespace: database
   interval: 30m
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -29,4 +30,5 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: true
+  targetNamespace: database
   interval: 30m
