@@ -10,5 +10,4 @@ components:
 
 resources:
   - ./namespace.yaml
-  - ./namespace.yaml
   - ./openebs/ks.yaml
