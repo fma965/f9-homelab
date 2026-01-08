@@ -41,11 +41,11 @@ spec:
               - secretRef:
                   name: home-assistant-secret
             securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              # allowPrivilegeEscalation: false
+              # readOnlyRootFilesystem: true
               capabilities:
                 {
-                  drop: ["ALL"],
+                  # drop: ["ALL"],
                   add: ["NET_ADMIN", "NET_RAW", "NET_BROADCAST"],
                 }
             resources:
@@ -100,8 +100,6 @@ spec:
         ports:
           http:
             port: 8123
-          hue:
-            port: 80
       code-server:
         ports:
           code-server:
@@ -173,3 +171,4 @@ spec:
                 subPath: code-server-tmp
               - path: /nonexistent
                 subPath: nonexistent
+
