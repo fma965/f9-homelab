@@ -27,6 +27,7 @@ spec:
         },
         {
             "type": "tuning",
+            "allmulti": true,
             "capabilities": {
                 "mac": true
             },
