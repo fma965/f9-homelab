@@ -16,28 +16,26 @@ spec:
           "mode": "bridge",
           "ipam": {
             "type": "static",
+            "addresses": [
+              {
+                "address": "10.10.20.240/24",
+                "gateway": "10.10.20.254"
+              }
+            ],
             "routes": [
-              { "dst": "0.0.0.0/0", "gw": "10.10.20.254" },
-              { "dst": "239.255.255.250/32" } 
+              { "dst": "10.10.20.0/24" },            // Local IoT subnet
+              { "dst": "239.255.255.250/32" }        // SSDP Multicast Group
             ]
           }
         },
+        { "type": "sbr" },
         {
-          "type": "sbr"
-        },
-        {
-            "type": "tuning",
-            "allmulti": true,
-            "capabilities": {
-                "mac": true
-            },
-            "sysctl": {
-              "net.ipv6.conf.net1.accept_ra": "1",
-              "net.ipv6.conf.net1.accept_ra_rt_info_max_plen": "128",
-              "net.ipv4.conf.all.rp_filter": "2",
-              "net.ipv4.conf.net1.rp_filter": "2",
-              "net.ipv4.conf.default.rp_filter": "2"
-            }
+          "type": "tuning",
+          "allmulti": true,
+          "sysctl": {
+            "net.ipv4.conf.all.rp_filter": "2",
+            "net.ipv4.conf.net1.rp_filter": "2"
+          }
         }
       ]
     }
