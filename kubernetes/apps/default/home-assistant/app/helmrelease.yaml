@@ -31,18 +31,6 @@ spec:
             envFrom:
               - secretRef:
                   name: home-assistant-secret
-          init-network:
-            image:
-              repository: alpine
-              tag: 3.19
-            command: ["/bin/sh", "-c"]
-            # We add || true so the pod still starts even if the route already exists
-            args: ["ip route add 239.255.255.250 dev net1 || true"]
-            securityContext:
-              runAsUser: 0
-              privileged: false
-              capabilities:
-                add: ["NET_ADMIN"]
         containers:
           app:
             image:
@@ -59,7 +47,7 @@ spec:
               capabilities:
                 {
                   # drop: ["ALL"],
-                  add: ["NET_ADMIN", "NET_RAW", "NET_BROADCAST"],
+                  add: ["NET_ADMIN", "NET_RAW", "NET_BROADCAST", "NET_BIND_SERVICE"],
                 }
             resources:
               requests:
@@ -184,6 +172,7 @@ spec:
                 subPath: code-server-tmp
               - path: /nonexistent
                 subPath: nonexistent
+
 
 
 
