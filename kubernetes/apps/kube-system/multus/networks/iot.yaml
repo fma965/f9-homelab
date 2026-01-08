@@ -17,7 +17,8 @@ spec:
           "ipam": {
             "type": "static",
             "routes": [
-              {"dst": "0.0.0.0/0", "gw": "10.10.20.254"}
+              { "dst": "0.0.0.0/0", "gw": "10.10.20.254" },
+              { "dst": "239.255.255.250/32" } 
             ]
           }
         },
@@ -31,7 +32,7 @@ spec:
             },
             "sysctl": {
               "net.ipv6.conf.net1.accept_ra": "1",
-              "net.ipv6.conf.net1.accept_ra_rt_info_max_plen": "128"
+              "net.ipv6.conf.net1.accept_ra_rt_info_max_plen": "128",
               "net.ipv4.conf.all.rp_filter": "2",
               "net.ipv4.conf.net1.rp_filter": "2",
               "net.ipv4.conf.default.rp_filter": "2"
