@@ -20,7 +20,8 @@ spec:
               [{
                 "name":"iot",
                 "namespace": "kube-system",
-                "ips": ["10.10.20.240/24"]
+                "ips": ["10.10.20.240/24"],
+                "mac": "c6:42:5b:af:cb:12"
               }]
         initContainers:
           init-db:
@@ -41,12 +42,12 @@ spec:
               - secretRef:
                   name: home-assistant-secret
             securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              # allowPrivilegeEscalation: false
+              # readOnlyRootFilesystem: true
               capabilities:
                 {
-                  drop: ["ALL"],
-                  add: ["NET_ADMIN", "NET_RAW", "NET_BROADCAST"],
+                  # drop: ["ALL"],
+                  add: ["NET_ADMIN", "NET_RAW", "NET_BROADCAST", "NET_BIND_SERVICE"],
                 }
             resources:
               requests:
@@ -171,3 +172,7 @@ spec:
                 subPath: code-server-tmp
               - path: /nonexistent
                 subPath: nonexistent
+
+
+
+
