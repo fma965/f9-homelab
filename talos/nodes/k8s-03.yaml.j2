@@ -1,35 +1,9 @@
 ---
 machine:
-  install:
-    disk: /dev/sda
-  kubelet:
-    extraMounts:
-      - destination: /var/openebs/local
-        type: bind
-        source: /var/openebs/local
-        options:
-          - bind
-          - rshared
-          - rw
-  network:
-    hostname: k8s-03
-    interfaces:
-      - interface: br0
-        mtu: 1500
-        bridge:
-          interfaces: ["enp2s0"]
-          stp: {enabled: true}
-        addresses: ["10.10.100.3/24"]
-        routes:
-          - network: 0.0.0.0/0
-            gateway: 10.10.100.254
-        vip:
-          ip: 10.10.100.10
-        vlans:
-        - { vlanId: 20, dhcp: false }
-        - { vlanId: 30, dhcp: false }
-        - { vlanId: 90, dhcp: false }
-    nameservers: ["10.10.100.254"]
+  type: controlplane
   nodeLabels:
     topology.kubernetes.io/zone: F9
-  type: controlplane
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: k8s-03
