@@ -5,11 +5,16 @@ kind: Kustomization
 metadata:
   name: kube-prometheus-stack
 spec:
+  components:
+    - ../../../../components/ext-auth
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
   interval: 1h
   path: ./kubernetes/apps/observability/kube-prometheus-stack/app
+  postBuild:
+    substitute:
+      EXT_AUTH_TARGET: alertmanager-operated
   prune: true
   sourceRef:
     kind: GitRepository

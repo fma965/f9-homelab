@@ -12,6 +12,9 @@ spec:
       namespace: rook-ceph
   interval: 1h
   path: ./kubernetes/apps/observability/victoria-logs/app
+  postBuild:
+    substitute:
+      EXT_AUTH_TARGET: victoria-logs-server
   prune: true
   sourceRef:
     kind: GitRepository
