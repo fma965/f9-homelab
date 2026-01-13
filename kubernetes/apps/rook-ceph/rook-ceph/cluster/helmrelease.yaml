@@ -69,7 +69,7 @@ spec:
       resources:
         mgr:
           limits:
-            cpu: 1000m
+            cpu: 1500m
             memory: 640Mi
           requests:
             cpu: 50m
@@ -84,7 +84,7 @@ spec:
         osd:
           limits:
             cpu: 500m
-            memory: 2Gi
+            memory: 3Gi
           requests:
             cpu: 150m
             memory: 800Mi
