@@ -20,8 +20,20 @@ spec:
               [{
                 "name":"iot",
                 "namespace": "kube-system",
-                "mac": "f2:f9:00:00:00:02",
+                "mac": "f2:f9:00:00:20:02",
                 "ips": ["10.10.20.240/24"]
+              },
+              {
+                "name": "not",
+                "namespace": "kube-system",
+                "mac": "f2:f9:00:00:30:02",
+                "ips": ["10.0.30.240/24"]
+              },
+              {
+                "name": "media",
+                "namespace": "kube-system",
+                "mac": "f2:f9:00:00:40:02",
+                "ips": ["10.0.40.240/24"]
               }]
         initContainers:
           init-db:

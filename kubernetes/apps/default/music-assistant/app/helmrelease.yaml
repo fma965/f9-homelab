@@ -20,8 +20,13 @@ spec:
               [{
                 "name":"iot",
                 "namespace": "kube-system",
-                "mac": "f2:f9:00:00:00:04",
+                "mac": "f2:f9:00:00:20:04",
                 "ips": ["10.10.20.241/24"]
+              },{
+                "name":"media",
+                "namespace": "kube-system",
+                "mac": "f2:f9:00:00:40:04",
+                "ips": ["10.10.40.241/24"]
               }]
         containers:
           app:

@@ -220,6 +220,18 @@ vlanID: 20
 parent: bond0
 ---
 apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.30
+vlanID: 30
+parent: bond0
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.40
+vlanID: 40
+parent: bond0
+---
+apiVersion: v1alpha1
 kind: WatchdogTimerConfig
 device: /dev/watchdog0
 timeout: 5m
