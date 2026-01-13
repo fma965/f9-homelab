@@ -6,6 +6,8 @@ metadata:
   name: flux-operator
 spec:
   interval: 1h
+  components:
+    - ../../../../components/ext-auth
   path: ./kubernetes/apps/flux-system/flux-operator/app
   prune: true
   sourceRef:
