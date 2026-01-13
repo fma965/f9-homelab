@@ -18,8 +18,8 @@ spec:
         [{
           "name": "vpn",
           "namespace": "kube-system",
+          "mac": "f2:f9:00:00:00:05",
           "ips": ["10.10.90.1/24"],
-          "mac": "3e:d0:83:c0:8e:13"
         }]
     config:
       modules:
