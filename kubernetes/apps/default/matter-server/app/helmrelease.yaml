@@ -51,7 +51,7 @@ spec:
               "name":"iot",
               "namespace": "kube-system",
               "mac": "f2:f9:00:00:00:03",
-              "ips": ["10.10.20.243/24"],
+              "ips": ["10.10.20.243/24"]
           }]
       securityContext:
         runAsNonRoot: false # Must be run as root user
