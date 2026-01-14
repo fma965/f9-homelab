@@ -23,7 +23,7 @@ spec:
                 "namespace": "kube-system",
                 "mac": "f2:f9:00:00:20:03",
                 "ips": ["10.10.20.241/24"]
-              },
+              }]
         containers:
           app:
             image:
