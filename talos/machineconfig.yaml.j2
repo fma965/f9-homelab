@@ -96,6 +96,8 @@ machine:
     sunrpc.tcp_slot_table_entries: "128"
     user.max_user_namespaces: "11255"
     vm.nr_hugepages: "1024"
+    net.ipv4.conf.all.rp_filter: "2"
+    net.ipv4.conf.default.rp_filter: "2"
   token: op://kubernetes/talos/MACHINE_TOKEN
 cluster:
   ca:
@@ -235,10 +237,6 @@ apiVersion: v1alpha1
 kind: WatchdogTimerConfig
 device: /dev/watchdog0
 timeout: 5m
----
-apiVersion: v1alpha1
-kind: OOMConfig
-triggerExpression: "false"
 ---
 apiVersion: v1alpha1
 kind: ExtensionServiceConfig
