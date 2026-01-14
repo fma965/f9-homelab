@@ -18,6 +18,9 @@ spec:
         size: 20Gi
       retentionPeriod: 14d
       route:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
         enabled: true
         hostnames:
           - victoria-logs.${SECRET_DOMAIN}

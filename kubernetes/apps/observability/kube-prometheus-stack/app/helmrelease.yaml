@@ -14,6 +14,9 @@ spec:
     alertmanager:
       route:
         main:
+          annotations:
+            gatus.home-operations.com/endpoint: |-
+              conditions: ["[STATUS] == any(200,401)"]
           enabled: true
           hostnames:
             - alertmanager.${SECRET_DOMAIN}
@@ -40,6 +43,9 @@ spec:
     prometheus:
       route:
         main:
+          annotations:
+            gatus.home-operations.com/endpoint: |-
+              conditions: ["[STATUS] == any(200,401)"]
           enabled: true
           hostnames:
             - prometheus.${SECRET_DOMAIN}
