@@ -15,7 +15,7 @@ spec:
   postBuild:
     substitute:
       APP: kube-prometheus-stack
-      EXT_AUTH_TARGET: alertmanager-operated
+      EXT_AUTH_TARGET: kube-prometheus-stack-alertmanager
   prune: true
   sourceRef:
     kind: GitRepository
