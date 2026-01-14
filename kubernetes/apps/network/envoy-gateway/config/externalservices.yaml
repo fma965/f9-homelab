@@ -434,6 +434,7 @@ apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
   name: victoria-logs-server
+  namespace: observability
 spec:
   extAuth:
     headersToExtAuth:
@@ -468,6 +469,7 @@ apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
   name: kube-prometheus-stack-alertmanager
+  namespace: observability
 spec:
   extAuth:
     headersToExtAuth:
@@ -502,6 +504,7 @@ apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
   name: flux-operator
+  namespace: flux-system
 spec:
   extAuth:
     headersToExtAuth:
