@@ -29,6 +29,12 @@ regulation:
   find_time: 1h
   ban_time: 1d
 
+server:
+  endpoints:
+    authz:
+      ext-authz:
+        implementation: 'ExtAuthz'
+
 session:
   name: authelia-home-lab
   inactivity: 3d
