@@ -9,6 +9,10 @@ spec:
   components:
     - ../../../../components/ext-auth
   path: ./kubernetes/apps/flux-system/flux-operator/app
+  postBuild:
+    substitute:
+      APP: flux-operator
+      EXT_AUTH_TARGET: flux-operator
   prune: true
   sourceRef:
     kind: GitRepository
