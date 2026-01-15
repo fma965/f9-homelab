@@ -23,4 +23,6 @@ spec:
       requests:
         memory: 128Mi # unchangable
         cpu: 100m # unchangable
-      limits: {}
+      limits:
+        cpu: 500m
+        memory: 1Gi
