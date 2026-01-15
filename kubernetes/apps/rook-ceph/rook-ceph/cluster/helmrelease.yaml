@@ -69,7 +69,6 @@ spec:
       resources:
         mgr:
           limits:
-            cpu: 1500m
             memory: 640Mi
           requests:
             cpu: 50m
