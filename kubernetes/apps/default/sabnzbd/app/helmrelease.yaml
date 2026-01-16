@@ -79,7 +79,7 @@ spec:
         existingClaim: "{{ .Release.Name }}"
       downloads:
         type: nfs
-        server: f9-nas.internal
+        server: nas.main.internal
         path: /mnt/F9/Media/Downloads
         globalMounts:
           - path: /downloads

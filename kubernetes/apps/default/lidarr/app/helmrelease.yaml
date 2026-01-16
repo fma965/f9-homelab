@@ -84,13 +84,13 @@ spec:
           - path: /config/MediaCover
       media:
         type: nfs
-        server: f9-nas.internal
+        server: nas.main.internal
         path: "/mnt/F9/Media/Music"
         globalMounts:
           - path: /music
       downloads:
         type: nfs
-        server: f9-nas.internal
+        server: nas.main.internal
         path: /mnt/F9/Media/Downloads
         globalMounts:
           - path: /downloads

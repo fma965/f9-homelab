@@ -21,7 +21,7 @@ spec:
               tag: 0.7.2
             env:
               WEBUI_URL: https://chat.${SECRET_DOMAIN}
-              OLLAMA_BASE_URL: "http://f9-nas.internal:11434"
+              OLLAMA_BASE_URL: "http://nas.main.internal:11434"
               OAUTH_PROVIDER_NAME: "Home"
               OPENID_PROVIDER_URL: "https://auth.${SECRET_DOMAIN}/.well-known/openid-configuration"
               TZ: "${TIMEZONE}"

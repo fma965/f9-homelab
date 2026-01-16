@@ -100,7 +100,7 @@ spec:
               - path: /dev/shm
       media:
         type: nfs
-        server: f9-nas.internal
+        server: nas.main.internal
         path: /mnt/Data/CCTV
         globalMounts:
           - path: /media

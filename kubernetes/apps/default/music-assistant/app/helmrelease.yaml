@@ -81,7 +81,7 @@ spec:
           - path: /data
       media:
         type: nfs
-        server: f9-nas.internal
+        server: nas.main.internal
         path: /mnt/F9/Media/Music
         globalMounts:
           - path: /music

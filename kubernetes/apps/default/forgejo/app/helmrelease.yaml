@@ -74,7 +74,7 @@ spec:
               subPath: gitea-lfs # Directory within the PVC for git repositories
       data:
         type: nfs
-        server: f9-nas.internal
+        server: nas.main.internal
         path: /mnt/Data/Forgejo
         globalMounts:
           - path: /var/lib/gitea/git/repositories

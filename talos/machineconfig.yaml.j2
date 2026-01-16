@@ -243,6 +243,6 @@ kind: ExtensionServiceConfig
 name: nut-client
 configFiles:
   - content: |-
-        MONITOR f9-nas.internal 1 upsmon upsmon secondary
+        MONITOR nas.main.internal 1 upsmon upsmon secondary
         SHUTDOWNCMD "/sbin/poweroff"
     mountPath: /usr/local/etc/nut/upsmon.conf

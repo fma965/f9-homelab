@@ -23,7 +23,7 @@ spec:
               ADD_AI_PROCESSED_TAG: yes
               AI_PROCESSED_TAG_NAME: ai-processed
               AI_PROVIDER: ollama
-              OLLAMA_API_URL: "http://f9-nas.internal:11434"
+              OLLAMA_API_URL: "http://nas.main.internal:11434"
               OLLAMA_MODEL: llama3.2:latest
               PAPERLESS_API_URL: http://paperless.default.svc.cluster.local:8000/api
               PAPERLESS_USERNAME: scott

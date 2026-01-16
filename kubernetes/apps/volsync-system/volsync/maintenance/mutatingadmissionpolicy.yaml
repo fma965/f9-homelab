@@ -43,7 +43,7 @@ spec:
               value: Object.spec.template.spec.volumes{
                 name: "repository",
                 nfs: Object.spec.template.spec.volumes.nfs{
-                  server: "f9-nas.internal",
+                  server: "nas.main.internal",
                   path: "/mnt/Data/Kubernetes/Volsync"
                 }
               }

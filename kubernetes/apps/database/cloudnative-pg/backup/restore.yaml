@@ -12,7 +12,7 @@ spec:
       volumes:
         - name: backup
           nfs:
-            server: f9-nas.internal
+            server: nas.main.internal
             path: /mnt/Data/Kubernetes/postgres
 
       securityContext:

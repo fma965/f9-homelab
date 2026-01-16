@@ -11,7 +11,13 @@ spec:
   targets:
     staticConfig:
       static:
-        - f9-nas.internal
+        - nas.main.internal
+        - zigbee-controller.internal
+        - doorbell.internal
+        - kvm.internal
+        - k8s-01.internal
+        - k8s-02.internal
+        - k8s-03.internal
   metricRelabelings:
     - targetLabel: service
       replacement: blackbox-exporter-lan
@@ -29,7 +35,7 @@ spec:
   targets:
     staticConfig:
       static:
-        - f9-nas.internal:2049
+        - nas.main.internal:2049
   metricRelabelings:
     - targetLabel: service
       replacement: blackbox-exporter-lan

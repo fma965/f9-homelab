@@ -97,7 +97,7 @@ spec:
             subPath: repository.config
       repository:
         type: nfs
-        server: f9-nas.internal
+        server: nas.main.internal
         path: /mnt/Data/Kubernetes/Volsync
         globalMounts:
           - path: /repository

@@ -98,7 +98,7 @@ spec:
               - path: /data/local
       nas:
         type: nfs
-        server: f9-nas.internal
+        server: nas.main.internal
         path: /mnt/F9/Documents
         advancedMounts:
           paperless:

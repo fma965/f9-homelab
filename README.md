@@ -131,7 +131,7 @@ chmod +x ./kubernetes/bootstrap.sh
 > Currently Komodo does not support adding of a Git Repo via the km CLI, once this is added we can automate this a bit more
 
 1. Install Komodo from the AppStore (TrueNAS) or Docker Compose files (UnRaid / Other)
-2. Access the [Komodo WebUI](http://f9-nas.internal:9120)
+2. Access the [Komodo WebUI](http://nas.main.internal:9120)
 4. Navigate to "Settings" > "Profile" and create a "New Api Key", copy the Key and Secret in to the Komodo 1Password entry
 5. Navigate to "Settings" > "Providers" and add a Github.com Account using your token (regenerate it in Github if needed)
 6. Navigate to "Syncs" and Create a New Resource Sync called "f9-homelab"

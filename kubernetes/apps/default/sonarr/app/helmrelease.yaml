@@ -95,13 +95,13 @@ spec:
           - readOnly: true
       media:
         type: nfs
-        server: f9-nas.internal
+        server: nas.main.internal
         path: "/mnt/F9/Media/TV Shows"
         globalMounts:
           - path: /tv
       downloads:
         type: nfs
-        server: f9-nas.internal
+        server: nas.main.internal
         path: /mnt/F9/Media/Downloads
         globalMounts:
           - path: /downloads
