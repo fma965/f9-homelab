@@ -69,10 +69,9 @@ spec:
       resources:
         mgr:
           limits:
-            cpu: 1500m
-            memory: 640Mi
+            memory: 1Gi
           requests:
-            cpu: 50m
+            cpu: 100m
             memory: 320Mi
         mon:
           limits:
@@ -97,11 +96,11 @@ spec:
             memory: 200Mi
         mgr-sidecar:
           limits:
-            cpu: 256m
-            memory: 100Mi
+            cpu: 1000m
+            memory: 512Mi
           requests:
-            cpu: 50m
-            memory: 40Mi
+            cpu: 100m
+            memory: 100Mi
         crashcollector:
           limits:
             cpu: 100m
