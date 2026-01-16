@@ -25,7 +25,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 18.1.0@sha256:3c54d39f19fdb82ed5b3f286450e4071133cc6025bd0e25856bc2c522f8fc030
+              tag: 18.1.0@sha256:866f15038ed5185a2b8118821f470bb7ca0df8c4231b8e277446e681ebb1ed84
             envFrom: &envFrom
               - secretRef:
                   name: homebox-secret
@@ -40,7 +40,7 @@ spec:
               HBOX_DATABASE_SSL_MODE: disable
               HBOX_LOG_FORMAT: json
               HBOX_LOG_LEVEL: info
-              HBOX_WEB_PORT: &port "7745"
+              HBOX_WEB_PORT: &port 7745
               TZ: ${TIMEZONE}
             envFrom: *envFrom
             securityContext:
