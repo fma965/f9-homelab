@@ -7,13 +7,14 @@ metadata:
 spec:
   extAuth:
     headersToExtAuth:
-      - X-Forwarded-For # this is here so we can get the real IP
-      - X-Forwarded-Proto
-      - authorization
-      - header-authorization
-      - proxy-authorization
-      - accept
-      - cookie
+      - 'accept'
+      - 'cookie'
+      - 'location'
+      - 'authorization'
+      - 'proxy-authorization'
+      - 'header-authorization'
+      - 'x-forwarded-proto'
+      - 'x-forwarded-for'
     failOpen: false
     http:
       backendRefs:
