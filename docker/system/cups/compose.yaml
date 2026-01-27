@@ -9,7 +9,9 @@ services:
     network_mode: "bridge"
     ports:
       - "631:631/tcp"
+    privileged: "true"
     restart: "unless-stopped"
     volumes:
       - "/mnt/apps-pool/appdata/cups:/etc/cups"
       - "/var/run/dbus:/var/run/dbus"
+      - "/dev/bus/usb:/dev/bus/usb"
