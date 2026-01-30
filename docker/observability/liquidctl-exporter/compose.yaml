@@ -1,9 +1,9 @@
 services:
   liquidctl-exporter:
-  container_name: "liquidctl-exporter"
-  image: ghcr.io/fma965/liquidctl-exporter
-  ports:
-    - "9530:9530"
-  privileged: true
-  restart: unless-stopped
-  network_mode: host
+    container_name: "liquidctl-exporter"
+    image: ghcr.io/fma965/liquidctl-exporter
+    ports:
+      - "9530:9530"
+    privileged: true
+    restart: unless-stopped
+    network_mode: host
