@@ -38,7 +38,7 @@ resources:
 - ./radarr/ks.yaml
 - ./recyclarr/ks.yaml
 - ./recommendarr/ks.yaml
-# - ./sabnzbd/ks.yaml
+- ./sabnzbd/ks.yaml
 # - ./searxng/ks.yaml
 - ./sonarr/ks.yaml
 - ./spoolman/ks.yaml
