@@ -311,7 +311,7 @@ identity_providers:
         pkce_challenge_method: 'S256'
         authorization_policy: 'two_factor'
         redirect_uris:
-          - 'https://home.${SECRET_DOMAIN}/auth/oidc/callback'
+          - 'https://home.${SECRET_DOMAIN}/auth/openid/callback'
         scopes:
           - 'openid'
           - 'profile'
