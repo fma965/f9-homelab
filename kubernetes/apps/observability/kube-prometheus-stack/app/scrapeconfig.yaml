@@ -59,4 +59,20 @@ spec:
   relabelings:
     - action: replace
       targetLabel: job
+
       replacement: doco-cd-exporter
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: liquidctl-exporter
+spec:
+  staticConfigs:
+    - targets:
+        - nas.main.internal:9530
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: liquidctl-exporter

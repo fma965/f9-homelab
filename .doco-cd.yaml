@@ -13,9 +13,9 @@ working_dir: docker/management/webtop
 ---
 name: isponsorblocktv
 working_dir: docker/media/isponsorblocktv
----
-name: minidlna
-working_dir: docker/media/minidlna
+# ---
+# name: minidlna
+# working_dir: docker/media/minidlna
 ---
 name: node-exporter
 working_dir: docker/observability/node-exporter
@@ -25,9 +25,12 @@ working_dir: docker/observability/smartctl-exporter
 ---
 name: nut-exporter
 working_dir: docker/observability/nut-exporter
-# ---
-# name: cups
-# working_dir: docker/system/cups
+---
+name: liquidctl-exporter
+working_dir: docker/observability/liquidctl-exporter
+---
+name: cups
+working_dir: docker/system/cups
 ---
 name: pbs
 working_dir: docker/system/pbs
