@@ -1,9 +1,9 @@
 ---
 name: immich-machine-learning
 working_dir: docker/ai/immich-machine-learning
----
-name: stable-diffusion
-working_dir: docker/ai/stable-diffusion
+# ---
+# name: stable-diffusion
+# working_dir: docker/ai/stable-diffusion
 ---
 name: ollama
 working_dir: docker/ai/ollama
