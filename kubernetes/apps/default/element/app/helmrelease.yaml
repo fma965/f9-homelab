@@ -13,9 +13,9 @@ spec:
       chart: matrix-stack
       version: 26.2.0
       interval: 15m
-      sourceRef:
-        kind: HelmRepository
-        name: ess-matrix-charts
+    chartRef:
+        kind: OCIRepository
+        name: matrix-stack
         namespace: flux-system
   values:
     serverName: matrix.${SECRET_DOMAIN}
