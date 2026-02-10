@@ -37,6 +37,10 @@ spec:
                 memory: 1Gi
               limits:
                 memory: 2Gi
+          admin:
+            image:
+              repository: oci.element.io/element-admin:latest
+
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -50,13 +54,24 @@ spec:
         ports:
           http:
             port: 8008
-
+      admin:
+        ports:
+          http:
+            port: 8080
     route:
       synapse:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
         hostnames: ["matrix.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+      admin:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
+        hostnames: ["matrix-admin.${SECRET_DOMAIN}"]
         parentRefs:
           - name: envoy-external
             namespace: network
