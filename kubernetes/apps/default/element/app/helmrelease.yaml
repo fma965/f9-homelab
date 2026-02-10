@@ -90,7 +90,7 @@ spec:
 
     persistence:
       data:
-        existingClaim: synapse
+        existingClaim: element
         advancedMounts:
           synapse:
             main:
