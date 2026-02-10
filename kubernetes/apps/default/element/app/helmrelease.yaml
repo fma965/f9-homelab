@@ -8,9 +8,8 @@ spec:
   releaseName: element
   interval: 15m
   chartRef:
-      kind: OCIRepository
-      name: matrix-stack
-      namespace: flux-system
+    kind: OCIRepository
+    name: matrix-stack
   values:
     serverName: matrix.${SECRET_DOMAIN}
 
