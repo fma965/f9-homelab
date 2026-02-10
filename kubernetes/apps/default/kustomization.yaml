@@ -41,6 +41,7 @@ resources:
 - ./sabnzbd/ks.yaml
 # - ./searxng/ks.yaml
 - ./sonarr/ks.yaml
+- ./synapse/ks.yaml
 - ./spoolman/ks.yaml
 - ./zigbee/ks.yaml
 - ./zipline/ks.yaml
