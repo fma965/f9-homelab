@@ -7,16 +7,10 @@ metadata:
 spec:
   releaseName: element
   interval: 15m
-  chart:
-    spec:
-      # renovate: registryUrl=oci://ghcr.io/element-hq/ess-helm/matrix-stack
-      chart: matrix-stack
-      version: 26.2.0
-      interval: 15m
-    chartRef:
-        kind: OCIRepository
-        name: matrix-stack
-        namespace: flux-system
+  chartRef:
+      kind: OCIRepository
+      name: matrix-stack
+      namespace: flux-system
   values:
     serverName: matrix.${SECRET_DOMAIN}
 
