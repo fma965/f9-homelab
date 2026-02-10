@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: &app synapse
 spec:
+  components:
+    - ../../../../components/volsync
   dependsOn:
     - name: keda
       namespace: observability
@@ -15,6 +17,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      VOLSYNC_CAPACITY: 30Gi
   prune: true
   sourceRef:
     kind: GitRepository
