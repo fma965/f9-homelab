@@ -1,112 +1,96 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-3.0.1/charts/library/common/values.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: element
 spec:
-  interval: 1h
-  chartRef:
-    kind: OCIRepository
-    name: app-template
+  releaseName: element
+  interval: 15m
+  chart:
+    spec:
+      # renovate: registryUrl=oci://ghcr.io/element-hq/ess-helm/matrix-stack
+      chart: matrix-stack
+      version: 26.2.0
+      interval: 15m
+      sourceRef:
+        kind: HelmRepository
+        name: ess-matrix-charts
+        namespace: flux-system
   values:
-    controllers:
-      synapse:
-        annotations:
-          reloader.stakater.com/auto: "true"
-        initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/home-operations/postgres-init
-              tag: 18.1.0@sha256:3c54d39f19fdb82ed5b3f286450e4071133cc6025bd0e25856bc2c522f8fc030
-            envFrom:
-              - secretRef:
-                  name: element-secret
-        containers:
-          main:
-            image:
-              repository: ghcr.io/element-hq/synapse
-              tag: v1.146.0
-            env:
-              SYNAPSE_CONFIG_DIR: /data
-              SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
-              SYNAPSE_DATA_DIR: /data
-              TZ: ${TIMEZONE}
-            resources:
-              requests:
-                cpu: 100m
-                memory: 1Gi
-              limits:
-                memory: 2Gi
-          admin:
-            image:
-              repository: oci.element.io/element-admin
-              tag: latest
+    serverName: matrix.${SECRET_DOMAIN}
 
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
+    matrixRTC:
+      enabled: false # Disable for first test of chart
+      ingress:
+        host: mrtc.${SECRET_DOMAIN}
 
-    service:
-      synapse:
-        controller: synapse
-        ports:
-          http:
-            port: 8008
-      admin:
-        controller: synapse
-        ports:
-          http:
-            port: 8080
+    elementWeb:
+      enabled: true
+      ingress:
+        host: element.${SECRET_DOMAIN}
 
-    route:
-      synapse:
-        annotations:
-          gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == any(200,401)"]
-        hostnames: ["matrix.${SECRET_DOMAIN}"]
-        parentRefs:
-          - name: envoy-external
-            namespace: network
-        rules:
-          - backendRefs:
-              - identifier: synapse
-                port: 8008
-      admin:
-        annotations:
-          gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == any(200,401)"]
-        hostnames: ["matrix-admin.${SECRET_DOMAIN}"]
-        parentRefs:
-          - name: envoy-external
-            namespace: network
-        rules:
-          - backendRefs:
-              - identifier: admin
-                port: 8080
+    postgres:
+      enabled: false # Will use my own CNPG instance
 
-    persistence:
-      data:
-        existingClaim: element
-        advancedMounts:
-          synapse:
-            main:
-              - path: /data
-      config:
-        type: secret
-        name: element-secret
-        advancedMounts:
-          synapse:
-            main:
-              - path: /data/homeserver.yaml
-                subPath: homeserver.yaml
-                readOnly: true
-              - path: /data/signing.key
-                subPath: signing.key
-                readOnly: true
-              - path: /data/log.config
-                subPath: log.config
-                readOnly: true
+    wellKnownDelegation:
+      enabled: true
+      baseDomainRedirect:
+        enabled: false
+
+    elementAdmin:
+      enabled: true
+      ingress:
+        host: matrix-admin.${SECRET_DOMAIN}
+
+    matrixAuthenticationService:
+      ingress:
+        host: mas.${SECRET_DOMAIN}
+      postgres:
+        host: postgres-rw.database.svc.cluster.local
+        port: 5432
+        user: synapse
+        password:
+          value: ${SECRET_SYNAPSE_PSQL_MAS_PASS}
+        database: synapse-mas
+        sslMode: prefer
+
+    # hookshot:
+    #   enabled: true
+    #   storage:
+    #     existingClaim: synapse-hookshot-pvc
+
+    synapse:
+      ingress:
+        host: synapse.${SECRET_DOMAIN}
+      media:
+        storage:
+          existingClaim: synapse
+      postgres:
+        host: synapse-psql-v17-rw.default.svc
+        port: 5432
+        user: synapse
+        password:
+          secret: element-secret
+          secretKey: ELEMENT_DB_PASSWORD
+        database: synapse
+        sslMode: prefer
+      workers:
+        initial-synchrotron:
+          enabled: true
+        synchrotron:
+          enabled: true
+        federation-sender:
+          enabled: true
+          replicas: 2
+      additional:
+        1-experimental-features:
+          config: |
+            experimental_features:
+              msc4190_enabled: true
+              msc3202_device_masquerading: true
+      # appservices:
+      # - secret: appservices-secrets
+      #   secretKey: mautrix-slack.yaml
+      # - secret: appservices-secrets
+      #   secretKey: doublepuppet.yaml
