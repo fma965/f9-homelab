@@ -10,6 +10,7 @@ components:
 resources:
 - ./namespace.yaml
 - ./authelia/ks.yaml
+- ./element/ks.yaml
 - ./esphome/ks.yaml
 - ./flaresolverr/ks.yaml
 # - ./forgejo/ks.yaml
@@ -40,8 +41,7 @@ resources:
 - ./recommendarr/ks.yaml
 - ./sabnzbd/ks.yaml
 # - ./searxng/ks.yaml
-- ./sonarr/ks.yaml
-- ./synapse/ks.yaml
+- ./sonarr/ks.yam
 - ./spoolman/ks.yaml
 - ./zigbee/ks.yaml
 - ./zipline/ks.yaml
