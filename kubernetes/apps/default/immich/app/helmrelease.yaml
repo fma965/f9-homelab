@@ -34,7 +34,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v2.5.3@sha256:9b2e5525c411b7b2d0b74267e71321692c856b32db1429a1b40440184460b402
+              tag: v2.5.6@sha256:aa163d2e1cc2b16a9515dd1fef901e6f5231befad7024f093d7be1f2da14341a
             env:
               REDIS_HOSTNAME: dragonfly.database.svc.cluster.local
               REDIS_PORT: 6379
