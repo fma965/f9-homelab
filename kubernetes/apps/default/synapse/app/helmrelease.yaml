@@ -39,7 +39,8 @@ spec:
                 memory: 2Gi
           admin:
             image:
-              repository: oci.element.io/element-admin:latest
+              repository: oci.element.io/element-admin
+              tag: latest
 
     defaultPodOptions:
       securityContext:
@@ -51,13 +52,16 @@ spec:
 
     service:
       synapse:
+        controller: synapse
         ports:
           http:
             port: 8008
       admin:
+        controller: admin
         ports:
-          http:
+          admin:
             port: 8080
+
     route:
       synapse:
         annotations:
@@ -67,6 +71,11 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
+        rules:
+          - backendRefs:
+              - identifier: synapse
+                port: 8008
+
       admin:
         annotations:
           gatus.home-operations.com/endpoint: |-
@@ -75,6 +84,10 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
+        rules:
+          - backendRefs:
+              - identifier: admin
+                port: 8080
 
     persistence:
       data:
@@ -83,7 +96,6 @@ spec:
           synapse:
             main:
               - path: /data
-
       config:
         type: secret
         name: element-secret
