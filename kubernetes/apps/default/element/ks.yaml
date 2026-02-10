@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app synapse
+  name: &app element
 spec:
   components:
     - ../../../../components/volsync
@@ -13,7 +13,7 @@ spec:
     - name: cloudnative-pg
       namespace: database
   interval: 1h
-  path: ./kubernetes/apps/default/synapse/app
+  path: ./kubernetes/apps/default/element/app
   postBuild:
     substitute:
       APP: *app

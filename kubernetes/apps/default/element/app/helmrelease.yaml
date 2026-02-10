@@ -57,9 +57,9 @@ spec:
           http:
             port: 8008
       admin:
-        controller: admin
+        controller: synapse
         ports:
-          admin:
+          http:
             port: 8080
 
     route:
@@ -75,7 +75,6 @@ spec:
           - backendRefs:
               - identifier: synapse
                 port: 8008
-
       admin:
         annotations:
           gatus.home-operations.com/endpoint: |-
