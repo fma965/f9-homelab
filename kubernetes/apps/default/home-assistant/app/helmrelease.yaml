@@ -12,6 +12,7 @@ spec:
   values:
     controllers:
       home-assistant:
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
@@ -184,6 +185,7 @@ spec:
                 subPath: code-server-tmp
               - path: /nonexistent
                 subPath: nonexistent
+
 
 
 
