@@ -18,7 +18,7 @@ spec:
           backend:
             image:
               repository: directus/directus
-              tag: 11.15.3
+              tag: 11.14.1
             env:
               AUTH_AUTHENTIK_ALLOW_PUBLIC_REGISTRATION: "true"
               AUTH_AUTHENTIK_DRIVER: "openid"
