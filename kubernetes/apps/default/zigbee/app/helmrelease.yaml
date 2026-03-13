@@ -32,6 +32,7 @@ spec:
               TZ: ${TIMEZONE}
               Z2M_WATCHDOG: default
               ZIGBEE2MQTT_DATA: /config
+              ZIGBEE2MQTT_CONFIG_ADVANCED_TRANSMIT_POWER: 20
               ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info # debug
               ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: 25
@@ -109,3 +110,4 @@ spec:
       config:
 
         existingClaim: "{{ .Release.Name }}"
+
