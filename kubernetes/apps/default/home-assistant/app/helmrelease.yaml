@@ -12,6 +12,7 @@ spec:
   values:
     controllers:
       home-assistant:
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
@@ -39,7 +40,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 18.1.0@sha256:3c54d39f19fdb82ed5b3f286450e4071133cc6025bd0e25856bc2c522f8fc030
+              tag: 18.3.0@sha256:6fa1f331cddd2eb0b6afa7b8d3685c864127a81ab01c3d9400bc3ff5263a51cf
             envFrom:
               - secretRef:
                   name: home-assistant-secret
@@ -47,7 +48,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/home-assistant
-              tag: 2026.2.1@sha256:79f5a2e8d0aa2b8a7dcfbc4fe7e0930321248724bce219d97acf9f5ce7ff854b
+              tag: 2026.3.1@sha256:067e54e2e107892a584936f064147f8bf47c0120eed34e272cf6eb6c8520b0de
             env:
               TZ: ${TIMEZONE}
             envFrom:
@@ -70,7 +71,7 @@ spec:
           code-server:
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.108.2@sha256:31ad23cda720476e7eb3371a9b02fd7a5738843f6ef43beef97e9edf1960fc47
+              tag: 4.111.0@sha256:d7a7c0188e942c53e7725dc7b7990086e1701557330f7db179fa270813544dcc
             args:
               - --auth
               - none
@@ -184,6 +185,7 @@ spec:
                 subPath: code-server-tmp
               - path: /nonexistent
                 subPath: nonexistent
+
 
 
 

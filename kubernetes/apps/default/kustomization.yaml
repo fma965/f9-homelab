@@ -10,7 +10,7 @@ components:
 resources:
 - ./namespace.yaml
 - ./authelia/ks.yaml
-- ./element/ks.yaml
+# - ./element/ks.yaml
 - ./esphome/ks.yaml
 - ./flaresolverr/ks.yaml
 # - ./forgejo/ks.yaml

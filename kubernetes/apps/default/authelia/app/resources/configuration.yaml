@@ -86,15 +86,14 @@ access_control:
         - sabnzbd.${SECRET_DOMAIN}
         - torrents.${SECRET_DOMAIN}
         - recommendarr.${SECRET_DOMAIN}
-        - home.${SECRET_DOMAIN}
+        - ${SECRET_DOMAIN}
       subject:
         - "group:media"
       policy: one_factor
 
     - domain:
         - zigbee.${SECRET_DOMAIN}
-        - cctv.${SECRET_DOMAIN}
-
+        - home.${SECRET_DOMAIN}
       subject:
         - "group:home"
       policy: two_factor

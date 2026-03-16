@@ -27,14 +27,15 @@ spec:
           app:
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
-              tag: 2.8.0@sha256:89cf02f379aa743a68494388e3a26fba7b8c9101f8b452038cc07aeff3fc983c
+              tag: 2.9.1@sha256:574b2bd0dcbb59fae6edbbb81a35b5563291d3825da0225f0078aa5575dac37f
             env:
               TZ: ${TIMEZONE}
               Z2M_WATCHDOG: default
               ZIGBEE2MQTT_DATA: /config
+              ZIGBEE2MQTT_CONFIG_ADVANCED_TRANSMIT_POWER: 20
               ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info # debug
-              ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: 25
+              ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: 20
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
               ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
               ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
@@ -54,7 +55,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
               ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
               ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://zigbee-controller.not.internal:6638
-              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: zstack
+              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ember
               Z2M_ONBOARD_NO_SERVER: "true"
               # DEBUG: "zigbee-herdsman*"
             envFrom:
@@ -107,4 +108,6 @@ spec:
 
     persistence:
       config:
+
         existingClaim: "{{ .Release.Name }}"
+

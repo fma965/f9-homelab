@@ -25,7 +25,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 18.1.0@sha256:3c54d39f19fdb82ed5b3f286450e4071133cc6025bd0e25856bc2c522f8fc030
+              tag: 18.3.0@sha256:6fa1f331cddd2eb0b6afa7b8d3685c864127a81ab01c3d9400bc3ff5263a51cf
             envFrom: &envFrom
               - secretRef:
                   name: homebox-secret
@@ -33,7 +33,7 @@ spec:
           homebox:
             image:
               repository: ghcr.io/sysadminsmedia/homebox
-              tag: 0.23.1@sha256:facd9b795952602d5c54eacfcd0f3533040e6b556f461e423a2d2445ed8736f9
+              tag: 0.24.2@sha256:532e0428d922fdea2441b31c1eb5b4018e5f1b2684273bee06dba102db576f30
             env:
               HBOX_OPTIONS_CHECK_GITHUB_RELEASE: "false"
               HBOX_DATABASE_DRIVER: postgres

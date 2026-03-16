@@ -20,7 +20,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 18.1.0@sha256:3c54d39f19fdb82ed5b3f286450e4071133cc6025bd0e25856bc2c522f8fc030
+              tag: 18.3.0@sha256:6fa1f331cddd2eb0b6afa7b8d3685c864127a81ab01c3d9400bc3ff5263a51cf
             envFrom: &envFrom
               - secretRef:
                   name: forgejo-secret
@@ -30,7 +30,7 @@ spec:
             image:
               repository: codeberg.org/forgejo/forgejo
               pullPolicy: IfNotPresent
-              tag: 14.0.2-rootless@sha256:5552c9e25f353760420b8ac7a7f0f0a788ff571bbfd8e2c1e93503d3e2e1b87a
+              tag: 14.0.3-rootless@sha256:3bde16a366e57f37c09599b77ceb83ed05b1934f8224072f8140bc66cf243608
             env:
               TZ: ${TIMEZONE}
               USER_UID: 1000

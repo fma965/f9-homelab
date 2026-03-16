@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: ghcr.io/music-assistant/server
-              tag: 2.7.6@sha256:0b71975a411fb497984314de0a498bc6dd8b4094aa034f7cb7b986352a52e128
+              tag: 2.7.11@sha256:ff2d625856864912e85ff611dae4c5df814abfb7ffc3bd6020e8426b7af81c1e
             env:
               TZ: ${TIMEZONE}
             probes:
@@ -44,7 +44,7 @@ spec:
           bgutil-provider:
             image:
               repository: docker.io/brainicism/bgutil-ytdlp-pot-provider
-              tag: 1.2.2
+              tag: 1.3.1
             env:
               TZ: ${TIMEZONE}
               PORT: 4416
