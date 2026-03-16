@@ -18,7 +18,7 @@ spec:
           barcodebuddy:
             image:
               repository: f0rc3/barcodebuddy
-              tag: v1.8.1.5
+              tag: v1.8.1.8
             env:
               PUID: 1000
               PGID: 1000
