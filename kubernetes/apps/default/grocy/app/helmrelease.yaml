@@ -27,7 +27,11 @@ spec:
               PHP_MAX_FILE_UPLOAD: 200
               PHP_MAX_POST: 100M
               PHP_MEMORY_LIMIT: 512M
+              GROCY_MODE: production
               GROCY_REVERSE_PROXY_AUTH_HEADER: Remote-User
+              GROCY_CULTURE: "en_GB"
+              GROCY_CURRENCY: "GBP"
+              GROCY_AUTH_CLASS: Grocy\Middleware\ReverseProxyAuthMiddleware
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
