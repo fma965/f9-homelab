@@ -1,0 +1,50 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: barcodebuddy
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: barcodebuddy
+  values:
+    controllers:
+      barcodebuddy:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          barcodebuddy:
+            image:
+              repository: f0rc3/barcodebuddy
+              tag: v1.8.1.5
+            env:
+              PUID: 1000
+              PGID: 1000
+              TZ: ${TIMEZONE}
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}"
+    route:
+      barcodebuddy:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
+        hostnames:
+          - "barcodebuddy.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - port: 80
+                name: barcodebuddy
+    service:
+      barcodebuddy:
+        controller: barcodebuddy
+        type: ClusterIP
+        ports:
+          http:
+            primary: true
+            port: 80
