@@ -87,6 +87,7 @@ access_control:
         - torrents.${SECRET_DOMAIN}
         - recommendarr.${SECRET_DOMAIN}
         - ${SECRET_DOMAIN}
+        - grocy.${SECRET_DOMAIN}
       subject:
         - "group:media"
       policy: one_factor
