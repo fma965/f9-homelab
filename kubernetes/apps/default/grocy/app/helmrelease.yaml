@@ -1,0 +1,69 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grocy
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: grocy
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      grocy:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          grocy:
+            image:
+              repository: ghcr.io/linuxserver/grocy
+              tag: 4.6.0
+            env:
+              PUID: 1000
+              PGID: 1000
+              TZ: ${TIMEZONE}
+              MAX_UPLOAD: 50M
+              PHP_MAX_FILE_UPLOAD: 200
+              PHP_MAX_POST: 100M
+              PHP_MEMORY_LIMIT: 512M
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}"
+      viewcache:
+        type: emptyDir
+        globalMounts:
+          - path: /config/data/viewcache
+    route:
+      grocy:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
+        hostnames:
+          - "grocy.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - port: 80
+                name: grocy
+    service:
+      grocy:
+        controller: grocy
+        type: ClusterIP
+        ports:
+          http:
+            primary: true
+            port: 80
