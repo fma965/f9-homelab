@@ -10,13 +10,6 @@ spec:
     kind: OCIRepository
     name: grocy
   values:
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
     controllers:
       grocy:
         annotations:
@@ -34,10 +27,7 @@ spec:
               PHP_MAX_FILE_UPLOAD: 200
               PHP_MAX_POST: 100M
               PHP_MEMORY_LIMIT: 512M
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
-              readOnlyRootFilesystem: true
+              GROCY_REVERSE_PROXY_AUTH_HEADER: Remote-User
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
