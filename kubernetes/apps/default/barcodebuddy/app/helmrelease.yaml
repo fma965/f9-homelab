@@ -23,6 +23,8 @@ spec:
               PUID: 1000
               PGID: 1000
               TZ: ${TIMEZONE}
+              BBUDDY_EXTERNAL_GROCY_URL: https://grocy.${SECRET_DOMAIN}
+              BBUDDY_DISABLE_AUTHENTICATION: true
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"

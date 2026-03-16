@@ -88,6 +88,7 @@ access_control:
         - recommendarr.${SECRET_DOMAIN}
         - ${SECRET_DOMAIN}
         - grocy.${SECRET_DOMAIN}
+        - barcodebuddy.${SECRET_DOMAIN}
       subject:
         - "group:media"
       policy: one_factor
