@@ -23,7 +23,7 @@ spec:
               Grocy__BaseUrl: http://grocy.default.svc.cluster.local
             envFrom:
               - secretRef:
-                  name: grocy-secret
+                  name: grocy-scanner-secret
     route:
       grocy-scanner:
         annotations:
