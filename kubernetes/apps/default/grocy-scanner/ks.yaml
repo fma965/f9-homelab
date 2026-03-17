@@ -3,13 +3,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app barcodebuddy
+  name: &app grocy-scanner
 spec:
   components:
     - ../../../../components/ext-auth
-    - ../../../../components/volsync
   interval: 1h
-  path: ./kubernetes/apps/default/barcodebuddy/app
+  path: ./kubernetes/apps/default/grocy-scanner/app
   postBuild:
     substitute:
       APP: *app

@@ -10,7 +10,6 @@ components:
 resources:
 - ./namespace.yaml
 - ./authelia/ks.yaml
-- ./barcodebuddy/ks.yaml
 # - ./element/ks.yaml
 - ./esphome/ks.yaml
 - ./flaresolverr/ks.yaml
@@ -19,6 +18,7 @@ resources:
 # - ./github-mirror/ks.yaml
 # - ./go2rtc/ks.yaml
 - ./grocy/ks.yaml
+- ./grocy-scanner/ks.yaml
 - ./home-assistant/ks.yaml
 - ./homebox/ks.yaml
 - ./homepage/ks.yaml
