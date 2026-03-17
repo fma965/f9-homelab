@@ -69,7 +69,6 @@ access_control:
         - prowlarr.${SECRET_DOMAIN}
         - sabnzbd.${SECRET_DOMAIN}
         - lidarr.${SECRET_DOMAIN}
-        - grocy-scanner.${SECRET_DOMAIN}
         - grocy.${SECRET_DOMAIN}
       resources: ["^/api.*$"]
       policy: bypass
@@ -90,7 +89,7 @@ access_control:
         - recommendarr.${SECRET_DOMAIN}
         - ${SECRET_DOMAIN}
         - grocy.${SECRET_DOMAIN}
-        - barcodebuddy.${SECRET_DOMAIN}
+        - grocy-scanner.${SECRET_DOMAIN}
       subject:
         - "group:media"
       policy: one_factor
