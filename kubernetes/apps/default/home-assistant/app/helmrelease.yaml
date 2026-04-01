@@ -67,7 +67,24 @@ spec:
                 cpu: 10m
               limits:
                 memory: 2Gi
-
+          matter-hub:
+            image:
+              repository: ghcr.io/riddix/home-assistant-matter-hub
+              tag: 2.0.36@sha256:424d3cf30452799e0a5c624f55e5dca98b18aa5b8d7f8931ad48fb90f3886e7f
+            env:
+              HAMH_STORAGE_LOCATION: /config/matter-hub
+              HAMH_HOME_ASSISTANT_URL: http://localhost:8123/
+              HAMH_LOG_LEVEL: info
+              HAMH_HTTP_PORT: "8482"
+            envFrom:
+              - secretRef:
+                  name: home-assistant-matter-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
           code-server:
             image:
               repository: ghcr.io/coder/code-server
@@ -114,6 +131,10 @@ spec:
         ports:
           http:
             port: 8123
+      matter-hub:
+        ports:
+          http:
+            port: 8482
       code-server:
         ports:
           code-server:
@@ -155,6 +176,34 @@ spec:
               - identifier: code-server
                 port: 12321
 
+
+      matter-hub: # The resulting HTTPRoute will be named home-assistant-code
+        enabled: true
+        hostnames:
+          - home.${SECRET_DOMAIN}
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /matter/
+            filters:
+              - type: URLRewrite
+                urlRewrite:
+                  path:
+                    type: ReplacePrefixMatch
+                    replacePrefixMatch: /
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  add:
+                    - name: "x-ingress-path"
+                      value: "matter"
+            backendRefs:
+              - identifier: matter-hub
+                port: 8482
+
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
@@ -164,7 +213,8 @@ spec:
               - path: /config
             code-server:
               - path: /config
-
+            matter-hub:
+              - path: /config
       config-cache:
         existingClaim: "{{ .Release.Name }}-cache"
         globalMounts:
