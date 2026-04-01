@@ -78,7 +78,7 @@ spec:
               HAMH_HTTP_PORT: "8482"
             envFrom:
               - secretRef:
-                  name: home-assistant-matter-secret
+                  name: home-assistant-secret
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
