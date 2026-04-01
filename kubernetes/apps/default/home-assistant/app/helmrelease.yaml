@@ -175,16 +175,6 @@ spec:
             backendRefs:
               - identifier: code-server
                 port: 12321
-
-
-      matter-hub: # The resulting HTTPRoute will be named home-assistant-code
-        enabled: true
-        hostnames:
-          - home.${SECRET_DOMAIN}
-        parentRefs:
-          - name: envoy-external
-            namespace: network
-        rules:
           - matches:
               - path:
                   type: PathPrefix
