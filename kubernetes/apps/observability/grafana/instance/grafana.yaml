@@ -5,7 +5,7 @@ kind: Grafana
 metadata:
   name: grafana
   labels:
-    grafana.internal/instance: grafana
+    dashboards: grafana
 spec:
   config:
     analytics:
@@ -29,7 +29,6 @@ spec:
       angular_support_enabled: "true"
     server:
       enable_gzip: "true"
-      root_url: https://grafana.${SECRET_DOMAIN}
   deployment:
     spec:
       strategy:
@@ -59,10 +58,6 @@ spec:
               persistentVolumeClaim:
                 claimName: grafana-pvc
   httpRoute:
-    metadata:
-      annotations:
-        gatus.home-operations.com/endpoint: |-
-          conditions: ["[STATUS] == any(200,401)"]
     spec:
       hostnames:
         - grafana.${SECRET_DOMAIN}
