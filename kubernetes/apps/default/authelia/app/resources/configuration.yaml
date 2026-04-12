@@ -73,6 +73,18 @@ access_control:
       resources: ["^/api.*$"]
       policy: bypass
 
+    - domain: "*.${SECRET_DOMAIN}"
+      resources:
+        - "^/code/.*$"
+      subject:
+        - "group:admin"
+      policy: two_factor
+
+    - domain: "*.${SECRET_DOMAIN}"
+      resources:
+        - "^/code/.*$"
+      policy: deny
+
     - domain:
         - "*.${SECRET_DOMAIN}"
       policy: bypass
