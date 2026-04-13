@@ -44,6 +44,9 @@ spec:
               HBOX_OIDC_ENABLED: "true"
               HBOX_OPTIONS_TRUST_PROXY: "true"
               HBOX_OIDC_SCOPE: "openid profile email groups"
+              HBOX_OIDC_ALLOWED_GROUPS: "admin,home"
+              HBOX_OIDC_AUTO_REDIRECT: "true"
+              HBOX_OPTIONS_ALLOW_LOCAL_LOGIN: "false"
               TZ: ${TIMEZONE}
             envFrom: *envFrom
             securityContext:
