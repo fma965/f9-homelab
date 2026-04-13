@@ -22,8 +22,8 @@ metadata:
 spec:
   allowCrossNamespaceImport: true
   instanceSelector:
-      matchLabels:
-        dashboards: grafana
+    matchLabels:
+      dashboards: grafana
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS

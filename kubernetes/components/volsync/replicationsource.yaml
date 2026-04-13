@@ -7,16 +7,22 @@ metadata:
 spec:
   sourcePVC: ${APP}
   trigger:
-    schedule: 0 * * * *
+    schedule: 0 */12 * * *
   kopia:
     accessModes:
-      - ${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}
+      - ${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce} # Use ReadOnlyMany for CephFS
     compression: zstd-fastest
     copyMethod: Snapshot
     moverSecurityContext:
       runAsUser: ${VOLSYNC_PUID:=1000}
       runAsGroup: ${VOLSYNC_PGID:=1000}
       fsGroup: ${VOLSYNC_PGID:=1000}
+    moverVolumes:
+      - mountPath: repository
+        volumeSource:
+          nfs:
+            path: /mnt/Data/Kubernetes/Volsync
+            server: nas.main.internal
     parallelism: 2
     repository: ${APP}-volsync-secret
     retain:

@@ -5,9 +5,6 @@ kind: Kustomization
 metadata:
   name: rook-ceph
 spec:
-  dependsOn:
-    - name: onepassword
-      namespace: external-secrets
   interval: 1h
   path: ./kubernetes/apps/rook-ceph/rook-ceph/app
   prune: true
