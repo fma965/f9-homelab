@@ -23,6 +23,7 @@ spec:
             args:
               - --health-probe-bind-address=:8081
               - --metrics-bind-address=:8080
+              - --leader-elect
             probes:
               liveness:
                 enabled: true
@@ -85,4 +86,5 @@ spec:
             interval: 1m
             scrapeTimeout: 10s
     serviceAccount:
-      dragonfly-operator: {}
+      dragonfly-operator:
+        enabled: true
