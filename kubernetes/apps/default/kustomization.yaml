@@ -25,7 +25,6 @@ resources:
 - ./immich/ks.yaml
 - ./it-tools/ks.yaml
 - ./jellyfin/ks.yaml
-- ./jellyseerr/ks.yaml
 - ./lidarr/ks.yaml
 - ./lldap/ks.yaml
 - ./matter-server/ks.yaml
@@ -42,7 +41,7 @@ resources:
 - ./recyclarr/ks.yaml
 - ./recommendarr/ks.yaml
 - ./sabnzbd/ks.yaml
-# - ./searxng/ks.yaml
+- ./seerr/ks.yaml
 - ./sonarr/ks.yaml
 - ./spoolman/ks.yaml
 - ./zigbee/ks.yaml
