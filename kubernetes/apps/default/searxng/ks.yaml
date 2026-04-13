@@ -7,7 +7,7 @@ spec:
   dependsOn:
     - name: dragonfly-cluster
       namespace: database
-    - name: onepassword
+    - name: onepassword-connect
       namespace: external-secrets
   interval: 1h
   path: ./kubernetes/apps/default/searxng/app
