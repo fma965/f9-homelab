@@ -343,3 +343,23 @@ identity_providers:
           - 'groups'
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
+
+      - client_name: 'Homebox'
+        client_id: '{{ env "HOMEBOX_OAUTH_CLIENT_ID" }}'
+        client_secret: '{{ env "HOMEBOX_OAUTH_CLIENT_SECRET" }}'
+        public: false
+        authorization_policy: 'two_factor'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://inventory.${SECRET_DOMAIN}/api/v1/users/login/oidc/callback'
+        scopes:
+          - 'openid'
+          - 'groups'
+          - 'email'
+          - 'profile'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        token_endpoint_auth_method: 'client_secret_basic'
