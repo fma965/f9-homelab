@@ -68,15 +68,15 @@
           - state: sensor.smart_electricity_meter_cost_today
             label: Energy Cost Today
 
-  - Frigate:
-      icon: frigate.png
-      href: "{{HOMEPAGE_VAR_FRIGATE_HREF}}"
-      description: CCTV Management
-      siteMonitor: "http://frigate.default.svc.cluster.local:5000"
-      widget:
-        type: frigate
-        url: "http://frigate.default.svc.cluster.local:5000"
-        enableRecentEvents: false
+  # - Frigate:
+  #     icon: frigate.png
+  #     href: "{{HOMEPAGE_VAR_FRIGATE_HREF}}"
+  #     description: CCTV Management
+  #     siteMonitor: "http://frigate.default.svc.cluster.local:5000"
+  #     widget:
+  #       type: frigate
+  #       url: "http://frigate.default.svc.cluster.local:5000"
+  #       enableRecentEvents: false
 
 - Calendar:
     - Calendar:
