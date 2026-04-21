@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: ghcr.io/music-assistant/server
-              tag: 2.8.4@sha256:f25ab51703e81e18c90d023916d2bc7c8b1ef98b99503644fc12277bacc69ecd
+              tag: 2.8.5@sha256:fb0ea93078c747d327f86a832d6e11aa2e47dafa6009cf0d4aee5bab60db19c4
             env:
               TZ: ${TIMEZONE}
             probes:
@@ -40,6 +40,15 @@ spec:
             resources:
               limits:
                 memory: 1Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+                add:
+                  - SYS_ADMIN
+                  - DAC_READ_SEARCH
 
           bgutil-provider:
             image:
@@ -60,10 +69,35 @@ spec:
 
     service:
       app:
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: 10.10.69.205
         controller: *app
         ports:
           http:
             port: &port 8095
+            primary: true
+          stream:
+            port: 8097
+          connect1:
+            port: 32500
+          connect2:
+            port: 32501
+          gdm1:
+            port: 32410
+            protocol: UDP
+          gdm2:
+            port: 32412
+            protocol: UDP
+          gdm3:
+            port: 32413
+            protocol: UDP
+          gdm4:
+            port: 32414
+            protocol: UDP
+          gdm5:
+            port: 32500
+            protocol: UDP
     route:
       app:
         annotations:
@@ -75,19 +109,22 @@ spec:
           - name: envoy-external
             namespace: network
     persistence:
-      config:
+      data:
         existingClaim: music-assistant
-        globalMounts:
-          - path: /data
+        advancedMounts:
+          music-assistant:
+            app:
+              - path: /data
+                subPath: data
+              - path: /cache
+                subPath: cache
+              - path: /.local
+                subPath: .local
+      tmp:
+        type: emptyDir
       media:
         type: nfs
         server: nas.main.internal
         path: /mnt/F9/Media/Music
         globalMounts:
           - path: /music
-      cache:
-        type: emptyDir
-        globalMounts:
-          - path: /.cache
-          - path: /tmp
-          - path: /.audio
