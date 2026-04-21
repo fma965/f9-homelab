@@ -17,6 +17,7 @@ resources:
 # - ./frigate/ks.yaml
 # - ./github-mirror/ks.yaml
 # - ./go2rtc/ks.yaml
+- ./govee2mqtt/ks.yaml
 - ./grocy/ks.yaml
 - ./grocy-scanner/ks.yaml
 - ./home-assistant/ks.yaml
