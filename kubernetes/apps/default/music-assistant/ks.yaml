@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/nfs-scaler
-    - ../../../../components/ext-auth
     - ../../../../components/volsync
   dependsOn:
     - name: keda
