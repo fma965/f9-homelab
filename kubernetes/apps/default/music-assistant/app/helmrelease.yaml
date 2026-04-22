@@ -111,23 +111,21 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
-    persistence:
       data:
-        existingClaim: music-assistant
-        advancedMounts:
-          music-assistant:
-            app:
-              - path: /data
-                subPath: data
-              - path: /cache
-                subPath: cache
-              - path: /.local
-                subPath: .local
-      tmp:
-        type: emptyDir
+        existingClaim: "{{ .Release.Name }}"
       media:
         type: nfs
         server: nas.main.internal
         path: /mnt/F9/Media/Music
         globalMounts:
           - path: /music
+      tmpfs:
+        type: emptyDir
+        sizeLimit: 2Gi
+        globalMounts:
+          - path: /.audio
+            subPath: .audio
+          - path: /.cache
+            subPath: .cache
+          - path: /tmp
+            subPath: tmp
