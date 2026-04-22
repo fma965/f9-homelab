@@ -111,6 +111,8 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
+            
+    persistence:
       data:
         existingClaim: "{{ .Release.Name }}"
       media:
