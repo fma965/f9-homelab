@@ -45,5 +45,5 @@ resources:
 - ./seerr/ks.yaml
 - ./sonarr/ks.yaml
 - ./spoolman/ks.yaml
-# - ./zigbee/ks.yaml
+- ./zigbee/ks.yaml
 - ./zipline/ks.yaml
