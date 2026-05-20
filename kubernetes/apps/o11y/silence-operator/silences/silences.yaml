@@ -1,0 +1,74 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/o11y.giantswarm.io/silence_v1alpha2.json
+apiVersion: o11y.giantswarm.io/v1alpha2
+kind: Silence
+metadata:
+  name: ceph-node-nfsmount-diskspace-warning
+spec:
+  matchers:
+    - name: alertname
+      value: CephNodeDiskspaceWarning
+    - name: mountpoint
+      value: /etc/nfsmount.conf
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/o11y.giantswarm.io/silence_v1alpha2.json
+apiVersion: o11y.giantswarm.io/v1alpha2
+kind: Silence
+metadata:
+  name: ceph-node-local-diskspace-warning
+spec:
+  matchers:
+    - name: alertname
+      value: CephNodeDiskspaceWarning
+    - name: device
+      value: /dev/sd.*
+      matchType: "=~"
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/o11y.giantswarm.io/silence_v1alpha2.json
+apiVersion: o11y.giantswarm.io/v1alpha2
+kind: Silence
+metadata:
+  name: ceph-node-network-packet-drops
+spec:
+  matchers:
+    - name: alertname
+      value: CephNodeNetworkPacketDrops
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/o11y.giantswarm.io/silence_v1alpha2.json
+apiVersion: o11y.giantswarm.io/v1alpha2
+kind: Silence
+metadata:
+  name: nas-memory-high-utilization
+spec:
+  matchers:
+    - name: alertname
+      value: NodeMemoryHighUtilization
+    - name: instance
+      value: nas.main.internal:9100
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/o11y.giantswarm.io/silence_v1alpha2.json
+apiVersion: o11y.giantswarm.io/v1alpha2
+kind: Silence
+metadata:
+  name: keda-hpa-maxed-out
+spec:
+  matchers:
+    - name: alertname
+      value: KubeHpaMaxedOut
+    - name: horizontalpodautoscaler
+      value: keda-hpa-.*
+      matchType: "=~"
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/o11y.giantswarm.io/silence_v1alpha2.json
+apiVersion: o11y.giantswarm.io/v1alpha2
+kind: Silence
+metadata:
+  # this fires all the time, but CPU is fine on the nodes? not sure what it's actually suppose to be monitoring, and the rulebook link 404's
+  name: no-node-system-saturaton
+spec:
+  matchers:
+    - name: alertname
+      value: NodeSystemSaturation
+      matchType: '=~'
+    - name: job
+      value: node-exporter
