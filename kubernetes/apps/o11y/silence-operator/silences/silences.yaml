@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/o11y.giantswarm.io/silence_v1alpha2.json
-apiVersion: o11y.giantswarm.io/v1alpha2
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
   name: ceph-node-nfsmount-diskspace-warning
@@ -11,8 +11,8 @@ spec:
     - name: mountpoint
       value: /etc/nfsmount.conf
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/o11y.giantswarm.io/silence_v1alpha2.json
-apiVersion: o11y.giantswarm.io/v1alpha2
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
   name: ceph-node-local-diskspace-warning
@@ -24,8 +24,8 @@ spec:
       value: /dev/sd.*
       matchType: "=~"
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/o11y.giantswarm.io/silence_v1alpha2.json
-apiVersion: o11y.giantswarm.io/v1alpha2
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
   name: ceph-node-network-packet-drops
@@ -34,8 +34,8 @@ spec:
     - name: alertname
       value: CephNodeNetworkPacketDrops
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/o11y.giantswarm.io/silence_v1alpha2.json
-apiVersion: o11y.giantswarm.io/v1alpha2
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
   name: nas-memory-high-utilization
@@ -46,8 +46,8 @@ spec:
     - name: instance
       value: nas.main.internal:9100
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/o11y.giantswarm.io/silence_v1alpha2.json
-apiVersion: o11y.giantswarm.io/v1alpha2
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
   name: keda-hpa-maxed-out
@@ -59,8 +59,8 @@ spec:
       value: keda-hpa-.*
       matchType: "=~"
 ---
-# yaml-language-server: $schema=https://schemas.tholinka.dev/o11y.giantswarm.io/silence_v1alpha2.json
-apiVersion: o11y.giantswarm.io/v1alpha2
+# yaml-language-server: $schema=https://schemas.tholinka.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
   # this fires all the time, but CPU is fine on the nodes? not sure what it's actually suppose to be monitoring, and the rulebook link 404's
