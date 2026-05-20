@@ -68,10 +68,6 @@ spec:
       parentRefs:
         - name: envoy-external
           namespace: network
-      rules:
-        - backendRefs:
-            - name: grafana-service
-              port: 3000
   persistentVolumeClaim:
     spec:
       accessModes:
