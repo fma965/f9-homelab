@@ -14,8 +14,6 @@ spec:
       namespace: kube-system
     - name: intel-gpu-resource-driver
       namespace: kube-system
-    - name: keda
-      namespace: o11y
     - name: volsync
       namespace: volsync-system
   interval: 1h

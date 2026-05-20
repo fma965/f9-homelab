@@ -9,8 +9,6 @@ spec:
   dependsOn:
     - name: cloudnative-pg
       namespace: database
-    - name: keda
-      namespace: o11y
     - name: csi-driver-nfs
       namespace: kube-system
   path: ./kubernetes/apps/default/zipline/app

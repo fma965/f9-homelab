@@ -10,8 +10,6 @@ spec:
     - ../../../../components/volsync
     - ../../../../components/zeroscaler
   dependsOn:
-    - name: keda
-      namespace: o11y
     - name: csi-driver-nfs
       namespace: kube-system
     - name: rook-ceph-cluster
