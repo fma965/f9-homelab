@@ -6,8 +6,8 @@ metadata:
   name: &app music-assistant
 spec:
   components:
-    - ../../../../components/nfs-scaler
     - ../../../../components/volsync
+    - ../../../../components/zeroscaler
   dependsOn:
     - name: keda
       namespace: o11y

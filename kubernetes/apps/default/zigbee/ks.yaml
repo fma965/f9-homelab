@@ -20,6 +20,7 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi
+      ZEROSCALER_JOB_NAME: zigbee_probe
   prune: true
   sourceRef:
     kind: GitRepository

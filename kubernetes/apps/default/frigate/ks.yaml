@@ -6,9 +6,9 @@ metadata:
 spec:
   components:
     - ../../../../components/gpu
-    - ../../../../components/nfs-scaler
     - ../../../../components/volsync
     - ../../../../components/ext-auth
+    - ../../../../components/zeroscaler
   dependsOn:
     - name: keda
       namespace: o11y

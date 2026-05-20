@@ -6,8 +6,8 @@ metadata:
   name: &app radarr
 spec:
   components:
-    - ../../../../components/nfs-scaler
     - ../../../../components/ext-auth
+    - ../../../../components/zeroscaler
   dependsOn:
     - name: keda
       namespace: o11y

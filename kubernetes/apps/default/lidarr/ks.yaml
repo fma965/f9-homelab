@@ -6,9 +6,9 @@ metadata:
   name: &app lidarr
 spec:
   components:
-    - ../../../../components/nfs-scaler
     - ../../../../components/ext-auth
     - ../../../../components/volsync
+    - ../../../../components/zeroscaler
   dependsOn:
     - name: keda
       namespace: o11y

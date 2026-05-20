@@ -7,8 +7,8 @@ metadata:
 spec:
   components:
     - ../../../../components/gpu
-    - ../../../../components/nfs-scaler
     - ../../../../components/volsync
+    - ../../../../components/zeroscaler
   dependsOn:
     - name: csi-driver-nfs
       namespace: kube-system
