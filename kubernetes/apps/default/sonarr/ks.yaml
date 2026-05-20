@@ -10,7 +10,7 @@ spec:
     - ../../../../components/ext-auth
   dependsOn:
     - name: keda
-      namespace: observability
+      namespace: o11y
     - name: csi-driver-nfs
       namespace: kube-system
     - name: cloudnative-pg

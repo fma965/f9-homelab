@@ -6,11 +6,11 @@ metadata:
   name: snmp-exporter
 spec:
   interval: 1h
-  path: ./kubernetes/apps/observability/snmp-exporter/app
+  path: ./kubernetes/apps/o11y/snmp-exporter/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: observability
+  targetNamespace: o11y
   wait: false

@@ -82,7 +82,7 @@ spec:
       forceDeployDashboards: true
       operator:
         dashboardsConfigMapRefEnabled: true
-        folder: observability
+        folder: o11y
         matchLabels:
               dashboards: grafana
     additionalPrometheusRulesMap:

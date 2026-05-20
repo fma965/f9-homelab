@@ -6,11 +6,11 @@ metadata:
   name: gatus
 spec:
   interval: 1h
-  path: ./kubernetes/apps/observability/gatus/app
+  path: ./kubernetes/apps/o11y/gatus/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: observability
+  targetNamespace: o11y
   wait: false

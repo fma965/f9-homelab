@@ -6,13 +6,13 @@ metadata:
   name: silence-operator
 spec:
   interval: 1h
-  path: ./kubernetes/apps/observability/silence-operator/app
+  path: ./kubernetes/apps/o11y/silence-operator/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: observability
+  targetNamespace: o11y
   wait: true
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -24,11 +24,11 @@ spec:
   dependsOn:
     - name: silence-operator
   interval: 1h
-  path: ./kubernetes/apps/observability/silence-operator/silences
+  path: ./kubernetes/apps/o11y/silence-operator/silences
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: observability
+  targetNamespace: o11y
   wait: false

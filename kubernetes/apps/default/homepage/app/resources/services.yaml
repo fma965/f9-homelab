@@ -26,10 +26,10 @@
       icon: gatus.png
       href: "{{HOMEPAGE_VAR_GATUS_HREF}}"
       description: Status Page
-      siteMonitor: "http://gatus.observability.svc.cluster.local"
+      siteMonitor: "http://gatus.o11y.svc.cluster.local"
       widget:
         type: gatus
-        url: "http://gatus.observability.svc.cluster.local"
+        url: "http://gatus.o11y.svc.cluster.local"
 
 - Downloaders:
   - qBittorrent:

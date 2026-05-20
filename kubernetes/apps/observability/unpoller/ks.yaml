@@ -6,11 +6,11 @@ metadata:
   name: unpoller
 spec:
   interval: 1h
-  path: ./kubernetes/apps/observability/unpoller/app
+  path: ./kubernetes/apps/o11y/unpoller/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: observability
+  targetNamespace: o11y
   wait: false

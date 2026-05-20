@@ -18,12 +18,12 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
-  name: authelia-to-observability
+  name: authelia-to-o11y
 spec:
   from:
     - group: gateway.envoyproxy.io
       kind: SecurityPolicy
-      namespace: observability
+      namespace: o11y
   to:
     - group: ""
       kind: Service

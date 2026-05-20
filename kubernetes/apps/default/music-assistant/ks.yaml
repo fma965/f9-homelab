@@ -10,7 +10,7 @@ spec:
     - ../../../../components/volsync
   dependsOn:
     - name: keda
-      namespace: observability
+      namespace: o11y
     - name: csi-driver-nfs
       namespace: kube-system
     - name: volsync

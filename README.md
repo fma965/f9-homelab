@@ -169,7 +169,7 @@ chmod +x ./kubernetes/bootstrap.sh
     │   ├── 📂 game                🦖 # Game servers
     │   ├── 📂 git                 ⎙ # Git services
     │   ├── 📂 kube-system         ⚙️ # Core Kubernetes system components
-    │   ├── 📂 observability       👁️ # Monitoring and logging stack
+    │   ├── 📂 o11y       👁️ # Monitoring and logging stack
     │   ├── 📂 openebs-system      💾 # Container Attached Storage (OpenEBS)
     │   ├── 📂 postgresql          🐘 # PostgreSQL databases
     │   ├── 📂 redis               🧠 # Redis key-value stores

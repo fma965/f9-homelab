@@ -11,7 +11,7 @@ spec:
     - name: rook-ceph-cluster
       namespace: rook-ceph
   interval: 1h
-  path: ./kubernetes/apps/observability/kube-prometheus-stack/app
+  path: ./kubernetes/apps/o11y/kube-prometheus-stack/app
   postBuild:
     substitute:
       APP: kube-prometheus-stack
@@ -21,5 +21,5 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: observability
+  targetNamespace: o11y
   wait: false
