@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -13,13 +13,16 @@ spec:
     controllers:
       dragonfly-operator:
         replicas: 1
+        serviceAccount:
+          identifier: *app
         strategy: RollingUpdate
         containers:
           app:
             image:
               repository: ghcr.io/dragonflydb/operator
               tag: v1.5.0@sha256:2ceb0128302cd7756b743cc5d56ec9479fb08163b5c563897045a4e5e1555f02
-            command: [/manager]
+            command:
+              - "/manager"
             args:
               - --health-probe-bind-address=:8081
               - --metrics-bind-address=:8080
@@ -54,19 +57,24 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: [ALL] }
-        pod:
-          securityContext:
-            runAsUser: 65534
-            runAsGroup: 65534
-            runAsNonRoot: true
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: *app
+              capabilities: {drop: ["ALL"]}
+    defaultPodOptions:
+      automountServiceAccountToken: true
+      labels:
+        # required for the operator to determine a primary in each deployed cluster
+        # ref: https://deepwiki.com/dragonflydb/dragonfly-operator/2.2-manual-installation#namespace-resource
+        control-plane: controller-manager
+      securityContext:
+        runAsUser: 65534
+        runAsGroup: 65534
+        runAsNonRoot: true
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: *app
     service:
       app:
         controller: *app
@@ -84,5 +92,14 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
-    serviceAccount:
-      dragonfly-operator: {}
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |-
+              apiVersion: monitoring.coreos.com/v1
+              kind: ServiceMonitor
+              metadata:
+                name: dragonfly-operator
+                namespace: dbms
+              spec:
+                fallbackScrapeProtocol: PrometheusText1.0.0
