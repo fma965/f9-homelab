@@ -14,5 +14,5 @@ spec:
       inputName: DS_PROMETHEUS
   envs:
     - name: VAR_REPLICATIONDESTNAME
-      value: .*-dst
+      value: .*-bootstrap
   url: https://grafana.com/api/dashboards/21356/revisions/3/download
