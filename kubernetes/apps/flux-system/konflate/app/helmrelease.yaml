@@ -11,7 +11,7 @@ spec:
   interval: 1h
   values:
     config:
-      repo: github://onedr0p/home-ops
+      repo: github://fma965/f9-homelab
     secret:
       existingSecret: konflate-webhook-token-secret
     httpRoute:
@@ -23,7 +23,7 @@ spec:
         - name: envoy-external
           namespace: network
       hostnames:
-        - "{{ .Release.Name }}.turbo.ac"
+        - "{{ .Release.Name }}.${SECRET_DOMAIN}"
     monitoring:
       serviceMonitor:
         enabled: true
