@@ -46,7 +46,7 @@ machine:
         rsize=1048576
         wsize=1048576
   install:
-    image: factory.talos.dev/metal-installer/661d95a3f35e1daf5717ae21de62feb849072d3ad9abd46e68984b5f8af4524c:v1.13.2
+    image: factory.talos.dev/metal-installer/{{ ENV.SCHEMATIC }}:v1.13.3
     wipe: false
     disk: /dev/sda
   kernel:
@@ -144,9 +144,6 @@ cluster:
     extraArgs:
       enable-aggregator-routing: "true"
       feature-gates: HPAScaleToZero=true
-      oidc-client-id: op://kubernetes/authelia/HEADLAMP_OAUTH_CLIENT_ID
-      oidc-issuer-url: op://kubernetes/authelia/OIDC_ISSUER_URL
-      oidc-username-claim: email
     image: registry.k8s.io/kube-apiserver:v1.36.1
   controllerManager:
     extraArgs:
