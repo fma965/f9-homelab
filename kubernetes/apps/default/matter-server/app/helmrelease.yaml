@@ -23,7 +23,7 @@ spec:
               - --log-level=debug
               - --log-level-sdk=info
             env:
-              TZ: ${TIMEZONE}
+              TZ: Europe/London
               MATTER_SERVER__INSTANCE_NAME: "{{ .Release.Name }}"
               MATTER_SERVER__PORT: &port 5580
               MATTER_SERVER__APPLICATION_URL: "{{ .Release.Name }}.${SECRET_DOMAIN}"

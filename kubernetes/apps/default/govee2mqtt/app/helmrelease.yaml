@@ -29,7 +29,7 @@ spec:
               repository: ghcr.io/wez/govee2mqtt
               tag: latest@sha256:d5427fa1524e3e6f87c59e5cbc59e782036a2b5274e4f96cfb581d844aa2b6dc
             env:
-              TZ: ${TIMEZONE}
+              TZ: Europe/London
               GOVEE_MQTT_HOST: mosquitto.default.svc.cluster.local
               GOVEE_MQTT_PORT: "1883"
               GOVEE_TEMPERATURE_SCALE: C

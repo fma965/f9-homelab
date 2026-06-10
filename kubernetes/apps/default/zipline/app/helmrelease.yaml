@@ -30,7 +30,7 @@ spec:
               repository: ghcr.io/diced/zipline
               tag: trunk
             env:
-              TZ: ${TIMEZONE}
+              TZ: Europe/London
               # Core config
               CORE_RETURN_HTTPS_URLS: true
               CORE_DEFAULT_DOMAIN: i.${SECRET_DOMAIN}

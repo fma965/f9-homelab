@@ -38,7 +38,7 @@ spec:
             env:
               REDIS_HOSTNAME: dragonfly.database.svc.cluster.local
               REDIS_PORT: 6379
-              TZ: ${TIMEZONE}
+              TZ: Europe/London
               PUBLIC_IMMICH_SERVER_URL: "https://photos.${SECRET_DOMAIN}"
             envFrom:
               - secretRef:

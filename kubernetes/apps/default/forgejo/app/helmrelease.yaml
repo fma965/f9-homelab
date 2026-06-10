@@ -32,7 +32,7 @@ spec:
               pullPolicy: IfNotPresent
               tag: 15.0.2-rootless@sha256:cc2d74fb4c30385a8ee34de8c8f83344f7316cec70bd2cc7eb82b2802fa28e0b
             env:
-              TZ: ${TIMEZONE}
+              TZ: Europe/London
               USER_UID: 1000
               USER_GID: 1000
             envFrom: *envFrom

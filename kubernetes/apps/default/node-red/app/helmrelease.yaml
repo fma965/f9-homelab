@@ -28,7 +28,7 @@ spec:
               # renovate: datasource=docker depName=docker.io/nodered/node-red
               tag: 5.0.0
             env:
-              TZ: "${TIMEZONE}"
+              TZ: "Europe/London"
               NODE_RED_ENABLE_SAFE_MODE: "false"
               NODE_RED_ENABLE_PROJECTS: "true"
             securityContext:

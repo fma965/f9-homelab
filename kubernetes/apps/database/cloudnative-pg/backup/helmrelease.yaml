@@ -46,7 +46,7 @@ spec:
                   secretKeyRef:
                     name: cloudnative-pg-secret
                     key: password
-              TZ: ${TIMEZONE}
+              TZ: Europe/London
             command:
               - "/bin/sh"
             args:

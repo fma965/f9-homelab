@@ -30,7 +30,7 @@ spec:
               PROCESS_PREDEFINED_DOCUMENTS: no
               SCAN_INTERVAL: "*/30 * * * *"
               USE_PROMPT_TAGS: "no"
-              TZ: "${TIMEZONE}"
+              TZ: "Europe/London"
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"

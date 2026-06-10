@@ -47,7 +47,7 @@ spec:
               HBOX_OIDC_ALLOWED_GROUPS: "admin,home"
               HBOX_OIDC_AUTO_REDIRECT: "true"
               HBOX_OPTIONS_ALLOW_LOCAL_LOGIN: "false"
-              TZ: ${TIMEZONE}
+              TZ: Europe/London
             envFrom: *envFrom
             securityContext:
               allowPrivilegeEscalation: false
