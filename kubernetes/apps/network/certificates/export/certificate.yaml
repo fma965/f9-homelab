@@ -17,6 +17,6 @@ spec:
     algorithm: ECDSA
     size: 256
     rotationPolicy: Always
-  secretName: ${external.f9.casa//./-}-tls
+  secretName: f9-casa-tls
   usages:
     - digital signature
