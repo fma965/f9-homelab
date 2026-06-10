@@ -16,7 +16,7 @@ permissions:
   contents: read
 
 env:
-  KONFLATE_DOMAIN: konflate.turbo.ac
+  KONFLATE_DOMAIN: konflate.f9.casa
 
 jobs:
   comment:
