@@ -50,7 +50,7 @@ kind: Gateway
 metadata:
   name: envoy-external
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname ${external.f9.casa}
+    external-dns.alpha.kubernetes.io/target: &hostname external.f9.casa
     gatus.home-operations.com/endpoint: |-
       client:
         dns-resolver: tcp://1.1.1.1:53

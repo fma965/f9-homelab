@@ -75,21 +75,21 @@ spec:
                 originRequest:
                   http2Origin: true
                   keepAliveTimeout: 3600s
-                  originServerName: ${external.f9.casa}
+                  originServerName: external.f9.casa
                   tcpKeepAlive: 7200s
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
               - hostname: "*.f9.casa"
                 originRequest:
                   http2Origin: true
                   keepAliveTimeout: 3600s
-                  originServerName: ${external.f9.casa}
+                  originServerName: external.f9.casa
                   tcpKeepAlive: 7200s
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
               - hostname: "*.s3.f9.casa"
                 originRequest:
                   http2Origin: true
                   keepAliveTimeout: 3600s
-                  originServerName: ${external.f9.casa}
+                  originServerName: external.f9.casa
                   tcpKeepAlive: 7200s
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
               - service: http_status:404

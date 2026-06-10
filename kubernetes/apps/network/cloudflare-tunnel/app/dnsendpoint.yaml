@@ -6,7 +6,7 @@ metadata:
   name: cloudflare-tunnel
 spec:
   endpoints:
-    - dnsName: ${external.f9.casa}
+    - dnsName: external.f9.casa
       recordType: CNAME
       targets:
         - ${CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com
