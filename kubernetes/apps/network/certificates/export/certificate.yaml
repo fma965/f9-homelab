@@ -3,7 +3,7 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: ${external.f9.casa//./-}
+  name: f9-casa
 spec:
   dnsNames:
       - f9.casa
