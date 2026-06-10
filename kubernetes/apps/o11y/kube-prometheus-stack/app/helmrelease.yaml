@@ -23,14 +23,14 @@ spec:
               conditions: ["[STATUS] == any(200,401)"]
           enabled: true
           hostnames:
-            - alertmanager.${SECRET_DOMAIN}
+            - alertmanager.f9.casa
           parentRefs:
             - name: envoy-external
               namespace: network
       alertmanagerSpec:
         alertmanagerConfiguration:
           name: alertmanager
-        externalUrl: https://alertmanager.${SECRET_DOMAIN}
+        externalUrl: https://alertmanager.f9.casa
         storage:
           volumeClaimTemplate:
             spec:
@@ -52,12 +52,12 @@ spec:
               conditions: ["[STATUS] == any(200,401)"]
           enabled: true
           hostnames:
-            - prometheus.${SECRET_DOMAIN}
+            - prometheus.f9.casa
           parentRefs:
             - name: envoy-external
               namespace: network
       prometheusSpec:
-        externalUrl: https://prometheus.${SECRET_DOMAIN}
+        externalUrl: https://prometheus.f9.casa
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false

@@ -17,10 +17,10 @@ spec:
         containers:
           app:
             env:
-              GITEA_URL: https://git.${SECRET_DOMAIN}
+              GITEA_URL: https://git.f9.casa
               MIRROR_INTERVAL: 12h
               NO_DRY_RUN: 'true'
-              BETTER_AUTH_TRUSTED_ORIGINS: https://{{ .Release.Name }}.${SECRET_DOMAIN}
+              BETTER_AUTH_TRUSTED_ORIGINS: https://{{ .Release.Name }}.f9.casa
               HEADER_AUTH_ENABLED: 'true'
               HEADER_AUTH_USER_HEADER: Remote-User
               HEADER_AUTH_EMAIL_HEADER: Remote-Email
@@ -64,7 +64,7 @@ spec:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "{{ .Release.Name }}.f9.casa"
         parentRefs:
           - name: envoy-external
             namespace: network

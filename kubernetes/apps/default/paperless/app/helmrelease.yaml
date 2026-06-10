@@ -28,7 +28,7 @@ spec:
                   secretKeyRef:
                     name: paperless-secret
                     key: PAPERLESS_SECRET_KEY
-              PAPERLESS_URL: https://docs.${SECRET_DOMAIN}
+              PAPERLESS_URL: https://docs.f9.casa
               PAPERLESS_PORT: "8000"
               PAPERLESS_TIME_ZONE: Europe/London
               PAPERLESS_WEBSERVER_WORKERS: "2"
@@ -52,7 +52,7 @@ spec:
               # Configure SSO
               PAPERLESS_ENABLE_HTTP_REMOTE_USER: "true"
               PAPERLESS_HTTP_REMOTE_USER_HEADER_NAME: "HTTP_REMOTE_USER"
-              PAPERLESS_LOGOUT_REDIRECT_URL: "https://auth.${SECRET_DOMAIN}/logout"
+              PAPERLESS_LOGOUT_REDIRECT_URL: "https://auth.f9.casa/logout"
               # Configure admin user
               PAPERLESS_ADMIN_USER:
                 valueFrom:
@@ -111,7 +111,7 @@ spec:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
         hostnames:
-          - "docs.${SECRET_DOMAIN}"
+          - "docs.f9.casa"
         parentRefs:
           - name: envoy-external
             namespace: network

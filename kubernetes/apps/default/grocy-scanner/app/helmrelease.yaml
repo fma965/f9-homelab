@@ -30,7 +30,7 @@ spec:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
         hostnames:
-          - "grocy-scanner.${SECRET_DOMAIN}"
+          - "grocy-scanner.f9.casa"
         parentRefs:
           - name: envoy-external
             namespace: network

@@ -39,7 +39,7 @@ spec:
     txtOwnerId: default
     txtPrefix: k8s.
     domainFilters:
-      - ${SECRET_DOMAIN}
+      - f9.casa
     serviceMonitor:
       enabled: true
     podAnnotations:

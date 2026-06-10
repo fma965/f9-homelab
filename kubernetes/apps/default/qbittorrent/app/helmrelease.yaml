@@ -184,7 +184,7 @@ spec:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
         hostnames:
-          - 'torrents.${SECRET_DOMAIN}'
+          - 'torrents.f9.casa'
         parentRefs:
           - name: envoy-external
             namespace: network

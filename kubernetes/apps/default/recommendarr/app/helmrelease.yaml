@@ -20,7 +20,7 @@ spec:
               tag: v1.4.4@sha256:c946dd24542ab3cf6b0d56ab1d69e1ea1ff1d84f8a293ceeeaf3f53f09e50db6
             env:
               TZ: Europe/London
-              PUBLIC_URL: https://recommendarr.${SECRET_DOMAIN}
+              PUBLIC_URL: https://recommendarr.f9.casa
               DOCKER_ENV: true
               FORCE_SECURE_COOKIES: true
             securityContext:
@@ -47,7 +47,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
-        hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
+        hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
           - name: envoy-external
             namespace: network

@@ -28,7 +28,7 @@ spec:
               N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: false
               N8N_PROTOCOL: "https"
               N8N_PORT: &port 8080
-              N8N_HOST: &hostName n8n.${SECRET_DOMAIN}
+              N8N_HOST: &hostName n8n.f9.casa
               N8N_LOG_LEVEL: info
               N8N_LOG_OUTPUT: console
               EXTERNAL_HOOK_FILES: /hooks/hooks.js
@@ -95,9 +95,9 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
-            url: "https://{{ .Release.Name }}.${SECRET_DOMAIN}/healthz/readiness"
+            url: "https://{{ .Release.Name }}.f9.casa/healthz/readiness"
         hostnames:
-          - n8n-webhook.${SECRET_DOMAIN}
+          - n8n-webhook.f9.casa
         parentRefs:
           - name: envoy-external
             namespace: network

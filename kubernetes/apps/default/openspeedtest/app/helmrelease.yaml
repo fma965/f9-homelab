@@ -47,7 +47,7 @@ spec:
     route:
       app:
         hostnames:
-          - speedtest.${SECRET_DOMAIN}
+          - speedtest.f9.casa
         parentRefs:
           - name: envoy-external
             namespace: network

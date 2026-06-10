@@ -33,7 +33,7 @@ spec:
               TZ: Europe/London
               # Core config
               CORE_RETURN_HTTPS_URLS: true
-              CORE_DEFAULT_DOMAIN: i.${SECRET_DOMAIN}
+              CORE_DEFAULT_DOMAIN: i.f9.casa
               # Datasources
               DATASOURCE_TYPE: local
               # Features
@@ -43,9 +43,9 @@ spec:
               FEATURES_OAUTH_REGISTRATION: true
               FEATURES_VERSION_CHECKING: false
               # OIDC
-              OAUTH_OIDC_AUTHORIZE_URL: https://auth.${SECRET_DOMAIN}/api/oidc/authorization
-              OAUTH_OIDC_USERINFO_URL: https://auth.${SECRET_DOMAIN}/api/oidc/userinfo
-              OAUTH_OIDC_TOKEN_URL: https://auth.${SECRET_DOMAIN}/api/oidc/token
+              OAUTH_OIDC_AUTHORIZE_URL: https://auth.f9.casa/api/oidc/authorization
+              OAUTH_OIDC_USERINFO_URL: https://auth.f9.casa/api/oidc/userinfo
+              OAUTH_OIDC_TOKEN_URL: https://auth.f9.casa/api/oidc/token
               # Files
               FILES_ROUTE: /u
               FILES_LENGTH: 6
@@ -87,7 +87,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
-        hostnames: ["i.${SECRET_DOMAIN}"]
+        hostnames: ["i.f9.casa"]
         parentRefs:
           - name: envoy-external
             namespace: network

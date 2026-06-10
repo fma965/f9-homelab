@@ -23,7 +23,7 @@ spec:
       httpRoute:
         enabled: true
         hostnames:
-          - flux-operator.${SECRET_DOMAIN}
+          - flux-operator.f9.casa
         parentRefs:
           - name: envoy-external
             namespace: network

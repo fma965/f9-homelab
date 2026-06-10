@@ -32,7 +32,7 @@ spec:
               tag: v1.13.1@sha256:d8d784e5090111b6e4c56dfd90e272d2953a2094e87349f647165df0fa6c4401
             env:
               TZ: Europe/London
-              HOMEPAGE_ALLOWED_HOSTS: "${SECRET_DOMAIN}"
+              HOMEPAGE_ALLOWED_HOSTS: "f9.casa"
             envFrom:
               - secretRef:
                   name: homepage-secret
@@ -120,7 +120,7 @@ spec:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
         hostnames:
-          - "${SECRET_DOMAIN}"
+          - "f9.casa"
         parentRefs:
           - name: envoy-external
             namespace: network

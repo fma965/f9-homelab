@@ -6,7 +6,7 @@ metadata:
   name: headlamp
 spec:
   hostnames:
-    - "k8s.${SECRET_DOMAIN}"
+    - "k8s.f9.casa"
   parentRefs:
     - name: envoy-external
       namespace: network

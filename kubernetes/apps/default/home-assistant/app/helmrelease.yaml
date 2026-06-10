@@ -144,7 +144,7 @@ spec:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
         hostnames:
-          - home.${SECRET_DOMAIN}
+          - home.f9.casa
         parentRefs:
           - name: envoy-external
             namespace: network
@@ -156,7 +156,7 @@ spec:
       code: # The resulting HTTPRoute will be named home-assistant-code
         enabled: true
         hostnames:
-          - home.${SECRET_DOMAIN}
+          - home.f9.casa
         parentRefs:
           - name: envoy-external
             namespace: network

@@ -3,12 +3,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: ${SECRET_EXTERNAL_DOMAIN//./-}
+  name: ${external.f9.casa//./-}
 spec:
   dnsNames:
-      - ${SECRET_DOMAIN}
-      - "*.${SECRET_DOMAIN}"
-      - "*.s3.${SECRET_DOMAIN}"
+      - f9.casa
+      - "*.f9.casa"
+      - "*.s3.f9.casa"
   duration: 160h
   issuerRef:
     kind: ClusterIssuer
@@ -17,6 +17,6 @@ spec:
     algorithm: ECDSA
     size: 256
     rotationPolicy: Always
-  secretName: ${SECRET_EXTERNAL_DOMAIN//./-}-tls
+  secretName: ${external.f9.casa//./-}-tls
   usages:
     - digital signature

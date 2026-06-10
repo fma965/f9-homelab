@@ -39,7 +39,7 @@ spec:
               GATUS_DELAY_START_SECONDS: 5
               GATUS_CONFIG_PATH: /config
               GATUS_WEB_PORT: &port 80
-              SECRET_DOMAIN: ${SECRET_DOMAIN}
+              SECRET_DOMAIN: f9.casa
               TZ: Europe/London
             probes:
               liveness: &probes
@@ -91,8 +91,8 @@ spec:
         annotations:
           gatus.home-operations.com/enabled: "false"
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
-          - status.${SECRET_DOMAIN}
+          - "{{ .Release.Name }}.f9.casa"
+          - status.f9.casa
         parentRefs:
           - name: envoy-external
             namespace: network

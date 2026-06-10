@@ -128,7 +128,7 @@ spec:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
         hostnames:
-          - esphome.${SECRET_DOMAIN}
+          - esphome.f9.casa
         parentRefs:
           - name: envoy-external
             namespace: network

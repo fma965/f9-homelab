@@ -44,7 +44,7 @@ spec:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == 404"]
         hostnames:
-          - "ws.${SECRET_DOMAIN}"
+          - "ws.f9.casa"
         parentRefs:
           - name: envoy-external
             namespace: network

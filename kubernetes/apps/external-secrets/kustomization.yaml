@@ -6,7 +6,6 @@ namespace: external-secrets
 
 components:
   - ../../components/alerts
-  - ../../components/vars
 
 resources:
   - ./namespace.yaml

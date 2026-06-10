@@ -20,10 +20,10 @@ spec:
               repository: ghcr.io/open-webui/open-webui
               tag: v0.9.6
             env:
-              WEBUI_URL: https://chat.${SECRET_DOMAIN}
+              WEBUI_URL: https://chat.f9.casa
               OLLAMA_BASE_URL: "http://nas.main.internal:11434"
               OAUTH_PROVIDER_NAME: "Home"
-              OPENID_PROVIDER_URL: "https://auth.${SECRET_DOMAIN}/.well-known/openid-configuration"
+              OPENID_PROVIDER_URL: "https://auth.f9.casa/.well-known/openid-configuration"
               TZ: "Europe/London"
               ENABLE_OAUTH_SIGNUP: "true"
               OAUTH_MERGE_ACCOUNTS_BY_EMAIL: "true"
@@ -58,7 +58,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
-        hostnames: ["chat.${SECRET_DOMAIN}"]
+        hostnames: ["chat.f9.casa"]
         parentRefs:
           - name: envoy-external
             namespace: network

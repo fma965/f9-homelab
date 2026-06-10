@@ -107,7 +107,7 @@ spec:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
         hostnames:
-          - music.${SECRET_DOMAIN}
+          - music.f9.casa
         parentRefs:
           - name: envoy-external
             namespace: network

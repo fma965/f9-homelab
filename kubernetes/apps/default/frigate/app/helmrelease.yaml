@@ -69,7 +69,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
-        hostnames: ["cctv.${SECRET_DOMAIN}"]
+        hostnames: ["cctv.f9.casa"]
         parentRefs:
           - name: envoy-external
             namespace: network

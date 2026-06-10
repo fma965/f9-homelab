@@ -27,7 +27,7 @@ spec:
                 sabnzbd.default.svc,
                 sabnzbd.default.svc.cluster,
                 sabnzbd.default.svc.cluster.local,
-                sabnzbd.${SECRET_DOMAIN}
+                sabnzbd.f9.casa
               TZ: Europe/London
             envFrom:
               - secretRef:
@@ -66,7 +66,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
-        hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
+        hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
           - name: envoy-external
             namespace: network

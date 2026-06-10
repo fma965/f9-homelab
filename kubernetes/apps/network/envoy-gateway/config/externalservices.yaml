@@ -38,7 +38,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "truenas.${SECRET_DOMAIN}"
+    - "truenas.f9.casa"
   rules:
     - backendRefs:
         - name: truenas-external
@@ -118,7 +118,7 @@ spec:
 #       namespace: network
 #       sectionName: https
 #   hostnames:
-#     - "sd.${SECRET_DOMAIN}"
+#     - "sd.f9.casa"
 #   rules:
 #     - backendRefs:
 #         - name: forgeui-external
@@ -164,7 +164,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "remote.${SECRET_DOMAIN}"
+    - "remote.f9.casa"
   rules:
     - backendRefs:
         - name: remote-external
@@ -243,7 +243,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "kvm.${SECRET_DOMAIN}"
+    - "kvm.f9.casa"
   rules:
     - backendRefs:
         - name: nanokvm-external
@@ -315,10 +315,10 @@ metadata:
   name: doco-cd
   annotations:
     gatus.home-operations.com/endpoint: |-
-      url: "https://doco-cd.${SECRET_DOMAIN}/v1/health"
+      url: "https://doco-cd.f9.casa/v1/health"
 spec:
   hostnames:
-    - "doco-cd.${SECRET_DOMAIN}"
+    - "doco-cd.f9.casa"
   parentRefs:
     - name: envoy-external
       namespace: network
@@ -371,7 +371,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "garage.${SECRET_DOMAIN}"
+    - "garage.f9.casa"
   rules:
     - backendRefs:
         - name: garage-external
@@ -390,9 +390,9 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "s3.${SECRET_DOMAIN}"
-    - "*.s3.${SECRET_DOMAIN}"
-    - "community.${SECRET_DOMAIN}" # https://meta.discourse.org/t/s3-not-aws-backups-stopped-working-presumably-since-an-update/382582
+    - "s3.f9.casa"
+    - "*.s3.f9.casa"
+    - "community.f9.casa" # https://meta.discourse.org/t/s3-not-aws-backups-stopped-working-presumably-since-an-update/382582
   rules:
     - backendRefs:
         - name: garage-external

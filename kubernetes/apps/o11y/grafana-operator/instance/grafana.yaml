@@ -64,7 +64,7 @@ spec:
           conditions: ["[STATUS] == any(200,401)"]
     spec:
       hostnames:
-        - grafana.${SECRET_DOMAIN}
+        - grafana.f9.casa
       parentRefs:
         - name: envoy-external
           namespace: network

@@ -6,7 +6,6 @@ namespace: rook-ceph
 
 components:
   - ../../components/alerts
-  - ../../components/vars
 
 resources:
   - ./namespace.yaml

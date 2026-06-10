@@ -34,21 +34,21 @@ spec:
               DB_HOST: "postgres-rw.database.svc.cluster.local"
               DB_PORT: "5432"
               DB_USER: "games"
-              EMAIL_FROM: "gamemanager@${SECRET_DOMAIN}"
+              EMAIL_FROM: "gamemanager@f9.casa"
               EMAIL_SMTP_HOST: "smtp-relay.network.svc.cluster.local"
               EMAIL_SMTP_PORT: "25"
               EMAIL_TRANSPORT: "smtp"
               EXTENSIONS_PATH: "/directus/extensions"
               PORT: "8055"
-              PUBLIC_URL: "https://gamesdb.${SECRET_DOMAIN}"
+              PUBLIC_URL: "https://gamesdb.f9.casa"
               REDIS_HOST: "dragonfly.database.svc.cluster.local"
               REDIS_PORT: "6379"
               STORAGE_LOCATIONS: "s3"
               STORAGE_S3_DRIVER: "s3"
               STORAGE_S3_KEY: "GK242cc9d55149cdda6a1a465c"
-              STORAGE_S3_BUCKET: "${SECRET_EXTERNAL_DOMAIN//./-}-games-manager-backend"
+              STORAGE_S3_BUCKET: "${external.f9.casa//./-}-games-manager-backend"
               STORAGE_S3_REGION: "eu-west-2"
-              STORAGE_S3_ENDPOINT: "s3.${SECRET_DOMAIN}"
+              STORAGE_S3_ENDPOINT: "s3.f9.casa"
             envFrom: &envFrom
             - secretRef:
                 name: games-manager-secret
@@ -67,8 +67,8 @@ spec:
               repository: ghcr.io/fma965/games-manager-frontend
               tag: v1.0.5
             env:
-              APP_HOST: "https://games.${SECRET_DOMAIN}"
-              APP_BACKEND: "https://gamesdb.${SECRET_DOMAIN}"
+              APP_HOST: "https://games.f9.casa"
+              APP_BACKEND: "https://gamesdb.f9.casa"
               #DEBUG: true
             envFrom: *envFrom
 #            securityContext:
@@ -105,7 +105,7 @@ spec:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
         hostnames:
-          - "gamesdb.${SECRET_DOMAIN}"
+          - "gamesdb.f9.casa"
         parentRefs:
           - name: envoy-external
             namespace: network
@@ -118,7 +118,7 @@ spec:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
         hostnames:
-          - "games.${SECRET_DOMAIN}"
+          - "games.f9.casa"
         parentRefs:
           - name: envoy-external
             namespace: network

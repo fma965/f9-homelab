@@ -71,25 +71,25 @@ spec:
         data:
           config.yaml: |-
             ingress:
-              - hostname: "${SECRET_DOMAIN}"
+              - hostname: "f9.casa"
                 originRequest:
                   http2Origin: true
                   keepAliveTimeout: 3600s
-                  originServerName: ${SECRET_EXTERNAL_DOMAIN}
+                  originServerName: ${external.f9.casa}
                   tcpKeepAlive: 7200s
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
-              - hostname: "*.${SECRET_DOMAIN}"
+              - hostname: "*.f9.casa"
                 originRequest:
                   http2Origin: true
                   keepAliveTimeout: 3600s
-                  originServerName: ${SECRET_EXTERNAL_DOMAIN}
+                  originServerName: ${external.f9.casa}
                   tcpKeepAlive: 7200s
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
-              - hostname: "*.s3.${SECRET_DOMAIN}"
+              - hostname: "*.s3.f9.casa"
                 originRequest:
                   http2Origin: true
                   keepAliveTimeout: 3600s
-                  originServerName: ${SECRET_EXTERNAL_DOMAIN}
+                  originServerName: ${external.f9.casa}
                   tcpKeepAlive: 7200s
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
               - service: http_status:404

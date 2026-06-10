@@ -18,4 +18,4 @@ spec:
               key: CLOUDFLARE_DNS_TOKEN
         selector:
           dnsZones:
-            - ${SECRET_DOMAIN}
+            - f9.casa

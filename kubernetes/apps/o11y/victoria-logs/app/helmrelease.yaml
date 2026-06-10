@@ -30,7 +30,7 @@ spec:
             conditions: ["[STATUS] == any(200,401)"]
         enabled: true
         hostnames:
-          - victoria-logs.${SECRET_DOMAIN}
+          - victoria-logs.f9.casa
         parentRefs:
           - name: envoy-external
             namespace: network

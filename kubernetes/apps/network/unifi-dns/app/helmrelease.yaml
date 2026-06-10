@@ -45,9 +45,9 @@ spec:
     txtOwnerId: main
     txtPrefix: k8s.main.
     domainFilters:
-      - ${SECRET_DOMAIN}
+      - f9.casa
     excludeDomains:
-      - "*.s3.${SECRET_DOMAIN}"
+      - "*.s3.f9.casa"
     serviceMonitor:
       enabled: true
     podAnnotations:

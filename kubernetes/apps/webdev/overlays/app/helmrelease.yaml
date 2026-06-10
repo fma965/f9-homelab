@@ -43,9 +43,9 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
-            url: "https://{{ .Release.Name }}.${SECRET_DOMAIN}/timer/index.html"
+            url: "https://{{ .Release.Name }}.f9.casa/timer/index.html"
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "{{ .Release.Name }}.f9.casa"
         parentRefs:
           - name: envoy-external
             namespace: network

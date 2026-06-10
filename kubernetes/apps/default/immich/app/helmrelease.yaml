@@ -39,7 +39,7 @@ spec:
               REDIS_HOSTNAME: dragonfly.database.svc.cluster.local
               REDIS_PORT: 6379
               TZ: Europe/London
-              PUBLIC_IMMICH_SERVER_URL: "https://photos.${SECRET_DOMAIN}"
+              PUBLIC_IMMICH_SERVER_URL: "https://photos.f9.casa"
             envFrom:
               - secretRef:
                   name: immich-secret
@@ -61,7 +61,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
-        hostnames: ["photos.${SECRET_DOMAIN}"]
+        hostnames: ["photos.f9.casa"]
         parentRefs:
           - name: envoy-external
             namespace: network

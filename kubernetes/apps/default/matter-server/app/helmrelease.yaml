@@ -26,7 +26,7 @@ spec:
               TZ: Europe/London
               MATTER_SERVER__INSTANCE_NAME: "{{ .Release.Name }}"
               MATTER_SERVER__PORT: &port 5580
-              MATTER_SERVER__APPLICATION_URL: "{{ .Release.Name }}.${SECRET_DOMAIN}"
+              MATTER_SERVER__APPLICATION_URL: "{{ .Release.Name }}.f9.casa"
               MATTER_SERVER__LOG_LEVEL: info
             probes:
               liveness:

@@ -42,7 +42,7 @@ spec:
             env:
               AUTHELIA_SERVER_ADDRESS: tcp://0.0.0.0:80
               AUTHELIA_DUO_API_DISABLE: "true"
-              AUTHELIA_NOTIFIER_SMTP_SENDER: "Authelia <authelia@${SECRET_DOMAIN}>"
+              AUTHELIA_NOTIFIER_SMTP_SENDER: "Authelia <authelia@f9.casa>"
               AUTHELIA_SERVER_DISABLE_HEALTHCHECK: "true"
               AUTHELIA_TELEMETRY_METRICS_ADDRESS: tcp://0.0.0.0:8080
               AUTHELIA_TELEMETRY_METRICS_ENABLED: "true"
@@ -98,7 +98,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
-        hostnames: ["auth.${SECRET_DOMAIN}"]
+        hostnames: ["auth.f9.casa"]
         parentRefs:
           - name: envoy-external
             namespace: network
