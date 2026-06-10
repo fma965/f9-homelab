@@ -85,7 +85,7 @@ kind: Gateway
 metadata:
   name: envoy-internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname ${internal.f9.casa}
+    external-dns.alpha.kubernetes.io/target: &hostname internal.f9.casa
     gatus.home-operations.com/endpoint: |-
       group: internal
       guarded: true
@@ -114,7 +114,7 @@ spec:
       tls:
         certificateRefs:
           - kind: Secret
-            name: ${internal.f9.casa//./-}-tls
+            name: f9-casa-tls
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/backendtrafficpolicy_v1alpha1.json
 apiVersion: gateway.envoyproxy.io/v1alpha1
