@@ -59,16 +59,6 @@
     },
     // Grouping rules
     {
-      description: "1Password Connect Group",
-      groupName: "1password-connect",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/1password/"],
-      group: {
-          commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 2,
-    },
-    {
       description: "Actions Runner Controller Group",
       groupName: "actions-runner-controller",
       matchDatasources: ["docker"],
@@ -131,16 +121,6 @@
       },
       minimumGroupSize: 2,
     },
-    {
-      description: "Talos Group",
-      groupName: "talos",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/installer/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 2,
-    },
     // Labeling rules
     {
       matchUpdateTypes: ["major"],
@@ -175,22 +155,4 @@
       addLabels: ["renovate/github-release"],
     },
   ],
-  registryAliases: {
-    "mirror.gcr.io": "docker.io",
-  },
-  dependencyDashboardTitle: "Renovate Dashboard 🤖",
-  ignorePaths: [
-    "**/*.sops.*",
-    "**/resources/**",
-    "archive/**"
-  ],
-  flux: {
-    managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
-  },
-  "helm-values": {
-    managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
-  },
-  kubernetes: {
-    managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
-  },
 }
