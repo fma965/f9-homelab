@@ -24,7 +24,7 @@ resources:
 - ./homepage/ks.yaml
 - ./immich/ks.yaml
 - ./it-tools/ks.yaml
-- ./jellyfin/ks.yaml
+# - ./jellyfin/ks.yaml
 - ./lidarr/ks.yaml
 - ./lldap/ks.yaml
 - ./matter-server/ks.yaml
