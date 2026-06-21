@@ -219,6 +219,8 @@ spec:
                 subPath: tts
               - path: /tmp
                 subPath: tmp
+              - path: /media
+                subPath: media
             code-server:
               - path: /tmp
                 subPath: code-server-tmp
