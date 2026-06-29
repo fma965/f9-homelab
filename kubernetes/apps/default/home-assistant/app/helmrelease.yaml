@@ -47,7 +47,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/home-assistant
-              tag: 2026.6.3@sha256:82db7a297c96a0288559c5f2849878168c14a06557edc114084d874268c92a9a
+              tag: 2026.6.4@sha256:29d953e7be59a0c3cceefad839138d3a57c7b9efb81c800a51d8453d5913cc12
             env:
               TZ: Europe/London
             envFrom:
