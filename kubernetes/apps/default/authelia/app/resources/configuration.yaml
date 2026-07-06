@@ -336,6 +336,7 @@ identity_providers:
         authorization_policy: 'two_factor'
         redirect_uris:
           - 'https://home.f9.casa/auth/openid/callback'
+          - 'https://home.f9.casa/auth/oidc/callback'
         scopes:
           - 'email'
           - 'openid'
