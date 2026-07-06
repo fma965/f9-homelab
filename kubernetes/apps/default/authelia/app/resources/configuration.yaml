@@ -327,23 +327,44 @@ identity_providers:
         claims_policy: default
         token_endpoint_auth_method: 'client_secret_basic'
 
-      - client_name: 'Home Assistant'
+      # - client_name: 'Home Assistant'
+      #   client_id: '{{ env "HOMEASSISTANT_OAUTH_CLIENT_ID" }}'
+      #   client_secret: '{{ env "HOMEASSISTANT_OAUTH_CLIENT_SECRET" }}'
+      #   public: false
+      #   #require_pkce: true
+      #   #pkce_challenge_method: 'S256'
+      #   authorization_policy: 'two_factor'
+      #   redirect_uris:
+      #     - 'https://home.f9.casa/auth/openid/callback'
+      #     - 'https://home.f9.casa/auth/oidc/callback'
+      #   scopes:
+      #     - 'email'
+      #     - 'openid'
+      #     - 'profile'
+      #     - 'groups'
+      #   access_token_signed_response_alg: 'none'
+      #   userinfo_signed_response_alg: 'none'
+
+      - client_id: 'Home Assistant'
         client_id: '{{ env "HOMEASSISTANT_OAUTH_CLIENT_ID" }}'
         client_secret: '{{ env "HOMEASSISTANT_OAUTH_CLIENT_SECRET" }}'
         public: false
-        #require_pkce: true
-        #pkce_challenge_method: 'S256'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
         authorization_policy: 'two_factor'
         redirect_uris:
-          - 'https://home.f9.casa/auth/openid/callback'
           - 'https://home.f9.casa/auth/oidc/callback'
         scopes:
-          - 'email'
           - 'openid'
           - 'profile'
           - 'groups'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_post'
 
       - client_name: 'Homebox'
         client_id: '{{ env "HOMEBOX_OAUTH_CLIENT_ID" }}'
