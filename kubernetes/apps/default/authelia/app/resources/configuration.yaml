@@ -345,7 +345,7 @@ identity_providers:
       #   access_token_signed_response_alg: 'none'
       #   userinfo_signed_response_alg: 'none'
 
-      - client_id: 'Home Assistant'
+      - client_name: 'Home Assistant'
         client_id: '{{ env "HOMEASSISTANT_OAUTH_CLIENT_ID" }}'
         client_secret: '{{ env "HOMEASSISTANT_OAUTH_CLIENT_SECRET" }}'
         public: false
