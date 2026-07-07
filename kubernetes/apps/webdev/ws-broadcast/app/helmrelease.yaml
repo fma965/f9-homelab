@@ -41,8 +41,7 @@ spec:
     route:
       app:
         annotations:
-          gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == 404,426"]
+          gatus.home-operations.com/enabled: "false"
         hostnames:
           - "ws.f9.casa"
         parentRefs:
