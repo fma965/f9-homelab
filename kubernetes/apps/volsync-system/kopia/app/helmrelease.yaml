@@ -68,6 +68,10 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Kopia S3
+          gethomepage.dev/group: Infrastructure
+          gethomepage.dev/icon: kopia
         hostnames:
           - "{{ .Release.Name }}.f9.casa"
         parentRefs:

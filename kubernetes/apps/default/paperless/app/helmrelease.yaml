@@ -110,6 +110,13 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Home
+          gethomepage.dev/name: Paperless
+          gethomepage.dev/icon: paperless-ngx
+          gethomepage.dev/widget.type: paperlessngx
+          gethomepage.dev/widget.url: http://paperless.default:8000
+          gethomepage.dev/widget.key: '{{`{{HOMEPAGE_VAR_PAPERLESS_TOKEN}}`}}'
         hostnames:
           - "docs.f9.casa"
         parentRefs:
