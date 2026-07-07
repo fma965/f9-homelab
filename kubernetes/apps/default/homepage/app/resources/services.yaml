@@ -10,14 +10,14 @@
         url: https://unifi.internal
         key: {{HOMEPAGE_VAR_UNIFI_KEY}}
 
-  - Gatus:
-      icon: gatus.png
-      href: "{{HOMEPAGE_VAR_GATUS_HREF}}"
-      description: Status Page
-      siteMonitor: "http://gatus.o11y.svc.cluster.local"
-      widget:
-        type: gatus
-        url: "http://gatus.o11y.svc.cluster.local"
+  # - Gatus:
+  #     icon: gatus.png
+  #     href: "{{HOMEPAGE_VAR_GATUS_HREF}}"
+  #     description: Status Page
+  #     siteMonitor: "http://gatus.o11y.svc.cluster.local"
+  #     widget:
+  #       type: gatus
+  #       url: "http://gatus.o11y.svc.cluster.local"
 
 - Downloaders:
   - qBittorrent:
