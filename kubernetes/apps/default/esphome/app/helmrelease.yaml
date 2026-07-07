@@ -125,8 +125,7 @@ spec:
     route:
       app:
         annotations:
-          gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == any(200,401)"]
+          gatus.home-operations.com/enabled: "false"
         hostnames:
           - esphome.f9.casa
         parentRefs:
