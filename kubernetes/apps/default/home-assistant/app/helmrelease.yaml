@@ -152,6 +152,13 @@ spec:
           gethomepage.dev/widget.type: homeassistant
           gethomepage.dev/widget.url: http://home-assistant-app.default:8123
           gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_HOMEASSISTANT_KEY}}` }}"
+
+
+          #         custom:
+#           - state: sensor.octopus_energy_electricity_23j0526219_2200022542963_current_accumulative_consumption
+#             label: Energy Usage Today
+#           - state: sensor.octopus_energy_electricity_23j0526219_2200022542963_current_accumulative_cost
+#             label: Energy Cost Today
         hostnames:
           - home.f9.casa
         parentRefs:

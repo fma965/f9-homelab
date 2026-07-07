@@ -98,6 +98,11 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Authentication
+          gethomepage.dev/name: Authelia
+          gethomepage.dev/description: OIDC User Management
+          gethomepage.dev/icon: authelia
         hostnames: ["auth.f9.casa"]
         parentRefs:
           - name: envoy-external

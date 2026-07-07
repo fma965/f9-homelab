@@ -10,45 +10,6 @@
         url: https://unifi.internal
         key: {{HOMEPAGE_VAR_UNIFI_KEY}}
 
-# - Downloaders:
-#   - qBittorrent:
-#       icon: qbittorrent.png
-#       href: "{{HOMEPAGE_VAR_QBITTORRENT_HREF}}"
-#       description: Torrent Client
-#       siteMonitor: "http://qbittorrent.default.svc.cluster.local"
-#       widget:
-#         type: qbittorrent
-#         url: "http://qbittorrent.default.svc.cluster.local"
-#         enableLeechProgress: true
-
-  # - SABnzbd:
-  #     icon: sabnzbd.png
-  #     href: "{{HOMEPAGE_VAR_SABNZBD_HREF}}"
-  #     description: Usenet Client
-  #     siteMonitor: "http://sabnzbd.default.svc.cluster.local"
-  #     widget:
-  #       type: sabnzbd
-  #       url: "http://sabnzbd.default.svc.cluster.local"
-  #       key: "{{HOMEPAGE_VAR_SABNZBD_KEY}}"
-
-# - Home Automation:
-#   - Home Assistant:
-#         custom:
-#           - state: sensor.smart_electricity_meter_usage_today
-#             label: Energy Usage Today
-#           - state: sensor.smart_electricity_meter_cost_today
-#             label: Energy Cost Today
-
-  # - Frigate:
-  #     icon: frigate.png
-  #     href: "{{HOMEPAGE_VAR_FRIGATE_HREF}}"
-  #     description: CCTV Management
-  #     siteMonitor: "http://frigate.default.svc.cluster.local:5000"
-  #     widget:
-  #       type: frigate
-  #       url: "http://frigate.default.svc.cluster.local:5000"
-  #       enableRecentEvents: false
-
 - Calendar:
     - Calendar:
         name:

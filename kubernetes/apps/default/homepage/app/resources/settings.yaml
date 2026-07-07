@@ -24,18 +24,11 @@ quicklaunch:
 layout:
   Calendar:
     icon: mdi-calendar
-    columns: 2
   Media Service:
     icon: mdi-play
   Downloads Service:
     icon: mdi-cloud-download
   Home:
     icon: mdi-home-automation
-    # style: row
-    # columns: 2
-  Authentication:
-    icon: mdi-shield-account
   Observability:
     icon: mdi-lan
-  Finance:
-    icon: mdi-cash
