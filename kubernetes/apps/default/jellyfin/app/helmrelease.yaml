@@ -71,7 +71,7 @@ spec:
             group: media
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Media Service
-          gethomepage.dev/name: jellyfin
+          gethomepage.dev/name: Jellyfin
           gethomepage.dev/icon: jellyfin
           gethomepage.dev/description: Media Player
           gethomepage.dev/widget.type: jellyfin
