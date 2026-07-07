@@ -25,6 +25,11 @@ spec:
           gatus.home-operations.com/endpoint: |-
             group: infrastructure
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Platform Infrastructure
+          gethomepage.dev/name: Flux Operator
+          gethomepage.dev/icon: flux.png
+          gethomepage.dev/description: Operator for Flux
         enabled: true
         hostnames:
           - flux-operator.f9.casa
