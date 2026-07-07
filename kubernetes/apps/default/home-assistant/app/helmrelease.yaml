@@ -149,7 +149,7 @@ spec:
           gethomepage.dev/description: Home Automation
           gethomepage.dev/icon: home-assistant
           gethomepage.dev/widget.type: homeassistant
-          gethomepage.dev/widget.url: http://home-assistant.default:8123
+          gethomepage.dev/widget.url: http://home-assistant-app.default:8123
           gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_HOMEASSISTANT_KEY}}` }}"
         hostnames:
           - home.f9.casa
