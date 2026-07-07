@@ -52,21 +52,21 @@
         url: "http://sabnzbd.default.svc.cluster.local"
         key: "{{HOMEPAGE_VAR_SABNZBD_KEY}}"
 
-- Home Automation:
-  - Home Assistant:
-      icon: home-assistant.png
-      href: "{{HOMEPAGE_VAR_HOMEASSISTANT_HREF}}"
-      description: Home Automation
-      siteMonitor: "{{HOMEPAGE_VAR_HOMEASSISTANT_URL}}"
-      widget:
-        type: homeassistant
-        url: "{{HOMEPAGE_VAR_HOMEASSISTANT_URL}}"
-        key: "{{HOMEPAGE_VAR_HOMEASSISTANT_KEY}}"
-        custom:
-          - state: sensor.smart_electricity_meter_usage_today
-            label: Energy Usage Today
-          - state: sensor.smart_electricity_meter_cost_today
-            label: Energy Cost Today
+# - Home Automation:
+#   - Home Assistant:
+#       icon: home-assistant.png
+#       href: "{{HOMEPAGE_VAR_HOMEASSISTANT_HREF}}"
+#       description: Home Automation
+#       siteMonitor: "{{HOMEPAGE_VAR_HOMEASSISTANT_URL}}"
+#       widget:
+#         type: homeassistant
+#         url: "{{HOMEPAGE_VAR_HOMEASSISTANT_URL}}"
+#         key: "{{HOMEPAGE_VAR_HOMEASSISTANT_KEY}}"
+#         custom:
+#           - state: sensor.smart_electricity_meter_usage_today
+#             label: Energy Usage Today
+#           - state: sensor.smart_electricity_meter_cost_today
+#             label: Energy Cost Today
 
   # - Frigate:
   #     icon: frigate.png
