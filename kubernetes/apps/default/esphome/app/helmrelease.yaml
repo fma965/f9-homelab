@@ -127,6 +127,12 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: ESPHome
+          gethomepage.dev/group: Dev Tools
+          gethomepage.dev/icon: esphome
+          gethomepage.dev/widget.type: esphome
+          gethomepage.dev/widget.url: http://esphome.default:6052
         hostnames:
           - esphome.f9.casa
         parentRefs:

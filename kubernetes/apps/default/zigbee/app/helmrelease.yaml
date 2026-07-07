@@ -109,6 +109,10 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Zigbee
+          gethomepage.dev/group: Infrastructure
+          gethomepage.dev/icon: zigbee2mqtt
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
           - name: envoy-external

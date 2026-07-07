@@ -173,6 +173,11 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Home Assistant Code Server
+          gethomepage.dev/group: Dev Tools
+          gethomepage.dev/icon: code-server
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=home-assistant
         enabled: true
         hostnames:
           - home.f9.casa
