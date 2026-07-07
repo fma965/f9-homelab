@@ -28,6 +28,11 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Observability
+          gethomepage.dev/name: Victoria Logs
+          gethomepage.dev/icon: victorialogs
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=victoria-logs-single
         enabled: true
         hostnames:
           - victoria-logs.f9.casa
