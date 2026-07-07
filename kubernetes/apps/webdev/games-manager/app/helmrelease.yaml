@@ -103,7 +103,7 @@ spec:
       app:
         annotations:
           gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == any(200,426,401)"]
+            conditions: ["[STATUS] == any(200,401)"]
         hostnames:
           - "gamesdb.f9.casa"
         parentRefs:
@@ -116,7 +116,7 @@ spec:
       api:
         annotations:
           gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == any(200,401)"]
+            conditions: ["[STATUS] == any(200,426,401)"]
         hostnames:
           - "games.f9.casa"
         parentRefs:
