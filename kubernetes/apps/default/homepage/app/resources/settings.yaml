@@ -22,30 +22,20 @@ quicklaunch:
   hideVisitURL: true
 
 layout:
-  Media:
-    icon: mdi-play
   Calendar:
     icon: mdi-calendar
     columns: 2
-  Media Management:
-    icon: mdi-multimedia
-  Downloaders:
+  Media Service:
+    icon: mdi-play
+  Downloads Service:
     icon: mdi-cloud-download
-  Networking:
-    icon: mdi-lan
-    style: row
-    columns: 3
-  Management:
-    icon: mdi-tools
-    style: row
-    columns: 3
-  Home Automation:
+  Home:
     icon: mdi-home-automation
-    style: row
-    columns: 2
+    # style: row
+    # columns: 2
   Authentication:
     icon: mdi-shield-account
-  Monitoring:
+  Observability:
     icon: mdi-lan
   Finance:
     icon: mdi-cash
