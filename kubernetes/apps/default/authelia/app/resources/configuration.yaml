@@ -58,79 +58,71 @@ access_control:
         - 10.0.0.0/8
         - 172.16.0.0/12
         - 192.168.0.0/16
-
     - name: cluster
       networks:
         - 10.42.0.0/16
+
   rules:
+    # 1. Cluster network bypass
+    - domain: "*.f9.casa"
+      networks:
+        - cluster
+      policy: bypass
+
+    # 2. API bypass for Servarr/Sabnzbd stack
     - domain:
         - sonarr.f9.casa
         - radarr.f9.casa
         - prowlarr.f9.casa
         - sabnzbd.f9.casa
         - lidarr.f9.casa
-        - grocy.f9.casa
       resources: ["^/api.*$"]
       policy: bypass
 
+    # 3. Blanket Admin Pass: Admins bypass all group restrictions below
     - domain: "*.f9.casa"
-      resources:
-        - "^/code/.*$"
-      subject:
-        - "group:admin"
+      subject: ["group:admin"]
       policy: two_factor
 
+    # 4. Code instances: ONLY admins make it past rule #3 to get here. Everyone else is blocked.
     - domain: "*.f9.casa"
-      resources:
-        - "^/code/.*$"
+      resources: ["^/code/.*$"]
       policy: deny
 
+    # 5. Restrict Media Management domains (Non-admins must be in media_management)
     - domain:
-        - "*.f9.casa"
-      policy: bypass
-      networks:
-        - cluster
+        - sonarr.f9.casa
+        - radarr.f9.casa
+        - prowlarr.f9.casa
+        - lidarr.f9.casa
+        - recommendarr.f9.casa
+      subject: ["group:media_management"]
+      policy: two_factor
 
+    # 6. Restrict Downloads domains (Non-admins must be in downloads)
     - domain:
-        - grocy.f9.casa
-        - grocy-scanner.f9.casa
+        - sabnzbd.f9.casa
+        - torrents.f9.casa
+      subject: ["group:downloads"]
+      policy: two_factor
+    - domain:
+        - sabnzbd.f9.casa
+        - torrents.f9.casa
+      policy: deny
+
+    # 7. Restrict Home domains (Non-admins must be in home)
+    - domain:
         - f9.casa
-        - music.f9.casa
-        - speedtest.f9.casa
-        - spoolman.f9.casa
-      subject:
-        - "group:home"
-      policy: one_factor
-
-    - domain:
         - home.f9.casa
         - inventory.f9.casa
         - photos.f9.casa
         - docs.f9.casa
-      subject:
-        - "group:home"
+        - spoolman.f9.casa
+      subject: ["group:home"]
       policy: two_factor
 
-    - domain:
-        - sonarr.f9.casa
-        - radarr.f9.casa
-        - prowlarr.f9.casa
-        - lidarr.f9.casa
-        - sabnzbd.f9.casa
-        - torrents.f9.casa
-        - recommendarr.f9.casa
-      subject:
-        - "group:media"
-      policy: one_factor
-
-    - domain:
-        - "*.f9.casa"
-      subject:
-        - "group:admin"
-      policy: two_factor
-
-    - domain:
-        - "*.f9.casa"
+    # 8. Catch-All Deny: Blocks unlisted subdomains for non-admins
+    - domain: "*.f9.casa"
       policy: deny
 
 notifier:
