@@ -154,6 +154,9 @@ spec:
                 port: 8123
 
       code: # The resulting HTTPRoute will be named home-assistant-code
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
         enabled: true
         hostnames:
           - home.f9.casa
