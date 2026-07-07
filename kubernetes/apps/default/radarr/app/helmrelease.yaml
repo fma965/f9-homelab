@@ -78,6 +78,14 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Downloads Service
+          gethomepage.dev/name: Radarr
+          gethomepage.dev/icon: radarr
+          gethomepage.dev/description: Movie Downloads
+          gethomepage.dev/widget.type: radarr
+          gethomepage.dev/widget.url: http://radarr.default
+          gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_RADARR_KEY}}` }}"
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
           - name: envoy-external

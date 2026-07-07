@@ -76,6 +76,14 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Downloads Service
+          gethomepage.dev/name: Prowlarr
+          gethomepage.dev/description: Torrent/Usenet Search Engine
+          gethomepage.dev/icon: prowlarr
+          gethomepage.dev/widget.type: prowlarr
+          gethomepage.dev/widget.url: http://prowlarr.default
+          gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_PROWLARR_KEY}}` }}"
         hostnames:
           - "{{ .Release.Name }}.f9.casa"
         parentRefs:
