@@ -183,6 +183,13 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Downloads Service
+          gethomepage.dev/name: QBittorrent
+          gethomepage.dev/description: Torrent Downloader
+          gethomepage.dev/icon: qbittorrent
+          gethomepage.dev/widget.type: qbittorrent
+          gethomepage.dev/widget.url: http://qbittorrent.default
         hostnames:
           - 'torrents.f9.casa'
         parentRefs:

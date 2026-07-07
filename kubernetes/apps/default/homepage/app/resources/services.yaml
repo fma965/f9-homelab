@@ -10,16 +10,16 @@
         url: https://unifi.internal
         key: {{HOMEPAGE_VAR_UNIFI_KEY}}
 
-- Downloaders:
-  - qBittorrent:
-      icon: qbittorrent.png
-      href: "{{HOMEPAGE_VAR_QBITTORRENT_HREF}}"
-      description: Torrent Client
-      siteMonitor: "http://qbittorrent.default.svc.cluster.local"
-      widget:
-        type: qbittorrent
-        url: "http://qbittorrent.default.svc.cluster.local"
-        enableLeechProgress: true
+# - Downloaders:
+#   - qBittorrent:
+#       icon: qbittorrent.png
+#       href: "{{HOMEPAGE_VAR_QBITTORRENT_HREF}}"
+#       description: Torrent Client
+#       siteMonitor: "http://qbittorrent.default.svc.cluster.local"
+#       widget:
+#         type: qbittorrent
+#         url: "http://qbittorrent.default.svc.cluster.local"
+#         enableLeechProgress: true
 
   # - SABnzbd:
   #     icon: sabnzbd.png

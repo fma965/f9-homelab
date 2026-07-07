@@ -66,11 +66,10 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
-          gatus.home-operations.com/enabled: "false"
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Downloads Service
           gethomepage.dev/name: SABnzbd
-          gethomepage.dev/description: Status Page
+          gethomepage.dev/description: Usenet Downloader
           gethomepage.dev/icon: sabnzbd
           gethomepage.dev/widget.type: sabnzbd
           gethomepage.dev/widget.url: http://sabnzbd.default
