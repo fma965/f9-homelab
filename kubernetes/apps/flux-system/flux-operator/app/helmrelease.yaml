@@ -21,6 +21,10 @@ spec:
             groups:
               - flux-admin
       httpRoute:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            group: infrastructure
+            conditions: ["[STATUS] == any(200,401)"]
         enabled: true
         hostnames:
           - flux-operator.f9.casa
