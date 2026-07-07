@@ -62,6 +62,11 @@ spec:
       annotations:
         gatus.home-operations.com/endpoint: |-
           conditions: ["[STATUS] == any(200,401)"]
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Observability
+        gethomepage.dev/name: Grafana
+        gethomepage.dev/icon: grafana
+        gethomepage.dev/pod-selector: app=grafana
     spec:
       hostnames:
         - grafana.f9.casa
