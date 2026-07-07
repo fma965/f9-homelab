@@ -68,6 +68,15 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+            group: media
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media Service
+          gethomepage.dev/name: jellyfin
+          gethomepage.dev/icon: jellyfin
+          gethomepage.dev/description: Media Player
+          gethomepage.dev/widget.type: jellyfin
+          gethomepage.dev/widget.url: http://jellyfin.default:8096
+          gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_JELLYFIN_KEY}}` }}"
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
           - name: envoy-external
