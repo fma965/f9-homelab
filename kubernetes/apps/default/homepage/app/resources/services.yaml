@@ -1,17 +1,5 @@
 ---
 - Networking:
-  - OpenWRT:
-      icon: openwrt.png
-      href: "{{HOMEPAGE_VAR_OPENWRT_URL}}"
-      description: OpenWRT Router
-      siteMonitor: "{{HOMEPAGE_VAR_OPENWRT_URL}}"
-      widget:
-        type: openwrt
-        url: "{{HOMEPAGE_VAR_OPENWRT_URL}}"
-        username: "{{HOMEPAGE_VAR_OPENWRT_USERNAME}}"
-        password: "{{HOMEPAGE_VAR_OPENWRT_PASSWORD}}"
-        interfaceName: eth0 # optional
-
   - Unifi:
       icon: unifi.png
       href: "https://unifi.ui.com"
@@ -54,14 +42,6 @@
 
 # - Home Automation:
 #   - Home Assistant:
-#       icon: home-assistant.png
-#       href: "{{HOMEPAGE_VAR_HOMEASSISTANT_HREF}}"
-#       description: Home Automation
-#       siteMonitor: "{{HOMEPAGE_VAR_HOMEASSISTANT_URL}}"
-#       widget:
-#         type: homeassistant
-#         url: "{{HOMEPAGE_VAR_HOMEASSISTANT_URL}}"
-#         key: "{{HOMEPAGE_VAR_HOMEASSISTANT_KEY}}"
 #         custom:
 #           - state: sensor.smart_electricity_meter_usage_today
 #             label: Energy Usage Today

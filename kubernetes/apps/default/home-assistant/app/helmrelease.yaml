@@ -151,6 +151,7 @@ spec:
           gethomepage.dev/widget.type: homeassistant
           gethomepage.dev/widget.url: http://home-assistant-app.default:8123
           gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_HOMEASSISTANT_KEY}}` }}"
+          gethomepage.dev/siteMonitor: https://home.f9.casa
         hostnames:
           - home.f9.casa
         parentRefs:
