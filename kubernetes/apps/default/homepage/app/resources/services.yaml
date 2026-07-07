@@ -90,38 +90,10 @@
           timezone: Europe/London # optional and only when timezone is not detected properly (slightly slower performance) - force timezone for ical events (if it's the same - no change, if missing or different in ical - will be converted to this timezone)
           integrations: # optional
             - type: sonarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr, lidarr, readarr, ical
-              service_group: Media Management # group name where widget exists
+              service_group: Downloads Service # group name where widget exists
               service_name: Sonarr # service name for that widget
               color: teal # optional - defaults to pre-defined color for the service (teal for sonarr)
             - type: radarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr, lidarr, readarr, ical
-              service_group: Media Management # group name where widget exists
+              service_group: Downloads Service # group name where widget exists
               service_name: Radarr # service name for that widget
               color: amber # optional - defaults to pre-defined color for the service (teal for sonarr)
-# - Media Management:
-    # - Sonarr:
-    #     icon: sonarr.png
-    #     href: "{{HOMEPAGE_VAR_SONARR_HREF}}"
-    #     description: TV Show Management
-    #     siteMonitor: "http://sonarr.default.svc.cluster.local"
-    #     widget:
-    #       type: sonarr
-    #       url: "http://sonarr.default.svc.cluster.local"
-    #       key: "{{HOMEPAGE_VAR_SONARR_KEY}}"
-    # - Radarr:
-    #     icon: radarr.png
-    #     href: "{{HOMEPAGE_VAR_RADARR_HREF}}"
-    #     description: Movie Management
-    #     siteMonitor: "http://radarr.default.svc.cluster.local"
-    #     widget:
-    #       type: radarr
-    #       url: "http://radarr.default.svc.cluster.local"
-    #       key: "{{HOMEPAGE_VAR_RADARR_KEY}}"
-    # - Prowlarr:
-    #     icon: prowlarr.png
-    #     href: "{{HOMEPAGE_VAR_PROWLARR_HREF}}"
-    #     description: Movie Management
-    #     siteMonitor: "http://prowlarr.default.svc.cluster.local"
-    #     widget:
-    #       type: prowlarr
-    #       url: "http://prowlarr.default.svc.cluster.local"
-    #       key: "{{HOMEPAGE_VAR_PROWLARR_KEY}}"
