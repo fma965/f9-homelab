@@ -13,6 +13,9 @@ spec:
     cephClusterSpec:
       cleanupPolicy:
         wipeDevicesFromOtherClusters: true
+      cephVersion:
+        image: quay.io/ceph/ceph:v20.2.2
+        allowUnsupported: false
       crashCollector:
         disable: false
       csi:
