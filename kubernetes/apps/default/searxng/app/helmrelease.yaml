@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/searxng/searxng
-              tag: 2026.7.8-1412926f5@sha256:a87eb8a2b2b65243c431979938aec37d86534f278f44b8115970212a08c32f23
+              tag: 2026.7.11-62a1ab7ed@sha256:aaf56bb5ad737d48a8a375778d42eb4ab1757231e6b1eb7980e71d8dd5bdf0de
             env:
               TZ: Europe/London
               SEARXNG_BASE_URL: https://search.f9.casa
