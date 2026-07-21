@@ -16,6 +16,7 @@ services:
       DISABLED_OLLAMA_KEEP_ALIVE: "15m"
       NVIDIA_DRIVER_CAPABILITIES: "compute,utility"
       NVIDIA_VISIBLE_DEVICES: "all"
+      NVIDIA_DISABLE_REQUIRE: 1
     ports:
       - 8080:8080
     image: ghcr.io/ggml-org/llama.cpp:server-cuda
