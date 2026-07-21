@@ -12,7 +12,6 @@ resources:
 # - ./element/ks.yaml
 - ./esphome/ks.yaml
 - ./flaresolverr/ks.yaml
-# - ./forgejo/ks.yaml
 # - ./frigate/ks.yaml
 # - ./github-mirror/ks.yaml
 # - ./go2rtc/ks.yaml
