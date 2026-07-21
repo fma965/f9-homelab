@@ -6,7 +6,7 @@ services:
       - '10200:10200'
     volumes:
       - '/mnt/AI/appdata/piper/data:/data'
-    command: --voice en-gb-southern_english_female-low
+    command: --voice en-gb-cori-high
 
   whisper:
    container_name: whisper
@@ -15,4 +15,4 @@ services:
      - '10300:10300'
    volumes:
      - '/mnt/AI/appdata/whisper/data:/data'
-   command: --model tiny-int8 --language en
+   command: --model Systran/faster-whisper-large-v3 --language en
