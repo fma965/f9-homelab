@@ -29,9 +29,6 @@ working_dir: docker/observability/node-exporter
 name: smartctl-exporter
 working_dir: docker/observability/smartctl-exporter
 ---
-name: nut-exporter
-working_dir: docker/observability/nut-exporter
----
 name: liquidctl-exporter
 working_dir: docker/observability/liquidctl-exporter
 ---
