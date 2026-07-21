@@ -1,0 +1,18 @@
+services:
+  piper:
+    container_name: piper
+    image: rhasspy/wyoming-piper
+    ports:
+      - '10200:10200'
+    volumes:
+      - '/mnt/AI/appdata/piper/data:/data'
+    command: --voice en-gb-southern_english_female-low
+
+  whisper:
+   container_name: whisper
+   image: rhasspy/wyoming-whisper
+   ports:
+     - '10300:10300'
+   volumes:
+     - '/mnt/AI/appdata/whisper/data:/data'
+   command: --model tiny-int8 --language en

@@ -8,6 +8,9 @@ working_dir: docker/ai/immich-machine-learning
 # name: ollama
 # working_dir: docker/ai/ollama
 ---
+name: whisper
+working_dir: docker/ai/whisper
+---
 name: llamacpp
 working_dir: docker/ai/llamacpp
 ---
