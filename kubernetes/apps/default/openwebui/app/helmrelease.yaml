@@ -20,7 +20,7 @@ spec:
               repository: ghcr.io/open-webui/open-webui
               tag: v0.10.2
             env:
-              WEBUI_URL: https://chat.f9.casa
+              WEBUI_URL: https://ai.f9.casa
               OPENAI_API_BASE_URL: "http://nas.main.internal:8080/v1"
               OPENAI_API_CONFIGS: '{"0": {"enable": true, "tags": [], "prefix_id": "", "model_ids": [], "connection_type": "external", "auth_type": "none", "provider": "llama.cpp"}}'
               OAUTH_PROVIDER_NAME: "Home"
@@ -59,7 +59,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
-        hostnames: ["chat.f9.casa"]
+        hostnames: ["ai.f9.casa"]
         parentRefs:
           - name: envoy-external
             namespace: network

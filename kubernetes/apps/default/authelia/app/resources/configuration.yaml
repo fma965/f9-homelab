@@ -224,6 +224,7 @@ identity_providers:
         pkce_challenge_method: ''
         redirect_uris:
           - 'https://chat.f9.casa/oauth/oidc/callback'
+          - 'https://ai.f9.casa/oauth/oidc/callback'
         scopes:
           - 'openid'
           - 'profile'
