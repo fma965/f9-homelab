@@ -15,4 +15,4 @@ services:
      - '10300:10300'
    volumes:
      - '/mnt/AI/appdata/whisper/data:/data'
-   command: "--model Systran/faster-whisper-large-v3 --language en"
+   command: "--model Systran/faster-whisper-medium --language en"
