@@ -13,7 +13,6 @@ services:
         #   memory: 4G
     environment:
       TZ: "Europe/London"
-      DISABLED_OLLAMA_KEEP_ALIVE: "15m"
       NVIDIA_DRIVER_CAPABILITIES: "compute,utility"
       NVIDIA_VISIBLE_DEVICES: "all"
     ports:
