@@ -8,6 +8,7 @@ spec:
   components:
     - ../../../../components/ext-auth
     - ../../../../components/volsync
+    - ../../../../components/kopiur
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph

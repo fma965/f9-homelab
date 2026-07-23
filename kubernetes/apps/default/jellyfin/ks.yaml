@@ -8,6 +8,7 @@ spec:
   components:
     - ../../../../components/gpu
     - ../../../../components/volsync
+    - ../../../../components/kopiur
     - ../../../../components/zeroscaler
   dependsOn:
     - name: csi-driver-nfs

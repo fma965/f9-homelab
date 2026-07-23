@@ -8,6 +8,7 @@ spec:
   components:
     - ../../../../components/ext-auth
     - ../../../../components/volsync
+    - ../../../../components/kopiur
   dependsOn:
     - name: volsync
       namespace: volsync-system
