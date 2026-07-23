@@ -103,7 +103,7 @@ spec:
       repository:
         type: nfs
         server: nas.main.internal
-        path: /mnt/Data/Kubernetes/Volsync
+        path: /mnt/Data/Kubernetes/Kopiur
         globalMounts:
           - path: /repository
       tmpfs:
