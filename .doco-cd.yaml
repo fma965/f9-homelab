@@ -16,9 +16,6 @@ working_dir: docker/management/webtop
 ---
 name: isponsorblocktv
 working_dir: docker/media/isponsorblocktv
-# ---
-# name: minidlna
-# working_dir: docker/media/minidlna
 ---
 name: node-exporter
 working_dir: docker/observability/node-exporter
