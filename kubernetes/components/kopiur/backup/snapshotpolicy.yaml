@@ -5,6 +5,9 @@ kind: SnapshotPolicy
 metadata:
   name: ${APP}
 spec:
+  mover:
+    inheritSecurityContextFrom:
+      pvcConsumer: {} # optionally: pvcConsumer: { container: app }
   repository:
     kind: ClusterRepository
     name: nas
