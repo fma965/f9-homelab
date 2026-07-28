@@ -1,6 +1,6 @@
 services:
   garage:
-    image: dxflrs/garage:v2.2.0
+    image: dxflrs/garage:99923a87182ae9252b421dda65c935b9c06b1444
     container_name: garage
     volumes:
       - /mnt/apps-pool/appdata/garage/garage.toml:/etc/garage.toml
