@@ -6,19 +6,15 @@ metadata:
   name: &app zigbee
 spec:
   components:
-    - ../../../../components/volsync
     - ../../../../components/kopiur/backup
     - ../../../../components/ext-auth
   dependsOn:
     - name: mosquitto
-    - name: volsync
-      namespace: volsync-system
   interval: 1h
   path: ./kubernetes/apps/default/zigbee/app
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 1Gi
       KOPIUR_CAPACITY: 1Gi
       ZEROSCALER_JOB_NAME: zigbee_probe
   prune: true

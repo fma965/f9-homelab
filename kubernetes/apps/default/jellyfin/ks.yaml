@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/gpu
-    - ../../../../components/volsync
     - ../../../../components/kopiur/backup
     - ../../../../components/zeroscaler
   dependsOn:
@@ -15,14 +14,11 @@ spec:
       namespace: kube-system
     - name: intel-gpu-resource-driver
       namespace: kube-system
-    - name: volsync
-      namespace: volsync-system
   interval: 1h
   path: ./kubernetes/apps/default/jellyfin/app
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 10Gi
       KOPIUR_CAPACITY: 10Gi
   prune: true
   sourceRef:

@@ -7,17 +7,12 @@ metadata:
 spec:
   components:
     - ../../../../components/ext-auth
-    - ../../../../components/volsync
     - ../../../../components/kopiur/backup
-  dependsOn:
-    - name: volsync
-      namespace: volsync-system
   interval: 1h
   path: ./kubernetes/apps/default/node-red/app
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 1Gi
       KOPIUR_CAPACITY: 1Gi
   prune: true
   sourceRef:

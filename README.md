@@ -26,7 +26,6 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev). This is a
 - [cilium](https://github.com/cilium/cilium): eBPF-based networking for my workloads.
 - [envoy](https://github.com/envoyproxy/envoy): Modern Kubernetes Gateway provider
 - [rook](https://github.com/rook/rook): Distributed storage provider for peristent storage using CEPH
-- [volsync](https://github.com/backube/volsync): Asynchronous data replication for Kubernetes volumes to NAS via NFS
 - [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets using [1Password Connect](https://github.com/1Password/connect).
 - [sops](https://github.com/getsops/sops): Managed secrets for Kubernetes and Terraform/OpenTofu which are commited to Git.
 
@@ -176,13 +175,10 @@ chmod +x ./kubernetes/bootstrap.sh
     │   ├── 📂 security            🛡️ # Security tools
     │   ├── 📂 system-upgrade      ⬆️ # Kubernetes node upgrade controller
     │   ├── 📂 traefik             🚦 # Ingress controller and reverse proxy
-    │   ├── 📂 volsync             🔄 # Volume snapshot and replication
     │   └── 📂 webdev              🌐 # Web development projects
     ├── 📂 components
     │   ├── 📂 common             ⚙️ # Shared Kubernetes components
     │   ├── 📂 gatus
-    │   ├── 📂 volsync
-    │   └── 📂 volsync-backuponly
     └── 📂 flux
         └── 📂 cluster             ⚡ # GitOps cluster definitions
 ```

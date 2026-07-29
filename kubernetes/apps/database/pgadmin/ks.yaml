@@ -6,22 +6,18 @@ metadata:
   name: &app pgadmin
 spec:
   components:
-    - ../../../../components/volsync
     - ../../../../components/ext-auth
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
     - name: snapshot-controller
       namespace: kube-system
-    - name: volsync
-      namespace: volsync-system
     - name: cloudnative-pg
   interval: 1h
   path: ./kubernetes/apps/database/pgadmin/app
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 1Gi
       KOPIUR_CAPACITY: 1Gi
   prune: true
   sourceRef:

@@ -6,7 +6,6 @@ metadata:
   name: &app spoolman
 spec:
   components:
-    - ../../../../components/volsync
     - ../../../../components/kopiur/backup
     - ../../../../components/ext-auth
   interval: 1h
@@ -23,6 +22,3 @@ spec:
     namespace: flux-system
   targetNamespace: default
   wait: false
-  dependsOn:
-    - name: volsync
-      namespace: volsync-system

@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/ext-auth
-    - ../../../../components/volsync
     - ../../../../components/kopiur/backup
   dependsOn:
     - name: multus-networks
@@ -19,7 +18,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 5Gi
       KOPIUR_CAPACITY: 5Gi
   prune: true
   sourceRef:
