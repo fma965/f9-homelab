@@ -21,10 +21,10 @@ services:
     volumes:
       - /mnt/AI/appdata/llamacpp/models:/models:ro
       - /mnt/AI/appdata/llamacpp/apikeys.text:/apikeys.text
-    command: >
-      --hf-repo HauhauCS/Gemma4-12B-QAT-Uncensored-HauhauCS-Balanced
-      --hf-file Gemma4-12B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M.gguf
-      --hf-repo-draft HauhauCS/Gemma4-12B-QAT-Uncensored-HauhauCS-Balanced
+    command: >-
+      -m /models/Gemma4-12B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M.gguf
+      -md /models/mtp-gemma-4-12B-it.gguf
+      --mmproj /models/mmproj-Gemma4-12B-QAT-Uncensored-HauhauCS-Balanced-BF16.gguf
       --spec-type draft-mtp
       --alias gemma-4-12b-ha
       --host 0.0.0.0
@@ -33,8 +33,8 @@ services:
       --parallel 1
       --n-gpu-layers 999
       --flash-attn auto
-      --reasoning off
       --cache-type-k q8_0
       --cache-type-v q8_0
+      --reasoning off
       --jinja
       --api-key-file /apikeys.text
