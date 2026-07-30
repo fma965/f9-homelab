@@ -25,7 +25,6 @@ services:
       --hf-repo HauhauCS/Gemma4-12B-QAT-Uncensored-HauhauCS-Balanced
       --hf-file Gemma4-12B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M.gguf
       --hf-repo-draft HauhauCS/Gemma4-12B-QAT-Uncensored-HauhauCS-Balanced
-      --hf-file-draft mtp-gemma-4-12B-it.gguf
       --spec-type draft-mtp
       --alias gemma-4-12b-ha
       --host 0.0.0.0
