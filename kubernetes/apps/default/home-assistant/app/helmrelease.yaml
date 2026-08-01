@@ -43,6 +43,13 @@ spec:
             envFrom:
               - secretRef:
                   name: home-assistant-secret
+          fix-permissions:
+            image:
+              repository: busybox
+              tag: latest
+            command: ["sh", "-c", "chown -R 1000:1000 /config"]
+            securityContext:
+              runAsUser: 0
         containers:
           app:
             image:
@@ -53,14 +60,14 @@ spec:
             envFrom:
               - secretRef:
                   name: home-assistant-secret
-            # securityContext:
-            #   # allowPrivilegeEscalation: false
-            #   # readOnlyRootFilesystem: true
-            #   capabilities:
-            #     {
-            #       # drop: ["ALL"],
-            #       add: ["NET_ADMIN", "NET_RAW", "NET_BROADCAST", "NET_BIND_SERVICE"],
-            #     }
+            securityContext:
+              # allowPrivilegeEscalation: false
+              # readOnlyRootFilesystem: true
+              capabilities:
+                {
+                  # drop: ["ALL"],
+                  add: ["NET_ADMIN", "NET_RAW", "NET_BROADCAST", "NET_BIND_SERVICE"],
+                }
             resources:
               requests:
                 cpu: 10m
@@ -114,11 +121,11 @@ spec:
 
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: false
-        # runAsUser: 1000
-        # runAsGroup: 1000
-        # fsGroup: 1000
-        # fsGroupChangePolicy: OnRootMismatch
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
       # hostNetwork: true
     service:
       app:
@@ -227,6 +234,8 @@ spec:
             code-server:
               - path: /config
             matter-hub:
+              - path: /config
+            fix-permissions:
               - path: /config
       config-cache:
         existingClaim: "{{ .Release.Name }}-cache"
