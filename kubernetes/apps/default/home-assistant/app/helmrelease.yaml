@@ -43,13 +43,13 @@ spec:
             envFrom:
               - secretRef:
                   name: home-assistant-secret
-          fix-permissions:
-            image:
-              repository: busybox
-              tag: latest
-            command: ["sh", "-c", "chown -R 1000:1000 /config"]
-            securityContext:
-              runAsUser: 0
+          # fix-permissions:
+          #   image:
+          #     repository: busybox
+          #     tag: latest
+          #   command: ["sh", "-c", "chown -R 1000:1000 /config"]
+          #   securityContext:
+          #     runAsUser: 0
         containers:
           app:
             image:
@@ -113,6 +113,9 @@ spec:
                 secretKeyRef:
                   name: home-assistant-secret
                   key: HASS_TOKEN
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
             resources:
               requests:
                 cpu: 5m
@@ -121,7 +124,7 @@ spec:
 
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: false
+        runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
