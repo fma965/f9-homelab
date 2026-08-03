@@ -123,8 +123,6 @@ spec:
                 subPath: code-server-tmp
               - path: /nonexistent
                 subPath: nonexistent
-            fix-permissions:
-              - path: /config
       # deploy-key:
       #   type: secret
       #   name: esphome-deploykey
