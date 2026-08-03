@@ -25,17 +25,9 @@ spec:
               }]
           securityContext:
             fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
+            fsGroupChangePolicy: Always
             runAsGroup: 1000
             runAsUser: 1000
-        initContainers:
-          fix-permissions:
-            image:
-              repository: busybox
-              tag: latest
-            command: ["sh", "-c", "chown -R 1000:1000 /config"]
-            securityContext:
-              runAsUser: 0
         containers:
           app:
             image:
@@ -56,7 +48,7 @@ spec:
                 memory: 3072Mi
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: false
+              readOnlyRootFilesystem: true
               capabilities:
                 drop:
                   - ALL
@@ -90,7 +82,7 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
+        fsGroupChangePolicy: Always
       # hostNetwork: true
     service:
       app:
@@ -110,8 +102,6 @@ spec:
             app:
               - path: /config
             code-server:
-              - path: /config
-            fix-permissions:
               - path: /config
       secrets:
         type: secret
