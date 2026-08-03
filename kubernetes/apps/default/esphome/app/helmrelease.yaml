@@ -68,6 +68,9 @@ spec:
               - --port
               - "12321"
               - /config
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
             resources:
               requests:
                 cpu: 10m
