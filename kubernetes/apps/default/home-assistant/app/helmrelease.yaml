@@ -61,8 +61,8 @@ spec:
               - secretRef:
                   name: home-assistant-secret
             securityContext:
-              # allowPrivilegeEscalation: false
-              # readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
               capabilities:
                 {
                   # drop: ["ALL"],
