@@ -76,6 +76,14 @@ spec:
                 cpu: 10m
               limits:
                 memory: 512Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      # hostNetwork: true
     service:
       app:
         forceRename: "{{.Release.Name}}"
@@ -115,7 +123,8 @@ spec:
                 subPath: code-server-tmp
               - path: /nonexistent
                 subPath: nonexistent
-
+            fix-permissions:
+              - path: /config
       # deploy-key:
       #   type: secret
       #   name: esphome-deploykey
