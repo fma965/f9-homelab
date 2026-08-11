@@ -1,8 +1,12 @@
 #!/bin/bash
-# Version: 1.0 - 27/08/2025
+# Version: 1.1 - 11/08/2026
+
+# Prevent apt/dpkg and brew from prompting for input
+export DEBIAN_FRONTEND=noninteractive
+export NONINTERACTIVE=1
 
 if [ -f /skip ]; then
-  echo "**** Skip File (/root/skip) Found, Skipping Package Installation! ****"
+  echo "**** Skip File (/skip) Found, Skipping Package Installation! ****"
   exit 0
 fi
 echo "**** Installing dependencies ****"
