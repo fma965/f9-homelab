@@ -23,14 +23,6 @@ spec:
                 "mac": "f2:f9:00:00:40:04",
                 "ips": ["10.10.40.241/24"]
               }]
-        initContainers:
-          fix-permissions:
-            image:
-              repository: busybox
-              tag: latest
-            command: ["sh", "-c", "chown -R 1000:1000 /config"]
-            securityContext:
-              runAsUser: 0
         containers:
           app:
             image:
@@ -129,15 +121,12 @@ spec:
     persistence:
       data:
         existingClaim: "{{ .Release.Name }}"
-        advancedMounts:
-          music-assistant:
-            app:
-              - path: /data
-                subPath: data
-              - path: /cache
-                subPath: cache
-            fix-permissions:
-              - path: /config
+      media:
+        type: nfs
+        server: nas.main.internal
+        path: /mnt/F9/Media/Music
+        globalMounts:
+          - path: /music
       tmpfs:
         type: emptyDir
         sizeLimit: 2Gi
