@@ -23,16 +23,6 @@ spec:
                 "mac": "f2:f9:00:00:40:04",
                 "ips": ["10.10.40.241/24"]
               }]
-        initContainers:
-          fix-permissions:
-            image:
-              repository: docker.io/library/alpine
-              tag: 3.20
-            command: ["sh", "-c", "chown -R 1000:1000 /data /cache"]
-            securityContext:
-              runAsUser: 0
-              runAsNonRoot: false
-
         containers:
           app:
             image:
@@ -71,9 +61,6 @@ spec:
               TZ: Europe/London
               PORT: 4416
             securityContext:
-              runAsUser: 1000
-              runAsGroup: 1000
-              runAsNonRoot: true
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities:
@@ -137,11 +124,6 @@ spec:
         advancedMounts:
           music-assistant:
             app:
-              - path: /data
-                subPath: data
-              - path: /cache
-                subPath: cache
-            fix-permissions:
               - path: /data
                 subPath: data
               - path: /cache
