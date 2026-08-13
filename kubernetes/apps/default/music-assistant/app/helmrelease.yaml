@@ -69,7 +69,9 @@ spec:
               capabilities:
                 drop:
                   - ALL
-
+    defaultPodOptions:
+      securityContext:
+        fsGroupChangePolicy: Always
     service:
       app:
         type: LoadBalancer
