@@ -45,7 +45,7 @@ spec:
                 memory: 2048Mi
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: false
+              readOnlyRootFilesystem: true
               capabilities:
                 drop:
                   - ALL
@@ -71,7 +71,11 @@ spec:
                   - ALL
     defaultPodOptions:
       securityContext:
-        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         type: LoadBalancer
