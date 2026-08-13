@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -12,6 +11,7 @@ spec:
   values:
     controllers:
       music-assistant:
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
@@ -23,6 +23,16 @@ spec:
                 "mac": "f2:f9:00:00:40:04",
                 "ips": ["10.10.40.241/24"]
               }]
+        initContainers:
+          fix-permissions:
+            image:
+              repository: docker.io/library/alpine
+              tag: 3.20
+            command: ["sh", "-c", "chown -R 1000:1000 /data /cache"]
+            securityContext:
+              runAsUser: 0
+              runAsNonRoot: false
+
         containers:
           app:
             image:
@@ -69,13 +79,15 @@ spec:
               capabilities:
                 drop:
                   - ALL
+
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
-        fsGroupChangePolicy: Always
+        fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         type: LoadBalancer
@@ -107,6 +119,7 @@ spec:
           gdm5:
             port: 32500
             protocol: UDP
+
     route:
       app:
         annotations:
@@ -121,12 +134,28 @@ spec:
     persistence:
       data:
         existingClaim: "{{ .Release.Name }}"
+        advancedMounts:
+          music-assistant:
+            app:
+              - path: /data
+                subPath: data
+              - path: /cache
+                subPath: cache
+            fix-permissions:
+              - path: /data
+                subPath: data
+              - path: /cache
+                subPath: cache
+
       media:
         type: nfs
         server: nas.main.internal
         path: /mnt/F9/Media/Music
-        globalMounts:
-          - path: /music
+        advancedMounts:
+          music-assistant:
+            app:
+              - path: /music
+
       tmpfs:
         type: emptyDir
         sizeLimit: 2Gi
