@@ -26,7 +26,7 @@ spec:
             image:
               repository: mirror.gcr.io/nodered/node-red
               # renovate: datasource=docker depName=docker.io/nodered/node-red
-              tag: 5.0.4
+              tag: 5.0.6
             env:
               TZ: "Europe/London"
               NODE_RED_ENABLE_SAFE_MODE: "false"
