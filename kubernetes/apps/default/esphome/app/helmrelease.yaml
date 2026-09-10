@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/esphome
-              tag: 2026.8.2@sha256:33900ba4a28b278f86658f72dff0b41954ab8a4863a57d4daa85cb3186053700
+              tag: 2026.8.2@sha256:fd996aa9f5cc094450afe00d4ca71dad7dd12589802760ef23bd1430ee3e803b
             probes:
               liveness:
                 enabled: false
@@ -55,7 +55,7 @@ spec:
           code-server:
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.132.0@sha256:b88ed46a6ace76a0294a17a24f39aa88032ed0a3692c3d8ab5433b47ab57ccbf
+              tag: 4.136.2@sha256:c5124f5066506cfff7ac2dfa6bab254ea55062dd24aac9a3693bb3d9caa9b90e
             args:
               - --auth
               - none

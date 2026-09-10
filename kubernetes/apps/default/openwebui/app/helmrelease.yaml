@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/open-webui/open-webui
-              tag: v0.11.0
+              tag: v0.11.3
             env:
               WEBUI_URL: https://ai.f9.casa
               OPENAI_API_BASE_URL: "http://nas.main.internal:8080/v1"
