@@ -13,8 +13,12 @@ spec:
     fullnameOverride: coredns
     image:
       repository: mirror.gcr.io/coredns/coredns
+      # Pinned: 1.14.3+ combined with prefetch+autopath corrupts autopath
+      # answers (coredns/coredns#8390). Bump manually once fixed upstream.
+      tag: 1.14.7
     replicaCount: 2
     k8sAppLabelOverride: kube-dns
+    priorityClassName: system-cluster-critical
     serviceAccount:
       create: true
     service:
@@ -45,6 +49,7 @@ spec:
             configBlock: |-
               prefetch 20
               serve_stale
+              servfail 0
           - name: loop
           - name: reload
           - name: loadbalance

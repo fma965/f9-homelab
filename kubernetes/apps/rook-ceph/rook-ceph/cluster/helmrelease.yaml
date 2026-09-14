@@ -33,6 +33,11 @@ spec:
       network:
         connections:
           requireMsgr2: true
+      security:
+        cephx:
+          daemon:
+            keyRotationPolicy: KeyGeneration
+            keyGeneration: 2
       resources:
         mgr:
           limits:
