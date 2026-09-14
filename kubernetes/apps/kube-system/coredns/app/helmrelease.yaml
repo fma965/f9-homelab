@@ -13,6 +13,9 @@ spec:
     fullnameOverride: coredns
     image:
       repository: mirror.gcr.io/coredns/coredns
+      # Pinned: 1.14.3+ combined with prefetch+autopath corrupts autopath
+      # answers (coredns/coredns#8390). Bump manually once fixed upstream.
+      tag: 1.14.7
     replicaCount: 2
     k8sAppLabelOverride: kube-dns
     priorityClassName: system-cluster-critical
@@ -28,10 +31,6 @@ spec:
             use_tcp: true
         port: 53
         plugins:
-          - name: template
-            parameters: ANY AAAA
-            configBlock: |-
-              authority "{{ .Zone }} 60 IN SOA ns.dns.cluster.local. hostmaster.cluster.local. (1 60 60 60 60)"
           - name: errors
           - name: health
             configBlock: |-
