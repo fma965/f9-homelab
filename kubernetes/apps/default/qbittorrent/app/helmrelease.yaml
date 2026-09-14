@@ -122,6 +122,11 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 10
             securityContext: *securityContext
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 2Gi
           vuetorrent:
             dependsOn: app
             image:
