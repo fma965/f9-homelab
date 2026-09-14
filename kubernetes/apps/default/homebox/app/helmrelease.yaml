@@ -53,6 +53,11 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 512Mi
     persistence:
       data:
         existingClaim: "{{ .Release.Name }}"
