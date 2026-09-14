@@ -20,7 +20,7 @@ spec:
       number: 1
     parameters:
       max_connections: "400"
-      shared_buffers: 256MB
+      shared_buffers: 1GB
     shared_preload_libraries:
       - "vchord.so"
   nodeMaintenanceWindow:
@@ -29,8 +29,9 @@ spec:
   resources:
     requests:
       cpu: 50m
+      memory: 1Gi
     limits:
-      memory: 2Gi
+      memory: 4Gi
   monitoring:
     enablePodMonitor: true
     # Ref: https://github.com/cloudnative-pg/cloudnative-pg/issues/2501

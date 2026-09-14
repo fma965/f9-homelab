@@ -24,6 +24,11 @@ spec:
         storageClassName: ceph-block
         size: 20Gi
       retentionPeriod: 14d
+      resources:
+        requests:
+          memory: 512Mi
+        limits:
+          memory: 2Gi
       route:
         annotations:
           gatus.home-operations.com/endpoint: |-
