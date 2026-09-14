@@ -50,7 +50,7 @@ kind: Gateway
 metadata:
   name: envoy-external
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname external.f9.casa
+    external-dns.kubernetes.io/target: &hostname external.f9.casa
     gatus.home-operations.com/endpoint: |-
       client:
         dns-resolver: tcp://1.1.1.1:53
@@ -59,7 +59,7 @@ spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: *hostname
+      external-dns.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: 10.10.69.210
   listeners:
     - name: http
@@ -85,7 +85,7 @@ kind: Gateway
 metadata:
   name: envoy-internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname internal.f9.casa
+    external-dns.kubernetes.io/target: &hostname internal.f9.casa
     gatus.home-operations.com/endpoint: |-
       group: internal
       guarded: true
@@ -96,7 +96,7 @@ spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: *hostname
+      external-dns.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: 10.10.69.211
   listeners:
     - name: http
@@ -167,6 +167,9 @@ spec:
   timeout:
     http:
       requestReceivedTimeout: 0s
+      # Cloudflared's origin keepAliveTimeout is 3600s; keep this above that
+      # so Envoy doesn't close idle connections before cloudflared expects to.
+      idleTimeout: 3660s
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/httproute_v1.json
 apiVersion: gateway.networking.k8s.io/v1
@@ -174,7 +177,7 @@ kind: HTTPRoute
 metadata:
   name: https-redirect
   annotations:
-    external-dns.alpha.kubernetes.io/controller: none
+    external-dns.kubernetes.io/controller: none
 spec:
   parentRefs:
     - name: envoy-external
