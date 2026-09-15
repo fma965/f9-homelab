@@ -5,7 +5,7 @@ services:
       - "/dev/ricoh_printer:/dev/ricoh_printer"
     environment:
       TZ: "Europe/London"
-    image: "ydkn/cups@sha256:76eb4fcc9bfce7573787938d9257cfced5dd21064559eae4ce112aa6a9d13ac2"
+    image: "ydkn/cups@sha256:a674219145cb9a153205d632cf5e1156b7aada4c1c189037b0a6b8a25043fea1"
     network_mode: "bridge"
     ports:
       - "631:631/tcp"
