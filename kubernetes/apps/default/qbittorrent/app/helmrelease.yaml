@@ -136,6 +136,8 @@ spec:
               - --repo=https://github.com/WDaan/VueTorrent
               - --ref=latest-release
               - --period=86400s
+              - --init-period=10s
+              - --init-max-failures=-1
               - --root=/addons
             resources:
               requests:
