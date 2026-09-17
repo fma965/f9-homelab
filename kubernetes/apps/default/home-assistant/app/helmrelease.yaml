@@ -94,7 +94,7 @@ spec:
               requests:
                 cpu: 10m
               limits:
-                memory: 3Gi
+                memory: 4Gi
           matter-hub:
             image:
               repository: ghcr.io/riddix/home-assistant-matter-hub
