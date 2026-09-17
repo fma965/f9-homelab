@@ -224,7 +224,7 @@ metadata:
 addressType: IPv4
 endpoints:
   - addresses:
-      - kvm.not.internal
+      - 10.10.30.10
 ports:
   - name: http
     protocol: TCP
