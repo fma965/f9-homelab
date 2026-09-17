@@ -18,7 +18,7 @@ metadata:
 addressType: FQDN # Corrected: Added addressType for the FQDN
 endpoints:
   - addresses:
-      - 10.10.10.3
+      - nas.main.internal
 ports:
   - name: http
     protocol: TCP
@@ -78,52 +78,6 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: truenas
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: forgeui-external
-# spec:
-#   type: ClusterIP
-#   ports:
-#     - name: http
-#       port: 7400
-# ---
-# apiVersion: discovery.k8s.io/v1
-# kind: EndpointSlice
-# metadata:
-#   name: forgeui-external
-#   labels:
-#     kubernetes.io/service-name: forgeui-external
-# addressType: FQDN # Corrected: Added addressType for the FQDN
-# endpoints:
-#   - addresses:
-#       - 10.10.10.3
-# ports:
-#   - name: http
-#     protocol: TCP
-#     port: 7400
-# ---
-# apiVersion: gateway.networking.k8s.io/v1
-# kind: HTTPRoute
-# metadata:
-#   name: forgeui
-#   annotations:
-#     gatus.home-operations.com/enabled: "true"
-#     gatus.home-operations.com/endpoint: |-
-#       conditions: ["[STATUS] == any(200,401)"]
-# spec:
-#   parentRefs:
-#     - name: envoy-external
-#       namespace: network
-#       sectionName: https
-#   hostnames:
-#     - "sd.f9.casa"
-#   rules:
-#     - backendRefs:
-#         - name: forgeui-external
-#           port: 7400
-
 ---
 apiVersion: v1
 kind: Service
@@ -141,10 +95,10 @@ metadata:
   name: remote-external
   labels:
     kubernetes.io/service-name: remote-external
-addressType: IPv4
+addressType: FQDN
 endpoints:
   - addresses:
-      - 10.10.10.3
+      - nas.main.internal
 ports:
   - name: http
     protocol: TCP
@@ -221,10 +175,10 @@ metadata:
   name: nanokvm-external
   labels:
     kubernetes.io/service-name: nanokvm-external
-addressType: IPv4
+addressType: FQDN
 endpoints:
   - addresses:
-      - 10.10.30.10
+      - kvm.not.internal
 ports:
   - name: http
     protocol: TCP
@@ -300,10 +254,10 @@ metadata:
   name: doco-cd-external
   labels:
     kubernetes.io/service-name: doco-cd-external
-addressType: IPv4
+addressType: FQDN
 endpoints:
   - addresses:
-      - 10.10.10.3
+      - nas.main.internal
 ports:
   - name: http
     protocol: TCP
@@ -346,10 +300,10 @@ metadata:
   name: garage-external
   labels:
     kubernetes.io/service-name: garage-external
-addressType: IPv4
+addressType: FQDN
 endpoints:
   - addresses:
-      - 10.10.10.3
+      - nas.main.internal
 ports:
   - name: http
     protocol: TCP
