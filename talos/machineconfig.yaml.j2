@@ -65,6 +65,9 @@ machine:
           - rw
     extraConfig:
       serializeImagePulls: false
+      imageMaximumGCAge: 24h # Garbage collect images unused for 24h, kubelet only GCs on disk pressure (85%) otherwise
+      imageGCHighThresholdPercent: 70 # Start GC before disk usage reaches Ceph mon warning (80%)
+      imageGCLowThresholdPercent: 60
       allowedUnsafeSysctls:
         - "net.ipv6.conf.net1.*" # Allow IPv6 syscalls, required for matter/thread
         - "net.ipv6.conf.eth0.*" # Allow IPv6 syscalls, required for matter/thread
