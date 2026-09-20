@@ -9,7 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: etcd-defrag
-    namespace: flux-system
   interval: 1h
   values:
     defaultPodOptions:
