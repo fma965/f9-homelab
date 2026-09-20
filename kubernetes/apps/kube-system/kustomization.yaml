@@ -13,6 +13,7 @@ resources:
   - ./coredns/ks.yaml
   - ./csi-driver-nfs/ks.yaml
   - ./descheduler/ks.yaml
+  - ./etcd-defrag/ks.yaml
   - ./generic-device-plugin/ks.yaml
   - ./intel-gpu-resource-driver/ks.yaml
   - ./metrics-server/ks.yaml
