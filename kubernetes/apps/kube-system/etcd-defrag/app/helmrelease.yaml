@@ -53,7 +53,7 @@ spec:
               # Wait 30s between defrags (only matters if you had multiple members)
               - --wait-between-defrags=30s
               # Match the quota-backend-bytes we set in Talos config
-              - --etcd-storage-quota-bytes=8589934592
+              - --etcd-storage-quota-bytes=2147483648
               # Auto-disalarm space quota alarms
               - --auto-disalarm
               - --disalarm-threshold=0.8
