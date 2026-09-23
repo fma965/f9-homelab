@@ -1,6 +1,6 @@
 services:
   webtop:
-    image: lscr.io/linuxserver/webtop:debian-xfce@sha256:f5f81e5b0deeb06ff9d6f575086756ca8fddf9946d1afa00723295caed00d14d
+    image: lscr.io/linuxserver/webtop:debian-xfce@sha256:9b8c8d5f30c9c7e1e7ac044b349d98252b0c07a9cc828ba0f05a37c075069ddf
     container_name: webtop
     security_opt:
       - seccomp:unconfined #optional
