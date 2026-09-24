@@ -1,5 +1,5 @@
 <div align="center">
-
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/fma965/f9-homelab)
 ## Outdated readme, don't believe it!
 
 <img src="https://iili.io/KW3ZzHx.png" align="center" width="175px" height="175px"/>
