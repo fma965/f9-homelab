@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/fma965/debt-manager
-              tag: v1.1.5
+              tag: v2.0.0
             env:
               #DEBUG: true
               DB_TYPE: pgsql
@@ -37,7 +37,7 @@ spec:
                 memory: 1Gi
     defaultPodOptions:
       securityContext:
-#        runAsNonRoot: true
+        runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
@@ -47,9 +47,9 @@ spec:
       app:
         ports:
           web:
-            port: 80
+            port: 8080
           api:
-            port: 81
+            port: 8081
 
     route:
       app:
@@ -64,7 +64,7 @@ spec:
         rules:
           - backendRefs:
               - name: *app
-                port: 80
+                port: 8080
       api:
         annotations:
           gatus.home-operations.com/endpoint: |-
@@ -77,4 +77,4 @@ spec:
         rules:
           - backendRefs:
               - name: *app
-                port: 81
+                port: 8081
