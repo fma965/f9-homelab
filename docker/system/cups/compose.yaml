@@ -6,7 +6,7 @@ services:
     environment:
       TZ: "Europe/London"
       ADMIN_PASSWORD: "Password1"
-    image: "ydkn/cups@sha256:a674219145cb9a153205d632cf5e1156b7aada4c1c189037b0a6b8a25043fea1"
+    image: "ydkn/cups@sha256:02b949af550aef6a341aee472e191865f43611426fb1d9ea7d402e1e0c4ffeaf"
     network_mode: "bridge"
     ports:
       - "631:631/tcp"

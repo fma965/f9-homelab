@@ -1,0 +1,9 @@
+---
+# Strategic merge patch: kubelet image garbage collection.
+# Mirrors talos/machineconfig.yaml.j2, so `just talos apply-node <node>` produces the same result.
+machine:
+  kubelet:
+    extraConfig:
+      imageMaximumGCAge: 24h
+      imageGCHighThresholdPercent: 70
+      imageGCLowThresholdPercent: 60
