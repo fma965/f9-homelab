@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/fma965/debt-manager
-              tag: v2.0.0
+              tag: v2.0.1
             env:
               #DEBUG: true
               DB_TYPE: pgsql
@@ -28,10 +28,10 @@ spec:
             envFrom:
             - secretRef:
                 name: debtmanager-secret
-#            securityContext:
-#              allowPrivilegeEscalation: false
+            securityContext:
+              allowPrivilegeEscalation: false
 #              readOnlyRootFilesystem: true
-#              capabilities: { drop: ["ALL"] }
+              capabilities: { drop: ["ALL"] }
             resources:
               limits:
                 memory: 1Gi
