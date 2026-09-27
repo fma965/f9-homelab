@@ -65,7 +65,7 @@ spec:
           frontend:
             image:
               repository: ghcr.io/fma965/games-manager-frontend
-              tag: v2.0.1
+              tag: v2.0.2
             env:
               APP_HOST: "https://games.f9.casa"
               APP_BACKEND: "https://gamesdb.f9.casa"
