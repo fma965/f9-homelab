@@ -18,14 +18,14 @@ spec:
           app:
             image:
               repository: ghcr.io/fma965/obs-overlays
-              tag: v1.0.0@sha256:9ca32f6b8e1a00c3f51b72be48ab643e9a00e28cf426ec00d34c9a3d0bf21bb0
+              tag: v2.0.0
             envFrom:
             - secretRef:
                 name: overlays-secret
-            # securityContext:
-            #   allowPrivilegeEscalation: false
+            securityContext:
+              allowPrivilegeEscalation: false
             #   readOnlyRootFilesystem: true
-            #   capabilities: { drop: ["ALL"] }
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 10m
@@ -33,7 +33,7 @@ spec:
                 memory: 256Mi
     defaultPodOptions:
       securityContext:
-#         runAsNonRoot: true
+        runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
@@ -42,7 +42,7 @@ spec:
       app:
         ports:
           http:
-            port: 80
+            port: 8080
     route:
       app:
         annotations:
