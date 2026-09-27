@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/fma965/obs-overlays
-              tag: v2.0.0
+              tag: v2.0.1
             envFrom:
             - secretRef:
                 name: overlays-secret
