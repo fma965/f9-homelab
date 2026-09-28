@@ -126,6 +126,8 @@ access_control:
         - docs.f9.casa
         - spoolman.f9.casa
         - ai.f9.casa
+        - cctv.f9.casa
+        - frigate.f9.casa
       subject: ["group:home"]
       policy: two_factor
 
