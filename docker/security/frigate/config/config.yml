@@ -3,6 +3,8 @@ mqtt:
   host: 10.10.69.203
   port: 1883
   topic_prefix: frigate
+  user: "{FRIGATE_MQTT_USERNAME}"
+  password: "{FRIGATE_MQTT_PASSWORD}"
 
 logger:
   default: info
