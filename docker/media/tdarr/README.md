@@ -7,8 +7,8 @@ Re-encodes high-bitrate TV files to reclaim space on the F9 pool, using the RTX 
 Doco-CD creates missing bind-mount directories as `root`, which Tdarr (running as `1000:3000`) cannot write to. Create them first, on the TrueNAS host:
 
 ```bash
-sudo mkdir -p /mnt/apps-pool/appdata/tdarr/{server,configs,logs} /mnt/AI/appdata/tdarr/temp /mnt/F9/Media/.tdarr-output
-sudo chown -R 1000:3000 /mnt/apps-pool/appdata/tdarr /mnt/AI/appdata/tdarr /mnt/F9/Media/.tdarr-output
+sudo mkdir -p /mnt/apps-pool/appdata/tdarr/{server,configs,logs,temp} /mnt/F9/Media/.tdarr-output
+sudo chown -R 1000:3000 /mnt/apps-pool/appdata/tdarr /mnt/F9/Media/.tdarr-output
 ```
 
 ### Safe rollout

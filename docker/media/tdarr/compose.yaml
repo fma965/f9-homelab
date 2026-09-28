@@ -33,7 +33,7 @@ services:
       - /mnt/apps-pool/appdata/tdarr/configs:/app/configs
       - /mnt/apps-pool/appdata/tdarr/logs:/app/logs
       # transcode cache, kept on NVMe rather than the F9 spinning pool
-      - /mnt/AI/appdata/tdarr/temp:/temp
+      - /mnt/apps-pool/appdata/tdarr/temp:/temp
       # source library is read-only so nothing can be replaced or deleted.
       # Tdarr writes results to /output; once outputs are verified, change
       # /media to read-write to allow in-place replacement.
