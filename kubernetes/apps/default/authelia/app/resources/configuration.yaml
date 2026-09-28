@@ -33,7 +33,7 @@ server:
   endpoints:
     authz:
       ext-authz:
-        implementation: 'ExtAuthz'
+        implementation: "ExtAuthz"
 
 session:
   name: authelia-home-lab
@@ -78,6 +78,14 @@ access_control:
         - lidarr.f9.casa
       resources: ["^/api.*$"]
       policy: bypass
+
+    - domain: truenas.f9.casa
+      resources:
+        - "^/websocket$"
+      policy: bypass
+    - domain: truenas.f9.casa
+      subject: ["group:admin"]
+      policy: two_factor
 
     # 3. Blanket Admin Pass: Admins bypass all group restrictions below
     - domain: "*.f9.casa"
@@ -148,57 +156,57 @@ identity_providers:
     claims_policies:
       ## Creates the 'default' claims policy.
       default:
-        id_token: ['groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name']
+        id_token: ["groups", "email", "email_verified", "alt_emails", "preferred_username", "name"]
 
     jwks:
       - key_id: default
-        key: {{ env "JWKS_KEY" | mindent 10 "|" | msquote }}
+        key: { { env "JWKS_KEY" | mindent 10 "|" | msquote } }
 
     clients:
-      - client_name: 'immich'
+      - client_name: "immich"
         client_id: '{{ env "IMMICH_OAUTH_CLIENT_ID" }}'
         client_secret: '{{ env "IMMICH_OAUTH_CLIENT_SECRET" }}'
         public: false
-        authorization_policy: 'two_factor'
+        authorization_policy: "two_factor"
         require_pkce: false
-        pkce_challenge_method: ''
+        pkce_challenge_method: ""
         redirect_uris:
-          - 'https://photos.f9.casa/auth/login'
-          - 'https://photos.f9.casa/user-settings'
-          - 'app.immich:///oauth-callback'
+          - "https://photos.f9.casa/auth/login"
+          - "https://photos.f9.casa/user-settings"
+          - "app.immich:///oauth-callback"
         scopes:
-          - 'openid'
-          - 'profile'
-          - 'email'
+          - "openid"
+          - "profile"
+          - "email"
         response_types:
-          - 'code'
+          - "code"
         grant_types:
-          - 'authorization_code'
-        access_token_signed_response_alg: 'none'
-        userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: 'client_secret_post'
+          - "authorization_code"
+        access_token_signed_response_alg: "none"
+        userinfo_signed_response_alg: "none"
+        token_endpoint_auth_method: "client_secret_post"
 
-      - client_name: 'Forgejo'
+      - client_name: "Forgejo"
         client_id: '{{ env "FORGEJO_OAUTH_CLIENT_ID" }}'
         client_secret: '{{ env "FORGEJO_OAUTH_CLIENT_SECRET" }}'
         public: false
-        authorization_policy: 'two_factor'
+        authorization_policy: "two_factor"
         require_pkce: true
-        pkce_challenge_method: 'S256'
+        pkce_challenge_method: "S256"
         redirect_uris:
-          - 'https://git.f9.casa/user/oauth2/authelia/callback'
+          - "https://git.f9.casa/user/oauth2/authelia/callback"
         scopes:
-          - 'openid'
-          - 'email'
-          - 'profile'
-          - 'groups'
+          - "openid"
+          - "email"
+          - "profile"
+          - "groups"
         response_types:
-          - 'code'
+          - "code"
         grant_types:
-          - 'authorization_code'
-        access_token_signed_response_alg: 'none'
-        userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: 'client_secret_basic'
+          - "authorization_code"
+        access_token_signed_response_alg: "none"
+        userinfo_signed_response_alg: "none"
+        token_endpoint_auth_method: "client_secret_basic"
 
       - client_name: Directus
         client_id: '{{ env "DIRECTUS_OAUTH_CLIENT_ID" }}'
@@ -214,112 +222,112 @@ identity_providers:
           - https://gamesdb.f9.casa/auth/login/authentik/callback
         userinfo_signed_response_alg: none
         claims_policy: default
-        token_endpoint_auth_method: 'client_secret_basic'
+        token_endpoint_auth_method: "client_secret_basic"
 
-      - client_name: 'Open WebUI'
+      - client_name: "Open WebUI"
         client_id: '{{ env "OPENWEBUI_OAUTH_CLIENT_ID" }}'
         client_secret: '{{ env "OPENWEBUI_OAUTH_CLIENT_SECRET" }}'
         public: false
-        authorization_policy: 'two_factor'
+        authorization_policy: "two_factor"
         require_pkce: false
-        pkce_challenge_method: ''
+        pkce_challenge_method: ""
         redirect_uris:
-          - 'https://chat.f9.casa/oauth/oidc/callback'
-          - 'https://ai.f9.casa/oauth/oidc/callback'
+          - "https://chat.f9.casa/oauth/oidc/callback"
+          - "https://ai.f9.casa/oauth/oidc/callback"
         scopes:
-          - 'openid'
-          - 'profile'
-          - 'groups'
-          - 'email'
+          - "openid"
+          - "profile"
+          - "groups"
+          - "email"
         response_types:
-          - 'code'
+          - "code"
         grant_types:
-          - 'authorization_code'
-        access_token_signed_response_alg: 'none'
-        userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: 'client_secret_basic'
+          - "authorization_code"
+        access_token_signed_response_alg: "none"
+        userinfo_signed_response_alg: "none"
+        token_endpoint_auth_method: "client_secret_basic"
 
-      - client_name: 'Outline'
+      - client_name: "Outline"
         client_id: '{{ env "OUTLINE_OAUTH_CLIENT_ID" }}'
         client_secret: '{{ env "OUTLINE_OAUTH_CLIENT_SECRET" }}'
         public: false
-        authorization_policy: 'two_factor'
+        authorization_policy: "two_factor"
         require_pkce: false
-        pkce_challenge_method: ''
+        pkce_challenge_method: ""
         redirect_uris:
-          - 'https://docs.f9.casa/auth/oidc.callback'
+          - "https://docs.f9.casa/auth/oidc.callback"
         scopes:
-          - 'openid'
-          - 'offline_access'
-          - 'profile'
-          - 'email'
+          - "openid"
+          - "offline_access"
+          - "profile"
+          - "email"
         response_types:
-          - 'code'
+          - "code"
         grant_types:
-          - 'authorization_code'
-          - 'refresh_token'
-        access_token_signed_response_alg: 'none'
-        userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: 'client_secret_post'
+          - "authorization_code"
+          - "refresh_token"
+        access_token_signed_response_alg: "none"
+        userinfo_signed_response_alg: "none"
+        token_endpoint_auth_method: "client_secret_post"
 
-      - client_name: 'Zipline'
+      - client_name: "Zipline"
         client_id: '{{ env "ZIPLINE_OAUTH_CLIENT_ID" }}'
         client_secret: '{{ env "ZIPLINE_OAUTH_CLIENT_SECRET" }}'
         public: false
         require_pkce: false
-        pkce_challenge_method: ''
+        pkce_challenge_method: ""
         redirect_uris:
-          - 'https://i.f9.casa/api/auth/oauth/oidc'
+          - "https://i.f9.casa/api/auth/oauth/oidc"
         scopes:
-          - 'openid'
-          - 'offline_access'
-          - 'email'
-          - 'profile'
+          - "openid"
+          - "offline_access"
+          - "email"
+          - "profile"
         response_types:
-          - 'code'
+          - "code"
         grant_types:
-          - 'refresh_token'
-          - 'authorization_code'
-        access_token_signed_response_alg: 'none'
-        userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: 'client_secret_post'
+          - "refresh_token"
+          - "authorization_code"
+        access_token_signed_response_alg: "none"
+        userinfo_signed_response_alg: "none"
+        token_endpoint_auth_method: "client_secret_post"
 
-      - client_name: 'Grafana'
+      - client_name: "Grafana"
         client_id: '{{ env "GRAFANA_OAUTH_CLIENT_ID" }}'
         client_secret: '{{ env "GRAFANA_OAUTH_CLIENT_SECRET" }}'
         public: false
-        authorization_policy: 'two_factor'
+        authorization_policy: "two_factor"
         require_pkce: true
-        pkce_challenge_method: 'S256'
+        pkce_challenge_method: "S256"
         redirect_uris:
-          - 'https://grafana.f9.casa/login/generic_oauth'
+          - "https://grafana.f9.casa/login/generic_oauth"
         scopes:
-          - 'openid'
-          - 'profile'
-          - 'groups'
-          - 'email'
+          - "openid"
+          - "profile"
+          - "groups"
+          - "email"
         response_types:
-          - 'code'
+          - "code"
         grant_types:
-          - 'authorization_code'
-        access_token_signed_response_alg: 'none'
-        userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: 'client_secret_basic'
+          - "authorization_code"
+        access_token_signed_response_alg: "none"
+        userinfo_signed_response_alg: "none"
+        token_endpoint_auth_method: "client_secret_basic"
 
-      - client_name: 'Headlamp'
+      - client_name: "Headlamp"
         client_id: '{{ env "HEADLAMP_OAUTH_CLIENT_ID" }}'
         client_secret: '{{ env "HEADLAMP_OAUTH_CLIENT_SECRET" }}'
         public: false
-        authorization_policy: 'two_factor'
+        authorization_policy: "two_factor"
         redirect_uris:
-          - 'https://k8s.f9.casa/oidc-callback'
+          - "https://k8s.f9.casa/oidc-callback"
         scopes:
-          - 'openid'
-          - 'profile'
-          - 'groups'
-          - 'email'
+          - "openid"
+          - "profile"
+          - "groups"
+          - "email"
         claims_policy: default
-        token_endpoint_auth_method: 'client_secret_basic'
+        token_endpoint_auth_method: "client_secret_basic"
 
       # - client_name: 'Home Assistant'
       #   client_id: '{{ env "HOMEASSISTANT_OAUTH_CLIENT_ID" }}'
@@ -339,43 +347,43 @@ identity_providers:
       #   access_token_signed_response_alg: 'none'
       #   userinfo_signed_response_alg: 'none'
 
-      - client_name: 'Home Assistant'
+      - client_name: "Home Assistant"
         client_id: '{{ env "HOMEASSISTANT_OAUTH_CLIENT_ID" }}'
         client_secret: '{{ env "HOMEASSISTANT_OAUTH_CLIENT_SECRET" }}'
         public: false
         require_pkce: true
-        pkce_challenge_method: 'S256'
-        authorization_policy: 'two_factor'
+        pkce_challenge_method: "S256"
+        authorization_policy: "two_factor"
         redirect_uris:
-          - 'https://home.f9.casa/auth/oidc/callback'
+          - "https://home.f9.casa/auth/oidc/callback"
         scopes:
-          - 'openid'
-          - 'profile'
-          - 'groups'
+          - "openid"
+          - "profile"
+          - "groups"
         response_types:
-          - 'code'
+          - "code"
         grant_types:
-          - 'authorization_code'
-        access_token_signed_response_alg: 'none'
-        userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: 'client_secret_post'
+          - "authorization_code"
+        access_token_signed_response_alg: "none"
+        userinfo_signed_response_alg: "none"
+        token_endpoint_auth_method: "client_secret_post"
 
-      - client_name: 'Homebox'
+      - client_name: "Homebox"
         client_id: '{{ env "HOMEBOX_OAUTH_CLIENT_ID" }}'
         client_secret: '{{ env "HOMEBOX_OAUTH_CLIENT_SECRET" }}'
         public: false
-        authorization_policy: 'two_factor'
+        authorization_policy: "two_factor"
         require_pkce: true
-        pkce_challenge_method: 'S256'
+        pkce_challenge_method: "S256"
         redirect_uris:
-          - 'https://inventory.f9.casa/api/v1/users/login/oidc/callback'
+          - "https://inventory.f9.casa/api/v1/users/login/oidc/callback"
         scopes:
-          - 'openid'
-          - 'groups'
-          - 'email'
-          - 'profile'
+          - "openid"
+          - "groups"
+          - "email"
+          - "profile"
         response_types:
-          - 'code'
+          - "code"
         grant_types:
-          - 'authorization_code'
-        token_endpoint_auth_method: 'client_secret_basic'
+          - "authorization_code"
+        token_endpoint_auth_method: "client_secret_basic"
