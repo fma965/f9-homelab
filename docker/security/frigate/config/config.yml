@@ -90,7 +90,7 @@ cameras:
   doorbell:
     ffmpeg:
       inputs:
-        - path: rtsp://127.0.0.1:8554/doorbell
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/doorbell
           input_args: preset-rtsp-restream
           roles:
             - detect
@@ -99,11 +99,11 @@ cameras:
   front_camera:
     ffmpeg:
       inputs:
-        - path: rtsp://127.0.0.1:8554/front_camera
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/front_camera
           input_args: preset-rtsp-restream
           roles:
             - record
-        - path: rtsp://127.0.0.1:8554/front_camera_sub
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/front_camera_sub
           input_args: preset-rtsp-restream
           roles:
             - detect
@@ -111,11 +111,11 @@ cameras:
   back_camera:
     ffmpeg:
       inputs:
-        - path: rtsp://127.0.0.1:8554/back_camera
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/back_camera
           input_args: preset-rtsp-restream
           roles:
             - record
-        - path: rtsp://127.0.0.1:8554/back_camera_sub
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/back_camera_sub
           input_args: preset-rtsp-restream
           roles:
             - detect
@@ -123,11 +123,11 @@ cameras:
   side_camera:
     ffmpeg:
       inputs:
-        - path: rtsp://127.0.0.1:8554/side_camera
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/side_camera
           input_args: preset-rtsp-restream
           roles:
             - record
-        - path: rtsp://127.0.0.1:8554/side_camera_sub
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/side_camera_sub
           input_args: preset-rtsp-restream
           roles:
             - detect
