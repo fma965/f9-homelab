@@ -458,3 +458,84 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: tdarr
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frigate-external
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8971
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: frigate-external
+  labels:
+    kubernetes.io/service-name: frigate-external
+addressType: FQDN
+endpoints:
+  - addresses:
+      - nas.main.internal
+ports:
+  - name: http
+    protocol: TCP
+    port: 8971
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: frigate
+  annotations:
+    gatus.home-operations.com/enabled: "true"
+    gatus.home-operations.com/endpoint: |-
+      conditions: ["[STATUS] == any(200,401)"]
+spec:
+  parentRefs:
+    - name: envoy-external
+      namespace: network
+      sectionName: https
+  hostnames:
+    - "frigate.f9.casa"
+    - "cctv.f9.casa"
+  rules:
+    - backendRefs:
+        - name: frigate-external
+          port: 8971
+---
+# yaml-language-server: $schema=https://schemas.budimanjojo.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: frigate
+spec:
+  extAuth:
+    headersToExtAuth:
+      - "accept"
+      - "cookie"
+      - "location"
+      - "authorization"
+      - "proxy-authorization"
+      - "header-authorization"
+      - "x-forwarded-proto"
+      - "x-forwarded-for"
+    failOpen: false
+    http:
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: authelia
+          namespace: default
+          port: 80
+      path: /api/authz/ext-authz/
+      headersToBackend:
+        - Remote-User
+        - Remote-Groups
+        - Remote-Name
+        - Remote-Email
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: frigate

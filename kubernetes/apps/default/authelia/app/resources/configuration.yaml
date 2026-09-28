@@ -76,6 +76,8 @@ access_control:
         - prowlarr.f9.casa
         - sabnzbd.f9.casa
         - lidarr.f9.casa
+        - frigate.f9.casa
+        - cctv.f9.casa
       resources: ["^/api.*$"]
       policy: bypass
 
