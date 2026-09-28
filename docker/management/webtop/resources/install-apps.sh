@@ -56,6 +56,7 @@ apt-get install -y 1password-cli 1password github-desktop discord alacritty
 echo "**** Installing brew ****"
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 echo >> /config/.bashrc
+# shellcheck disable=SC2016 # literal, expanded when .bashrc is sourced
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /config/.bashrc
 chmod -R o+w /home/linuxbrew/.linuxbrew/* /config/.cache/Homebrew/
 

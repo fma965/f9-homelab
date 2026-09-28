@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # https://www.talos.dev/v1.11/kubernetes-guides/configuration/ceph-with-rook/#talos-linux-rook-metadata-removal
 
 cat <<EOF | kubectl apply -f -
