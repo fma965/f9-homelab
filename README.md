@@ -111,7 +111,7 @@ just bootstrap cluster
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f42c/512.gif" alt="🐬" width="20" height="20"> Docker
 
-A few workloads that need dedicated hardware, or that I want running independently of the cluster, run as Docker Compose stacks on my TrueNAS server. These are AI workloads (llama.cpp, Whisper, Immich machine learning), a Garage S3 backup target, Proxmox Backup Server, CUPS, and a few exporters.
+A few workloads that need dedicated hardware, or that I want running independently of the cluster, run as Docker Compose stacks on my TrueNAS server. These are AI workloads (llama.cpp, Whisper, Immich machine learning), Frigate NVR, a Garage S3 backup target, Proxmox Backup Server, CUPS, and a few exporters.
 
 [Doco-CD](https://github.com/kimdre/doco-cd) watches the [docker](./docker/) folder and deploys the stacks listed in [.doco-cd.yaml](./.doco-cd.yaml) based on the state of this repository.
 

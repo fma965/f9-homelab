@@ -1,0 +1,131 @@
+mqtt:
+  enabled: true
+  host: 10.10.69.203
+  port: 1883
+  topic_prefix: frigate
+
+logger:
+  default: info
+
+database:
+  path: /config/frigate.db
+
+detectors:
+  ov:
+    type: openvino
+    device: CPU
+
+model:
+  width: 300
+  height: 300
+  input_tensor: nhwc
+  input_pixel_format: bgr
+  path: /openvino-model/ssdlite_mobilenet_v2.xml
+  labelmap_path: /openvino-model/coco_91cl_bkgr.txt
+
+# AMD Vega iGPU (Ryzen 5500GT) for decode only - see compose.yaml. Detection
+# stays on CPU above; the RTX 3060 is left alone for tdarr/llamacpp/immich.
+ffmpeg:
+  hwaccel_args: preset-vaapi
+
+birdseye:
+  enabled: false
+
+objects:
+  track:
+    - person
+    - car
+    - motorcycle
+    - bicycle
+    - dog
+    - cat
+
+record:
+  enabled: true
+  retain:
+    mode: motion
+    days: 30
+  alerts:
+    retain:
+      days: 14
+  detections:
+    retain:
+      days: 14
+
+snapshots:
+  enabled: true
+  retain:
+    default: 30
+
+# Frigate's built-in go2rtc restreams each camera once, so all 4 detect/record
+# inputs below read from localhost instead of hitting the cameras 4x each.
+go2rtc:
+  streams:
+    doorbell:
+      - rtsp://{FRIGATE_DOORBELL_USER}:{FRIGATE_DOORBELL_PASSWORD}@{FRIGATE_DOORBELL_HOST}:8554/ch1
+    front_camera:
+      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_01_main
+    front_camera_sub:
+      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_01_sub
+    back_camera:
+      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_02_main
+    back_camera_sub:
+      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_02_sub
+    side_camera:
+      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_main
+    side_camera_sub:
+      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_sub
+  webrtc:
+    candidates:
+      - stun:8555
+      # Add the NAS's LAN IP here (e.g. 10.10.x.x:8555) for reliable
+      # two-way talk / low-latency live view instead of relying on STUN.
+
+cameras:
+  doorbell:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/doorbell
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+            - record
+
+  front_camera:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/front_camera
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/front_camera_sub
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+
+  back_camera:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/back_camera
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/back_camera_sub
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+
+  side_camera:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/side_camera
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/side_camera_sub
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+
+# Motion masks and zones are camera-FOV-specific - add them per camera in the
+# Frigate UI (Settings -> Masks / Zones) once each stream is confirmed live.
