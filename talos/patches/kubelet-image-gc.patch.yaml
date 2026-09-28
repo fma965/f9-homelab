@@ -1,6 +1,6 @@
 ---
 # Strategic merge patch: kubelet image garbage collection.
-# Mirrors talos/machineconfig.yaml.j2, so `just talos apply-node <node>` produces the same result.
+# Mirrors talos/cluster.yaml.j2, so `just talos apply-node <node>` produces the same result.
 machine:
   kubelet:
     extraConfig:

@@ -1,9 +1,9 @@
 ---
-machine:
-  type: controlplane
-  nodeLabels:
-    topology.kubernetes.io/zone: F9
----
 apiVersion: v1alpha1
 kind: HostnameConfig
 hostname: k8s-02
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+  topology.kubernetes.io/zone: F9
