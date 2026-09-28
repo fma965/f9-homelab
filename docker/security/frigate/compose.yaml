@@ -25,11 +25,7 @@ services:
       FRIGATE_DOORBELL_HOST: ${FRIGATE_DOORBELL_HOST}
       FRIGATE_DOORBELL_USER: ${FRIGATE_DOORBELL_USER}
       FRIGATE_DOORBELL_PASSWORD: ${FRIGATE_DOORBELL_PASSWORD}
-    # Optional local/manual override - never required now that the values
-    # above come from 1Password Connect.
-    env_file:
-      - path: .env
-        required: false
+      OPENWEBUI_API_KEY: ${OPENWEBUI_API_KEY}
     ports:
       - 8971:8971 # authenticated UI/API - use this one
       - 8554:8554 # go2rtc RTSP restream
