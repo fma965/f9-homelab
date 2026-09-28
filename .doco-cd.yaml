@@ -53,3 +53,5 @@ external_secrets:
   FRIGATE_GARAGE_HOST: op://kubernetes/frigate/GARAGE_HOST
   FRIGATE_GARAGE_USER: op://kubernetes/frigate/GARAGE_USERNAME
   FRIGATE_GARAGE_PASSWORD: op://kubernetes/frigate/GARAGE_PASSWORD
+  FRIGATE_MQTT_USERNAME: op://kubernetes/mosquitto/MQTT_USERNAME
+  FRIGATE_MQTT_PASSWORD: op://kubernetes/mosquitto/MQTT_PASSWORD
