@@ -158,6 +158,12 @@
       matchDepNames: ["1password-cli"],
       enabled: false,
     },
+    {
+      description: "Hold Directus on 11.x, v12 locks SSO behind a paid license",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["directus/directus"],
+      allowedVersions: "<12.0.0",
+    },
     // Labeling rules
     {
       matchUpdateTypes: ["major"],
