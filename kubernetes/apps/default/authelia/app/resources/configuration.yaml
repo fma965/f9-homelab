@@ -83,9 +83,6 @@ access_control:
       resources:
         - "^/websocket$"
       policy: bypass
-    - domain: truenas.f9.casa
-      subject: ["group:admin"]
-      policy: two_factor
 
     # 3. Blanket Admin Pass: Admins bypass all group restrictions below
     - domain: "*.f9.casa"
