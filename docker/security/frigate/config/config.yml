@@ -62,6 +62,9 @@ snapshots:
 # Frigate's built-in go2rtc restreams each camera once, so all 4 detect/record
 # inputs below read from localhost instead of hitting the cameras 4x each.
 go2rtc:
+  rtsp:
+    username: "{FRIGATE_RTSP_USERNAME}"
+    password: "{FRIGATE_RTSP_PASSWORD}"
   streams:
     doorbell:
       - rtsp://{FRIGATE_DOORBELL_USER}:{FRIGATE_DOORBELL_PASSWORD}@{FRIGATE_DOORBELL_HOST}:8554/ch1
@@ -134,8 +137,8 @@ cameras:
 version: 0.18-0
 tls:
   enabled: false
-auth:
-  enabled: false
+# auth:
+#   enabled: false
 proxy:
   header_map:
     user: Remote-User
