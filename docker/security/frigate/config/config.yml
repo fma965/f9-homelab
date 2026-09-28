@@ -151,9 +151,7 @@ semantic_search:
   enabled: true
 genai:
   newKey:
-    api_key:
-      # prettier-ignore
-      - {OPENWEBUI_API_KEY}
+    api_key: "{FRIGATE_OPENWEBUI_API_KEY}"
     base_url: https://ai.f9.casa/api
     provider: openai
     roles:
