@@ -1,0 +1,36 @@
+services:
+  frigate:
+    container_name: frigate
+    image: ghcr.io/blakeblackshear/frigate:0.18.0@sha256:9678a83a76e4730ac7d9ea7428370e32ae656d6b312aaad30d6c69f3fef14d35
+    restart: unless-stopped
+    shm_size: 256mb
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    devices:
+      # AMD Vega iGPU on the Ryzen 5500GT, for VAAPI-accelerated decode only.
+      # Detection stays on CPU (openvino/CPU) - Vega isn't a supported ROCm
+      # target, and the RTX 3060 is already shared thin by tdarr/llamacpp/immich.
+      - /dev/dri:/dev/dri
+    environment:
+      TZ: "Europe/London"
+      LIBVA_DRIVER_NAME: "radeonsi"
+    env_file:
+      - .env
+    ports:
+      - 8971:8971 # authenticated UI/API - use this one
+      - 8554:8554 # go2rtc RTSP restream
+      - 8555:8555/tcp # go2rtc WebRTC
+      - 8555:8555/udp # go2rtc WebRTC
+      # Port 5000 (internal, unauthenticated) is intentionally not published.
+    volumes:
+      # frigate.db and logs; config.yml itself comes from git, below
+      - /mnt/apps-pool/appdata/frigate/config:/config
+      - ./config/config.yml:/config/config.yml:ro
+      # the CCTV dataset - 1 TiB refquota on the Data pool
+      - /mnt/Data/CCTV:/media/frigate
+      - type: tmpfs
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000

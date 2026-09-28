@@ -37,3 +37,6 @@ working_dir: docker/system/pbs
 ---
 name: backup
 working_dir: docker/backup/garage
+---
+name: frigate
+working_dir: docker/security/frigate
