@@ -39,7 +39,7 @@ services:
     volumes:
       # frigate.db and logs; config.yml itself comes from git, below
       - /mnt/apps-pool/appdata/frigate/config:/config
-      - ./config/config.yml:/config/config.yml:ro
+      - ./config/config.yml:/config/config.yml
       # the CCTV dataset - 1 TiB refquota on the Data pool
       - /mnt/Data/CCTV:/media/frigate
       - type: tmpfs
