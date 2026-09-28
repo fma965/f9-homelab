@@ -10,7 +10,15 @@ NVR / object detection, previously run in the cluster (`kubernetes/apps/default/
     sudo mkdir -p /mnt/apps-pool/appdata/frigate/config
     ```
 
-2. Copy `.env.example` to `.env` in this directory on the NAS and fill in real credentials for the Reolink NVR (`front_camera`/`back_camera`/`side_camera`) and the doorbell. `.env` is gitignored (`*.env`) and never committed.
+2. Camera credentials come from 1Password Connect (`external_secrets` in `.doco-cd.yaml`, pulling from the existing `go2rtc` item in the `kubernetes` vault), not a hand-placed `.env` - `.env.example` documents the variable names for local/manual testing only, and `env_file: .env` in `compose.yaml` is `required: false` so its absence never blocks a deploy. For this to actually resolve, the `doco-cd` app itself needs:
+
+    ```
+    SECRET_PROVIDER=1password
+    SECRET_PROVIDER_CONNECT_HOST=http://10.10.69.206
+    SECRET_PROVIDER_CONNECT_TOKEN=<OP_CONNECT_TOKEN field of the "1password" item, kubernetes vault>
+    ```
+
+    `10.10.69.206` is `onepassword-connect`'s Cilium-advertised LoadBalancer IP (`kubernetes/apps/external-secrets/onepassword-connect`), reachable from the NAS the same way `mosquitto`/`go2rtc` are.
 
 3. Once cameras are live, set motion masks and zones per camera from the Frigate UI (Settings → Masks / Zones) - these are FOV-specific and can't be guessed ahead of time; the old masks/zones from the previous house don't carry over.
 

@@ -16,8 +16,20 @@ services:
     environment:
       TZ: "Europe/London"
       LIBVA_DRIVER_NAME: "radeonsi"
+      # Resolved by Doco-CD from 1Password Connect (see .doco-cd.yaml's
+      # external_secrets) and interpolated in here by Compose itself -
+      # not read from a .env file, which Doco-CD never writes to disk.
+      FRIGATE_REOLINK_HOST: ${FRIGATE_REOLINK_HOST}
+      FRIGATE_REOLINK_USER: ${FRIGATE_REOLINK_USER}
+      FRIGATE_REOLINK_PASSWORD: ${FRIGATE_REOLINK_PASSWORD}
+      FRIGATE_DOORBELL_HOST: ${FRIGATE_DOORBELL_HOST}
+      FRIGATE_DOORBELL_USER: ${FRIGATE_DOORBELL_USER}
+      FRIGATE_DOORBELL_PASSWORD: ${FRIGATE_DOORBELL_PASSWORD}
+    # Optional local/manual override - never required now that the values
+    # above come from 1Password Connect.
     env_file:
-      - .env
+      - path: .env
+        required: false
     ports:
       - 8971:8971 # authenticated UI/API - use this one
       - 8554:8554 # go2rtc RTSP restream
