@@ -42,8 +42,10 @@ objects:
 
 record:
   enabled: true
-  retain:
-    mode: motion
+  # 0.18 dropped the old top-level record.retain{mode,days} in favor of
+  # independent continuous/motion buckets - no continuous.days set, so
+  # always-on recording stays off and only motion-triggered segments retain.
+  motion:
     days: 30
   alerts:
     retain:
