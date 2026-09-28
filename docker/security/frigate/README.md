@@ -10,7 +10,15 @@ NVR / object detection, previously run in the cluster (`kubernetes/apps/default/
     sudo mkdir -p /mnt/apps-pool/appdata/frigate/config
     ```
 
-2. Copy `.env.example` to `.env` in this directory on the NAS and fill in real credentials for the Reolink NVR (`front_camera`/`back_camera`/`side_camera`) and the doorbell. `.env` is gitignored (`*.env`) and never committed.
+2. `.env` is gitignored (`*.env`) and never committed, so it has to be created directly in Doco-CD's own checkout on the NAS, not just anywhere in the repo tree. Find the path with:
+
+    ```bash
+    docker inspect doco-cd --format '{{ range .Mounts }}{{ .Source }} -> {{ .Destination }}{{ "\n" }}{{ end }}'
+    ```
+
+    then create `.env` (using `.env.example` as the template) at `<that source path>/github.com/fma965/f9-homelab/docker/security/frigate/.env`, filled in with real credentials for the Reolink NVR (`front_camera`/`back_camera`/`side_camera`) and the doorbell.
+
+    This is safe to leave in place across redeploys: Doco-CD syncs the exported git tree into its checkout without deleting files that aren't part of that tree (`internal/filesystem/sync_in_place.go` in doco-cd), so an untracked `.env` there survives every poll.
 
 3. Once cameras are live, set motion masks and zones per camera from the Frigate UI (Settings → Masks / Zones) - these are FOV-specific and can't be guessed ahead of time; the old masks/zones from the previous house don't carry over.
 
