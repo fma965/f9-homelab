@@ -82,11 +82,11 @@ go2rtc:
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_main
     side_camera_sub:
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_sub
-    garage_camera:
+    garage:
       - rtsp://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream1
-    garage_camera_sub:
+    garage_sub:
       - rtsp://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream2
-    webrtc:
+  webrtc:
     candidates:
       - stun:8555
       # Add the NAS's LAN IP here (e.g. 10.10.x.x:8555) for reliable
