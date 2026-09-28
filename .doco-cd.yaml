@@ -50,3 +50,6 @@ external_secrets:
   FRIGATE_OPENWEBUI_API_KEY: op://kubernetes/frigate/OPENWEBUI_API_KEY
   FRIGATE_RTSP_USERNAME: op://kubernetes/frigate/RTSP_USERNAME
   FRIGATE_RTSP_PASSWORD: op://kubernetes/frigate/RTSP_PASSWORD
+  FRIGATE_GARAGE_HOST: op://kubernetes/frigate/GARAGE_HOST
+  FRIGATE_GARAGE_USER: op://kubernetes/frigate/GARAGE_USERNAME
+  FRIGATE_GARAGE_PASSWORD: op://kubernetes/frigate/GARAGE_PASSWORD

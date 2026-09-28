@@ -68,6 +68,8 @@ go2rtc:
   streams:
     doorbell:
       - rtsp://{FRIGATE_DOORBELL_USER}:{FRIGATE_DOORBELL_PASSWORD}@{FRIGATE_DOORBELL_HOST}:8554/ch1
+    doorbell_sub:
+      - rtsp://{FRIGATE_DOORBELL_USER}:{FRIGATE_DOORBELL_PASSWORD}@{FRIGATE_DOORBELL_HOST}:8554/ch3
     front_camera:
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_01_main
     front_camera_sub:
@@ -80,7 +82,11 @@ go2rtc:
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_main
     side_camera_sub:
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_sub
-  webrtc:
+    garage_camera:
+      - rtsp://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream1
+    garage_camera_sub:
+      - rtsp://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream2
+    webrtc:
     candidates:
       - stun:8555
       # Add the NAS's LAN IP here (e.g. 10.10.x.x:8555) for reliable
@@ -93,8 +99,11 @@ cameras:
         - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/doorbell
           input_args: preset-rtsp-restream
           roles:
-            - detect
             - record
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/doorbell_sub
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
 
   front_camera:
     ffmpeg:
@@ -128,6 +137,18 @@ cameras:
           roles:
             - record
         - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/side_camera_sub
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+
+  garage:
+    ffmpeg:
+      inputs:
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/garage
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/garage_sub
           input_args: preset-rtsp-restream
           roles:
             - detect
