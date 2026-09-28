@@ -14,7 +14,6 @@ rendered on demand and pushed to nodes with `talosctl`.
 | `nodes/<role>/<node>.yaml.j2`           | Per-node documents (hostname, zone)                                       |
 | `nodes/<role>/<node>.schematic.yaml.j2` | Optional per-node schematic override                                      |
 | `schematic.yaml.j2`                     | Shared [Image Factory](https://factory.talos.dev) schematic               |
-| `patches/`                              | Ad-hoc patches for `talosctl patch`, not part of `render-config`          |
 | `mod.just`                              | Recipes (`just talos ...`)                                                |
 
 ## Rendering
