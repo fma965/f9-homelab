@@ -6,8 +6,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - name: http
-      port: 80
+    - name: https
+      port: 443
 ---
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
@@ -20,9 +20,9 @@ endpoints:
   - addresses:
       - nas.main.internal
 ports:
-  - name: http
+  - name: https
     protocol: TCP
-    port: 80
+    port: 443
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -42,7 +42,7 @@ spec:
   rules:
     - backendRefs:
         - name: truenas-external
-          port: 80
+          port: 443
 ---
 # yaml-language-server: $schema=https://schemas.budimanjojo.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
 apiVersion: gateway.envoyproxy.io/v1alpha1
@@ -52,14 +52,14 @@ metadata:
 spec:
   extAuth:
     headersToExtAuth:
-      - 'accept'
-      - 'cookie'
-      - 'location'
-      - 'authorization'
-      - 'proxy-authorization'
-      - 'header-authorization'
-      - 'x-forwarded-proto'
-      - 'x-forwarded-for'
+      - "accept"
+      - "cookie"
+      - "location"
+      - "authorization"
+      - "proxy-authorization"
+      - "header-authorization"
+      - "x-forwarded-proto"
+      - "x-forwarded-for"
     failOpen: false
     http:
       backendRefs:
@@ -132,14 +132,14 @@ metadata:
 spec:
   extAuth:
     headersToExtAuth:
-      - 'accept'
-      - 'cookie'
-      - 'location'
-      - 'authorization'
-      - 'proxy-authorization'
-      - 'header-authorization'
-      - 'x-forwarded-proto'
-      - 'x-forwarded-for'
+      - "accept"
+      - "cookie"
+      - "location"
+      - "authorization"
+      - "proxy-authorization"
+      - "header-authorization"
+      - "x-forwarded-proto"
+      - "x-forwarded-for"
     failOpen: false
     http:
       backendRefs:
@@ -211,14 +211,14 @@ metadata:
 spec:
   extAuth:
     headersToExtAuth:
-      - 'accept'
-      - 'cookie'
-      - 'location'
-      - 'authorization'
-      - 'proxy-authorization'
-      - 'header-authorization'
-      - 'x-forwarded-proto'
-      - 'x-forwarded-for'
+      - "accept"
+      - "cookie"
+      - "location"
+      - "authorization"
+      - "proxy-authorization"
+      - "header-authorization"
+      - "x-forwarded-proto"
+      - "x-forwarded-for"
     failOpen: false
     http:
       backendRefs:
@@ -360,14 +360,14 @@ metadata:
 spec:
   extAuth:
     headersToExtAuth:
-      - 'accept'
-      - 'cookie'
-      - 'location'
-      - 'authorization'
-      - 'proxy-authorization'
-      - 'header-authorization'
-      - 'x-forwarded-proto'
-      - 'x-forwarded-for'
+      - "accept"
+      - "cookie"
+      - "location"
+      - "authorization"
+      - "proxy-authorization"
+      - "header-authorization"
+      - "x-forwarded-proto"
+      - "x-forwarded-for"
     failOpen: false
     http:
       backendRefs:
