@@ -47,3 +47,4 @@ external_secrets:
   FRIGATE_DOORBELL_HOST: op://kubernetes/go2rtc/DOORBELL_HOST
   FRIGATE_DOORBELL_USER: op://kubernetes/go2rtc/DOORBELL_USERNAME
   FRIGATE_DOORBELL_PASSWORD: op://kubernetes/go2rtc/DOORBELL_PASSWORD
+  OPENWEBUI_API_KEY: op://kubernetes/go2rtc/OPENWEBUI_API_KEY

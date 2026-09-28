@@ -131,3 +131,34 @@ cameras:
 
 # Motion masks and zones are camera-FOV-specific - add them per camera in the
 # Frigate UI (Settings -> Masks / Zones) once each stream is confirmed live.
+version: 0.18-0
+tls:
+  enabled: false
+auth:
+  enabled: false
+proxy:
+  header_map:
+    user: Remote-User
+    role: Remote-Groups
+    role_map:
+      admin:
+        - admin
+      viewer:
+        - home
+detect:
+  enabled: true
+semantic_search:
+  enabled: true
+genai:
+  newKey:
+    api_key: { OPENWEBUI_API_KEY }
+    base_url: https://ai.f9.casa/api
+    provider: openai
+    roles:
+      - descriptions
+      - chat
+    model: gemma-4-12b-ha
+face_recognition:
+  enabled: true
+lpr:
+  enabled: true
