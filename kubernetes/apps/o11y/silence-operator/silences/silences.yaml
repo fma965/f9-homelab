@@ -66,6 +66,6 @@ spec:
   matchers:
     - name: alertname
       value: NodeSystemSaturation
-      matchType: '=~'
+      matchType: "=~"
     - name: job
       value: node-exporter

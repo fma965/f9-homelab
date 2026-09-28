@@ -3,16 +3,16 @@ services:
     container_name: piper
     image: rhasspy/wyoming-piper
     ports:
-      - '10200:10200'
+      - "10200:10200"
     volumes:
-      - '/mnt/AI/appdata/piper/data:/data'
+      - "/mnt/AI/appdata/piper/data:/data"
     command: --voice en_GB-cori-high
 
   whisper:
-   container_name: whisper
-   image: rhasspy/wyoming-whisper
-   ports:
-     - '10300:10300'
-   volumes:
-     - '/mnt/AI/appdata/whisper/data:/data'
-   command: "--model Systran/faster-whisper-medium --language en"
+    container_name: whisper
+    image: rhasspy/wyoming-whisper
+    ports:
+      - "10300:10300"
+    volumes:
+      - "/mnt/AI/appdata/whisper/data:/data"
+    command: "--model Systran/faster-whisper-medium --language en"

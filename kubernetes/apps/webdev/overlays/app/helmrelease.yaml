@@ -20,11 +20,11 @@ spec:
               repository: ghcr.io/fma965/obs-overlays
               tag: v2.0.1
             envFrom:
-            - secretRef:
-                name: overlays-secret
+              - secretRef:
+                  name: overlays-secret
             securityContext:
               allowPrivilegeEscalation: false
-            #   readOnlyRootFilesystem: true
+              #   readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
             resources:
               requests:

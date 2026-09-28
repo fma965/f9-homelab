@@ -57,10 +57,10 @@ spec:
           - name: envoy-external
             namespace: network
     # persistence:
-      # server-json:
-      #   enabled: true
-      #   type: configMap
-      #   name: servers-json
-      #   globalMounts:
-      #     - path: /pgadmin4/servers.json
-      #       subPath: servers.json
+    # server-json:
+    #   enabled: true
+    #   type: configMap
+    #   name: servers-json
+    #   globalMounts:
+    #     - path: /pgadmin4/servers.json
+    #       subPath: servers.json

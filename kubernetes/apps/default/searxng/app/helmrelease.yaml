@@ -68,7 +68,7 @@ spec:
     route:
       app:
         annotations:
-          ggatus.home-operations.com/enabled: 'false'
+          ggatus.home-operations.com/enabled: "false"
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
           gethomepage.dev/name: SearXNG Search

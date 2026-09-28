@@ -3,11 +3,14 @@
 ## Unifi (FRR) BGP
 
 Enable SSH, SSH in to Unifi Gateway
+
 ```sh
 sed -i 's/bgpd=no/bgpd=yes/g' /etc/frr/daemons
 vi /etc/frr/frr.conf
 ```
+
 Replace frr.conf with below
+
 ```sh
 router bgp 64521
   bgp router-id 10.10.100.254
@@ -46,6 +49,7 @@ ip route show
 ```
 
 #### Cilium CLI
+
 ```sh
 cilium bgp routes
 cilium bgp peers
