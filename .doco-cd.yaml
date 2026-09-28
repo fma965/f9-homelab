@@ -17,6 +17,9 @@ working_dir: docker/management/webtop
 name: isponsorblocktv
 working_dir: docker/media/isponsorblocktv
 ---
+name: tdarr
+working_dir: docker/media/tdarr
+---
 name: node-exporter
 working_dir: docker/observability/node-exporter
 ---
