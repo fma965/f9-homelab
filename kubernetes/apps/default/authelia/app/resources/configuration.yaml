@@ -157,7 +157,8 @@ identity_providers:
 
     jwks:
       - key_id: default
-        key: { { env "JWKS_KEY" | mindent 10 "|" | msquote } }
+        # prettier-ignore
+        key: {{ env "JWKS_KEY" | mindent 10 "|" | msquote }}
 
     clients:
       - client_name: "immich"
