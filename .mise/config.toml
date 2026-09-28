@@ -8,6 +8,9 @@ JUST_UNSTABLE = "1"
 [hooks]
 postinstall = "lefthook install"
 
+[settings]
+disable_tools = ["1password-cli"]
+
 [tools]
 "1password-cli" = "2.35.0"
 actionlint = "1.7.12"
