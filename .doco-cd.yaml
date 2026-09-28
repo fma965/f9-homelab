@@ -41,9 +41,9 @@ working_dir: docker/backup/garage
 name: frigate
 working_dir: docker/security/frigate
 external_secrets:
-  FRIGATE_REOLINK_HOST: op://kubernetes/go2rtc/add more/REOLINK_HOST
-  FRIGATE_REOLINK_USER: op://kubernetes/go2rtc/add more/REOLINK_USERNAME
-  FRIGATE_REOLINK_PASSWORD: op://kubernetes/go2rtc/add more/REOLINK_PASSWORD
-  FRIGATE_DOORBELL_HOST: op://kubernetes/go2rtc/add more/DOORBELL_HOST
-  FRIGATE_DOORBELL_USER: op://kubernetes/go2rtc/add more/DOORBELL_USERNAME
-  FRIGATE_DOORBELL_PASSWORD: op://kubernetes/go2rtc/add more/DOORBELL_PASSWORD
+  FRIGATE_REOLINK_HOST: op://kubernetes/go2rtc/REOLINK_HOST
+  FRIGATE_REOLINK_USER: op://kubernetes/go2rtc/REOLINK_USERNAME
+  FRIGATE_REOLINK_PASSWORD: op://kubernetes/go2rtc/REOLINK_PASSWORD
+  FRIGATE_DOORBELL_HOST: op://kubernetes/go2rtc/DOORBELL_HOST
+  FRIGATE_DOORBELL_USER: op://kubernetes/go2rtc/DOORBELL_USERNAME
+  FRIGATE_DOORBELL_PASSWORD: op://kubernetes/go2rtc/DOORBELL_PASSWORD
