@@ -18,7 +18,7 @@ spec:
           backend:
             image:
               repository: directus/directus
-              tag: 11.14.1
+              tag: 12.4.1
             env:
               AUTH_AUTHENTIK_ALLOW_PUBLIC_REGISTRATION: "true"
               AUTH_AUTHENTIK_DRIVER: "openid"
@@ -39,6 +39,7 @@ spec:
               EMAIL_SMTP_PORT: "25"
               EMAIL_TRANSPORT: "smtp"
               EXTENSIONS_PATH: "/directus/extensions"
+              IP_TRUST_PROXY: "true"
               PORT: "8055"
               PUBLIC_URL: "https://gamesdb.f9.casa"
               REDIS_HOST: "dragonfly.database.svc.cluster.local"
