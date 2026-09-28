@@ -1,6 +1,6 @@
 mqtt:
   enabled: true
-  host: mosquitto.f9.casa
+  host: 10.10.69.203
   port: 1883
   topic_prefix: frigate
 

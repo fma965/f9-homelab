@@ -35,7 +35,7 @@ Retention is set to 30 days for motion-triggered recording, 14 days for alerts/d
 
 ### MQTT / Home Assistant
 
-Points at the cluster's Mosquitto (`mosquitto.f9.casa:1883`, anonymous auth) so the Home Assistant Frigate integration keeps working the same way it did when Frigate ran in-cluster. If Mosquitto isn't reachable from the NAS's network segment, set `mqtt.enabled: false` in `config/config.yml` instead.
+Points at the cluster's Mosquitto (`10.10.69.203:1883`, anonymous auth) so the Home Assistant Frigate integration keeps working the same way it did when Frigate ran in-cluster. If Mosquitto isn't reachable from the NAS's network segment, set `mqtt.enabled: false` in `config/config.yml` instead.
 
 ### Ports
 
