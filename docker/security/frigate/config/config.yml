@@ -82,10 +82,15 @@ go2rtc:
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_main
     side_camera_sub:
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_sub
-    garage:
-      - rtsp://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream1
-    garage_sub:
-      - rtsp://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream2
+    garage_camera:
+      - rtsp://{FRIGATE_TAPO_USER}:{FRIGATE_TAPO_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream1
+    garage_camera_sub:
+      - rtsp://{FRIGATE_TAPO_USER}:{FRIGATE_TAPO_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream2
+    printer_camera:
+      - rtsp://{FRIGATE_TAPO_USER}:{FRIGATE_TAPO_PASSWORD}@{FRIGATE_PRINTER_HOST}/stream1
+    printer_camera_sub:
+      - rtsp://{FRIGATE_TAPO_USER}:{FRIGATE_TAPO_PASSWORD}@{FRIGATE_PRINTER_HOST}/stream2
+
   webrtc:
     candidates:
       - stun:8555
@@ -141,14 +146,26 @@ cameras:
           roles:
             - detect
 
-  garage:
+  garage_camera:
     ffmpeg:
       inputs:
-        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/garage
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/garage_camera
           input_args: preset-rtsp-restream
           roles:
             - record
-        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/garage_sub
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/garage_camera_sub
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+
+  printer_camera:
+    ffmpeg:
+      inputs:
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/printer_camera
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/printer_camera_sub
           input_args: preset-rtsp-restream
           roles:
             - detect

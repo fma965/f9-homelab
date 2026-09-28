@@ -51,5 +51,6 @@ external_secrets:
   FRIGATE_RTSP_USERNAME: op://kubernetes/frigate/RTSP_USERNAME
   FRIGATE_RTSP_PASSWORD: op://kubernetes/frigate/RTSP_PASSWORD
   FRIGATE_GARAGE_HOST: op://kubernetes/frigate/GARAGE_HOST
-  FRIGATE_GARAGE_USER: op://kubernetes/frigate/GARAGE_USERNAME
-  FRIGATE_GARAGE_PASSWORD: op://kubernetes/frigate/GARAGE_PASSWORD
+  FRIGATE_PRINTER_HOST: op://kubernetes/frigate/PRINTER_HOST
+  FRIGATE_TAPO_USER: op://kubernetes/frigate/TAPO_USERNAME
+  FRIGATE_TAPO_PASSWORD: op://kubernetes/frigate/TAPO_PASSWORD
