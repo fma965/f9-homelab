@@ -1,0 +1,39 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1alpha1.json
+apiVersion: toolhive.stacklok.dev/v1alpha1
+kind: MCPServer
+metadata:
+  name: paperless
+spec:
+  image: ghcr.io/baruchiro/paperless-mcp:2.2.1@sha256:7a793eeeb2ef9ea43175bf6b43b2179cc7c5b7e5484b6aecea8984a61d1ffe2d
+  transport: streamable-http
+  mcpPort: 3000
+  groupRef:
+    name: mcp-tools
+  env:
+    - name: TZ
+      value: Europe/London
+    # v2.0.0+ requires a bearer token on every request by default (401
+    # without one). No PAPERLESS_API_KEY is set here on purpose — this
+    # server never holds a standing credential of its own, so there's
+    # nothing to steal from the pod or the cluster. Same live-verification
+    # caveat as grafana-mcp: confirm vMCP's outgoingAuth can satisfy this,
+    # or callers need to supply their own Paperless token per-request.
+    - name: PAPERLESS_URL
+      value: http://paperless.default.svc.cluster.local:8000
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 256Mi
+  podTemplateSpec:
+    spec:
+      containers:
+        - name: mcp
+          args:
+            - --http
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }

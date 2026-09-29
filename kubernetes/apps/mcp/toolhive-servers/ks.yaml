@@ -3,14 +3,18 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: unifi-network-mcp
+  name: toolhive-servers
 spec:
+  dependsOn:
+    - name: toolhive-operator
+      namespace: mcp
   interval: 1h
-  path: ./kubernetes/apps/mcp/unifi-network-mcp/app
+  path: ./kubernetes/apps/mcp/toolhive-servers/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: mcp
+  timeout: 5m
   wait: false

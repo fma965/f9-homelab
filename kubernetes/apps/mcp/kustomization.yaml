@@ -9,7 +9,6 @@ components:
 
 resources:
   - ./namespace.yaml
-  - ./grafana-mcp/ks.yaml
-  - ./ha-mcp/ks.yaml
-  - ./truenas-mcp/ks.yaml
-  - ./unifi-network-mcp/ks.yaml
+  - ./toolhive-crds/ks.yaml
+  - ./toolhive-operator/ks.yaml
+  - ./toolhive-servers/ks.yaml

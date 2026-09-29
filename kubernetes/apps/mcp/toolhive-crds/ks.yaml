@@ -3,14 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: truenas-mcp
+  name: toolhive-crds
 spec:
   interval: 1h
-  path: ./kubernetes/apps/mcp/truenas-mcp/app
-  prune: true
+  path: ./kubernetes/apps/mcp/toolhive-crds/app
+  prune: false # never prune CRDs
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: mcp
-  wait: false
+  timeout: 5m
+  wait: true

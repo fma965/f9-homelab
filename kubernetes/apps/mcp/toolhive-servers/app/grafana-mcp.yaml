@@ -1,0 +1,82 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1alpha1.json
+apiVersion: toolhive.stacklok.dev/v1alpha1
+kind: MCPServer
+metadata:
+  name: grafana
+spec:
+  image: docker.io/grafana/mcp-grafana:1.6.1@sha256:f49a704a44c193894381f535646b0fca060238c678e8dc22d16f5e2174c5cef5
+  transport: streamable-http
+  mcpPort: 8000
+  groupRef:
+    name: mcp-tools
+  secrets:
+    - name: grafana-mcp-secret
+      key: GRAFANA_SERVICE_ACCOUNT_TOKEN
+      targetEnvName: GRAFANA_SERVICE_ACCOUNT_TOKEN
+    # mcp-grafana refuses to serve on a non-loopback address with no
+    # caller auth of its own (unlike most siblings, it has a built-in
+    # bearer-token gate). vMCP calls this server in-cluster as a backend,
+    # so its "outgoingAuth: discovered" needs to find and present this —
+    # NEEDS LIVE VERIFICATION once toolhive-operator is running: if vMCP
+    # doesn't forward it automatically, this server will 401 every call
+    # vMCP makes and needs a manual outgoingAuth override.
+    - name: grafana-mcp-secret
+      key: MCP_GRAFANA_SERVER_TOKEN
+      targetEnvName: MCP_GRAFANA_SERVER_TOKEN
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 256Mi
+  podTemplateSpec:
+    spec:
+      containers:
+        - name: mcp
+          args:
+            - --transport=streamable-http
+            - --address=0.0.0.0:8000
+            - --disable-write
+            # Defaults to loopback-only, which 403s any request whose Host
+            # header isn't listed. Previously guarded external Host
+            # headers; now this server is reached only by vMCP in-cluster,
+            # so the list only needs to cover the Service DNS name the
+            # operator gives it — NEEDS LIVE VERIFICATION (see comment on
+            # unifi-network-mcp.yaml for the class of failure this guards
+            # against; confirm the actual Service name post-deploy and
+            # trim/extend this list).
+            - "--allowed-hosts=grafana,grafana:8000,grafana.mcp.svc.cluster.local,grafana.mcp.svc.cluster.local:8000,localhost,localhost:8000,127.0.0.1,127.0.0.1:8000"
+            # allowed-hosts above also 403s kubelet's probes (pod IP is
+            # never in that list). Separate listener for /healthz avoids
+            # that entirely.
+            - --healthz-address=:8080
+          env:
+            - name: HOME
+              value: /tmp
+            - name: GRAFANA_URL
+              value: http://grafana-service.o11y.svc.cluster.local:3000
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 10
+            failureThreshold: 30
