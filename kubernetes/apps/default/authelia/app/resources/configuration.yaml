@@ -86,6 +86,13 @@ access_control:
         - "^/websocket$"
       policy: bypass
 
+    # API bypass for the UniFi MCP server — MCP HTTP clients speak JSON-RPC
+    # directly and can't complete an interactive two_factor login. The
+    # server itself gates mutating tools behind confirm=true.
+    - domain: unifi-mcp.f9.casa
+      resources: ["^/mcp.*$"]
+      policy: bypass
+
     # 3. Blanket Admin Pass: Admins bypass all group restrictions below
     - domain: "*.f9.casa"
       subject: ["group:admin"]
