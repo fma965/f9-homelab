@@ -41,8 +41,15 @@ spec:
               UNIFI_MCP_PORT: &port 3000
               UNIFI_MCP_HTTP_ENABLED: "true"
               UNIFI_MCP_HTTP_TRANSPORT: streamable-http
-              # DNS-rebinding protection checks the Host header, so every
-              # name a client may use has to be listed here.
+              # DNS-rebinding protection checks the Host header, but 0.36.x
+              # (still, as of this version) rejects a request whose Host is
+              # in UNIFI_MCP_ALLOWED_HOSTS anyway — confirmed empirically:
+              # every request through the gateway got 421 "Invalid Host
+              # header" even with unifi-mcp.f9.casa listed below. Disabled
+              # rather than worked around, since the gateway's apiKeyAuth
+              # SecurityPolicy already gates access with a static key a
+              # browser can't be tricked into sending, which is what this
+              # protection exists to guard against.
               UNIFI_MCP_ALLOWED_HOSTS: >-
                 unifi-mcp.f9.casa,
                 unifi-network-mcp,
@@ -53,6 +60,7 @@ spec:
                 localhost:3000,
                 127.0.0.1,
                 127.0.0.1:3000
+              UNIFI_MCP_ENABLE_DNS_REBINDING_PROTECTION: "false"
               # Register meta-tools and load the rest on demand — keeps
               # agent context small.
               UNIFI_TOOL_REGISTRATION_MODE: lazy
