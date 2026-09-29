@@ -32,7 +32,11 @@ spec:
               FASTMCP_CHECK_FOR_UPDATES: "off"
               HA_MCP_DISABLE_UPDATE_CHECK: true
               HA_MCP_CONFIG_DIR: &configDir /config
-              HOMEASSISTANT_URL: http://home-assistant.default.svc.cluster.local:8123
+              # Service is home-assistant-app, not home-assistant — the
+              # onedr0p reference deployment I copied this from names
+              # theirs differently. Confirmed against `kubectl get svc -n
+              # default` after the pod crashlooped on DNS resolution.
+              HOMEASSISTANT_URL: http://home-assistant-app.default.svc.cluster.local:8123
               MCP_HEALTHZ: true
               MCP_HOST: 0.0.0.0
               MCP_PORT: &port 80
