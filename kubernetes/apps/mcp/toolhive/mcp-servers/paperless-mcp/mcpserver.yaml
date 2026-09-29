@@ -13,12 +13,6 @@ spec:
   env:
     - name: TZ
       value: Europe/London
-    # v2.0.0+ requires a bearer token on every request by default (401
-    # without one). No PAPERLESS_API_KEY is set here on purpose — this
-    # server never holds a standing credential of its own, so there's
-    # nothing to steal from the pod or the cluster. Same live-verification
-    # caveat as grafana-mcp: confirm vMCP's outgoingAuth can satisfy this,
-    # or callers need to supply their own Paperless token per-request.
     - name: PAPERLESS_URL
       value: http://paperless.default.svc.cluster.local:8000
   resources:
@@ -33,6 +27,20 @@ spec:
         - name: mcp
           args:
             - --http
+            # Live-verified: even with PAPERLESS_API_KEY set, this server
+            # still demands an inbound "Authorization: Bearer <token>"
+            # from callers by default (its own server token isn't used
+            # for outbound Paperless calls unless inbound auth is
+            # disabled) - the same per-request injection the
+            # toolhive-operator bug blocks (see grafana-external-auth.yaml).
+            # --no-auth uses PAPERLESS_API_KEY purely for the server's own
+            # outbound calls to Paperless and skips the inbound gate -
+            # acceptable here since this pod is reachable only in-cluster
+            # through vMCP, same trust boundary as every other backend.
+            - --no-auth
+          envFrom:
+            - secretRef:
+                name: paperless-mcp-secret
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
