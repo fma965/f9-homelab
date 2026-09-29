@@ -1,0 +1,78 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1alpha1.json
+apiVersion: toolhive.stacklok.dev/v1alpha1
+kind: MCPServer
+metadata:
+  name: ha
+spec:
+  image: ghcr.io/homeassistant-ai/ha-mcp:8.5.0@sha256:e1538bcdadb13a5467bbb8258fba3262a05518585e18115742da638adec7057c
+  transport: streamable-http
+  mcpPort: 80
+  groupRef:
+    name: mcp-tools
+  env:
+    - name: TZ
+      value: Europe/London
+    - name: FASTMCP_CHECK_FOR_UPDATES
+      value: "off"
+    - name: HA_MCP_DISABLE_UPDATE_CHECK
+      value: "true"
+    - name: HA_MCP_CONFIG_DIR
+      value: /config
+    - name: HOMEASSISTANT_URL
+      value: http://home-assistant-app.default.svc.cluster.local:8123
+    - name: MCP_HEALTHZ
+      value: "true"
+    - name: MCP_HOST
+      value: 0.0.0.0
+    - name: MCP_PORT
+      value: "80"
+  secrets:
+    - name: ha-mcp-secret
+      key: HOMEASSISTANT_TOKEN
+      targetEnvName: HOMEASSISTANT_TOKEN
+    # This server's inbound auth is a secret URL path component
+    # (MCP_SECRET_PATH), not the gateway apiKeyAuth used elsewhere — it
+    # predates this migration and is left as-is. Connect clients to
+    # https://mcp.f9.casa<this value>/ha_mcp... — NEEDS LIVE VERIFICATION
+    # of how vMCP composes the backend path once running; MCP_SECRET_PATH
+    # may need to move to vMCP's outgoingAuth instead if vMCP can't be
+    # told to hit a non-default path on this backend.
+    - name: ha-mcp-secret
+      key: MCP_SECRET_PATH
+      targetEnvName: MCP_SECRET_PATH
+  resources:
+    requests:
+      cpu: 10m
+    limits:
+      memory: 512Mi
+  podTemplateSpec:
+    spec:
+      containers:
+        - name: mcp
+          command: ["ha-mcp-web"]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+          livenessProbe:
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 5
+          startupProbe:
+            failureThreshold: 30
+            periodSeconds: 10
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: ha-mcp-config

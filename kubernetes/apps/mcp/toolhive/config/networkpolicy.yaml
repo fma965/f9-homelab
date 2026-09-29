@@ -1,0 +1,20 @@
+---
+# ToolHive-managed pods aren't exposed externally except via the
+# mcp-gateway HTTPRoute (all other Services in this namespace are
+# ClusterIP-only, no route of their own) — this NetworkPolicy is
+# belt-and-suspenders so nothing outside the gateway's namespace can reach
+# any of them directly, matching the posture already used for
+# flux-operator-mcp/victoria-logs-mcp/immich-mcp before this migration.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mcp-ingress
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: network

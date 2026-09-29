@@ -1,0 +1,22 @@
+---
+# API-key auth on the one shared route (Envoy Gateway apiKeyAuth). Each
+# consumer sends its own `x-api-key`, so Claude.ai / Claude Code / Open
+# WebUI can each be revoked independently without rotating a shared secret.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: mcp-gateway
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: mcp-gateway
+  apiKeyAuth:
+    credentialRefs:
+      - group: ""
+        kind: Secret
+        name: mcp-gateway-apikeys
+    extractFrom:
+      - headers:
+          - x-api-key
+    sanitize: true

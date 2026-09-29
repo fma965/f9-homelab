@@ -1,0 +1,25 @@
+---
+# Read-only ServiceAccount for Kubernetes API access. Bound to the
+# built-in `view` ClusterRole — it already excludes Secret contents by
+# design, and the server's own --read-only flag refuses mutating calls
+# before RBAC would even be consulted. Belt and suspenders, not
+# redundant: RBAC bounds what the tools *could* do if a future version
+# ships a write tool without a matching guard; the tool-level flag bounds
+# what today's tools attempt.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubernetes-mcp-readonly
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubernetes-mcp-readonly
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+subjects:
+  - kind: ServiceAccount
+    name: kubernetes-mcp-readonly
+    namespace: mcp

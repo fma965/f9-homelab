@@ -1,0 +1,37 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1alpha1.json
+apiVersion: toolhive.stacklok.dev/v1alpha1
+kind: MCPServer
+metadata:
+  name: victoria-logs
+spec:
+  # The official victoria-logs-mcp Helm chart (oci://ghcr.io/victoriametrics/
+  # helm-charts/victoria-logs-mcp:0.1.0) wraps this image; digest resolved
+  # directly from ghcr.io since the chart doesn't pin one itself.
+  image: ghcr.io/victoriametrics/mcp-victorialogs:v1.9.0@sha256:753bb4fbe402ca1a782842f44636830f9895736f11d7fe783b924f8a0daf083d
+  transport: streamable-http
+  mcpPort: 8080
+  groupRef:
+    name: mcp-tools
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 256Mi
+  podTemplateSpec:
+    spec:
+      containers:
+        - name: mcp
+          # Read-only by design — this server only exposes query/
+          # exploration/stats APIs, nothing that can write to
+          # VictoriaLogs.
+          env:
+            - name: VL_MCP_MODE
+              value: http
+            - name: VL_MCP_LISTEN_ADDR
+              value: ":8080"
+            # Headless ClusterIP service, victoria-logs StatefulSet in
+            # o11y.
+            - name: VL_ENTRYPOINT
+              value: http://victoria-logs.o11y.svc.cluster.local:9428
