@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1alpha1.json
-apiVersion: toolhive.stacklok.dev/v1alpha1
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
 kind: MCPServer
 metadata:
   name: grafana
@@ -10,20 +10,20 @@ spec:
   mcpPort: 8000
   groupRef:
     name: mcp-tools
-  secrets:
-    - name: grafana-mcp-secret
-      key: GRAFANA_SERVICE_ACCOUNT_TOKEN
-      targetEnvName: GRAFANA_SERVICE_ACCOUNT_TOKEN
-    # mcp-grafana refuses to serve on a non-loopback address with no
-    # caller auth of its own (unlike most siblings, it has a built-in
-    # bearer-token gate). vMCP calls this server in-cluster as a backend,
-    # so its "outgoingAuth: discovered" needs to find and present this —
-    # NEEDS LIVE VERIFICATION once toolhive-operator is running: if vMCP
-    # doesn't forward it automatically, this server will 401 every call
-    # vMCP makes and needs a manual outgoingAuth override.
-    - name: grafana-mcp-secret
-      key: MCP_GRAFANA_SERVER_TOKEN
-      targetEnvName: MCP_GRAFANA_SERVER_TOKEN
+  # NOTE: ToolHive's spec.secrets is x-kubernetes-list-type=map keyed on
+  # `name` alone, so it can't hold two entries pulling different keys out
+  # of the same Secret (confirmed live against ha-mcp: dry-run rejected
+  # this with "duplicate entries for key [name=...]"). Using envFrom in
+  # podTemplateSpec instead — a plain PodSpec field, not subject to that
+  # constraint.
+  #
+  # mcp-grafana refuses to serve on a non-loopback address with no
+  # caller auth of its own (unlike most siblings, it has a built-in
+  # bearer-token gate). vMCP calls this server in-cluster as a backend,
+  # so its "outgoingAuth: discovered" needs to find and present this —
+  # NEEDS LIVE VERIFICATION once toolhive-operator is running: if vMCP
+  # doesn't forward it automatically, this server will 401 every call
+  # vMCP makes and needs a manual outgoingAuth override.
   resources:
     requests:
       cpu: 10m
@@ -56,6 +56,9 @@ spec:
               value: /tmp
             - name: GRAFANA_URL
               value: http://grafana-service.o11y.svc.cluster.local:3000
+          envFrom:
+            - secretRef:
+                name: grafana-mcp-secret
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
