@@ -1,18 +1,28 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1alpha1.json
-# NOTE: PR #1840's CI failure (quoted MCP_PORT: "8000" breaking the
-# bjw-s chart's port-lookup template) doesn't reproduce here — ToolHive's
-# mcpPort is a plain int field, not a Helm value template. Image quality
-# caveats from that PR still apply and are preserved below: this image
-# builds itself from source via `uv` at container startup (needs outbound
-# PyPI access to boot) and runs as root with a writable rootfs; upstream
-# only publishes a floating `latest` tag, pinned here by digest.
+# Renamed upstream from claw2immich -> mcp4immich at v1.0.0 (2026-09-20) —
+# "first release where the git tag, the published image and the version
+# the server reports to clients all agree." Real semver tag, multi-arch
+# (amd64+arm64), pinned here by digest same as everything else.
+#
+# One quality caveat from the old claw2immich PR is resolved: the
+# Dockerfile now runs `uv sync --frozen` at BUILD time, not container
+# startup, so `uv run` at boot just executes the already-synced venv —
+# no outbound PyPI access needed to come up. The other caveat is
+# unchanged either way: the Dockerfile has no USER directive, so it
+# still runs as root by default (kept as-is below rather than guessing
+# at unverified non-root support).
+#
+# IMMICH_ENABLE_DESTRUCTIVE is deliberately left unset: destructive_admin
+# tools (DELETE /assets, DELETE /people, trash/empty, etc.) aren't even
+# registered without it — not just hidden by IMMICH_PROFILE, absent from
+# the tool list entirely.
 apiVersion: toolhive.stacklok.dev/v1alpha1
 kind: MCPServer
 metadata:
   name: immich
 spec:
-  image: ghcr.io/joeru/claw2immich:latest@sha256:92294443194a7b9a5a4c541d962b8a517112a4e42e854067c893de220216404f
+  image: ghcr.io/joeru/mcp4immich:1.0.0@sha256:2eb4c3d4dd90ae0a28d4c8658d0261b37ea754ae03a444eb2e57e2cdeee8efa6
   transport: streamable-http
   mcpPort: 8000
   groupRef:
@@ -22,9 +32,9 @@ spec:
       value: Europe/London
     - name: IMMICH_BASE_URL
       value: http://immich.default.svc.cluster.local:2283
-    # Native read-only guard — belt and suspenders alongside a
-    # least-privilege API key (create it as a read-only key in Immich if
-    # that option exists for your version).
+    # Native read-only guard — belt and suspenders alongside the
+    # read-only-scoped API key (see externalsecret.yaml). Refuses the
+    # shared-link-creating downloadAsset modes too, not just writes.
     - name: IMMICH_PROFILE
       value: read_only
     - name: MCP_TRANSPORT
@@ -56,17 +66,21 @@ spec:
             allowPrivilegeEscalation: false
             capabilities: { drop: [ALL] }
           volumeMounts:
+            # MCP4IMMICH_SPEC_CACHE defaults to /app/.cache/openapi inside
+            # the image (per the Dockerfile) — mount the parent so the
+            # OpenAPI spec cache doesn't need the container's own
+            # (root-owned) layer to be writable.
             - name: cache
-              mountPath: /.cache
+              mountPath: /app/.cache
             - name: tmp
               mountPath: /tmp
           startupProbe:
             tcpSocket:
               port: 8000
-            # uv build on cold start pulls from PyPI before the server is
-            # up — generous startup budget covers it.
+            # No longer pulling from PyPI at boot (deps are baked into the
+            # image at build time now) — back to a normal startup budget.
             periodSeconds: 10
-            failureThreshold: 60
+            failureThreshold: 30
       volumes:
         - name: cache
           emptyDir: {}
