@@ -9,5 +9,6 @@ components:
 
 resources:
   - ./namespace.yaml
+  - ./grafana-mcp/ks.yaml
   - ./truenas-mcp/ks.yaml
   - ./unifi-network-mcp/ks.yaml
