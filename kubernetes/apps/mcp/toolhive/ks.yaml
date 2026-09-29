@@ -1,0 +1,77 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: toolhive-crds
+spec:
+  interval: 1h
+  path: ./kubernetes/apps/mcp/toolhive/crds
+  prune: false # never prune CRDs
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: mcp
+  timeout: 5m
+  wait: true
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: toolhive
+spec:
+  dependsOn:
+    - name: toolhive-crds
+      namespace: mcp
+  interval: 1h
+  path: ./kubernetes/apps/mcp/toolhive/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: mcp
+  timeout: 5m
+  wait: true
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: toolhive-config
+spec:
+  dependsOn:
+    - name: toolhive
+      namespace: mcp
+  interval: 1h
+  path: ./kubernetes/apps/mcp/toolhive/config
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: mcp
+  timeout: 5m
+  wait: false
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: toolhive-mcp-server
+spec:
+  dependsOn:
+    - name: toolhive
+      namespace: mcp
+  interval: 1h
+  path: ./kubernetes/apps/mcp/toolhive/mcp-server
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: mcp
+  timeout: 5m
+  wait: false
