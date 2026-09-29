@@ -35,11 +35,17 @@ spec:
               # incidents, snapshots) are refused — same read-only posture
               # as truenas-mcp until there's a reason to allow writes.
               - --disable-write
-              # Defaults to loopback-only, which 421s every request through
+              # Defaults to loopback-only, which 403s every request through
               # the gateway (same class of issue unifi-network-mcp hit).
               # List every Host header this route can actually see instead
               # of disabling the check.
               - "--allowed-hosts=grafana-mcp.f9.casa,grafana-mcp,grafana-mcp:8000,grafana-mcp.mcp.svc.cluster.local,grafana-mcp.mcp.svc.cluster.local:8000,localhost,localhost:8000,127.0.0.1,127.0.0.1:8000"
+              # The allowed-hosts check above also 403s kubelet's probes,
+              # since they hit the pod IP directly (never in that list, and
+              # can't be — it's dynamic). Give /healthz its own listener,
+              # which isn't behind that check, instead of trying to
+              # enumerate every possible pod IP.
+              - --healthz-address=:8080
             env:
               HOME: /tmp
               # Talk to Grafana's in-cluster service directly rather than
@@ -57,7 +63,7 @@ spec:
                 spec:
                   httpGet:
                     path: /healthz
-                    port: &port 8000
+                    port: &healthzPort 8080
                   periodSeconds: 30
                   timeoutSeconds: 5
                   failureThreshold: 5
@@ -67,7 +73,7 @@ spec:
                 spec:
                   httpGet:
                     path: /healthz
-                    port: *port
+                    port: *healthzPort
                   periodSeconds: 10
                   timeoutSeconds: 5
                   failureThreshold: 5
@@ -77,7 +83,7 @@ spec:
                 spec:
                   httpGet:
                     path: /healthz
-                    port: *port
+                    port: *healthzPort
                   periodSeconds: 10
                   failureThreshold: 30
             resources:
@@ -97,7 +103,7 @@ spec:
         ports:
           http:
             primary: true
-            port: *port
+            port: &port 8000
     route:
       app:
         annotations:
