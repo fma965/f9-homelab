@@ -79,13 +79,14 @@ spec:
             primary: true
             port: *port
     # No apiKeyAuth SecurityPolicy on this route, unlike its siblings in
-    # this namespace — ha-mcp's default HTTP auth is a secret path
-    # component it generates itself (e.g. /private_<random>/mcp) and
-    # persists under HA_MCP_CONFIG_DIR, confirmed against the existing
-    # instance this is replacing. The MCP endpoint URL you configure in
-    # the claude.ai connector needs that generated path, not just the
-    # bare hostname — check the pod's logs (or *configDir) after first
-    # boot for the actual path once this is live.
+    # this namespace — auth here is MCP_SECRET_PATH (see externalsecret.yaml),
+    # a path component the client must know. IMPORTANT: this is NOT
+    # auto-generated — upstream defaults it to the literal, documented
+    # path "/mcp" when unset, which is unprotected in practice once
+    # MCP_HOST is 0.0.0.0. It must be explicitly set via the secret.
+    # Connect the claude.ai connector to
+    # https://ha-mcp.f9.casa<the MCP_SECRET_PATH value>, not the bare
+    # hostname.
     route:
       app:
         annotations:
@@ -101,11 +102,13 @@ spec:
               - name: *app
                 port: *port
     persistence:
-      # Holds OAuth/session state and the generated secret-URL auth
-      # path — losing this volume rotates the URL every claude.ai
-      # connector points at, so it's not purely disposable, but it's
-      # small enough that a local hostpath PVC is still fine rather
-      # than replicated ceph-block storage.
+      # Holds tool_config.json (visibility/feature-flag settings made via
+      # the web settings UI), OAuth DCR client registrations, and backup
+      # settings. The auth path itself is NOT stored here — it's the
+      # fixed MCP_SECRET_PATH env var above — but losing this volume
+      # still resets in-app settings on every pod recreate, so it's
+      # worth keeping even though it's small enough for a local hostpath
+      # PVC rather than replicated ceph-block storage.
       config:
         type: persistentVolumeClaim
         storageClass: openebs-hostpath
