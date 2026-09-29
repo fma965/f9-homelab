@@ -45,6 +45,28 @@ spec:
         type: externalAuthConfigRef
         externalAuthConfigRef:
           name: truenas-header-auth
+  # In-memory sessions (the default) don't survive a vMCP pod restart —
+  # every connected client (Claude.ai, Claude Code, Open WebUI) has to
+  # reconnect from scratch on every rollout. Using the cluster's existing
+  # shared Dragonfly instance (kubernetes/apps/database/dragonfly) instead
+  # — it already runs with --default_lua_flags=allow-undeclared-keys,
+  # which ToolHive's session-storage Lua scripts need (touches keys they
+  # don't declare). No password: this cluster's Dragonfly has none
+  # configured and nothing else here uses one either (see paperless,
+  # immich). DB 0, same as most other consumers — isolated by the
+  # "toolhive:vmcp:" key prefix rather than a dedicated DB index, matching
+  # how paperless/immich/games-manager already coexist on DB 0.
+  #
+  # NOTE: this is session-ID persistence only, NOT the 30s in-process
+  # capability-aggregation cache (pkg/vmcp/aggregator/caching_aggregator.go
+  # is explicitly node-local/never-persisted by design, confirmed in
+  # upstream source) — it doesn't change tool-list latency/consistency,
+  # only survives pod restarts without dropping client sessions.
+  sessionStorage:
+    provider: redis
+    address: dragonfly.database.svc.cluster.local:6379
+    db: 0
+    keyPrefix: "toolhive:vmcp:"
   podTemplateSpec:
     spec:
       containers:
