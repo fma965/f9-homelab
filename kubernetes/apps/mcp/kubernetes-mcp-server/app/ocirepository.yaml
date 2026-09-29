@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kubernetes-mcp-server
+spec:
+  interval: 15m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    # Official chart from the containers/kubernetes-mcp-server project
+    # (Red Hat/Podman org) — not app-template. It ships its own
+    # ServiceAccount/RBAC and Gateway API HTTPRoute wiring, which would
+    # otherwise have to be hand-rolled.
+    tag: 0.1.0
+  url: oci://ghcr.io/containers/charts/kubernetes-mcp-server
