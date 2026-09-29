@@ -11,4 +11,3 @@ resources:
   - ./flux-operator-mcp
   - ./victoria-logs-mcp
   - ./paperless-mcp
-  - ./github-mcp
