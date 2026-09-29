@@ -15,12 +15,15 @@ services:
       TZ: "Europe/London"
       NVIDIA_DRIVER_CAPABILITIES: "compute,utility"
       NVIDIA_VISIBLE_DEVICES: "all"
+      # Resolved by Doco-CD from 1Password Connect (see .doco-cd.yaml's
+      # external_secrets) and interpolated in here by Compose itself -
+      # not read from a .env file, which Doco-CD never writes to disk.
+      LLAMA_ARG_API_KEY: ${LLAMA_API_KEY}
     ports:
       - 8080:8080
     image: ghcr.io/ggml-org/llama.cpp:server-cuda
     volumes:
       - /mnt/AI/appdata/llamacpp/models:/models:ro
-      - /mnt/AI/appdata/llamacpp/apikeys.text:/apikeys.text
     command: >-
       -m /models/Gemma4-12B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M.gguf
       -md /models/mtp-gemma-4-12B-it.gguf
@@ -38,4 +41,3 @@ services:
       --cache-type-v q8_0
       --reasoning off
       --jinja
-      --api-key-file /apikeys.text
