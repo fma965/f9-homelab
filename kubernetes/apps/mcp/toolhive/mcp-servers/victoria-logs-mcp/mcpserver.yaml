@@ -27,11 +27,18 @@ spec:
           # exploration/stats APIs, nothing that can write to
           # VictoriaLogs.
           env:
-            - name: VL_MCP_MODE
+            # Live-verified names (checked against upstream's README —
+            # my originals, VL_MCP_MODE/VL_MCP_LISTEN_ADDR, don't exist
+            # and were silently ignored: the container defaulted to
+            # stdio mode, processed one session, and exited cleanly
+            # instead of staying up as an HTTP server).
+            - name: MCP_SERVER_MODE
               value: http
-            - name: VL_MCP_LISTEN_ADDR
+            - name: MCP_LISTEN_ADDR
               value: ":8080"
             # Headless ClusterIP service, victoria-logs StatefulSet in
-            # o11y.
-            - name: VL_ENTRYPOINT
+            # o11y. Live-verified name: the container FATALs with
+            # "VL_INSTANCE_ENTRYPOINT is not set" if this is wrong — it's
+            # not VL_ENTRYPOINT (my original guess).
+            - name: VL_INSTANCE_ENTRYPOINT
               value: http://victoria-logs.o11y.svc.cluster.local:9428

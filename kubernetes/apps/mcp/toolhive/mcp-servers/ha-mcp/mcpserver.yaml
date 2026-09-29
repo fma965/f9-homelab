@@ -69,10 +69,19 @@ spec:
             timeoutSeconds: 5
             failureThreshold: 5
           livenessProbe:
+            # Live-verified: Kubernetes rejects a probe with no handler
+            # ("must specify a handler type") when the operator
+            # materializes the StatefulSet — this was missing one.
+            httpGet:
+              path: /healthz
+              port: 80
             periodSeconds: 30
             timeoutSeconds: 5
             failureThreshold: 5
           startupProbe:
+            httpGet:
+              path: /healthz
+              port: 80
             failureThreshold: 30
             periodSeconds: 10
       volumes:
