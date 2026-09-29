@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/networking.k8s.io/networkpolicy_v1.json
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: immich-mcp
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: immich-mcp
+  policyTypes:
+    - Ingress
+  ingress:
+    # No other app in this namespace has a native inbound-auth option
+    # (unlike ha-mcp's OAuth support or paperless-mcp/github-mcp's
+    # bearer passthrough) and its own auth is OAuth2.1-resource-server
+    # only, which needs a real OIDC issuer to configure — too heavy to
+    # wire up for one server. The apiKeyAuth SecurityPolicy only guards
+    # the envoy-external route; this NetworkPolicy closes the gap it
+    # leaves for anything else already inside the cluster, same concern
+    # flagged in grafana-mcp's ExternalSecret.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: network
+          podSelector:
+            matchLabels:
+              gateway.envoyproxy.io/owning-gateway-name: envoy-external
