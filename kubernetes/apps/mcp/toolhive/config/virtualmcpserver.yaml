@@ -38,26 +38,13 @@ spec:
     type: anonymous
   outgoingAuth:
     source: discovered
-    # grafana needs an explicit override — see grafana-external-auth.yaml
-    # for why "discovered" alone leaves it 401ing every request.
-    #
-    # KNOWN GAP, live-verified against toolhive-operator v0.51.4: this
-    # field is accepted by the CRD but the operator does not currently
-    # translate spec.outgoingAuth.backends into the generated vMCP
-    # runtime config (checked the actual mounted config.yaml — it only
-    # ever emits "outgoingAuth: source: discovered", the backends map is
-    # silently dropped). Tried the config.outgoingAuth.backends location
-    # too — that one rejects externalAuthConfigRef as an unknown field
-    # entirely (different, narrower schema). Left this here because it's
-    # the semantically-correct config per the CRD schema and should start
-    # working on a toolhive-operator upgrade with no changes needed here
-    # — but as of this migration, grafana still 401s every call through
-    # vMCP ("missing bearer token") until that lands upstream.
+    # truenas needs an explicit override — see truenas-external-auth.yaml
+    # for why (its MCP server has no way to disable per-request auth).
     backends:
-      grafana:
+      truenas:
         type: externalAuthConfigRef
         externalAuthConfigRef:
-          name: grafana-bearer-auth
+          name: truenas-header-auth
   podTemplateSpec:
     spec:
       containers:
