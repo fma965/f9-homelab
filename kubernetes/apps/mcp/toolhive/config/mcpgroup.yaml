@@ -1,7 +1,0 @@
----
-apiVersion: toolhive.stacklok.dev/v1beta1
-kind: MCPGroup
-metadata:
-  name: mcp-tools
-spec:
-  description: Every MCP backend in this namespace, aggregated behind the mcp-gateway VirtualMCPServer

@@ -1,0 +1,110 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app truenas-mcp
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        # gcr.io/distroless/static-debian12:nonroot's baked-in UID/GID.
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      *app :
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/cedricziel/truenas-mcp
+              tag: 0.4.2@sha256:1a165c9b3831b8cf546c78231857896431c27a4465d2fcb16260c7d578bbee55
+            env:
+              # Talk to the NAS directly rather than through truenas.f9.casa:
+              # that hostname is proxied through envoy-external, and
+              # Authelia's access_control only bypasses `/websocket` there
+              # for the TrueNAS UI. This server dials `/api/current`
+              # (internal/config/config.go), which isn't bypassed and would
+              # otherwise get an Authelia challenge instead of a JSON-RPC
+              # response. nas.main.internal:443 is the same backend
+              # network/envoy-gateway/config/externalservices.yaml already
+              # points at for the same reason.
+              TRUENAS_MCP_TARGET: nas.main.internal:443
+              # TrueNAS ships a self-signed cert (CN/SAN "localhost").
+              TRUENAS_MCP_TARGET_INSECURE: "true"
+              # Streamable-HTTP listener. TLS is terminated at the gateway
+              # (f9-casa-tls); the in-cluster hop to this pod is plaintext,
+              # same as unifi-network-mcp.
+              TRUENAS_MCP_LISTEN: ":8080"
+              TRUENAS_MCP_ALLOW_PLAINTEXT: "true"
+              TRUENAS_MCP_ENABLE_WRITES: "true"
+            probes:
+              # Distroless carries no shell, so `--healthcheck` (which
+              # probes the local listener and exits 0/1) stands in for
+              # curl/wget-based probes.
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: [/usr/local/bin/truenas-mcp, --healthcheck]
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: [/usr/local/bin/truenas-mcp, --healthcheck]
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: [/usr/local/bin/truenas-mcp, --healthcheck]
+                  periodSeconds: 10
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: [ALL] }
+    service:
+      app:
+        primary: true
+        forceRename: *app
+        ports:
+          http:
+            primary: true
+            port: 8080
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401,404,406)"]
+        hostnames:
+          - "truenas-mcp.f9.casa"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - name: *app
+                port: 8080
