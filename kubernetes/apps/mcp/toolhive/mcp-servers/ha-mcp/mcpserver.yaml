@@ -27,20 +27,6 @@ spec:
       value: 0.0.0.0
     - name: MCP_PORT
       value: "80"
-  # NOTE: ToolHive's spec.secrets is x-kubernetes-list-type=map keyed on
-  # `name` alone, so it can't hold two entries pulling different keys out
-  # of the same Secret (confirmed live: dry-run rejected this with
-  # "duplicate entries for key [name=\"ha-mcp-secret\"]"). Using envFrom
-  # in podTemplateSpec instead — a plain PodSpec field, not subject to
-  # that constraint — same as how this was wired before the migration.
-  #
-  # This server's inbound auth is a secret URL path component
-  # (MCP_SECRET_PATH), not the gateway apiKeyAuth used elsewhere — it
-  # predates this migration and is left as-is. Connect clients to
-  # https://mcp.f9.casa<this value>/ha_mcp... — NEEDS LIVE VERIFICATION
-  # of how vMCP composes the backend path once running; MCP_SECRET_PATH
-  # may need to move to vMCP's outgoingAuth instead if vMCP can't be
-  # told to hit a non-default path on this backend.
   resources:
     requests:
       cpu: 10m
