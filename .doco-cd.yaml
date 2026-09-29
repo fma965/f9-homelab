@@ -10,6 +10,8 @@ working_dir: docker/ai/whisper
 ---
 name: llamacpp
 working_dir: docker/ai/llamacpp
+external_secrets:
+  LLAMA_API_KEY: op://kubernetes/llamacpp/API_KEY
 ---
 name: webtop
 working_dir: docker/management/webtop
