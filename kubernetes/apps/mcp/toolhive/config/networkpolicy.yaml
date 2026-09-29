@@ -18,3 +18,10 @@ spec:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: network
+    # Live-verified: without this, every proxy-runner pod could never reach
+    # its own backend pod (both live in this namespace) — every MCPServer
+    # sat in Pending forever with "dial tcp ... connection timed out" /
+    # DNS lookup failures. The reference repo (chr1sd/home-ops) has no
+    # NetworkPolicy here at all for the same reason.
+    - from:
+        - podSelector: {}

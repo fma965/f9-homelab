@@ -16,4 +16,11 @@ spec:
   rules:
     - backendRefs:
         - name: vmcp-mcp-gateway
-          port: 8080
+          # Live-verified: VirtualMCPServer's Service actually listens on
+          # 4483 by default (not 8080 — that's the per-MCPServer proxy
+          # port convention, this is vMCP's own). Wrong port here made
+          # Envoy refuse to program the route at all: HTTPRoute showed
+          # ResolvedRefs=False "TCP Port 8080 not found on Service
+          # mcp/vmcp-mcp-gateway", so every external request failed to
+          # even reach anything.
+          port: 4483

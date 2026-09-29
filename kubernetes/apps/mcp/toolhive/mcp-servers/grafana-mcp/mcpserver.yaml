@@ -46,7 +46,11 @@ spec:
             # unifi-network-mcp.yaml for the class of failure this guards
             # against; confirm the actual Service name post-deploy and
             # trim/extend this list).
-            - "--allowed-hosts=grafana,grafana:8000,grafana.mcp.svc.cluster.local,grafana.mcp.svc.cluster.local:8000,localhost,localhost:8000,127.0.0.1,127.0.0.1:8000"
+            # Live-verified: the operator names the backend Service
+            # "mcp-grafana" (prefixed), not "grafana" — the original list
+            # here 403'd every request from vMCP with "host not allowed"
+            # since the Host header it sends is the real Service DNS name.
+            - "--allowed-hosts=mcp-grafana,mcp-grafana:8000,mcp-grafana.mcp.svc.cluster.local,mcp-grafana.mcp.svc.cluster.local:8000,localhost,localhost:8000,127.0.0.1,127.0.0.1:8000"
             # allowed-hosts above also 403s kubelet's probes (pod IP is
             # never in that list). Separate listener for /healthz avoids
             # that entirely.
