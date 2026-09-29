@@ -18,7 +18,7 @@ services:
       # Resolved by Doco-CD from 1Password Connect (see .doco-cd.yaml's
       # external_secrets) and interpolated in here by Compose itself -
       # not read from a .env file, which Doco-CD never writes to disk.
-      LLAMA_ARG_API_KEY: ${LLAMA_API_KEY}
+      LLAMA_API_KEY: ${LLAMA_API_KEY}
     ports:
       - 8080:8080
     image: ghcr.io/ggml-org/llama.cpp:server-cuda
