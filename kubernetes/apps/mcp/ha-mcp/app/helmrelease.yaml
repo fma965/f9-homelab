@@ -78,6 +78,14 @@ spec:
           http:
             primary: true
             port: *port
+    # No apiKeyAuth SecurityPolicy on this route, unlike its siblings in
+    # this namespace — ha-mcp's default HTTP auth is a secret path
+    # component it generates itself (e.g. /private_<random>/mcp) and
+    # persists under HA_MCP_CONFIG_DIR, confirmed against the existing
+    # instance this is replacing. The MCP endpoint URL you configure in
+    # the claude.ai connector needs that generated path, not just the
+    # bare hostname — check the pod's logs (or *configDir) after first
+    # boot for the actual path once this is live.
     route:
       app:
         annotations:
@@ -93,8 +101,11 @@ spec:
               - name: *app
                 port: *port
     persistence:
-      # Holds OAuth/session state — small and disposable, so a local
-      # hostpath PVC is fine rather than replicated ceph-block storage.
+      # Holds OAuth/session state and the generated secret-URL auth
+      # path — losing this volume rotates the URL every claude.ai
+      # connector points at, so it's not purely disposable, but it's
+      # small enough that a local hostpath PVC is still fine rather
+      # than replicated ceph-block storage.
       config:
         type: persistentVolumeClaim
         storageClass: openebs-hostpath
