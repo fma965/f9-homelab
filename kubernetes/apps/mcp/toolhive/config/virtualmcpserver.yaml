@@ -21,10 +21,43 @@ spec:
       conflictResolutionConfig:
         prefixFormat: "{workload}_"
       defaultToolVisibility: allow
+    # Live-verified: with no operational config, a client's very first
+    # request blocked on a synchronous full aggregation sweep across every
+    # backend — measured 54s end-to-end with a couple of misbehaving
+    # backends in the mix, well past what Claude.ai's connector will wait
+    # for a fresh connection. best_effort + a short per-backend init cap
+    # means the client gets an answer built from whichever backends are
+    # actually healthy, instead of blocking on the slowest/broken one.
+    operational:
+      failureHandling:
+        partialFailureMode: best_effort
+      timeouts:
+        backendInit: 5s
+        default: 8s
   incomingAuth:
     type: anonymous
   outgoingAuth:
     source: discovered
+    # grafana needs an explicit override — see grafana-external-auth.yaml
+    # for why "discovered" alone leaves it 401ing every request.
+    #
+    # KNOWN GAP, live-verified against toolhive-operator v0.51.4: this
+    # field is accepted by the CRD but the operator does not currently
+    # translate spec.outgoingAuth.backends into the generated vMCP
+    # runtime config (checked the actual mounted config.yaml — it only
+    # ever emits "outgoingAuth: source: discovered", the backends map is
+    # silently dropped). Tried the config.outgoingAuth.backends location
+    # too — that one rejects externalAuthConfigRef as an unknown field
+    # entirely (different, narrower schema). Left this here because it's
+    # the semantically-correct config per the CRD schema and should start
+    # working on a toolhive-operator upgrade with no changes needed here
+    # — but as of this migration, grafana still 401s every call through
+    # vMCP ("missing bearer token") until that lands upstream.
+    backends:
+      grafana:
+        type: externalAuthConfigRef
+        externalAuthConfigRef:
+          name: grafana-bearer-auth
   podTemplateSpec:
     spec:
       containers:
