@@ -38,6 +38,13 @@ spec:
     type: anonymous
   outgoingAuth:
     source: discovered
+    # truenas needs an explicit override — see truenas-external-auth.yaml
+    # for why (its MCP server has no way to disable per-request auth).
+    backends:
+      truenas:
+        type: externalAuthConfigRef
+        externalAuthConfigRef:
+          name: truenas-header-auth
   podTemplateSpec:
     spec:
       containers:

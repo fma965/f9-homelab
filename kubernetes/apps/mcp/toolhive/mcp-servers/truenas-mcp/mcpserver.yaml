@@ -1,10 +1,12 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1beta1.json
-# NOTE: this server has no credential/secret configured, pre-dating this
-# migration — preserved as-is (not silently hardened or broken further).
-# Worth a deliberate look separately: confirm whether cedricziel/truenas-mcp
-# needs a TRUENAS_API_KEY at all, or relies solely on network reachability
-# to nas.main.internal.
+# This server requires a per-request X-TrueNAS-API-Key/Authorization
+# header from every caller by design (no server-side credential, no
+# --no-auth-style escape hatch — confirmed against upstream docs). The
+# key itself lives in truenas-mcp-secret and is injected by vMCP's
+# outgoingAuth on every call — see ../../config/truenas-external-auth.yaml
+# and virtualmcpserver.yaml's outgoingAuth.backends.truenas. Nothing to
+# configure on this MCPServer itself for that.
 apiVersion: toolhive.stacklok.dev/v1beta1
 kind: MCPServer
 metadata:
