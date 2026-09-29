@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./rbac.yaml
   - ./mcpserver.yaml
+  - ./httproute.yaml
