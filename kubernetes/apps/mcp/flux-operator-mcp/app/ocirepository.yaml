@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: flux-operator-mcp
+spec:
+  interval: 15m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    # Official chart, versioned in lockstep with flux-operator itself
+    # (currently v0.60.0 in this cluster).
+    tag: 0.60.0
+  url: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator-mcp
