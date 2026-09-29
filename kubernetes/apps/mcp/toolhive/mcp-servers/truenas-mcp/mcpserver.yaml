@@ -1,11 +1,11 @@
 ---
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1alpha1.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1beta1.json
 # NOTE: this server has no credential/secret configured, pre-dating this
 # migration — preserved as-is (not silently hardened or broken further).
 # Worth a deliberate look separately: confirm whether cedricziel/truenas-mcp
 # needs a TRUENAS_API_KEY at all, or relies solely on network reachability
 # to nas.main.internal.
-apiVersion: toolhive.stacklok.dev/v1alpha1
+apiVersion: toolhive.stacklok.dev/v1beta1
 kind: MCPServer
 metadata:
   name: truenas

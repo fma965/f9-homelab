@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1alpha1.json
-apiVersion: toolhive.stacklok.dev/v1alpha1
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
 kind: MCPServer
 metadata:
   name: unifi-network
@@ -41,16 +41,12 @@ spec:
       value: lazy
     - name: UNIFI_TOOL_PERMISSION_MODE
       value: confirm
-  secrets:
-    - name: unifi-network-mcp-secret
-      key: UNIFI_USERNAME
-      targetEnvName: UNIFI_USERNAME
-    - name: unifi-network-mcp-secret
-      key: UNIFI_PASSWORD
-      targetEnvName: UNIFI_PASSWORD
-    - name: unifi-network-mcp-secret
-      key: UNIFI_API_KEY
-      targetEnvName: UNIFI_API_KEY
+  # NOTE: ToolHive's spec.secrets is x-kubernetes-list-type=map keyed on
+  # `name` alone, so it can't hold multiple entries pulling different
+  # keys out of the same Secret (confirmed live against ha-mcp: dry-run
+  # rejected this with "duplicate entries for key [name=...]"). Using
+  # envFrom in podTemplateSpec instead — a plain PodSpec field, not
+  # subject to that constraint.
   resources:
     requests:
       cpu: 10m
@@ -61,6 +57,9 @@ spec:
     spec:
       containers:
         - name: mcp
+          envFrom:
+            - secretRef:
+                name: unifi-network-mcp-secret
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
