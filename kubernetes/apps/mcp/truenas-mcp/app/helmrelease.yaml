@@ -45,22 +45,7 @@ spec:
               # same as unifi-network-mcp.
               TRUENAS_MCP_LISTEN: ":8080"
               TRUENAS_MCP_ALLOW_PLAINTEXT: "true"
-              # Read-only until reviewed: this server has no server-side
-              # TrueNAS credential (see below), so a caller's own API key
-              # decides what it can see or change — enabling writes here
-              # only removes this server's own extra guard rail on top of
-              # that.
-              TRUENAS_MCP_ENABLE_WRITES: "false"
-            # No TRUENAS_MCP_API_KEY: unlike unifi-network-mcp, this server
-            # holds no credential of its own in HTTP mode (refuses to start
-            # with one configured, in fact). Each MCP client supplies its
-            # own TrueNAS API key per request as `Authorization: Bearer
-            # <key>`, so authentication and authorization to TrueNAS itself
-            # never live in this cluster at all. There is deliberately no
-            # gateway-level SecurityPolicy in front of this route either
-            # (unlike unifi-network-mcp's apiKeyAuth gate) — a caller's own
-            # TrueNAS API key is the only credential the route needs, per
-            # cedricziel/truenas-mcp's design.
+              TRUENAS_MCP_ENABLE_WRITES: "true"
             probes:
               # Distroless carries no shell, so `--healthcheck` (which
               # probes the local listener and exits 0/1) stands in for
