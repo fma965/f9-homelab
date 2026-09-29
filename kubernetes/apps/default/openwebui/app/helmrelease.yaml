@@ -22,7 +22,7 @@ spec:
             env:
               WEBUI_URL: https://ai.f9.casa
               OPENAI_API_BASE_URL: "http://nas.main.internal:8080/v1"
-              OPENAI_API_CONFIGS: '{"0": {"enable": true, "tags": [], "prefix_id": "", "model_ids": [], "connection_type": "external", "auth_type": "none", "provider": "llama.cpp"}}'
+              OPENAI_API_CONFIGS: '{"0": {"enable": true, "tags": [], "prefix_id": "", "model_ids": [], "connection_type": "external", "auth_type": "bearer", "provider": "llama.cpp"}}'
               OAUTH_PROVIDER_NAME: "Home"
               OPENID_PROVIDER_URL: "https://auth.f9.casa/.well-known/openid-configuration"
               TZ: "Europe/London"
