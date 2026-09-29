@@ -1,0 +1,122 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app immich-mcp
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    # NOT the same defaultPodOptions as the rest of this namespace: this
+    # image runs `uv run`/`uv build` at container startup (it builds
+    # itself from source against PyPI rather than shipping a prebuilt
+    # wheel) and needs to write into /app as the image's own root user.
+    # readOnlyRootFilesystem is also dropped for the same reason.
+    # Confirmed against rwlove/home-ops's production deployment of the
+    # same image, which hit and documented this exact requirement.
+    controllers:
+      *app :
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+            runAsGroup: 0
+        containers:
+          app:
+            image:
+              repository: ghcr.io/joeru/claw2immich
+              # Upstream only publishes a floating `latest` tag (no
+              # semver survives rebuilds) — the @sha256 is what actually
+              # pins it. Renovate can't track digest-only bumps here;
+              # re-pin manually if this image needs updating.
+              tag: latest@sha256:92294443194a7b9a5a4c541d962b8a517112a4e42e854067c893de220216404f
+            env:
+              TZ: Europe/London
+              IMMICH_BASE_URL: http://immich.default.svc.cluster.local:2283
+              # Native read-only guard — belt and suspenders alongside
+              # the least-privilege API key (create it as a read-only
+              # key in Immich if the option exists).
+              IMMICH_PROFILE: read_only
+              MCP_TRANSPORT: streamable-http
+              MCP_HOST: 0.0.0.0
+              MCP_PORT: &port "8000"
+              MCP_LOG_LEVEL: INFO
+            envFrom:
+              - secretRef:
+                  name: immich-mcp-secret
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: *port
+                  # uv build on cold start pulls from PyPI before the
+                  # server is up — generous startup budget below covers
+                  # it; liveness/readiness stay on the normal cadence
+                  # once it's actually serving.
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: *port
+                  periodSeconds: 10
+                  failureThreshold: 60
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: [ALL] }
+    persistence:
+      cache:
+        type: emptyDir
+        globalMounts:
+          - path: /.cache
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+    service:
+      app:
+        primary: true
+        forceRename: *app
+        ports:
+          http:
+            primary: true
+            port: *port
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401,404,406)"]
+        hostnames:
+          - "immich-mcp.f9.casa"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
