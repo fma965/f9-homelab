@@ -1,0 +1,115 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app ha-mcp
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      *app :
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/homeassistant-ai/ha-mcp
+              tag: 8.5.0@sha256:e1538bcdadb13a5467bbb8258fba3262a05518585e18115742da638adec7057c
+            command: ["ha-mcp-web"]
+            env:
+              TZ: Europe/London
+              FASTMCP_CHECK_FOR_UPDATES: "off"
+              HA_MCP_DISABLE_UPDATE_CHECK: true
+              HA_MCP_CONFIG_DIR: &configDir /config
+              HOMEASSISTANT_URL: http://home-assistant.default.svc.cluster.local:8123
+              MCP_HEALTHZ: true
+              MCP_HOST: 0.0.0.0
+              MCP_PORT: &port 80
+            envFrom:
+              - secretRef:
+                  name: ha-mcp-secret
+            probes:
+              liveness:
+                enabled: true
+                spec:
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 512Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: [ALL] }
+    service:
+      app:
+        primary: true
+        forceRename: *app
+        ports:
+          http:
+            primary: true
+            port: *port
+    # No apiKeyAuth SecurityPolicy on this route, unlike its siblings in
+    # this namespace — ha-mcp's default HTTP auth is a secret path
+    # component it generates itself (e.g. /private_<random>/mcp) and
+    # persists under HA_MCP_CONFIG_DIR, confirmed against the existing
+    # instance this is replacing. The MCP endpoint URL you configure in
+    # the claude.ai connector needs that generated path, not just the
+    # bare hostname — check the pod's logs (or *configDir) after first
+    # boot for the actual path once this is live.
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401,404,406)"]
+        hostnames:
+          - "ha-mcp.f9.casa"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+    persistence:
+      # Holds OAuth/session state and the generated secret-URL auth
+      # path — losing this volume rotates the URL every claude.ai
+      # connector points at, so it's not purely disposable, but it's
+      # small enough that a local hostpath PVC is still fine rather
+      # than replicated ceph-block storage.
+      config:
+        type: persistentVolumeClaim
+        storageClass: openebs-hostpath
+        accessMode: ReadWriteOnce
+        size: 128Mi
+        globalMounts:
+          - path: *configDir
