@@ -9,3 +9,4 @@ resources:
   - ./httproute.yaml
   - ./securitypolicy.yaml
   - ./networkpolicy.yaml
+  - ./proxy-runner-rbac.yaml
