@@ -12,4 +12,3 @@ resources:
   - ./victoria-logs-mcp
   - ./paperless-mcp
   - ./github-mcp
-  - ./immich-mcp
