@@ -8,6 +8,7 @@ spec:
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.4.3
   instances: 3
   primaryUpdateStrategy: unsupervised
+  primaryUpdateMethod: switchover
   storage:
     size: 10Gi
     storageClass: openebs-hostpath
@@ -32,12 +33,6 @@ spec:
       memory: 1Gi
     limits:
       memory: 4Gi
-  monitoring:
-    enablePodMonitor: true
-    # Ref: https://github.com/cloudnative-pg/cloudnative-pg/issues/2501
-    podMonitorMetricRelabelings:
-      - { sourceLabels: ["cluster"], targetLabel: cnpg_cluster, action: replace }
-      - { regex: cluster, action: labeldrop }
   backup:
     retentionPolicy: 30d
     barmanObjectStore: &barmanObjectStore

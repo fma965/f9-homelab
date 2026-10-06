@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/podmonitor_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: postgres17-metrics
+spec:
+  podMetricsEndpoints:
+    - port: metrics
+      # Ref: https://github.com/cloudnative-pg/cloudnative-pg/issues/2501
+      metricRelabelings:
+        - { sourceLabels: ["cluster"], targetLabel: cnpg_cluster, action: replace }
+        - { regex: cluster, action: labeldrop }
+  selector:
+    matchLabels:
+      cnpg.io/cluster: postgres17
+      cnpg.io/podRole: instance
