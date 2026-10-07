@@ -109,6 +109,7 @@ spec:
           gethomepage.dev/group: Web Projects
           gethomepage.dev/name: Games DB
           gethomepage.dev/icon: directus
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=games-manager
         hostnames:
           - "gamesdb.f9.casa"
         parentRefs:
@@ -126,6 +127,7 @@ spec:
           gethomepage.dev/group: Web Projects
           gethomepage.dev/name: Games Manager
           gethomepage.dev/icon: mdi-controller
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=games-manager
         hostnames:
           - "games.f9.casa"
         parentRefs:

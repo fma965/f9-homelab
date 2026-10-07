@@ -21,10 +21,6 @@ metadata:
   name: truenas
   annotations:
     gatus.home-operations.com/enabled: "true"
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Infrastructure
-    gethomepage.dev/name: TrueNAS
-    gethomepage.dev/icon: truenas-scale
     gatus.home-operations.com/endpoint: |-
       conditions: ["[STATUS] == any(200,401)"]
 spec:
@@ -106,10 +102,6 @@ metadata:
   name: remote
   annotations:
     gatus.home-operations.com/enabled: "true"
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Infrastructure
-    gethomepage.dev/name: Webtop
-    gethomepage.dev/icon: mdi-desktop-classic
     gatus.home-operations.com/endpoint: |-
       conditions: ["[STATUS] == any(200,401)"]
 spec:
@@ -191,10 +183,6 @@ metadata:
   annotations:
     gatus.home-operations.com/endpoint: |-
       conditions: ["[STATUS] == any(200,401)"]
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Infrastructure
-    gethomepage.dev/name: NanoKVM
-    gethomepage.dev/icon: mdi-remote-desktop
 spec:
   parentRefs:
     - name: envoy-external
@@ -323,10 +311,6 @@ metadata:
   annotations:
     gatus.home-operations.com/endpoint: |-
       conditions: ["[STATUS] == any(200,401)"]
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Infrastructure
-    gethomepage.dev/name: Garage
-    gethomepage.dev/icon: garage
 spec:
   parentRefs:
     - name: envoy-external
@@ -426,10 +410,6 @@ metadata:
   name: tdarr
   annotations:
     gatus.home-operations.com/enabled: "true"
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Infrastructure
-    gethomepage.dev/name: Tdarr
-    gethomepage.dev/icon: tdarr
     gatus.home-operations.com/endpoint: |-
       conditions: ["[STATUS] == any(200,401)"]
 spec:
@@ -510,11 +490,6 @@ metadata:
   name: frigate
   annotations:
     gatus.home-operations.com/enabled: "true"
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Infrastructure
-    gethomepage.dev/name: Frigate
-    gethomepage.dev/icon: frigate
-    gethomepage.dev/href: https://frigate.f9.casa
     gatus.home-operations.com/endpoint: |-
       conditions: ["[STATUS] == any(200,401)"]
 spec:
