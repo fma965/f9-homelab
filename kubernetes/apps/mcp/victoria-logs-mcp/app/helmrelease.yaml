@@ -1,0 +1,51 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app victoria-logs-mcp
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    mcp:
+      mode: http
+
+    vl:
+      # Headless ClusterIP service, victoria-logs StatefulSet in o11y.
+      entrypoint: http://victoria-logs.o11y.svc.cluster.local:9428
+
+    # Read-only by design — the server only exposes query/exploration/
+    # stats APIs, there is nothing here that can write to VictoriaLogs.
+    # No built-in auth exists for gating inbound MCP clients (only
+    # `vl.bearerToken`, which authenticates *this server* to VictoriaLogs,
+    # not callers to this server) — gated at the gateway instead
+    # (apikey.yaml), same as the other servers with no native option.
+    networkPolicy:
+      enabled: true
+      ingress:
+        - from:
+            - namespaceSelector:
+                matchLabels:
+                  kubernetes.io/metadata.name: network
+
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        memory: 256Mi
+
+    route:
+      enabled: true
+      annotations:
+        gatus.home-operations.com/endpoint: |-
+          conditions: ["[STATUS] == any(200,401,404,406)"]
+      parentRefs:
+        - name: envoy-external
+          namespace: network
+          sectionName: http
+      hostnames:
+        - "victoria-logs-mcp.f9.casa"
