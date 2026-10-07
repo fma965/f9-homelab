@@ -18,6 +18,10 @@ spec:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 5Gi
+      # Bambuddy runs as uid/gid 2000 and writes 0600 key files (.jwt_secret,
+      # .mfa_encryption_key, VP certs); the mover must run as the same user.
+      KOPIUR_PUID: "2000"
+      KOPIUR_PGID: "2000"
   prune: true
   sourceRef:
     kind: GitRepository
