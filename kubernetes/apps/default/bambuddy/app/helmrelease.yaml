@@ -27,7 +27,7 @@ spec:
             # (LAN mode: MQTT 8883, FTPS 990, camera 6000, SSDP discovery).
             k8s.v1.cni.cncf.io/networks: |
               [{
-                "name": "iot",
+                "name": "iot-routed",
                 "namespace": "kube-system",
                 "mac": "f2:f9:00:00:20:46",
                 "ips": ["10.10.20.246/24"]
