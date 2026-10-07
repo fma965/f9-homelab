@@ -52,6 +52,9 @@ session:
 
 access_control:
   default_policy: two_factor
+  # WARNING: do not write rules that match on `networks:` unless Envoy is made to sanitise X-Forwarded-For
+  # first. The ext-authz SecurityPolicies deliberately do not forward that header (it is client controlled),
+  # so Authelia only ever sees Envoy's pod IP and a networks rule would never match real clients.
   networks:
     - name: internal
       networks:

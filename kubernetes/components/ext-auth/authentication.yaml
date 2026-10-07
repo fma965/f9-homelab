@@ -14,7 +14,6 @@ spec:
       - "proxy-authorization"
       - "header-authorization"
       - "x-forwarded-proto"
-      - "x-forwarded-for"
     failOpen: false
     http:
       backendRefs:
