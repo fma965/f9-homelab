@@ -12,6 +12,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      # downloaded embedding model (~890 MB), re-fetched on first use
+      KOPIUR_IGNORE_RULES: "[/lost+found, /cache/embedding/*]"
   prune: true
   sourceRef:
     kind: GitRepository

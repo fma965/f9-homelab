@@ -7,6 +7,11 @@ metadata:
 spec:
   compression:
     compressor: zstd
+  # An explicit list REPLACES kopiur's default ignore set; /lost+found is the only
+  # default that matters on these Linux PVCs. Override per app with
+  # KOPIUR_IGNORE_RULES: "[/lost+found, /.cache/*]" (patterns anchored at the PVC root).
+  files:
+    ignoreRules: ${KOPIUR_IGNORE_RULES:=[/lost+found]}
   mover:
     cache:
       capacity: ${KOPIUR_CAPACITY:=5Gi}

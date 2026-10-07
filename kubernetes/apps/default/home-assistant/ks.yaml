@@ -22,6 +22,8 @@ spec:
     substitute:
       APP: home-assistant
       EXT_AUTH_TARGET: home-assistant-code
+      # HA backup tarballs (Kopiur already backs up /config), editor extensions, caches, logs
+      KOPIUR_IGNORE_RULES: "[/lost+found, /backups/*, /.code-server/*, /.cache/*, home-assistant.log*]"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -29,4 +31,3 @@ spec:
     namespace: flux-system
   targetNamespace: default
   wait: false
-
