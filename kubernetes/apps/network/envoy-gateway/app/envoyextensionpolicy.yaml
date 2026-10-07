@@ -1,0 +1,77 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/envoyextensionpolicy_v1alpha1.json
+# Rebuild X-Forwarded-For on both gateways so it can never be chosen by the client.
+# Runs before ext_authz (see filterOrder in envoy.yaml) so Authelia sees the sanitised value.
+# - Direct peer inside the pod network (cloudflared): trust Cloudflare's Cf-Connecting-Ip
+#   (Cloudflare overwrites it, a tunnel client cannot set it).
+# - Any other peer (LAN clients hitting the LoadBalancer IPs): use the real TCP peer address.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyExtensionPolicy
+metadata:
+  name: client-ip
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: envoy-external
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: envoy-internal
+  lua:
+    - type: Inline
+      inline: |
+        function envoy_on_request(request_handle)
+          local headers = request_handle:headers()
+          local peer = request_handle:streamInfo():downstreamDirectRemoteAddress() or ""
+          local peer_ip = (peer:match("^(.*):%d+$") or peer):gsub("[%[%]]", "")
+          local client_ip = peer_ip
+          local cf_ip = headers:get("cf-connecting-ip")
+          if cf_ip ~= nil and peer_ip:find("^10%.42%.") ~= nil and cf_ip:match("^[%x%.:]+$") ~= nil then
+            client_ip = cf_ip
+          end
+          headers:remove("x-forwarded-for")
+          if client_ip ~= "" then
+            headers:add("x-forwarded-for", client_ip)
+          end
+        end
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/envoyextensionpolicy_v1alpha1.json
+# Drop AI/scraper crawlers at the edge (pattern from bjw-s-labs/home-ops). User-Agent is trivially
+# spoofed, so this only cuts noise, it is not a security control.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyExtensionPolicy
+metadata:
+  name: envoy-external-block-user-agents
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: envoy-external
+  lua:
+    - type: Inline
+      inline: |
+        local blocked_patterns = {
+          "Meta-ExternalAgent",
+          "meta-webindexer",
+          "GPTBot",
+          "ClaudeBot",
+          "anthropic-ai",
+          "PerplexityBot",
+          "CCBot",
+          "Google-Extended",
+          "Bytespider",
+          "Amazonbot",
+          "Applebot-Extended",
+          "Diffbot",
+          "ImagesiftBot",
+        }
+
+        function envoy_on_request(request_handle)
+          local user_agent = request_handle:headers():get("user-agent") or ""
+          for _, pattern in ipairs(blocked_patterns) do
+            if string.find(user_agent, pattern, 1, true) then
+              request_handle:respond({[":status"] = "403"}, "")
+              return
+            end
+          end
+        end
