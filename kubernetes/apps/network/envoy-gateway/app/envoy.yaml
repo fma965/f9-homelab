@@ -25,6 +25,11 @@ spec:
         externalTrafficPolicy: Local
   shutdown:
     drainTimeout: 180s
+  # Run the client-ip Lua filter before ext_authz so Authelia gets the sanitised X-Forwarded-For
+  # (by default Lua runs after ext_authz).
+  filterOrder:
+    - name: envoy.filters.http.lua
+      before: envoy.filters.http.ext_authz
   telemetry:
     metrics:
       prometheus:
