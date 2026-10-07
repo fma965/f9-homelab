@@ -103,6 +103,16 @@ spec:
               - path: /config
             code-server:
               - path: /config
+      # ESP-IDF toolchains/frameworks (~4 GB, re-downloaded on demand). Ephemeral
+      # on purpose: off the config PVC and out of the Kopiur backups, and old
+      # toolchain versions are dropped on every pod restart.
+      cache:
+        type: emptyDir
+        sizeLimit: 8Gi
+        advancedMounts:
+          esphome:
+            app:
+              - path: /config/.cache
       secrets:
         type: secret
         name: esphome-secret
