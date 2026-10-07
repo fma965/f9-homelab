@@ -65,7 +65,12 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities:
+                # The image sets file capabilities on python3 (setcap
+                # cap_net_bind_service=+ep). Dropping it from the bounding set
+                # makes exec fail with "Operation not permitted".
+                add: ["NET_BIND_SERVICE"]
+                drop: ["ALL"]
             resources:
               requests:
                 cpu: 10m
