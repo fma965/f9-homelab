@@ -8,23 +8,12 @@ spec:
   components:
     - ../../../../components/kopiur/backup
   interval: 1h
-  # Keep these out of Kopiur snapshots (regenerable or redundant). Setting
-  # ignoreRules replaces Kopiur's default list, so /lost+found is re-added.
-  patches:
-    - target:
-        group: kopiur.home-operations.com
-        kind: SnapshotPolicy
-      patch: |-
-        - op: add
-          path: /spec/files
-          value:
-            ignoreRules:
-              - /lost+found
-              - /cache/embedding # downloaded embedding model (~890 MB), re-fetched on first use
   path: ./kubernetes/apps/default/openwebui/app
   postBuild:
     substitute:
       APP: *app
+      # downloaded embedding model (~890 MB), re-fetched on first use
+      KOPIUR_IGNORE_RULES: "[/lost+found, /cache/embedding/*]"
   prune: true
   sourceRef:
     kind: GitRepository

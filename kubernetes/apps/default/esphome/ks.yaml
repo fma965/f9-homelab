@@ -14,24 +14,13 @@ spec:
     - name: rook-ceph-cluster
       namespace: rook-ceph
   interval: 1h
-  # Keep these out of Kopiur snapshots (regenerable or redundant). Setting
-  # ignoreRules replaces Kopiur's default list, so /lost+found is re-added.
-  patches:
-    - target:
-        group: kopiur.home-operations.com
-        kind: SnapshotPolicy
-      patch: |-
-        - op: add
-          path: /spec/files
-          value:
-            ignoreRules:
-              - /lost+found
-              - /.cache # ESP-IDF toolchains/frameworks (~4 GB), re-downloaded on demand
   path: ./kubernetes/apps/default/esphome/app
   postBuild:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 5Gi
+      # ESP-IDF toolchains/frameworks (~4 GB), re-downloaded on demand
+      KOPIUR_IGNORE_RULES: "[/lost+found, /.cache/*]"
   prune: true
   sourceRef:
     kind: GitRepository
