@@ -103,6 +103,20 @@ spec:
               - path: /config
             code-server:
               - path: /config
+      # ESP-IDF toolchains/frameworks (~4 GB, re-downloaded on demand). Node-local
+      # and deliberately NOT backed up (no kopiur on this PVC).
+      cache:
+        type: persistentVolumeClaim
+        # Without this the chart names it just "esphome", colliding with the
+        # (kopiur-managed) config PVC.
+        suffix: cache
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: openebs-hostpath
+        advancedMounts:
+          esphome:
+            app:
+              - path: /config/.cache
       secrets:
         type: secret
         name: esphome-secret
