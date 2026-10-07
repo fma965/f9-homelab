@@ -14,6 +14,11 @@ spec:
       create: true
     config:
       data:
+    resources:
+      requests:
+        cpu: 10m
+      limits:
+        memory: 512Mi
     monitoring:
       podMonitorEnabled: false
       grafanaDashboard:
