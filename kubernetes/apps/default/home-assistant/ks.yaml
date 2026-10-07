@@ -17,6 +17,22 @@ spec:
     - name: rook-ceph-cluster
       namespace: rook-ceph
   interval: 1h
+  # Keep these out of Kopiur snapshots (regenerable or redundant). Setting
+  # ignoreRules replaces Kopiur's default list, so /lost+found is re-added.
+  patches:
+    - target:
+        group: kopiur.home-operations.com
+        kind: SnapshotPolicy
+      patch: |-
+        - op: add
+          path: /spec/files
+          value:
+            ignoreRules:
+              - /lost+found
+              - /backups # HA backup tarballs (~800 MB); Kopiur already backs up /config
+              - /.code-server # editor extensions, regenerable
+              - /.cache # regenerable cache
+              - home-assistant.log* # logs
   path: ./kubernetes/apps/default/home-assistant/app
   postBuild:
     substitute:
@@ -29,4 +45,3 @@ spec:
     namespace: flux-system
   targetNamespace: default
   wait: false
-
