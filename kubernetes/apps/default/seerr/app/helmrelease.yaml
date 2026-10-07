@@ -74,6 +74,11 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media Service
+          gethomepage.dev/name: Seerr
+          gethomepage.dev/icon: seerr
+          gethomepage.dev/href: https://requests.f9.casa
         hostnames:
           - "{{ .Release.Name }}.f9.casa"
           - requests.f9.casa

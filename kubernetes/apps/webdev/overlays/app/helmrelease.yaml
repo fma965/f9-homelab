@@ -49,6 +49,10 @@ spec:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
             url: "https://{{ .Release.Name }}.f9.casa/timer/index.html"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Web Projects
+          gethomepage.dev/name: Overlays
+          gethomepage.dev/icon: mdi-layers
         hostnames:
           - "{{ .Release.Name }}.f9.casa"
         parentRefs:

@@ -57,6 +57,10 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Dev Tools
+          gethomepage.dev/name: Node-RED
+          gethomepage.dev/icon: node-red
         hostnames:
           - "{{ .Release.Name }}.f9.casa"
         parentRefs:

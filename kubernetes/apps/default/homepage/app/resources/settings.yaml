@@ -32,3 +32,9 @@ layout:
     icon: mdi-home-automation
   Observability:
     icon: mdi-lan
+  Infrastructure:
+    icon: mdi-server
+  Dev Tools:
+    icon: mdi-tools
+  Web Projects:
+    icon: mdi-web
