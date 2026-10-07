@@ -23,14 +23,16 @@ spec:
           reloader.stakater.com/auto: "true"
         pod:
           annotations:
-            # Join the IoT VLAN so the pod is on the same L2 as the printer
+            # Join the NoT VLAN so the pod is on the same L2 as the printer
             # (LAN mode: MQTT 8883, FTPS 990, camera 6000, SSDP discovery).
+            # not-routed adds source-based routing so hosts on other VLANs
+            # (slicer on Main) can reach the virtual printer on this address.
             k8s.v1.cni.cncf.io/networks: |
               [{
-                "name": "iot-routed",
+                "name": "not-routed",
                 "namespace": "kube-system",
-                "mac": "f2:f9:00:00:20:46",
-                "ips": ["10.10.20.246/24"]
+                "mac": "f2:f9:00:00:30:46",
+                "ips": ["10.10.30.246/24"]
               }]
         containers:
           app:

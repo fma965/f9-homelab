@@ -3,30 +3,28 @@
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
-  name: iot-routed
+  name: not-routed
 spec:
-  # Same routes as `iot`, plus source-based routing (sbr): traffic sourced from
-  # the pod's IoT address always leaves via net1 and the IoT gateway, so pods
-  # that must be reachable from other VLANs (Bambuddy's virtual printer) reply
-  # on net1 instead of the default eth0 route. Same shape as bjw-s-labs/home-ops
-  # (default route in the IPAM routes, which sbr moves into its own table).
-  # NB: the installed sbr (cni-plugins 1.9.1) ignores the newer `gateways`
-  # option, so the gateway must come from the IPAM default route.
+  # NoT (VLAN 30) with source-based routing (sbr): traffic sourced from the
+  # pod's NoT address always leaves via net1 and the NoT gateway, so pods that
+  # must be reachable from other VLANs (Bambuddy's virtual printer, from Main)
+  # reply on net1 instead of the default eth0 route. The gateway comes from the
+  # IPAM default route; the installed sbr (cni-plugins 1.9.1) ignores `gateways`.
   config: |-
     {
       "cniVersion": "1.1.0",
-      "name": "iot-routed",
+      "name": "not-routed",
       "plugins": [
         {
           "type": "macvlan",
-          "master": "bond0.20",
+          "master": "bond0.30",
           "mode": "bridge",
           "ipam": {
             "type": "static",
             "routes": [
-              { "dst": "10.10.20.0/24" },
+              { "dst": "10.10.30.0/24" },
               { "dst": "239.255.255.250/32" },
-              { "dst": "0.0.0.0/0", "gw": "10.10.20.254" }
+              { "dst": "0.0.0.0/0", "gw": "10.10.30.254" }
             ]
           }
         },
