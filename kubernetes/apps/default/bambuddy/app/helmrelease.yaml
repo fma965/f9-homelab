@@ -1,0 +1,111 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: bambuddy
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: bambuddy
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 2000
+        runAsGroup: 2000
+        fsGroup: 2000
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      bambuddy:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          annotations:
+            # Join the IoT VLAN so the pod is on the same L2 as the printer
+            # (LAN mode: MQTT 8883, FTPS 990, camera 6000, SSDP discovery).
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name": "iot",
+                "namespace": "kube-system",
+                "mac": "f2:f9:00:00:20:46",
+                "ips": ["10.10.20.246/24"]
+              }]
+        containers:
+          app:
+            image:
+              repository: ghcr.io/maziggy/bambuddy
+              tag: 1.2.5.7
+            env:
+              PORT: &port 8000
+              TZ: Europe/London
+            probes:
+              liveness:
+                enabled: true
+                spec:
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 2Gi
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}"
+        advancedMounts:
+          bambuddy:
+            app:
+              - path: /app/data
+                subPath: data
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          bambuddy:
+            app:
+              - path: /tmp
+                subPath: tmp
+              - path: /app/logs
+                subPath: logs
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
+        hostnames:
+          - "{{ .Release.Name }}.f9.casa"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    service:
+      app:
+        controller: bambuddy
+        ports:
+          http:
+            appProtocol: kubernetes.io/ws
+            port: *port
