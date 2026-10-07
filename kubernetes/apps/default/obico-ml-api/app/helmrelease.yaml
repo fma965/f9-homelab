@@ -1,0 +1,91 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: obico-ml-api
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: obico-ml-api
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+    controllers:
+      obico-ml-api:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            # Obico's published CPU/ONNX ML API (failure detection for Bambuddy).
+            # Model weights are baked into the image; gunicorn listens on 3333.
+            image:
+              repository: ghcr.io/thespaghettidetective/obico-ml-api-cpu
+              tag: 2026.10.2@sha256:e1b1c5b4cfc517ed884cad24e4a709d31b935ea49dab45ff60d31a62f4cb86ee
+            env:
+              TZ: Europe/London
+            envFrom:
+              - secretRef:
+                  name: obico-ml-api-secret
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /hc/
+                    port: &port 3333
+                  periodSeconds: 30
+                  timeoutSeconds: 10
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /hc/
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 10
+                  failureThreshold: 3
+              startup:
+                # The model loads during worker boot; upstream allows ~140s.
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /hc/
+                    port: *port
+                  periodSeconds: 10
+                  failureThreshold: 30
+            securityContext:
+              allowPrivilegeEscalation: false
+              # Not read-only: unverified whether gunicorn/ONNX/OpenCV write
+              # outside /tmp. Tighten once it has run cleanly.
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 200m
+                memory: 1Gi
+              limits:
+                memory: 4Gi
+    persistence:
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
+    # No route: only Bambuddy calls it, in-cluster, at
+    # http://obico-ml-api.default.svc.cluster.local:3333
+    service:
+      app:
+        controller: obico-ml-api
+        type: ClusterIP
+        ports:
+          http:
+            port: *port
