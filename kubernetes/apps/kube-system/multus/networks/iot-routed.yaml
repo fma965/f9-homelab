@@ -5,13 +5,16 @@ kind: NetworkAttachmentDefinition
 metadata:
   name: iot-routed
 spec:
-  # Same as `iot`, plus source-based routing (sbr): traffic sourced from the
-  # pod's IoT address always leaves via net1 and the IoT gateway, so pods that
-  # must be reachable from other VLANs (Bambuddy's virtual printer) reply on
-  # net1 instead of the default eth0 route. Pattern from bjw-s-labs/home-ops.
+  # Same routes as `iot`, plus source-based routing (sbr): traffic sourced from
+  # the pod's IoT address always leaves via net1 and the IoT gateway, so pods
+  # that must be reachable from other VLANs (Bambuddy's virtual printer) reply
+  # on net1 instead of the default eth0 route. Pattern from bjw-s-labs/home-ops,
+  # except the gateway is given to sbr via `gateways` rather than a 0.0.0.0/0
+  # IPAM route, so the main table never gets a second default route next to
+  # Cilium's eth0 one.
   config: |-
     {
-      "cniVersion": "0.3.1",
+      "cniVersion": "1.1.0",
       "name": "iot-routed",
       "plugins": [
         {
@@ -22,13 +25,13 @@ spec:
             "type": "static",
             "routes": [
               { "dst": "10.10.20.0/24" },
-              { "dst": "239.255.255.250/32" },
-              { "dst": "0.0.0.0/0", "gw": "10.10.20.254" }
+              { "dst": "239.255.255.250/32" }
             ]
           }
         },
         {
-          "type": "sbr"
+          "type": "sbr",
+          "gateways": ["10.10.20.254"]
         },
         {
           "type": "tuning",
