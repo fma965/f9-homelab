@@ -103,16 +103,12 @@ spec:
               - path: /config
             code-server:
               - path: /config
-      # ESP-IDF toolchains/frameworks (~4 GB, re-downloaded on demand). Node-local
-      # and deliberately NOT backed up (no kopiur on this PVC).
+      # ESP-IDF toolchains/frameworks (~4 GB, re-downloaded on demand). Ephemeral
+      # on purpose: off the config PVC and out of the Kopiur backups, and old
+      # toolchain versions are dropped on every pod restart.
       cache:
-        type: persistentVolumeClaim
-        # Without this the chart names it just "esphome", colliding with the
-        # (kopiur-managed) config PVC.
-        suffix: cache
-        accessMode: ReadWriteOnce
-        size: 10Gi
-        storageClass: openebs-hostpath
+        type: emptyDir
+        sizeLimit: 8Gi
         advancedMounts:
           esphome:
             app:
