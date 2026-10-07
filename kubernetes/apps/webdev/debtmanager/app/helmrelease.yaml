@@ -26,11 +26,11 @@ spec:
               DB_USER: debtmanager
               DB_NAME: debtmanager
             envFrom:
-            - secretRef:
-                name: debtmanager-secret
+              - secretRef:
+                  name: debtmanager-secret
             securityContext:
               allowPrivilegeEscalation: false
-#              readOnlyRootFilesystem: true
+              #              readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
             resources:
               limits:
@@ -56,6 +56,10 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Web Projects
+          gethomepage.dev/name: Debt Manager
+          gethomepage.dev/icon: mdi-cash-multiple
         hostnames:
           - "{{ .Release.Name }}.f9.casa"
         parentRefs:

@@ -85,6 +85,10 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Dev Tools
+          gethomepage.dev/name: n8n
+          gethomepage.dev/icon: n8n
         hostnames:
           - *hostName
         parentRefs:

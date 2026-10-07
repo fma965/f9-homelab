@@ -71,6 +71,11 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Home
+          gethomepage.dev/name: Homebox
+          gethomepage.dev/icon: homebox
+          gethomepage.dev/href: https://inventory.f9.casa
         hostnames:
           - "{{ .Release.Name }}.f9.casa"
           - "inventory.f9.casa"
