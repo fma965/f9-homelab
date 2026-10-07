@@ -50,6 +50,8 @@ spec:
               BAMBUDDY_OIDC_GROUP_CLAIM: groups
               BAMBUDDY_OIDC_GROUP_MAPPING: '{"admin": "Administrators", "home": "Operators"}'
               BAMBUDDY_OIDC_DEFAULT_GROUP: Viewers
+              # Slicer API sidecar (same pod); enable in Settings -> Slicer -> Use Slicer API
+              BAMBU_STUDIO_API_URL: http://localhost:3001
             envFrom:
               - secretRef:
                   name: bambuddy-secret
@@ -89,6 +91,42 @@ spec:
                 cpu: 10m
               limits:
                 memory: 2Gi
+          # Bambu Studio CLI wrapper used by Bambuddy's Slice action
+          # (https://github.com/maziggy/bambuddy/tree/main/slicer-api).
+          # Same pod => reached on localhost. Upstream defaults to 3000
+          # internally, which collides with the virtual printer's bind
+          # server (3000/3002), so it is moved to 3001.
+          slicer:
+            image:
+              repository: ghcr.io/maziggy/bambu-studio-api
+              tag: bambuddy-1.2.5.7@sha256:a3df1e7fe556f2ddd9d7ac294e730318eaad0d7200051a18b9076668f2a9bfa5
+            env:
+              NODE_ENV: production
+              PORT: &slicerPort 3001
+            probes:
+              liveness: &slicerProbe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *slicerPort
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *slicerProbe
+            securityContext:
+              allowPrivilegeEscalation: false
+              # The CLI wrapper writes outside /app/data (matches other deployments).
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 50m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
@@ -97,6 +135,9 @@ spec:
             app:
               - path: /app/data
                 subPath: data
+            slicer:
+              - path: /app/data
+                subPath: slicer
       tmpfs:
         type: emptyDir
         advancedMounts:
