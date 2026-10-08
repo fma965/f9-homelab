@@ -1,0 +1,68 @@
+# Housemate guides, served at https://help.f9.casa/
+# Built in-cluster by kubernetes/apps/default/help (see docs/technical/docs-site.md)
+site_name: F9 Help & Guides
+site_description: How to use the services in our house
+site_url: https://help.f9.casa/
+docs_dir: guides
+use_directory_urls: true
+
+theme:
+  name: material
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - Signing in: getting-started/signing-in.md
+      - Which site do I use?: getting-started/which-site.md
+  - Entertainment:
+      - Movies & TV (Jellyfin): services/jellyfin.md
+      - Requesting something (Seerr): services/seerr.md
+      - Music: services/music.md
+  - Photos & files:
+      - Photos (Immich): services/immich.md
+      - Sharing files & screenshots (Zipline): services/zipline.md
+      - Documents (Paperless): services/paperless.md
+  - Around the house:
+      - Printing: services/printing.md
+      - Scanning: services/scanning.md
+      - Smart home (Home Assistant): services/home-assistant.md
+      - Household inventory (Homebox): services/homebox.md
+      - Cameras: services/cameras.md
+      - 3D printing: services/3d-printing.md
+  - AI & search:
+      - AI chat (Open WebUI): services/ai-chat.md
+      - Private search: services/search.md
+  - Help:
+      - Is something down?: help/status.md
+      - Troubleshooting: help/troubleshooting.md
+  - Technical docs (admins): https://help.f9.casa/technical/
