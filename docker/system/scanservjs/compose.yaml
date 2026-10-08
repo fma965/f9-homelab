@@ -2,6 +2,7 @@ services:
   scanservjs:
     build:
       context: .
+    image: "scanservjs-brother"
     container_name: "scanservjs"
     environment:
       TZ: "Europe/London"
@@ -12,5 +13,23 @@ services:
     restart: "unless-stopped"
     volumes:
       - "/dev/bus/usb:/dev/bus/usb"
+      - "./config.local.js:/etc/scanservjs/config.local.js:ro"
       # Paperless consumption dir (PAPERLESS_CONSUMPTION_DIR, NFS /mnt/F9/Documents/incoming)
       - "/mnt/F9/Documents/incoming:/app/data/output"
+
+  # Scanner's physical Scan button: scans the feeder (duplex) into a PDF in the
+  # Paperless consumption dir. Same image and USB bus as scanservjs.
+  scanbutton:
+    image: "scanservjs-brother"
+    container_name: "scanbutton"
+    depends_on:
+      - scanservjs
+    entrypoint: ["/opt/brother/scanner/brscan-skey/brscan-skey", "-f"]
+    environment:
+      TZ: "Europe/London"
+    privileged: true
+    restart: "unless-stopped"
+    tty: true
+    volumes:
+      - "/dev/bus/usb:/dev/bus/usb"
+      - "/mnt/F9/Documents/incoming:/output"
