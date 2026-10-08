@@ -10,7 +10,7 @@ Use Bambuddy to see the printer's status, queue prints and watch progress. It al
 
 ## Sending prints from Bambu Studio
 
-Bambuddy pretends to be a Bambu printer, so you can **Send** a sliced file from Bambu Studio (or OrcaSlicer) straight into the print queue. Set this up once on each computer.
+Bambuddy pretends to be a Bambu printer, so you can send a sliced file from Bambu Studio (or OrcaSlicer) to our printer through it. Set this up once on each computer.
 
 !!! info "Details you'll need"
     - **Address:** `10.10.30.246` (you must be on the home network or the VPN)
@@ -78,7 +78,7 @@ If you are on the home Wi-Fi, the printer may also appear in the list by itself.
 
 ### Step 3: send a print
 
-Slice as normal, then press **Send** (not **Print**). The file lands in Bambuddy, where it can be checked and added to the queue.
+Slice as normal, pick the printer you added, and press **Print** just like you would with a printer of your own. Bambuddy passes the job on to the real printer.
 
 ### If it doesn't work
 
