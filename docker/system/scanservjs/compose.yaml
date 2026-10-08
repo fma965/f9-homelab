@@ -12,5 +12,6 @@ services:
     restart: "unless-stopped"
     volumes:
       - "/dev/bus/usb:/dev/bus/usb"
+      - "./config.local.js:/etc/scanservjs/config.local.js:ro"
       # Paperless consumption dir (PAPERLESS_CONSUMPTION_DIR, NFS /mnt/F9/Documents/incoming)
       - "/mnt/F9/Documents/incoming:/app/data/output"
