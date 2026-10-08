@@ -1,6 +1,6 @@
 # F9 Homelab: technical documentation
 
-These pages are for the person who runs the house servers. Housemate how-tos are in the [guides](https://help.f9.casa/).
+These pages are for Scott, who runs the house servers. Housemate how-tos are in the [guides](https://help.f9.casa/).
 
 The source of truth is the Git repository, [`fma965/f9-homelab`](https://github.com/fma965/f9-homelab). These pages explain how it fits together and how to operate it. The repository `README.md` has the high-level overview, and this site goes into operations.
 
