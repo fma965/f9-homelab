@@ -21,7 +21,7 @@ You don't need to know anything technical. Pick what you want to do below.
 | Use the 3D printer                          | [3D printing](services/3d-printing.md)         |
 | Ask an AI assistant                         | [AI chat](services/ai-chat.md)                 |
 | Search the web without being tracked        | [Private search](services/search.md)           |
-| Browse our game collection | [Games Manager](services/games-manager.md) |
+| Find games we can play together | [Games Manager](services/games-manager.md) |
 | Check or pay what's owed | [Debt Manager](services/debt-manager.md) |
 | Check downloads (limited access) | [SABnzbd](services/sabnzbd.md), [qBittorrent](services/qbittorrent.md) |
 | Use a stream overlay in OBS | [Stream overlays](services/overlays.md) |

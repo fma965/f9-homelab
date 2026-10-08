@@ -8,7 +8,7 @@ Every service has its own address. All of them are also on the home page at <htt
 | Jellyfin | <https://jellyfin.f9.casa> | Films and TV | House login |
 | Seerr | <https://requests.f9.casa> | Request films and shows ("Requesting media") | House login (via Jellyfin) |
 | Music Assistant | <https://music.f9.casa> | Music on the speakers | House login (via Home Assistant) |
-| Games Manager | <https://games.f9.casa> | Our game collection | House login |
+| Games Manager | <https://games.f9.casa> | Compare games and find what you can play together | Discord |
 | Immich | <https://photos.f9.casa> | Photos and videos | House login |
 | Zipline | <https://i.f9.casa> | Share files and images by link | House login |
 | Paperless | <https://docs.f9.casa> | Scanned documents | House login |
