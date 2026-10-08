@@ -85,8 +85,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities:
-                {
+              capabilities: {
                   # drop: ["ALL"],
                   add: ["NET_ADMIN", "NET_RAW", "NET_BROADCAST", "NET_BIND_SERVICE"],
                 }
@@ -178,19 +177,18 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
           gethomepage.dev/name: Home Assistant
-          gethomepage.dev/description: Home Automation
+          gethomepage.dev/description: "Smart home: lights, heating, cameras and automations"
           gethomepage.dev/icon: home-assistant
           gethomepage.dev/app: home-assistant
           gethomepage.dev/widget.type: homeassistant
           gethomepage.dev/widget.url: http://home-assistant-app.default:8123
           gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_HOMEASSISTANT_KEY}}` }}"
 
-
           #         custom:
-#           - state: sensor.octopus_energy_electricity_23j0526219_2200022542963_current_accumulative_consumption
-#             label: Energy Usage Today
-#           - state: sensor.octopus_energy_electricity_23j0526219_2200022542963_current_accumulative_cost
-#             label: Energy Cost Today
+        #           - state: sensor.octopus_energy_electricity_23j0526219_2200022542963_current_accumulative_consumption
+        #             label: Energy Usage Today
+        #           - state: sensor.octopus_energy_electricity_23j0526219_2200022542963_current_accumulative_cost
+        #             label: Energy Cost Today
         hostnames:
           - home.f9.casa
         parentRefs:
@@ -207,6 +205,7 @@ spec:
             conditions: ["[STATUS] == any(200,401)"]
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Home Assistant Code Server
+          gethomepage.dev/description: "Edit Home Assistant config files (admin)"
           gethomepage.dev/group: Dev Tools
           gethomepage.dev/icon: code-server
           gethomepage.dev/pod-selector: app.kubernetes.io/name=home-assistant
@@ -284,8 +283,3 @@ spec:
                 subPath: code-server-tmp
               - path: /nonexistent
                 subPath: nonexistent
-
-
-
-
-

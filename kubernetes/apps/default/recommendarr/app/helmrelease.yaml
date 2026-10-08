@@ -50,6 +50,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Downloads Service
           gethomepage.dev/name: Recommendarr
+          gethomepage.dev/description: "Movie and TV recommendations"
           gethomepage.dev/icon: mdi-movie-search
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:

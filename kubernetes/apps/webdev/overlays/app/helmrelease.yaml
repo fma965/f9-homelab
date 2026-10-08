@@ -52,6 +52,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Web Projects
           gethomepage.dev/name: Overlays
+          gethomepage.dev/description: "Stream overlays"
           gethomepage.dev/icon: mdi-layers
         hostnames:
           - "{{ .Release.Name }}.f9.casa"

@@ -50,6 +50,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Infrastructure
           gethomepage.dev/name: pgAdmin
+          gethomepage.dev/description: "Database admin (admin)"
           gethomepage.dev/icon: pgadmin
           gethomepage.dev/siteMonitor: http://pgadmin.database
         hostnames: ["{{ .Release.Name }}.f9.casa"]

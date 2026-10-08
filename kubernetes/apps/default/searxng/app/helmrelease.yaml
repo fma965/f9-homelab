@@ -72,6 +72,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
           gethomepage.dev/name: SearXNG Search
+          gethomepage.dev/description: "Private web search with no tracking"
           gethomepage.dev/icon: searxng.svg
           gethomepage.dev/pod-selector: app.kubernetes.io/name=searxng
         hostnames:

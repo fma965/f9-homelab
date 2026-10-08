@@ -82,7 +82,7 @@ spec:
           gethomepage.dev/group: Downloads Service
           gethomepage.dev/name: Radarr
           gethomepage.dev/icon: radarr
-          gethomepage.dev/description: Movie Downloads
+          gethomepage.dev/description: "Movie downloads (admin)"
           gethomepage.dev/widget.type: radarr
           gethomepage.dev/widget.url: http://radarr.default
           gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_RADARR_KEY}}` }}"

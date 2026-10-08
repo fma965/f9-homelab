@@ -149,6 +149,7 @@ spec:
             conditions: ["[STATUS] == any(200,401)"]
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: ESPHome
+          gethomepage.dev/description: "Firmware for DIY smart devices (admin)"
           gethomepage.dev/group: Dev Tools
           gethomepage.dev/icon: esphome
           gethomepage.dev/widget.type: esphome

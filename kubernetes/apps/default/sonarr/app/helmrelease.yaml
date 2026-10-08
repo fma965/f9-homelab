@@ -82,7 +82,7 @@ spec:
           gethomepage.dev/group: Downloads Service
           gethomepage.dev/name: Sonarr
           gethomepage.dev/icon: sonarr
-          gethomepage.dev/description: TV Downloads
+          gethomepage.dev/description: "TV show downloads (admin)"
           gethomepage.dev/widget.type: sonarr
           gethomepage.dev/widget.url: http://sonarr.default
           gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_SONARR_KEY}}` }}"

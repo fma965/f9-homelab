@@ -29,7 +29,7 @@ spec:
           gethomepage.dev/group: Platform Infrastructure
           gethomepage.dev/name: Flux Operator
           gethomepage.dev/icon: flux-cd
-          gethomepage.dev/description: Operator for Flux
+          gethomepage.dev/description: "Cluster deployment status (admin)"
         enabled: true
         hostnames:
           - flux-operator.f9.casa

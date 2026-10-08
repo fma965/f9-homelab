@@ -70,6 +70,7 @@ spec:
             conditions: ["[STATUS] == any(200,401)"]
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Kopia S3
+          gethomepage.dev/description: "Browse backups (admin)"
           gethomepage.dev/group: Infrastructure
           gethomepage.dev/icon: kopia
         hostnames:

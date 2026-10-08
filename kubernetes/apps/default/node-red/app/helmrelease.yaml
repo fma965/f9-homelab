@@ -60,6 +60,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Dev Tools
           gethomepage.dev/name: Node-RED
+          gethomepage.dev/description: "Visual automation flows (admin)"
           gethomepage.dev/icon: node-red
         hostnames:
           - "{{ .Release.Name }}.f9.casa"

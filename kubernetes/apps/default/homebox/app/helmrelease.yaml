@@ -74,6 +74,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
           gethomepage.dev/name: Homebox
+          gethomepage.dev/description: "Household inventory: what we own and where it is"
           gethomepage.dev/icon: homebox
           gethomepage.dev/href: https://inventory.f9.casa
         hostnames:

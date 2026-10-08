@@ -74,7 +74,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Downloads Service
           gethomepage.dev/name: SABnzbd
-          gethomepage.dev/description: Usenet Downloader
+          gethomepage.dev/description: "Usenet downloader (admin)"
           gethomepage.dev/icon: sabnzbd
           gethomepage.dev/widget.type: sabnzbd
           gethomepage.dev/widget.url: http://sabnzbd.default

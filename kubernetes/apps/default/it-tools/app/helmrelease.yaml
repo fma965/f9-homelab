@@ -63,6 +63,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Dev Tools
           gethomepage.dev/name: IT-Tools
+          gethomepage.dev/description: "Handy online tools for IT and developers"
           gethomepage.dev/icon: it-tools
         hostnames:
           - it.f9.casa
