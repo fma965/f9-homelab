@@ -1,0 +1,16 @@
+services:
+  scanservjs:
+    build:
+      context: .
+    container_name: "scanservjs"
+    environment:
+      TZ: "Europe/London"
+    # USB scanner passthrough, same approach as the cups stack
+    privileged: true
+    ports:
+      - "8090:8080/tcp"
+    restart: "unless-stopped"
+    volumes:
+      - "/dev/bus/usb:/dev/bus/usb"
+      # Paperless consumption dir (PAPERLESS_CONSUMPTION_DIR, NFS /mnt/F9/Documents/incoming)
+      - "/mnt/F9/Documents/incoming:/app/data/output"
