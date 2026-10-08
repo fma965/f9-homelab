@@ -60,6 +60,7 @@ spec:
           gethomepage.dev/group: Web Projects
           gethomepage.dev/name: Debt Manager
           gethomepage.dev/icon: mdi-cash-multiple
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=debtmanager
         hostnames:
           - "{{ .Release.Name }}.f9.casa"
         parentRefs:

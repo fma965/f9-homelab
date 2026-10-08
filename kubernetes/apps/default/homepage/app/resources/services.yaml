@@ -1,14 +1,46 @@
 ---
 - System:
-  - Unifi:
-      icon: unifi.png
-      href: "https://unifi.ui.com"
-      description: Unifi Gateway
-      siteMonitor: https://unifi.internal
-      widget:
-        type: unifi
-        url: https://unifi.internal
-        key: {{HOMEPAGE_VAR_UNIFI_KEY}}
+    - Unifi:
+        icon: unifi.png
+        href: "https://unifi.ui.com"
+        description: Unifi Gateway
+        siteMonitor: https://unifi.internal
+        widget:
+          type: unifi
+          url: https://unifi.internal
+          key: { { HOMEPAGE_VAR_UNIFI_KEY } }
+
+- Infrastructure:
+    - TrueNAS:
+        icon: truenas-scale
+        href: https://truenas.f9.casa
+        description: NAS
+        siteMonitor: http://nas.main.internal
+    - Webtop:
+        icon: mdi-desktop-classic
+        href: https://remote.f9.casa
+        description: Remote desktop
+        siteMonitor: http://nas.main.internal:3000
+    - NanoKVM:
+        icon: mdi-remote-desktop
+        href: https://kvm.f9.casa
+        description: Network KVM
+        siteMonitor: http://kvm.not.internal
+    - Garage:
+        icon: garage
+        href: https://garage.f9.casa
+        description: S3 storage admin
+        siteMonitor: http://nas.main.internal:3909
+    - Tdarr:
+        icon: tdarr
+        href: https://tdarr.f9.casa
+        description: Media transcoding
+        siteMonitor: http://nas.main.internal:8265
+    - Frigate:
+        icon: frigate
+        href: https://frigate.f9.casa
+        description: NVR / cameras
+        siteMonitor: http://nas.main.internal:8971
 
 - Calendar:
     - Calendar:

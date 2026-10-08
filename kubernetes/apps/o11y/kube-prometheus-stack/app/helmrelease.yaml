@@ -25,6 +25,7 @@ spec:
             gethomepage.dev/group: Observability
             gethomepage.dev/name: Alertmanager
             gethomepage.dev/icon: alertmanager
+            gethomepage.dev/pod-selector: app.kubernetes.io/name=alertmanager
           enabled: true
           hostnames:
             - alertmanager.f9.casa
@@ -58,6 +59,7 @@ spec:
             gethomepage.dev/group: Observability
             gethomepage.dev/name: Prometheus
             gethomepage.dev/icon: prometheus
+            gethomepage.dev/pod-selector: app.kubernetes.io/name=prometheus
           enabled: true
           hostnames:
             - prometheus.f9.casa
