@@ -1,6 +1,6 @@
 # Scanning
 
-We have a **Brother DS-740D** portable document scanner. It lives in the **Comms Cupboard**, next to the printer. It scans both sides of a page at once and sends everything to [Paperless](paperless.md).
+We have a **Brother DS-740D** portable document scanner. It lives in the **Comms Cupboard**, next to the printer and the 3D printer. It scans both sides of a page at once and sends everything to [Paperless](paperless.md).
 
 ## How to scan
 

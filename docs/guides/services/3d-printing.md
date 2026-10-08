@@ -1,6 +1,6 @@
 # 3D printing
 
-We have a Bambu Lab 3D printer. Bambuddy is the site for it.
+We have a Bambu Lab 3D printer. It lives in the **Comms Cupboard**, next to the printer and scanner. Bambuddy is the site for it.
 
 ## Bambuddy: print queue, control and filament
 
@@ -11,7 +11,7 @@ Use Bambuddy to see the printer's status, queue prints and watch progress. It al
 ## Before you print
 
 1. Check that the filament you need is loaded (see the filament section in Bambuddy).
-2. Check the build plate is clear and clean.
+2. Check the build plate is clear and clean. The printer is in the Comms Cupboard.
 3. Start the print and don't leave it running unattended for long jobs.
 
 When a print finishes, Home Assistant sends a "ready to collect" alert.
