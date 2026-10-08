@@ -33,6 +33,8 @@ working_dir: docker/observability/liquidctl-exporter
 ---
 name: cups
 working_dir: docker/system/cups
+external_secrets:
+  CUPS_ADMIN_PASSWORD: op://kubernetes/cups/ADMIN_PASSWORD
 ---
 name: scanner
 working_dir: docker/system/scanner
