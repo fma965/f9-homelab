@@ -5,7 +5,9 @@ services:
       - "/dev/ricoh_printer:/dev/ricoh_printer"
     environment:
       TZ: "Europe/London"
-      ADMIN_PASSWORD: "Password1"
+      # Resolved by Doco-CD from 1Password Connect (see .doco-cd.yaml's
+      # external_secrets) and interpolated by Compose itself.
+      ADMIN_PASSWORD: ${CUPS_ADMIN_PASSWORD}
     image: "ydkn/cups@sha256:3e7c2ddeb6bc47fd920cff7978829ba48d4ef10a18f46773055ca3c2ea4bc29f"
     network_mode: "bridge"
     ports:
