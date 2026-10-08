@@ -9,15 +9,15 @@ We have one black-and-white laser printer (a **Ricoh SP 211**). It sits in the *
 
 ## From an Android phone
 
-Some phones, such as the OnePlus Open, have no printing built in. Install the **CUPS Printing** app first.
+Some phones, such as the OnePlus Open, have no printing built in. Install the **Papercups** app first. It lets Android print to our print server.
 
 <p class="store-badges">
-<a href="https://play.google.com/store/apps/details?id=io.github.benoitduffez.cupsprint"><img src="../../assets/badges/google-play.png" alt="Get it on Google Play"></a>
+<a href="https://play.google.com/store/apps/details?id=com.tobiasdroste.papercups"><img src="../../assets/badges/google-play.png" alt="Get it on Google Play"></a>
 </p>
 
-1. Install **CUPS Printing**, then open your phone's **Settings** and search for **Printing**.
-2. Switch on **CUPS Printing**.
-3. Add the printer with the address above.
+1. Install **Papercups**, then open your phone's **Settings** and search for **Printing**.
+2. Switch on **Papercups** if it is listed there.
+3. Open the app and add the printer with the address above.
 4. From any app, tap **Share / Print** and choose the printer.
 
 ## From an iPhone or iPad
