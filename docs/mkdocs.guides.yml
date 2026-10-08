@@ -51,6 +51,7 @@ nav:
       - Movies & TV (Jellyfin): services/jellyfin.md
       - Requesting media (Seerr): services/seerr.md
       - Music: services/music.md
+      - Games Manager: services/games-manager.md
   - Photos & files:
       - Photos (Immich): services/immich.md
       - Sharing files & screenshots (Zipline): services/zipline.md
@@ -62,6 +63,12 @@ nav:
       - Household inventory (Homebox): services/homebox.md
       - Cameras: services/cameras.md
       - 3D printing: services/3d-printing.md
+  - Downloads (limited access):
+      - Usenet (SABnzbd): services/sabnzbd.md
+      - Torrents (qBittorrent): services/qbittorrent.md
+  - Other apps:
+      - Debt Manager: services/debt-manager.md
+      - Stream overlays: services/overlays.md
   - AI & search:
       - AI chat (Open WebUI): services/ai-chat.md
       - Private search: services/search.md

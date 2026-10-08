@@ -9,10 +9,10 @@ On the login page choose **Reset password**. If the email doesn't arrive, ask Sc
 ## Add a shortcut to your phone
 
 === "iPhone"
-Open the site in Safari, tap **Share**, then **Add to Home Screen**.
+    Open the site in Safari, tap **Share**, then **Add to Home Screen**.
 
 === "Android"
-Open the site in Chrome, tap the **three dots**, then **Add to Home screen** (or **Install app**).
+    Open the site in Chrome, tap the **three dots**, then **Add to Home screen** (or **Install app**).
 
 ## Why can't I open something?
 

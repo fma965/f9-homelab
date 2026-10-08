@@ -2,3 +2,8 @@
 git_url = "https://github.com/home-operations/.github"
 ref = "main"
 configs = ["lefthook.common.toml"]
+
+# MkDocs syntax (admonitions, tabs) is mangled by the Markdown formatter, so docs/ Markdown is left alone.
+# The same files are listed in .prettierignore.
+[pre-commit.commands.format-markdown]
+exclude = ["docs/**"]

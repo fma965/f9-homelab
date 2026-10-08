@@ -17,4 +17,4 @@ Use Bambuddy to see the printer's status, queue prints and watch progress. It al
 When a print finishes, Home Assistant sends a "ready to collect" alert.
 
 !!! warning "Never leave a long print unattended"
-3D printers get hot. If you see anything strange (smoke, a smell, noise), stop the print and switch it off at the wall.
+    3D printers get hot. If you see anything strange (smoke, a smell, noise), stop the print and switch it off at the wall.

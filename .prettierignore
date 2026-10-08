@@ -1,0 +1,2 @@
+# MkDocs syntax (admonitions, tabs) is mangled by the Markdown formatter
+docs/**/*.md

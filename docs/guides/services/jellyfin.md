@@ -6,7 +6,7 @@ Jellyfin is our own streaming service. It plays the films and TV shows stored on
 
 ## Watching
 
-1. Open the site (or one of the apps below) and sign in with your Jellyfin account.
+1. Open the site (or one of the apps below) and sign in with your house login.
 2. Pick a library such as **Movies** or **Shows**.
 3. Choose something and press play.
 
@@ -27,7 +27,7 @@ The website works anywhere, but a dedicated app is nicer on a TV or phone. When 
 **Fire TV:** Wholphin is in the Amazon Appstore. You can also install it from the [GitHub releases](https://github.com/damontecres/Wholphin/releases).
 
 !!! note
-The Amazon Appstore version of Wholphin can't show Seerr requests. Use the GitHub version if you want that.
+    The Amazon Appstore version of Wholphin can't show Seerr requests. Use the GitHub version if you want that.
 
 ### iPhone, iPad and Apple TV: Swiftfin
 

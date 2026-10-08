@@ -39,4 +39,4 @@ Using the app also lets the house know when you're home, which some automations 
 Lots of things happen automatically, such as lights switching on at dusk. If something does something unexpected, tell Scott rather than changing settings.
 
 !!! warning "Please don't edit automations"
-Changing automations or settings can break things for everyone. Dashboards and device controls are safe to use.
+    Changing automations or settings can break things for everyone. Dashboards and device controls are safe to use.

@@ -3,7 +3,7 @@
 We have one black-and-white laser printer (a **Ricoh SP 211**). It sits in the **Comms Cupboard**, next to the scanner and the 3D printer, and is shared over the network, so you can print from your phone or computer without plugging anything in.
 
 !!! info "Printer address"
-`http://nas.main.internal:631/printers/RICOH_SP_211_GDI`
+    `http://nas.main.internal:631/printers/RICOH_SP_211_GDI`
 
     (Apps that ask for an IPP address can use the same thing starting with `ipp://` instead of `http://`.)
 
