@@ -18,7 +18,7 @@ components:
 
 It creates an Envoy `SecurityPolicy` named after `${APP}` that targets the app's `HTTPRoute` and asks Authelia (`/api/authz/ext-authz/`) before letting a request through. Authelia then applies the `access_control` rules and passes `Remote-User`, `Remote-Groups`, `Remote-Name` and `Remote-Email` to the app.
 
-Paperless, Home Assistant, Spoolman, Radarr/Sonarr/Prowlarr, qBittorrent, SABnzbd, ESPHome, Homepage and others use this. The route name must equal `${APP}`. Override with `EXT_AUTH_TARGET` if it doesn't.
+Paperless, Home Assistant, Radarr/Sonarr/Prowlarr, qBittorrent, SABnzbd, ESPHome, Homepage and others use this. The route name must equal `${APP}`. Override with `EXT_AUTH_TARGET` if it doesn't.
 
 ### 2. OIDC (the app signs users in through Authelia)
 
@@ -36,7 +36,7 @@ Rules are evaluated top to bottom and the first match wins. Summary:
 4. **`help.f9.casa/technical/`** is denied to everyone else (these docs).
 5. **Media management** hosts require `group:media_management`.
 6. **Downloads** hosts require `group:downloads`.
-7. **Home hosts** (`f9.casa`, `home`, `inventory`, `photos`, `docs`, `help`, `spoolman`, `ai`, `cctv`, `frigate`) require `group:home`.
+7. **Home hosts** (`f9.casa`, `home`, `inventory`, `photos`, `docs`, `help`, `ai`, `cctv`, `frigate`) require `group:home`.
 8. **Everything else** is denied.
 
 Default policy is `two_factor`.

@@ -1,10 +1,10 @@
 # Scanning
 
-We have a **Brother DS-740D** portable document scanner. It scans both sides of a page at once and sends everything to [Paperless](paperless.md).
+We have a **Brother DS-740D** portable document scanner. It lives in the **Comms Cupboard**, next to the printer. It scans both sides of a page at once and sends everything to [Paperless](paperless.md).
 
 ## How to scan
 
-1. Make sure the scanner is switched on. It's permanently connected to the server.
+1. Go to the Comms Cupboard and make sure the scanner is switched on. It's permanently connected to the server.
 2. Put your paper in the feeder.
 3. Press the **Scan** button on the scanner.
 4. Wait a minute. The document appears in Paperless.

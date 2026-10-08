@@ -6,7 +6,12 @@ Immich is our private version of Google Photos. Your photos and videos stay on o
 
 ## Set up on your phone
 
-1. Install the **Immich** app from the App Store or Play Store.
+1. Install the **Immich** app:
+
+<p class="store-badges">
+<a href="https://apps.apple.com/app/id1613945652"><img src="../../assets/badges/app-store.svg" alt="Download on the App Store"></a>
+<a href="https://play.google.com/store/apps/details?id=app.alextran.immich"><img src="../../assets/badges/google-play.png" alt="Get it on Google Play"></a>
+</p>
 2. For the server address, enter `https://photos.f9.casa`.
 3. Sign in with your Immich account (ask for one if you don't have it).
 4. Open **Backup** in the app and turn it on, choosing which albums to back up.

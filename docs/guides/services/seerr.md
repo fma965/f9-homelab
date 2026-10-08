@@ -1,4 +1,4 @@
-# Requesting something (Seerr)
+# Requesting media (Seerr)
 
 **Address:** <https://requests.f9.casa>
 
@@ -18,6 +18,6 @@ Browse **Discover** for popular and upcoming titles, and request straight from t
 
 ## Good to know
 
-- Some requests may need approval from the person who runs the server before they start.
+- Some requests may need approval from Scott before they start.
 - Very new or obscure titles can take a while or may not be available.
 - Please don't request the same thing twice. Search first to see whether it's already requested.

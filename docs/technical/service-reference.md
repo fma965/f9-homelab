@@ -20,7 +20,6 @@ Where each service runs, how it's protected and what it stores. "Own" means the 
 | Open WebUI                          | `ai.f9.casa`                   | OIDC                          | Uses llama.cpp                                                    |
 | SearXNG                             | `search.f9.casa`               | None                          |                                                                   |
 | Zipline                             | `i.f9.casa`                    | OIDC                          |                                                                   |
-| Spoolman                            | `spoolman.f9.casa`             | Authelia                      | 3D printer filament                                               |
 | Bambuddy                            | `bambuddy.f9.casa`             | OIDC                          | 3D printer management                                             |
 | IT-Tools                            | `it.f9.casa`                   | None                          |                                                                   |
 

@@ -28,6 +28,9 @@ theme:
     - search.highlight
     - content.code.copy
 
+extra_css:
+  - stylesheets/extra.css
+
 markdown_extensions:
   - admonition
   - attr_list
@@ -46,7 +49,7 @@ nav:
       - Which site do I use?: getting-started/which-site.md
   - Entertainment:
       - Movies & TV (Jellyfin): services/jellyfin.md
-      - Requesting something (Seerr): services/seerr.md
+      - Requesting media (Seerr): services/seerr.md
       - Music: services/music.md
   - Photos & files:
       - Photos (Immich): services/immich.md

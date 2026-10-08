@@ -2,6 +2,9 @@
 
 **Address:** <https://inventory.f9.casa>
 
+!!! warning "Work in progress"
+Homebox is still being filled in. Many of our things aren't in it yet, so an empty search doesn't mean we don't have it. Scott is adding our products and sorting out the locations.
+
 Homebox is a catalogue of what we own and where it lives: tools, cables, spare parts, appliances, warranties and receipts.
 
 ## Find something

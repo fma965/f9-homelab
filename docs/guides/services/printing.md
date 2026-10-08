@@ -1,28 +1,50 @@
 # Printing
 
-We have one black-and-white laser printer (a **Ricoh SP 211**). It's shared over the network through the print server on the NAS, so you can print from your phone or computer without plugging anything in.
+We have one black-and-white laser printer (a **Ricoh SP 211**). It sits in the **Comms Cupboard**, next to the scanner, and is shared over the network, so you can print from your phone or computer without plugging anything in.
 
 !!! info "Printer address"
-`ipp://nas.main.internal:631/printers/RICOH_SP_211_GDI`
+`http://nas.main.internal:631/printers/RICOH_SP_211_GDI`
 
-## From a phone
+    (Apps that ask for an IPP address can use the same thing starting with `ipp://` instead of `http://`.)
 
-Printing from a phone works through the normal print option in most apps.
+## From an Android phone
 
-=== "Android"
-Tap **Share / Print** in an app. Choose the printer named **RICOH_SP_211_GDI** if it's listed. If it isn't, add the printer by address in **Settings, Connected devices, Printing**.
+Some phones, such as the OnePlus Open, have no printing built in. Install the **CUPS Printing** app first.
 
-=== "iPhone"
-Tap **Share, Print**, then **Select Printer**. If the printer isn't listed, ask the person who runs the server to help add it.
+<p class="store-badges">
+<a href="https://play.google.com/store/apps/details?id=io.github.benoitduffez.cupsprint"><img src="../../assets/badges/google-play.png" alt="Get it on Google Play"></a>
+</p>
 
-## From a computer
+1. Install **CUPS Printing**, then open your phone's **Settings** and search for **Printing**.
+2. Switch on **CUPS Printing**.
+3. Add the printer with the address above.
+4. From any app, tap **Share / Print** and choose the printer.
 
-Add a new printer using the address above (an **IPP** or **Internet Printing Protocol** printer). Use the generic **PostScript** or **driverless** option if asked for a driver, because the print server converts documents for the Ricoh.
+## From an iPhone or iPad
+
+Tap **Share, Print**, then **Select Printer**. If the printer isn't listed, ask Scott to help add it.
+
+## From a Windows computer
+
+1. Open **Settings, Bluetooth & devices, Printers & scanners**.
+2. Click **Add device**, wait a moment, then click **Add manually**.
+3. Choose **Select a shared printer by name** and paste in:
+
+    ```text
+    http://nas.main.internal:631/printers/RICOH_SP_211_GDI
+    ```
+
+4. Click **Next**. If Windows asks for a driver, choose **Microsoft IPP Class Driver** (or **Generic / Text Only** if that's not offered), then click **Next** and **Finish**.
+5. Print a test page.
+
+## From a Mac
+
+Open **System Settings, Printers & Scanners, Add Printer**, then the **IP** tab. Set the protocol to **IPP**, the address to `nas.main.internal:631`, the queue to `printers/RICOH_SP_211_GDI`, and click **Add**.
 
 ## Tips
 
 - It prints black and white only, on A4.
 - The first page can take a little while to start while the printer wakes up.
-- If nothing prints, check the printer is switched on, has paper, and wasn't left in sleep mode.
+- If nothing prints, check the printer is switched on, has paper, and wasn't left in sleep mode. It's in the Comms Cupboard.
 
 See [Troubleshooting](../help/troubleshooting.md) if it still doesn't work.

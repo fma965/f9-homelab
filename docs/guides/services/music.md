@@ -2,6 +2,9 @@
 
 **Address:** <https://music.f9.casa>
 
+!!! warning "Work in progress"
+Music Assistant is still being set up. Some speakers, music sources or features may be missing or not working yet, and things may change. If something doesn't work, it may simply not be set up yet. Let Scott know what you tried.
+
 Music Assistant plays music on the speakers around the house. It can also play from streaming accounts that have been added to it.
 
 ## Playing music
