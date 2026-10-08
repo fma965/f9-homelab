@@ -1,6 +1,6 @@
 # Service reference
 
-Where each service runs, how it's protected and what it stores. "Own" means the app has its own accounts.
+Where each service runs, how it's protected and what it stores. Every user account lives in LLDAP, so all of these accept the same house login.
 
 ## Household services (Kubernetes, `default` namespace)
 
@@ -10,17 +10,16 @@ Where each service runs, how it's protected and what it stores. "Own" means the 
 | Authelia / LLDAP                    | `auth.f9.casa`                 | n/a                           | SSO and users                                                     |
 | Home Assistant                      | `home.f9.casa`                 | Authelia                      | ESPHome, Zigbee, Matter, Mosquitto and Govee bridge sit alongside |
 | Paperless-ngx                       | `docs.f9.casa`                 | Authelia                      | AI via llama.cpp, see [Paperless AI](paperless-ai.md)             |
-| Immich                              | `photos.f9.casa`               | Own                           | ML on the Docker host                                             |
-| Jellyfin                            | `jellyfin.f9.casa`             | Own                           | Config PVC on Ceph with no automated backup                       |
-| Seerr                               | `requests.f9.casa`             | Own                           | Requests flow to Sonarr/Radarr                                    |
+| Immich                              | `photos.f9.casa`               | OIDC | ML on the Docker host                                             |
+| Jellyfin                            | `jellyfin.f9.casa`             | LDAP (LLDAP) | Config PVC on Ceph with no automated backup                       |
+| Seerr                               | `requests.f9.casa`             | Jellyfin accounts | Requests flow to Sonarr/Radarr                                    |
 | Sonarr, Radarr, Prowlarr, Recyclarr | `<name>.f9.casa`               | Authelia (`media_management`) | Download automation                                               |
 | qBittorrent, SABnzbd                | `torrents.`, `sabnzbd.f9.casa` | Authelia (`downloads`)        | Downloaders                                                       |
-| Music Assistant                     | `music.f9.casa`                | Own                           |                                                                   |
+| Music Assistant                     | `music.f9.casa`                | Home Assistant accounts |                                                                   |
 | Homebox                             | `inventory.f9.casa`            | OIDC                          | Postgres                                                          |
 | Open WebUI                          | `ai.f9.casa`                   | OIDC                          | Uses llama.cpp                                                    |
 | SearXNG                             | `search.f9.casa`               | None                          |                                                                   |
 | Zipline                             | `i.f9.casa`                    | OIDC                          |                                                                   |
-| Spoolman                            | `spoolman.f9.casa`             | Authelia                      | 3D printer filament                                               |
 | Bambuddy                            | `bambuddy.f9.casa`             | OIDC                          | 3D printer management                                             |
 | IT-Tools                            | `it.f9.casa`                   | None                          |                                                                   |
 

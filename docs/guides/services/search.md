@@ -11,10 +11,10 @@ Type your search and press enter. Results come from several search engines at on
 ## Make it your default
 
 === "Chrome / Edge"
-Settings, **Search engine**, **Manage search engines**, **Add**. Use `https://search.f9.casa/search?q=%s` as the URL.
+    Settings, **Search engine**, **Manage search engines**, **Add**. Use `https://search.f9.casa/search?q=%s` as the URL.
 
 === "Firefox"
-Open the site, then in the address bar menu choose **Add "SearXNG"** as a search engine, then set it as default in Settings.
+    Open the site, then in the address bar menu choose **Add "SearXNG"** as a search engine, then set it as default in Settings.
 
 === "Safari"
-Safari can't add custom search engines. Bookmark the site instead.
+    Safari can't add custom search engines. Bookmark the site instead.

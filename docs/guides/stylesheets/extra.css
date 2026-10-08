@@ -1,0 +1,14 @@
+.store-badges a {
+  display: inline-block;
+  margin: 0 0.5rem 0.5rem 0;
+}
+.store-badges img {
+  height: 44px;
+  width: auto;
+  vertical-align: middle;
+}
+/* The Google Play badge image has built-in padding, so scale it up to look the same size */
+.store-badges img[src$=".png"] {
+  height: 64px;
+  margin: -10px 0;
+}

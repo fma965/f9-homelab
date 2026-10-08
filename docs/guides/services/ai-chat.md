@@ -4,6 +4,9 @@
 
 Open WebUI is a ChatGPT-style assistant that runs on our own server, so your conversations stay in the house.
 
+!!! info "It's not Claude or ChatGPT"
+    Our AI is a smaller model running on a graphics card in the house. It's **not as capable as the big paid services** like Claude, ChatGPT or Gemini: it makes more mistakes, knows less and is weaker at hard reasoning or long documents. The upside is that it's **free to use**, because it only costs the electricity. It's great for everyday questions, drafting and brainstorming. For anything important or complicated, use one of the big services and double-check the answer.
+
 ## Using it
 
 1. Open the site and choose to sign in with **Home**. This uses your house login.

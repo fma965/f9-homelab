@@ -8,7 +8,7 @@ You don't need to know anything technical. Pick what you want to do below.
 | I want to...                                | Go to                                          |
 | ------------------------------------------- | ---------------------------------------------- |
 | Watch a film or TV show                     | [Jellyfin](services/jellyfin.md)               |
-| Ask for a film or show that isn't there yet | [Seerr](services/seerr.md)                     |
+| Request a film or show that isn't there yet | [Requesting media](services/seerr.md)          |
 | Play music on the speakers                  | [Music](services/music.md)                     |
 | Back up or look at photos and videos        | [Photos (Immich)](services/immich.md)          |
 | Send someone a file or screenshot link      | [Zipline](services/zipline.md)                 |
@@ -21,6 +21,10 @@ You don't need to know anything technical. Pick what you want to do below.
 | Use the 3D printer                          | [3D printing](services/3d-printing.md)         |
 | Ask an AI assistant                         | [AI chat](services/ai-chat.md)                 |
 | Search the web without being tracked        | [Private search](services/search.md)           |
+| Browse our game collection | [Games Manager](services/games-manager.md) |
+| Check or pay what's owed | [Debt Manager](services/debt-manager.md) |
+| Check downloads (limited access) | [SABnzbd](services/sabnzbd.md), [qBittorrent](services/qbittorrent.md) |
+| Use a stream overlay in OBS | [Stream overlays](services/overlays.md) |
 | Check whether something is broken           | [Is something down?](help/status.md)           |
 
 ## The home page
@@ -29,4 +33,4 @@ Everything is also listed on **<https://f9.casa>**, a page of buttons for each s
 
 ## Still stuck?
 
-Check [Troubleshooting](help/troubleshooting.md), then ask the person who runs the server.
+Check [Troubleshooting](help/troubleshooting.md), then ask Scott.

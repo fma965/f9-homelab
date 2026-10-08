@@ -12,7 +12,7 @@ Envoy Gateway provides two gateways in the `network` namespace:
 A route chooses its gateway in `parentRefs`. ExternalDNS watches the routes and creates the records automatically (one instance for Cloudflare, one for UniFi). You normally never edit DNS by hand.
 
 !!! warning "Public does not mean unauthenticated"
-Most apps on `envoy-external` are protected by Authelia (`ext-auth` component) or by their own OIDC login. A route with neither is open to the internet. Check before adding one.
+    Most apps on `envoy-external` are protected by Authelia (`ext-auth` component) or by their own OIDC login. A route with neither is open to the internet. Check before adding one.
 
 ## Cilium
 
