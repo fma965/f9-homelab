@@ -1,3 +1,5 @@
+# The scanservjs web UI is not used (its entrypoint is overridden in compose); this
+# image is only the base because it already ships scanimage (SANE) and ImageMagick.
 FROM sbs20/scanservjs:v3.3.0@sha256:7a0c0dfd546f483c2fe8c5ccdcd8fc96301a41fb0d4309747fc8268108defb6a
 
 # Brother SANE backend (brscan5), not shipped in the upstream image.
