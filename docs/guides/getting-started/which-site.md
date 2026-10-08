@@ -24,4 +24,5 @@ Every service has its own address. All of them are also on the home page at <htt
 | Status page | <https://status.f9.casa> | Is everything up? | None |
 
 !!! note "House login"
-    "House login" means your one shared account, the same username and password everywhere. Jellyfin, Seerr, Immich, Music Assistant and Home Assistant all use it too, so there are no separate accounts to set up. See [Your account](your-account.md).
+"House login" means the shared Authelia account described in [Your account](your-account.md).
+Some apps (Jellyfin, Immich, Seerr, Music Assistant) keep their own accounts. If you don't have one, ask.
