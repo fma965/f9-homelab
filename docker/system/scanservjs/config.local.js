@@ -20,6 +20,11 @@ module.exports = {
           if (f[name]) f[name].default = 'yes';
         });
 
+        // A sheet-fed scanner can't preview, and the scanner crops by itself, so hide
+        // the scan area options (the UI drops the preview, crop box and paper sizes
+        // when they're missing)
+        ['-l', '-t', '-x', '-y'].forEach((name) => delete f[name]);
+
         // Scan the whole stack in one go and output a single multi-page PDF
         const batch = device.settings.batchMode;
         const auto = batch.options.find((o) => o === 'auto');
