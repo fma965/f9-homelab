@@ -7,6 +7,9 @@ Open WebUI is a ChatGPT-style assistant that runs on our own server, so your con
 !!! info "It's not Claude or ChatGPT"
     Our AI is a smaller model running on a graphics card in the house. It's **not as capable as the big paid services** like Claude, ChatGPT or Gemini: it makes more mistakes, knows less and is weaker at hard reasoning or long documents. The upside is that it's **free to use**, because it only costs the electricity. It's great for everyday questions, drafting and brainstorming. For anything important or complicated, use one of the big services and double-check the answer.
 
+!!! warning "It's uncensored"
+    The model we run is an uncensored version of Google's Gemma 4 (12B). Unlike Claude, ChatGPT and the other big services, it **won't refuse or tone down** sexual, taboo, dark or other adult topics, including erotic stories and roleplay. That is deliberate, so it's a good place for things the big platforms won't help with. It's for adults only, and it also means nothing is filtering what it says to you. Don't use it to make content about real people without their consent, or anything illegal.
+
 ## Using it
 
 1. Open the site and choose to sign in with **Home**. This uses your house login.
@@ -23,4 +26,4 @@ Open WebUI is a ChatGPT-style assistant that runs on our own server, so your con
 
 - It runs on a home graphics card, so busy moments can make it slower than the big online services.
 - It can be wrong with confidence. Double-check anything important.
-- Conversations are saved to your account. Delete any you don't want to keep.
+- Conversations are saved to your account. Delete any you don't want to keep, especially anything private.
