@@ -62,6 +62,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
           gethomepage.dev/name: Open WebUI
+          gethomepage.dev/description: "AI chat assistant"
           gethomepage.dev/icon: open-webui
         hostnames: ["ai.f9.casa"]
         parentRefs:

@@ -65,6 +65,7 @@ spec:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Observability
         gethomepage.dev/name: Grafana
+        gethomepage.dev/description: "Dashboards and graphs (admin)"
         gethomepage.dev/icon: grafana
         gethomepage.dev/pod-selector: app=grafana
     spec:

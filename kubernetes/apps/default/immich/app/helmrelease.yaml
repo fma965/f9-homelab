@@ -69,7 +69,7 @@ spec:
           gethomepage.dev/group: Media Service
           gethomepage.dev/name: Immich
           gethomepage.dev/icon: immich
-          gethomepage.dev/description: Photo Library
+          gethomepage.dev/description: "Family photo and video library"
           gethomepage.dev/widget.type: immich
           gethomepage.dev/widget.url: http://immich.default:2283
           gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_IMMICH_KEY}}` }}"

@@ -90,6 +90,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
           gethomepage.dev/name: Zipline
+          gethomepage.dev/description: "Upload files and images and share them with a link"
           gethomepage.dev/icon: zipline
         hostnames: ["i.f9.casa"]
         parentRefs:

@@ -115,6 +115,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
           gethomepage.dev/name: Music Assistant
+          gethomepage.dev/description: "Play music on speakers around the house"
           gethomepage.dev/icon: music-assistant
         hostnames:
           - music.f9.casa

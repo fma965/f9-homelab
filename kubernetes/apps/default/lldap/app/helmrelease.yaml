@@ -87,6 +87,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: System
           gethomepage.dev/name: LLDAP
+          gethomepage.dev/description: "User and group accounts (admin)"
           gethomepage.dev/icon: mdi-account-key
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:

@@ -24,6 +24,7 @@ spec:
             gethomepage.dev/enabled: "true"
             gethomepage.dev/group: Observability
             gethomepage.dev/name: Alertmanager
+            gethomepage.dev/description: "Alert routing and silences (admin)"
             gethomepage.dev/icon: alertmanager
             gethomepage.dev/pod-selector: app.kubernetes.io/name=alertmanager
           enabled: true
@@ -58,6 +59,7 @@ spec:
             gethomepage.dev/enabled: "true"
             gethomepage.dev/group: Observability
             gethomepage.dev/name: Prometheus
+            gethomepage.dev/description: "Metrics database (admin)"
             gethomepage.dev/icon: prometheus
             gethomepage.dev/pod-selector: app.kubernetes.io/name=prometheus
           enabled: true

@@ -101,7 +101,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Authentication
           gethomepage.dev/name: Authelia
-          gethomepage.dev/description: OIDC User Management
+          gethomepage.dev/description: "Login and two-factor sign-in for our sites"
           gethomepage.dev/icon: authelia
         hostnames: ["auth.f9.casa"]
         parentRefs:

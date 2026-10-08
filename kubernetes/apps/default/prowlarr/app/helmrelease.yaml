@@ -79,7 +79,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Downloads Service
           gethomepage.dev/name: Prowlarr
-          gethomepage.dev/description: Torrent/Usenet Search Engine
+          gethomepage.dev/description: "Search sources for Sonarr and Radarr (admin)"
           gethomepage.dev/icon: prowlarr
           gethomepage.dev/widget.type: prowlarr
           gethomepage.dev/widget.url: http://prowlarr.default

@@ -115,6 +115,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Infrastructure
           gethomepage.dev/name: Rook Ceph
+          gethomepage.dev/description: "Cluster storage dashboard (admin)"
           gethomepage.dev/icon: rook.svg
           gethomepage.dev/pod-selector: app.kubernetes.io/name=ceph-mgr
         host:

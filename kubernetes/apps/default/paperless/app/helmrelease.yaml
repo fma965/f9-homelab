@@ -113,6 +113,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
           gethomepage.dev/name: Paperless
+          gethomepage.dev/description: "Archive of scanned documents and paperwork"
           gethomepage.dev/icon: paperless-ngx
           gethomepage.dev/widget.type: paperlessngx
           gethomepage.dev/widget.url: http://paperless.default:8000

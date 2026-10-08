@@ -36,6 +36,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Observability
           gethomepage.dev/name: Victoria Logs
+          gethomepage.dev/description: "Search system logs (admin)"
           gethomepage.dev/icon: victorialogs
           gethomepage.dev/pod-selector: app.kubernetes.io/name=victoria-logs-single
         enabled: true

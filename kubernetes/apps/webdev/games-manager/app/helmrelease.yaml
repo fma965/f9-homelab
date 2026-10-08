@@ -108,6 +108,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Web Projects
           gethomepage.dev/name: Games DB
+          gethomepage.dev/description: "Games database admin (admin)"
           gethomepage.dev/icon: directus
           gethomepage.dev/pod-selector: app.kubernetes.io/name=games-manager
         hostnames:
@@ -126,6 +127,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Web Projects
           gethomepage.dev/name: Games Manager
+          gethomepage.dev/description: "Game collection tracker"
           gethomepage.dev/icon: mdi-controller
           gethomepage.dev/pod-selector: app.kubernetes.io/name=games-manager
         hostnames:

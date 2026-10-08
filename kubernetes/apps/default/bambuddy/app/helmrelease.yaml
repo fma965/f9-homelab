@@ -157,6 +157,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
           gethomepage.dev/name: Bambuddy
+          gethomepage.dev/description: "3D printer control, print queue and filament tracking"
           gethomepage.dev/icon: bambu-lab.svg
         hostnames:
           - "{{ .Release.Name }}.f9.casa"

@@ -77,6 +77,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Media Service
           gethomepage.dev/name: Seerr
+          gethomepage.dev/description: "Request movies and TV shows to be added"
           gethomepage.dev/icon: seerr
           gethomepage.dev/href: https://requests.f9.casa
         hostnames:
