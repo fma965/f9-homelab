@@ -35,7 +35,7 @@ refresh() {
     build
 }
 
-case "${1:-}" in
+case "$*" in
 init)
     git clone --quiet --depth 1 --filter=blob:none --sparse --branch main "$REPO_URL" "$SRC"
     git -C "$SRC" sparse-checkout set docs
