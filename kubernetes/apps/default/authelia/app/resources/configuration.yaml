@@ -91,6 +91,11 @@ access_control:
       resources: ["^/code/.*$"]
       policy: deny
 
+    # 4b. Technical docs: only admins make it past rule #3 to get here. Everyone else is blocked.
+    - domain: help.f9.casa
+      resources: ["^/technical(/.*)?$"]
+      policy: deny
+
     # 5. Restrict Media Management domains (Non-admins must be in media_management)
     - domain:
         - sonarr.f9.casa
@@ -119,6 +124,7 @@ access_control:
         - inventory.f9.casa
         - photos.f9.casa
         - docs.f9.casa
+        - help.f9.casa
         - spoolman.f9.casa
         - ai.f9.casa
         - cctv.f9.casa

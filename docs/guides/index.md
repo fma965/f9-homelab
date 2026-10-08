@@ -1,0 +1,35 @@
+# Welcome to the F9 house help
+
+This is the instruction manual for everything we run at home: films and TV, photos, printing, the smart home and more.
+You don't need to know anything technical. Pick what you want to do below.
+
+## What do you want to do?
+
+| I want to...                                | Go to                                          |
+| ------------------------------------------- | ---------------------------------------------- |
+| Watch a film or TV show                     | [Jellyfin](services/jellyfin.md)               |
+| Ask for a film or show that isn't there yet | [Seerr](services/seerr.md)                     |
+| Play music on the speakers                  | [Music](services/music.md)                     |
+| Back up or look at photos and videos        | [Photos (Immich)](services/immich.md)          |
+| Send someone a file or screenshot link      | [Zipline](services/zipline.md)                 |
+| Find a letter, bill or manual               | [Documents (Paperless)](services/paperless.md) |
+| Print something                             | [Printing](services/printing.md)               |
+| Scan something                              | [Scanning](services/scanning.md)               |
+| Control lights, heating and so on           | [Home Assistant](services/home-assistant.md)   |
+| Find out where we keep something            | [Homebox](services/homebox.md)                 |
+| Look at the cameras                         | [Cameras](services/cameras.md)                 |
+| Use the 3D printer                          | [3D printing](services/3d-printing.md)         |
+| Ask an AI assistant                         | [AI chat](services/ai-chat.md)                 |
+| Search the web without being tracked        | [Private search](services/search.md)           |
+| Check whether something is broken           | [Is something down?](help/status.md)           |
+
+!!! tip "Start here if you're new"
+Read [Signing in](getting-started/signing-in.md) first. It explains your account, the two-step login and how to add a shortcut to your phone.
+
+## The home page
+
+Everything is also listed on **<https://f9.casa>**, a page of buttons for each service. Bookmark it and you rarely need to remember an address.
+
+## Still stuck?
+
+Check [Troubleshooting](help/troubleshooting.md), then ask the person who runs the server.

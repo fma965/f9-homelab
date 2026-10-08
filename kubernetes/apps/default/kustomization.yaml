@@ -15,6 +15,7 @@ resources:
   - ./esphome/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./govee2mqtt/ks.yaml
+  - ./help/ks.yaml
   - ./home-assistant/ks.yaml
   - ./homebox/ks.yaml
   - ./homepage/ks.yaml
