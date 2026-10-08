@@ -59,6 +59,11 @@ spec:
               PAPERLESS_AI_LLM_ENDPOINT: http://nas.main.internal:8080/v1
               PAPERLESS_AI_LLM_MODEL: gemma-4-12b-ha
               PAPERLESS_AI_LLM_REQUEST_TIMEOUT: "300"
+              # Embeddings for document chat / similar-document search run locally in the pod
+              PAPERLESS_AI_LLM_EMBEDDING_BACKEND: huggingface
+              PAPERLESS_AI_LLM_EMBEDDING_MODEL: sentence-transformers/all-MiniLM-L6-v2
+              # Keep the downloaded embedding model on the data volume across restarts
+              HF_HOME: /data/local/data/huggingface
               PAPERLESS_AI_LLM_API_KEY:
                 valueFrom:
                   secretKeyRef:
