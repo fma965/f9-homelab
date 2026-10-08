@@ -2,7 +2,6 @@ services:
   scanservjs:
     build:
       context: .
-    image: "scanservjs-brother"
     container_name: "scanservjs"
     environment:
       TZ: "Europe/London"
@@ -19,8 +18,11 @@ services:
 
   # Scanner's physical Scan button: scans the feeder (duplex) into a PDF in the
   # Paperless consumption dir. Same image and USB bus as scanservjs.
+  # Built from the same Dockerfile (no shared image name: Doco-CD pulls named
+  # images before deploying and a local-only name would fail to pull).
   scanbutton:
-    image: "scanservjs-brother"
+    build:
+      context: .
     container_name: "scanbutton"
     depends_on:
       - scanservjs
