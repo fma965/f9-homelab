@@ -23,9 +23,6 @@ You don't need to know anything technical. Pick what you want to do below.
 | Search the web without being tracked        | [Private search](services/search.md)           |
 | Check whether something is broken           | [Is something down?](help/status.md)           |
 
-!!! tip "Start here if you're new"
-Read [Signing in](getting-started/signing-in.md) first. It explains your account, the two-step login and how to add a shortcut to your phone.
-
 ## The home page
 
 Everything is also listed on **<https://f9.casa>**, a page of buttons for each service. Bookmark it and you rarely need to remember an address.

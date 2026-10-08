@@ -42,7 +42,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting started:
-      - Signing in: getting-started/signing-in.md
+      - Your account: getting-started/your-account.md
       - Which site do I use?: getting-started/which-site.md
   - Entertainment:
       - Movies & TV (Jellyfin): services/jellyfin.md
