@@ -53,6 +53,22 @@ spec:
               PAPERLESS_ENABLE_HTTP_REMOTE_USER: "true"
               PAPERLESS_HTTP_REMOTE_USER_HEADER_NAME: "HTTP_REMOTE_USER"
               PAPERLESS_LOGOUT_REDIRECT_URL: "https://auth.f9.casa/logout"
+              # Configure AI suggestions (local llama.cpp, OpenAI-compatible API)
+              PAPERLESS_AI_ENABLED: "true"
+              PAPERLESS_AI_LLM_BACKEND: openai-like
+              PAPERLESS_AI_LLM_ENDPOINT: http://nas.main.internal:8080/v1
+              PAPERLESS_AI_LLM_MODEL: gemma-4-12b-ha
+              PAPERLESS_AI_LLM_REQUEST_TIMEOUT: "300"
+              # Embeddings for document chat / similar-document search run locally in the pod
+              PAPERLESS_AI_LLM_EMBEDDING_BACKEND: huggingface
+              PAPERLESS_AI_LLM_EMBEDDING_MODEL: sentence-transformers/all-MiniLM-L6-v2
+              # Keep the downloaded embedding model on the data volume across restarts
+              HF_HOME: /data/local/data/huggingface
+              PAPERLESS_AI_LLM_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-secret
+                    key: PAPERLESS_AI_LLM_API_KEY
               # Configure admin user
               PAPERLESS_ADMIN_USER:
                 valueFrom:
