@@ -1,6 +1,6 @@
 #!/bin/sh
-# Builds the two MkDocs sites (housemate guides + admin-only technical docs) from this
-# repository's docs/ folder and keeps them up to date. Each build goes into its own
+# Builds the housemate guides MkDocs site from this repository's docs/ folder and keeps it
+# up to date. (The admin-only technical docs live in a private repo, see kubernetes/apps/default/techdocs.) Each build goes into its own
 # directory and a symlink is swapped atomically, so nginx never serves a half-built site.
 set -eu
 
@@ -14,15 +14,14 @@ export NO_MKDOCS_2_WARNING=true
 
 build() {
     rev=$(git -C "$SRC" rev-parse --short HEAD)
-    for site in guides technical; do
-        dest="$SITE/$site-$rev"
-        if [ ! -d "$dest" ]; then
-            mkdocs build --quiet --config-file "$SRC/docs/mkdocs.$site.yml" --site-dir "$dest"
-        fi
-        ln -sfn "$site-$rev" "$SITE/$site.tmp"
-        mv -T "$SITE/$site.tmp" "$SITE/$site"
-    done
-    # Drop builds from older revisions
+    site=guides
+    dest="$SITE/$site-$rev"
+    if [ ! -d "$dest" ]; then
+        mkdocs build --quiet --config-file "$SRC/docs/mkdocs.$site.yml" --site-dir "$dest"
+    fi
+    ln -sfn "$site-$rev" "$SITE/$site.tmp"
+    mv -T "$SITE/$site.tmp" "$SITE/$site"
+    # Drop builds from older revisions (including any left over from the old technical site)
     for dir in "$SITE"/guides-* "$SITE"/technical-*; do
         case "$dir" in *-"$rev") ;; *) rm -rf "$dir" ;; esac
     done

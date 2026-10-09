@@ -91,10 +91,7 @@ access_control:
       resources: ["^/code/.*$"]
       policy: deny
 
-    # 4b. Technical docs: only admins make it past rule #3 to get here. Everyone else is blocked.
-    - domain: help.f9.casa
-      resources: ["^/technical(/.*)?$"]
-      policy: deny
+    # 4b. Technical docs (techdocs.f9.casa) need no rule: they fall through to the catch-all deny below.
 
     # 5. Restrict Media Management domains (Non-admins must be in media_management)
     - domain:

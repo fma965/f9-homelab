@@ -1,0 +1,154 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: techdocs
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: techdocs
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+    controllers:
+      techdocs:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        initContainers:
+          # First build, so the site exists before nginx starts serving
+          build:
+            image: &builder
+              repository: squidfunk/mkdocs-material
+              tag: 9.7.7@sha256:51b87149d227691486b5f08993d28c65ca7e4990010664b697265b8e6fcd5287
+            command: ["/bin/sh", "/config/builder.sh", "init"]
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+
+        containers:
+          app:
+            image:
+              repository: nginxinc/nginx-unprivileged
+              tag: 1.31.6-alpine@sha256:b9241c6e7b8e9a862f129d8d4199ab64b10390949a78bdd5603379b32c844083
+            # Skip the image entrypoint scripts, which try to edit the read-only config
+            command: ["nginx", "-g", "daemon off;"]
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: &port 8080
+              readiness: *probe
+            resources:
+              requests:
+                cpu: 5m
+                memory: 16Mi
+              limits:
+                memory: 128Mi
+            securityContext: *securityContext
+
+          # Pulls the private docs repo every 5 minutes and rebuilds when it changes
+          refresh:
+            image: *builder
+            command: ["/bin/sh", "/config/builder.sh", "watch"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+            securityContext: *securityContext
+
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+
+    persistence:
+      config:
+        type: configMap
+        name: techdocs-config
+        advancedMounts:
+          techdocs:
+            build:
+              - path: /config/builder.sh
+                subPath: builder.sh
+            refresh:
+              - path: /config/builder.sh
+                subPath: builder.sh
+            app:
+              - path: /etc/nginx/conf.d/default.conf
+                subPath: nginx.conf
+      secrets:
+        type: secret
+        name: techdocs-secret
+        advancedMounts:
+          techdocs:
+            build:
+              - path: /secrets
+                readOnly: true
+            refresh:
+              - path: /secrets
+                readOnly: true
+      site:
+        type: emptyDir
+        advancedMounts:
+          techdocs:
+            build:
+              - path: /site
+            refresh:
+              - path: /site
+            app:
+              - path: /site
+                readOnly: true
+      work:
+        type: emptyDir
+        advancedMounts:
+          techdocs:
+            build:
+              - path: /work
+            refresh:
+              - path: /work
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          techdocs:
+            build:
+              - path: /tmp
+            refresh:
+              - path: /tmp
+            app:
+              - path: /tmp
+
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Dev Tools
+          gethomepage.dev/name: Technical Docs
+          gethomepage.dev/description: "How the homelab is built and run (admins only)"
+          gethomepage.dev/icon: mdi-book-lock
+        hostnames:
+          - techdocs.f9.casa
+          - wiki.f9.casa
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+            sectionName: https
