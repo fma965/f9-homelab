@@ -13,9 +13,9 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+        runAsUser: 65534 # ssh needs a passwd entry; nobody exists in the image
+        runAsGroup: 65534
+        fsGroup: 65534
         fsGroupChangePolicy: OnRootMismatch
 
     controllers:
