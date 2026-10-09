@@ -1,5 +1,5 @@
 # Housemate guides, served at https://help.f9.casa/
-# Built in-cluster by kubernetes/apps/default/help (see docs/technical/docs-site.md)
+# Built in-cluster by kubernetes/apps/default/help (see the private f9-homelab-docs repo, docs/docs-site.md)
 site_name: F9 Help & Guides
 site_description: How to use the services in our house
 site_url: https://help.f9.casa/
@@ -75,4 +75,4 @@ nav:
   - Help:
       - Is something down?: help/status.md
       - Troubleshooting: help/troubleshooting.md
-  - Technical docs (admins): https://help.f9.casa/technical/
+  - Technical docs (admins): https://techdocs.f9.casa/

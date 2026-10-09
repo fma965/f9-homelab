@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+configMapGenerator:
+  - name: techdocs-config
+    files:
+      - ./resources/builder.sh
+      - ./resources/nginx.conf
+generatorOptions:
+  disableNameSuffixHash: true
+resources:
+  - ./externalsecret.yaml
+  - ./ocirepository.yaml
+  - ./helmrelease.yaml
