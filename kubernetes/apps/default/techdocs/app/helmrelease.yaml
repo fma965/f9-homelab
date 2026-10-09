@@ -147,6 +147,7 @@ spec:
           gethomepage.dev/icon: mdi-book-lock
         hostnames:
           - techdocs.f9.casa
+          - wiki.f9.casa
         parentRefs:
           - name: envoy-external
             namespace: network
