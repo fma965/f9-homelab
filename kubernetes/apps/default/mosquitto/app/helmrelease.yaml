@@ -13,6 +13,22 @@ spec:
     controllers:
       mosquitto:
         type: statefulset
+        initContainers:
+          init-passwd:
+            image:
+              repository: public.ecr.aws/docker/library/eclipse-mosquitto
+              tag: 2.0.22
+            command:
+              - sh
+              - -c
+              - mosquitto_passwd -c -b /mosquitto/passwd/passwd "$MQTT_USERNAME" "$MQTT_PASSWORD"
+            envFrom:
+              - secretRef:
+                  name: mosquitto-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
         containers:
           app:
             image:
@@ -23,7 +39,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 10m
@@ -58,10 +74,11 @@ spec:
       config:
         data:
           mosquitto.conf: |-
-            allow_anonymous true
+            allow_anonymous false
             autosave_interval 60
             connection_messages false
             listener 1883
+            password_file /mosquitto/passwd/passwd
             per_listener_settings false
             persistence true
             persistence_location /config
@@ -72,3 +89,11 @@ spec:
         globalMounts:
           - path: /mosquitto/config/mosquitto.conf
             subPath: mosquitto.conf
+      passwd:
+        type: emptyDir
+        advancedMounts:
+          mosquitto:
+            init-passwd:
+              - path: /mosquitto/passwd
+            app:
+              - path: /mosquitto/passwd

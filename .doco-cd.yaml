@@ -61,3 +61,5 @@ external_secrets:
   FRIGATE_PRINTER_HOST: op://kubernetes/frigate/PRINTER_HOST
   FRIGATE_TAPO_USER: op://kubernetes/frigate/TAPO_USERNAME
   FRIGATE_TAPO_PASSWORD: op://kubernetes/frigate/TAPO_PASSWORD
+  FRIGATE_MQTT_USERNAME: op://kubernetes/mosquitto/MQTT_USERNAME
+  FRIGATE_MQTT_PASSWORD: op://kubernetes/mosquitto/MQTT_PASSWORD
