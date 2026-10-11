@@ -33,7 +33,6 @@ services:
       FRIGATE_TAPO_USER: ${FRIGATE_TAPO_USER}
       FRIGATE_TAPO_PASSWORD: ${FRIGATE_TAPO_PASSWORD}
     ports:
-      - 8971:8971 # authenticated UI/API - use this one
       - 8554:8554 # go2rtc RTSP restream
       - 8555:8555/tcp # go2rtc WebRTC
       - 8555:8555/udp # go2rtc WebRTC
@@ -48,3 +47,26 @@ services:
         target: /tmp/cache
         tmpfs:
           size: 1000000000
+
+  frigate-gate:
+    # Allow-list gate: only the Kubernetes nodes (Envoy + Authelia) may reach the Frigate UI and API.
+    # See gate/nginx.conf. The published port is IPv4 only on purpose: Docker's IPv6 proxy
+    # hides the real client address, which the allow-list needs.
+    image: nginxinc/nginx-unprivileged:1.31.6-alpine@sha256:b9241c6e7b8e9a862f129d8d4199ab64b10390949a78bdd5603379b32c844083
+    container_name: frigate-gate
+    restart: unless-stopped
+    depends_on:
+      - frigate
+    # Skip the image entrypoint scripts, which try to edit the read-only config.
+    command: ["nginx", "-g", "daemon off;"]
+    ports:
+      - "0.0.0.0:8971:8080"
+    volumes:
+      - ./gate/nginx.conf:/etc/nginx/nginx.conf:ro
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
