@@ -20,8 +20,15 @@ spec:
               tag: 2.0.22
             command:
               - sh
-              - -c
-              - mosquitto_passwd -c -b /mosquitto/passwd/passwd "$MQTT_USERNAME" "$MQTT_PASSWORD"
+              - -ec
+              - |
+                mosquitto_passwd -c -b /mosquitto/passwd/passwd "$MQTT_USERNAME" "$MQTT_PASSWORD"
+                # The hot tub bridge gets its own login with a shorter password: it was refused
+                # with the shared one (CONNECT_UNAUTHORIZED), possibly a password length limit.
+                # Optional, so the broker still starts if the fields are missing.
+                if [ -n "$MQTT_HOTTUB_USERNAME" ]; then
+                  mosquitto_passwd -b /mosquitto/passwd/passwd "$MQTT_HOTTUB_USERNAME" "$MQTT_HOTTUB_PASSWORD"
+                fi
             envFrom:
               - secretRef:
                   name: mosquitto-secret
