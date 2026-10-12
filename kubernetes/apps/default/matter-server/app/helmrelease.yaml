@@ -48,14 +48,14 @@ spec:
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
-              "name":"iot",
+              "name": "not",
               "namespace": "kube-system",
-              "mac": "f2:f9:00:00:00:03",
-              "ips": ["10.10.20.243/24"]
+              "mac": "f2:f9:00:00:30:07",
+              "ips": ["10.10.30.243/24"]
           }]
       securityContext:
         runAsNonRoot: false # Must be run as root user
-        runAsUser: 0        # Must be run as root user
+        runAsUser: 0 # Must be run as root user
         runAsGroup: 0
         fsGroup: 0
         fsGroupChangePolicy: OnRootMismatch
