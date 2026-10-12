@@ -48,12 +48,6 @@ spec:
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
-              "name":"iot",
-              "namespace": "kube-system",
-              "mac": "f2:f9:00:00:00:03",
-              "ips": ["10.10.20.243/24"]
-          },
-          {
               "name": "not",
               "namespace": "kube-system",
               "mac": "f2:f9:00:00:30:07",
