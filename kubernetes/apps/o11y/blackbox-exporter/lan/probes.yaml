@@ -13,8 +13,9 @@ spec:
       static:
         - nas.main.internal
         - zigbee-controller.not.internal
-        - doorbell.iot.internal
+        - doorbell.not.internal
         - kvm.not.internal
+        - nvr.not.internal
         - k8s-01.internal
         - k8s-02.internal
         - k8s-03.internal
