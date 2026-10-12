@@ -39,7 +39,7 @@
       matchUpdateTypes: ["minor", "patch", "digest"],
       automerge: true,
       automergeType: "pr",
-      minimumReleaseAge: "7 days",
+      minimumReleaseAge: "3 days",
       ignoreTests: false,
     },
     {
