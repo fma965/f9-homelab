@@ -6,6 +6,7 @@ namespace: o11y
 
 components:
   - ../../components/alerts
+  - ../../components/psa-privileged
 
 resources:
   - ./namespace.yaml

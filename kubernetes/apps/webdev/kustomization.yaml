@@ -6,6 +6,7 @@ namespace: webdev
 
 components:
   - ../../components/alerts
+  - ../../components/psa-baseline
 
 resources:
   - ./namespace.yaml

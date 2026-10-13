@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+# Pod Security Admission: namespaces that need privileged pods (node-level agents,
+# host paths, host networking). Explicit, so the exception is visible in Git (M24).
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      kind: Namespace
+    patch: |-
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: _
+        labels:
+          pod-security.kubernetes.io/enforce: privileged
