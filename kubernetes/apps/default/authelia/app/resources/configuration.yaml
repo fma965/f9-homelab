@@ -39,7 +39,7 @@ session:
   name: authelia-home-lab
   inactivity: 3d
   expiration: 7d
-  remember_me: 6M
+  remember_me: 1M
   cookies:
     - name: authelia_session
       domain: f9.casa
