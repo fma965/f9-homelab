@@ -48,10 +48,20 @@ spec:
                     key: password
               TZ: Europe/London
             command:
-              - "/bin/sh"
+              - "/bin/bash"
             args:
               - "-c"
-              - "pg_dumpall -U $PGUSER | gzip > /backup/postgres17-cluster.dump.gz"
+              - |
+                set -euo pipefail
+                # Hourly dump into a temp file, checked before it replaces anything, so a failed or
+                # truncated dump can never overwrite a good one. One file per weekday keeps seven
+                # days of history; postgres17-cluster.dump.gz stays the latest (restore.yaml uses it).
+                out="/backup/postgres17-cluster-$(date +%a).dump.gz"
+                pg_dumpall -U "$PGUSER" | gzip > "$out.tmp"
+                gzip -t "$out.tmp"
+                mv "$out.tmp" "$out"
+                cp "$out" /backup/postgres17-cluster.dump.gz.tmp
+                mv /backup/postgres17-cluster.dump.gz.tmp /backup/postgres17-cluster.dump.gz
             resources:
               requests:
                 cpu: 50m
