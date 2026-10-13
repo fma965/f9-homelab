@@ -32,3 +32,12 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
+    # LLDAP's own database connection. Postgres is reached through the postgres-rw Service, so
+    # its replies arrive reverse-translated and Cilium evaluates them as new connections against
+    # this ingress policy (seen in Hubble as "Policy denied DROPPED" on SYN-ACK). Without this rule
+    # LLDAP cannot reach its database. The reply port is LLDAP's ephemeral source port, so no
+    # port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
