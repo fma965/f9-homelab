@@ -49,9 +49,6 @@ spec:
               capabilities:
                 drop:
                   - ALL
-                add:
-                  - SYS_ADMIN
-                  - DAC_READ_SEARCH
 
           bgutil-provider:
             image:
