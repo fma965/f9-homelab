@@ -15,7 +15,7 @@ spec:
         type: cronjob
         cronjob:
           concurrencyPolicy: Forbid
-          # The gateway writes its auto-backup on Sundays at 03:30; copy daily (a repeat is a no-op).
+          # Asks the gateway for a fresh backup each night; the gateway's own weekly auto-backup is separate.
           schedule: "0 5 * * *"
           timeZone: Europe/London
         pod:
