@@ -33,23 +33,6 @@ spec:
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: nut-exporter
-spec:
-  staticConfigs:
-    - targets:
-        - nas.main.internal:9199
-      labels:
-          ups:  "primary"
-  metricsPath: /ups_metrics
-  relabelings:
-    - action: replace
-      targetLabel: job
-      replacement: nut-exporter
----
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/scrapeconfig_v1alpha1.json
-apiVersion: monitoring.coreos.com/v1alpha1
-kind: ScrapeConfig
-metadata:
   name: doco-cd-exporter
 spec:
   staticConfigs:
