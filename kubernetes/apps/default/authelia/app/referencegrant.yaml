@@ -88,3 +88,18 @@ spec:
     - group: ""
       kind: Service
       name: authelia
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/referencegrant_v1beta1.json
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: authelia-to-rook-ceph
+spec:
+  from:
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: rook-ceph
+  to:
+    - group: ""
+      kind: Service
+      name: authelia
