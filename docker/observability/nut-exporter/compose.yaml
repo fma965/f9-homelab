@@ -1,0 +1,7 @@
+services:
+  nut-exporter:
+    container_name: "nut-exporter"
+    image: druggeri/nut_exporter:3.2.3
+    # Host network so it reaches upsd on the NAS (127.0.0.1:3493). Prometheus scrapes :9199/ups_metrics
+    network_mode: host
+    restart: unless-stopped
