@@ -108,7 +108,7 @@ spec:
       app:
         annotations:
           gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == any(200,401,404,406)"]
+            conditions: ["[STATUS] == any(200,401,403,404,406)"]
         hostnames:
           - "grafana-mcp.f9.casa"
         parentRefs:
