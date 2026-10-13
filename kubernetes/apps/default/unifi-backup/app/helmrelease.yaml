@@ -1,0 +1,66 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: unifi-backup
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: unifi-backup
+  values:
+    controllers:
+      unifi-backup:
+        type: cronjob
+        cronjob:
+          concurrencyPolicy: Forbid
+          # The gateway writes its auto-backup on Sundays at 03:30; copy daily (a repeat is a no-op).
+          schedule: "0 5 * * *"
+          timeZone: Europe/London
+        pod:
+          restartPolicy: OnFailure
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+        containers:
+          app:
+            image:
+              repository: docker.io/library/python
+              tag: 3.13-alpine@sha256:2d9aefe2fef018a7eb2c13064c89c71929800fd2e5dccdbf52ea5da5bb8d929a
+            command: ["python3", "/script/backup.py"]
+            env:
+              TZ: Europe/London
+              UNIFI_HOST: unifi.internal
+              # SHA-256 of the gateway's self-signed certificate (valid to Aug 2027). Update it when the
+              # certificate is replaced: `openssl s_client -connect unifi.internal:443 </dev/null | openssl x509 -noout -fingerprint -sha256`
+              UNIFI_CERT_SHA256: 1DF2AF9BE7C6C1D10A34EA523F287A74897627BF52C9CABF751B63257AC09C98
+              KEEP: "30"
+            envFrom:
+              - secretRef:
+                  name: unifi-backup-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
+    persistence:
+      script:
+        type: configMap
+        name: unifi-backup-script
+        globalMounts:
+          - path: /script
+            readOnly: true
+      backup:
+        type: nfs
+        server: nas.main.internal
+        path: /mnt/Data/Kubernetes/unifi-backup
+        globalMounts:
+          - path: /backup

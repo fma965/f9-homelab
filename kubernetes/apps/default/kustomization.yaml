@@ -41,5 +41,6 @@ resources:
   - ./sonarr/ks.yaml
   - ./spoolman/ks.yaml
   - ./techdocs/ks.yaml
+  - ./unifi-backup/ks.yaml
   - ./zigbee/ks.yaml
   - ./zipline/ks.yaml
