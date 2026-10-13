@@ -36,7 +36,27 @@ spec:
     envoy:
       enabled: false
     hubble:
-      enabled: false
+      enabled: true
+      # Chart default generates the certificates at render time, so they would change on every
+      # upgrade; the cron job keeps them stable and rotates them on a schedule
+      tls:
+        auto:
+          method: cronJob
+      metrics:
+        enabled:
+          - drop
+          - flow:sourceContext=workload-name|reserved-identity;destinationContext=workload-name|reserved-identity
+        serviceMonitor:
+          enabled: true
+      relay:
+        enabled: true
+        rollOutPods: true
+        prometheus:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+      ui:
+        enabled: false
     ipam:
       mode: kubernetes
     ipv4NativeRoutingCIDR: 10.42.0.0/16
