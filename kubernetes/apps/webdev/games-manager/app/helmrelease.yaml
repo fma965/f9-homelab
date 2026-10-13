@@ -18,7 +18,7 @@ spec:
           backend:
             image:
               repository: directus/directus
-              tag: 12.5.0
+              tag: 12.5.0@sha256:7de5d6898b955dab1672619aed590035dcade4f8d7396d913e55543e114d1331
             env:
               AUTH_AUTHENTIK_ALLOW_PUBLIC_REGISTRATION: "true"
               AUTH_AUTHENTIK_DRIVER: "openid"
@@ -66,7 +66,7 @@ spec:
           frontend:
             image:
               repository: ghcr.io/fma965/games-manager-frontend
-              tag: v2.0.2
+              tag: v2.0.2@sha256:a2aaee7473a0df339f06088da3982c18b05f84f0928622d39af9eb401b887d33
             env:
               APP_HOST: "https://games.f9.casa"
               APP_BACKEND: "https://gamesdb.f9.casa"

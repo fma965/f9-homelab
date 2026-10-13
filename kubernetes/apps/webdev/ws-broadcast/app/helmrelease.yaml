@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: hprivakos/ws-broadcast
-              tag: latest
+              tag: latest@sha256:bb1983971377c00718425e77a534732558239eadbb024e15035812faa6be704d
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true

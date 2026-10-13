@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: ghcr.io/lldap/lldap
-              tag: 2025-11-20-alpine-rootless
+              tag: 2025-11-20-alpine-rootless@sha256:82c4289affc92dcb198f9a2d53080c82900930991db03953da28756b7c3e198f
             env:
               TZ: Europe/London
               LLDAP_HTTP_PORT: &port 80

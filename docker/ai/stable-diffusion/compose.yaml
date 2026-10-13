@@ -17,7 +17,7 @@ services:
       PUID: "1000"
       PGID: "1000"
       NVIDIA_DRIVER_CAPABILITIES: "all"
-    image: holaflenain/stable-diffusion:3.5.1
+    image: holaflenain/stable-diffusion:3.5.1@sha256:de99b75fcd10920571f8f8805aa1305148fa1dd4e3820f8f6097ca92adbb2b31
     ports:
       - 7400:9000/tcp
     volumes:

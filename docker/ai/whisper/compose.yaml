@@ -1,7 +1,7 @@
 services:
   piper:
     container_name: piper
-    image: rhasspy/wyoming-piper
+    image: rhasspy/wyoming-piper:latest@sha256:7d39aafac409c2b6b09d999ed04d84c311d632e558b35baa60fad6aac722af7a
     ports:
       - "10200:10200"
     volumes:
@@ -10,7 +10,7 @@ services:
 
   whisper:
     container_name: whisper
-    image: rhasspy/wyoming-whisper
+    image: rhasspy/wyoming-whisper:latest@sha256:ba6fcb6056ebe237d15a325381763a80af2fc8fcedaa04f6a714a7375eb20d80
     ports:
       - "10300:10300"
     volumes:
