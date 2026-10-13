@@ -7,4 +7,6 @@ metadata:
     kustomize.toolkit.fluxcd.io/prune: disabled
     kopiur.home-operations.com/privileged-movers: "true"
   labels:
+    pod-security.kubernetes.io/warn: baseline
+    pod-security.kubernetes.io/audit: baseline
     resource.kubernetes.io/admin-access: "true"
