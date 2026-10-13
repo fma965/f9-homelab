@@ -14,13 +14,16 @@ spec:
           - name: alertname
             value: InfoInhibitor
             matchType: =
-      # - receiver: buddy-heartbeat
-      #   groupWait: 0s
-      #   repeatInterval: 2m30s
-      #   matchers:
-      #     - name: alertname
-      #       value: Watchdog
-      #       matchType: =
+      # Dead-man's switch: Watchdog always fires, so Healthchecks.io alerts when these pings stop
+      # (cluster, Prometheus or Alertmanager down, or no route out).
+      - receiver: healthchecks-heartbeat
+        groupWait: 0s
+        groupInterval: 5m
+        repeatInterval: 5m
+        matchers:
+          - name: alertname
+            value: Watchdog
+            matchType: =
       - receiver: pushover
         matchers:
           - name: severity
@@ -48,15 +51,12 @@ spec:
 
   receivers:
     - name: blackhole
-    # - name: buddy-heartbeat
-    #   webhookConfigs:
-    #     - httpConfig:
-    #         bearerTokenSecret:
-    #           name: alertmanager-secret
-    #           key: BUDDY_HEARTBEAT_TOKEN
-    #       urlSecret:
-    #         name: alertmanager-secret
-    #         key: BUDDY_HEARTBEAT_URL
+    - name: healthchecks-heartbeat
+      webhookConfigs:
+        - sendResolved: false
+          urlSecret:
+            name: alertmanager-secret
+            key: HEALTHCHECKS_HEARTBEAT_URL
     - name: pushover
       pushoverConfigs:
         - html: true
