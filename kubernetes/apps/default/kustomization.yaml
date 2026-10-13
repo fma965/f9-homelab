@@ -5,7 +5,6 @@ namespace: default
 
 components:
   - ../../components/alerts
-  - ../../components/psa-baseline
   - ../../components/kopiur/secret
 
 resources:

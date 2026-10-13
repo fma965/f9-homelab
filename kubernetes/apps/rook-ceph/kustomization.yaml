@@ -6,7 +6,6 @@ namespace: rook-ceph
 
 components:
   - ../../components/alerts
-  - ../../components/psa-privileged
 
 resources:
   - ./namespace.yaml

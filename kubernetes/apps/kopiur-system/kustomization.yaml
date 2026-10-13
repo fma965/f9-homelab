@@ -6,7 +6,6 @@ namespace: kopiur-system
 
 components:
   - ../../components/alerts
-  - ../../components/psa-baseline
   - ../../components/kopiur/secret
 
 resources:
