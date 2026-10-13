@@ -196,6 +196,6 @@ kind: ExtensionServiceConfig
 name: nut-client
 configFiles:
   - content: |-
-        MONITOR nas.main.internal 1 upsmon upsmon secondary
+        MONITOR nas.main.internal 1 upsmon op://kubernetes/ups-nut/password secondary
         SHUTDOWNCMD "/sbin/poweroff"
     mountPath: /usr/local/etc/nut/upsmon.conf
