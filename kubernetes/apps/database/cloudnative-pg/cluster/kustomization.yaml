@@ -8,3 +8,4 @@ resources:
   - ./podmonitor.yaml
   - ./prometheusrule.yaml
   - ./service.yaml
+  - ./networkpolicy.yaml

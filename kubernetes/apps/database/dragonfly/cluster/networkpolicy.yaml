@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Dragonfly (Redis) accepts clients from default and webdev, the database namespace (replication and
+# the operator) and metrics from Prometheus. Allow-list taken from the Cilium connection table on
+# 13 Oct 2026 (M15).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: dragonfly
+spec:
+  endpointSelector:
+    matchLabels:
+      app: dragonfly
+  ingress:
+    - fromEndpoints:
+        - matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: In
+              values: [default, webdev]
+      toPorts:
+        - ports:
+            - port: "6379"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+      toPorts:
+        - ports:
+            - port: "6379"
+              protocol: TCP
+            - port: "9999"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: prometheus
+      toPorts:
+        - ports:
+            - port: "9999"
+              protocol: TCP

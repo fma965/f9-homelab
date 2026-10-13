@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Postgres accepts connections only from the namespaces that run clients (default, webdev), from the
+# database namespace itself (replication, operator, backups, pgAdmin) and metrics from Prometheus.
+# Probes come from the local node, which Cilium always allows. Allow-list taken from the Cilium
+# connection table on 13 Oct 2026 (M15).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: postgres17
+spec:
+  endpointSelector:
+    matchLabels:
+      cnpg.io/cluster: postgres17
+  ingress:
+    - fromEndpoints:
+        - matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: In
+              values: [default, webdev]
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+            - port: "8000"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: prometheus
+      toPorts:
+        - ports:
+            - port: "9187"
+              protocol: TCP

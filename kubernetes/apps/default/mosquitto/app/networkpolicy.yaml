@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# The MQTT broker accepts connections only from its known clients: Home Assistant, Zigbee2MQTT,
+# Govee2MQTT and Gatus in the cluster, Frigate on the NAS, and devices on the NoT VLAN (Harmony Hub,
+# hot tub bridge). Allow-list taken from the Cilium connection table on 13 Oct 2026 (M15).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: mosquitto
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: mosquitto
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: home-assistant
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: zigbee
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: govee2mqtt
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: gatus
+      toPorts:
+        - ports:
+            - port: "1883"
+              protocol: TCP
+    - fromCIDR:
+        - 10.10.10.3/32 # TrueNAS (Frigate)
+        - 10.10.30.0/24 # NoT VLAN (Harmony Hub, hot tub bridge)
+      toPorts:
+        - ports:
+            - port: "1883"
+              protocol: TCP
