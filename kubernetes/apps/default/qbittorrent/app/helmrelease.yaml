@@ -57,7 +57,7 @@ spec:
             dependsOn: app
             image:
               repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.7.0
+              tag: v4.7.0@sha256:d232fd13474ba1b46dba431af2b1411b9d9afacda55ae644d2a32e43975128dd
             args:
               - --repo=https://github.com/WDaan/VueTorrent
               - --ref=latest-release
