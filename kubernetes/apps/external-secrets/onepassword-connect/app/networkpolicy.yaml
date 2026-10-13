@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# 1Password Connect holds every secret in the vault. Only External Secrets, Prometheus and the NAS
+# may reach its API (port 80). Probes come from the local node, which Cilium always allows.
+# Allow-list taken from the Cilium connection table on 13 Oct 2026 (M15).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: onepassword-connect
+spec:
+  endpointSelector:
+    matchLabels:
+      app: onepassword-connect
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: external-secrets
+            app.kubernetes.io/name: external-secrets
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: prometheus
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+    - fromCIDR:
+        - 10.10.10.3/32 # TrueNAS (Docker host)
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
