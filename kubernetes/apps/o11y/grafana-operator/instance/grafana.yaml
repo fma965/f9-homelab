@@ -16,7 +16,24 @@ spec:
     auth:
       disable_login_form: "false"
     auth.anonymous:
+      enabled: "false"
+    # OIDC against Authelia. Endpoints and client credentials come from GF_AUTH_GENERIC_OAUTH_*
+    # (grafana-admin-password-secret). Only the Authelia `admin` group may sign in: any other user
+    # gets no valid role and is refused (role_attribute_strict). The local admin login stays as a
+    # break-glass in case Authelia is down.
+    auth.generic_oauth:
       enabled: "true"
+      name: Authelia
+      allow_sign_up: "true"
+      auto_login: "false"
+      use_pkce: "true"
+      scopes: openid profile email groups
+      email_attribute_path: email
+      login_attribute_path: preferred_username
+      name_attribute_path: name
+      role_attribute_path: "contains(groups[*], 'admin') && 'Admin'"
+      role_attribute_strict: "true"
+      allow_assign_grafana_admin: "false"
     log:
       mode: console
     metrics:
@@ -37,6 +54,9 @@ spec:
         spec:
           containers:
             - name: grafana
+              envFrom:
+                - secretRef:
+                    name: grafana-admin-password-secret
               env:
                 - name: GF_SECURITY_ADMIN_PASSWORD
                   valueFrom:
