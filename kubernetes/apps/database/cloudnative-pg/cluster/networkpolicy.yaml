@@ -39,3 +39,11 @@ spec:
         - ports:
             - port: "9187"
               protocol: TCP
+    # CoreDNS replies to the instances' own lookups. They go through the kube-dns Service, so
+    # Cilium treats the reverse-translated reply as new traffic to this pod and (without this
+    # rule) drops it; seen in Hubble as "Policy denied DROPPED" from kube-dns. The destination
+    # port of a reply is the pod's ephemeral source port, so no port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
