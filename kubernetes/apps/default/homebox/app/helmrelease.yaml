@@ -69,8 +69,6 @@ spec:
     route:
       homebox:
         annotations:
-          gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == any(200,401)"]
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
           gethomepage.dev/name: Homebox
@@ -81,7 +79,7 @@ spec:
           - "{{ .Release.Name }}.f9.casa"
           - "inventory.f9.casa"
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: network
         rules:
           - backendRefs:
