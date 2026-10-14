@@ -101,7 +101,7 @@ spec:
           - "{{ .Release.Name }}.f9.casa"
           - status.f9.casa
         parentRefs:
-          - name: envoy-internal
+          - name: envoy-external
             namespace: network
     rbac:
       roles:
