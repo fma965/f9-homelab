@@ -70,6 +70,23 @@
       minimumGroupSize: 2,
     },
     {
+      // The chart and its four images share one version, so the image digests in the
+      // HelmRelease must move with the chart (a chart bump alone would leave the old images)
+      description: "cert-manager Group",
+      groupName: "cert-manager",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "quay.io/jetstack/charts/cert-manager",
+        "quay.io/jetstack/cert-manager-controller",
+        "quay.io/jetstack/cert-manager-webhook",
+        "quay.io/jetstack/cert-manager-cainjector",
+        "quay.io/jetstack/cert-manager-startupapicheck",
+      ],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
+    {
       description: "Dragonfly Operator Group",
       groupName: "dragonfly-operator",
       matchDatasources: ["docker", "github-releases"],
@@ -78,6 +95,20 @@
         commitMessageTopic: "{{{groupName}}} group",
       },
       minimumGroupSize: 2,
+    },
+    {
+      // Same reason as cert-manager: the controller, webhook and cert-controller images are
+      // pinned in the HelmRelease and must move with the chart
+      description: "External Secrets Group",
+      groupName: "external-secrets",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "ghcr.io/external-secrets/charts/external-secrets",
+        "ghcr.io/external-secrets/external-secrets",
+      ],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
     },
     {
       description: "Flux Operator Group",

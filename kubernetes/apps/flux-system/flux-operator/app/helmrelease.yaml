@@ -10,6 +10,9 @@ spec:
     name: flux-operator
   interval: 1h
   values:
+    image:
+      repository: ghcr.io/controlplaneio-fluxcd/flux-operator
+      tag: v0.61.0@sha256:71041d9fff7f7b05f1a8123ebe73c73b7b156f4aacfe1e8e19b5aa953a98892c
     serviceMonitor:
       create: true
     web:

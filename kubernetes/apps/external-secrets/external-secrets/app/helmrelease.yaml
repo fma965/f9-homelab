@@ -11,9 +11,19 @@ spec:
   interval: 1h
   values:
     leaderElect: true
+    image:
+      repository: ghcr.io/external-secrets/external-secrets
+      tag: v2.12.0@sha256:7a3c4f7e038fa0f86a3172da19b9388f3f4d846e87e9994ee3474c5b72a9330d
     serviceMonitor:
       enabled: true
     grafanaDashboard:
       enabled: true
     webhook:
       replicaCount: 2
+      image:
+        repository: ghcr.io/external-secrets/external-secrets
+        tag: v2.12.0@sha256:7a3c4f7e038fa0f86a3172da19b9388f3f4d846e87e9994ee3474c5b72a9330d
+    certController:
+      image:
+        repository: ghcr.io/external-secrets/external-secrets
+        tag: v2.12.0@sha256:7a3c4f7e038fa0f86a3172da19b9388f3f4d846e87e9994ee3474c5b72a9330d
