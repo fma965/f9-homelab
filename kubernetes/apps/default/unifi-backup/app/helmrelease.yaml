@@ -29,7 +29,7 @@ spec:
           app:
             image:
               repository: docker.io/library/python
-              tag: 3.13-alpine@sha256:2d9aefe2fef018a7eb2c13064c89c71929800fd2e5dccdbf52ea5da5bb8d929a
+              tag: 3.15-alpine@sha256:ff4d3c9b1a48f646eedd93182aaea385c7a5452f4c8a8cd7cef686babacf4928
             command: ["python3", "/script/backup.py"]
             env:
               TZ: Europe/London
