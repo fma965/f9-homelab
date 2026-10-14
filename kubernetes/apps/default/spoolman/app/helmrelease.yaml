@@ -77,11 +77,9 @@ spec:
     route:
       app:
         annotations:
-          gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == any(200,401)"]
         hostnames:
           - "{{ .Release.Name }}.f9.casa"
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: network
             sectionName: https

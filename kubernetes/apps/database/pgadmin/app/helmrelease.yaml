@@ -45,8 +45,6 @@ spec:
     route:
       app:
         annotations:
-          gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == any(200,401)"]
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Infrastructure
           gethomepage.dev/name: pgAdmin
@@ -55,7 +53,7 @@ spec:
           gethomepage.dev/siteMonitor: http://pgadmin.database
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: network
     # persistence:
     # server-json:

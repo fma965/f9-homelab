@@ -19,8 +19,6 @@ spec:
       route:
         main:
           annotations:
-            gatus.home-operations.com/endpoint: |-
-              conditions: ["[STATUS] == any(200,401)"]
             gethomepage.dev/enabled: "true"
             gethomepage.dev/group: Observability
             gethomepage.dev/name: Alertmanager
@@ -31,7 +29,7 @@ spec:
           hostnames:
             - alertmanager.f9.casa
           parentRefs:
-            - name: envoy-external
+            - name: envoy-internal
               namespace: network
       alertmanagerSpec:
         alertmanagerConfiguration:
@@ -54,8 +52,6 @@ spec:
       route:
         main:
           annotations:
-            gatus.home-operations.com/endpoint: |-
-              conditions: ["[STATUS] == any(200,401)"]
             gethomepage.dev/enabled: "true"
             gethomepage.dev/group: Observability
             gethomepage.dev/name: Prometheus
@@ -66,7 +62,7 @@ spec:
           hostnames:
             - prometheus.f9.casa
           parentRefs:
-            - name: envoy-external
+            - name: envoy-internal
               namespace: network
       prometheusSpec:
         externalUrl: https://prometheus.f9.casa

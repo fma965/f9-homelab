@@ -31,8 +31,6 @@ spec:
           memory: 2Gi
       route:
         annotations:
-          gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == any(200,401)"]
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Observability
           gethomepage.dev/name: Victoria Logs
@@ -43,7 +41,7 @@ spec:
         hostnames:
           - victoria-logs.f9.casa
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: network
       serviceMonitor:
         enabled: true
