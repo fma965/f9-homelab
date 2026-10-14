@@ -80,8 +80,6 @@ spec:
   httpRoute:
     metadata:
       annotations:
-        gatus.home-operations.com/endpoint: |-
-          conditions: ["[STATUS] == any(200,401)"]
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Observability
         gethomepage.dev/name: Grafana
@@ -92,7 +90,7 @@ spec:
       hostnames:
         - grafana.f9.casa
       parentRefs:
-        - name: envoy-external
+        - name: envoy-internal
           namespace: network
   persistentVolumeClaim:
     spec:

@@ -138,8 +138,6 @@ spec:
     route:
       app:
         annotations:
-          gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == any(200,401)"]
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Dev Tools
           gethomepage.dev/name: Technical Docs
@@ -149,6 +147,6 @@ spec:
           - techdocs.f9.casa
           - wiki.f9.casa
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: network
             sectionName: https

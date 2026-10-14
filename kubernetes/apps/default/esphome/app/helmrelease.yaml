@@ -145,8 +145,6 @@ spec:
     route:
       app:
         annotations:
-          gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == any(200,401)"]
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: ESPHome
           gethomepage.dev/description: "Firmware for DIY smart devices (admin)"
@@ -157,7 +155,7 @@ spec:
         hostnames:
           - esphome.f9.casa
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: network
         rules:
           - matches:

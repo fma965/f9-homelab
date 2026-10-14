@@ -24,7 +24,6 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |-
             group: infrastructure
-            conditions: ["[STATUS] == any(200,401)"]
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Platform Infrastructure
           gethomepage.dev/name: Flux Operator
@@ -34,7 +33,7 @@ spec:
         hostnames:
           - flux-operator.f9.casa
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: network
       networkPolicy:
         create: false
