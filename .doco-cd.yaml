@@ -1,52 +1,80 @@
 ---
 name: immich-machine-learning
 working_dir: docker/ai/immich-machine-learning
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 # ---
 # name: stable-diffusion
 # working_dir: docker/ai/stable-diffusion
 ---
 name: whisper
 working_dir: docker/ai/whisper
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 ---
 name: llamacpp
 working_dir: docker/ai/llamacpp
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 external_secrets:
   LLAMA_API_KEY: op://kubernetes/llamacpp/API_KEY
 ---
 name: webtop
 working_dir: docker/management/webtop
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 ---
 name: isponsorblocktv
 working_dir: docker/media/isponsorblocktv
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 ---
 name: tdarr
 working_dir: docker/media/tdarr
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 ---
 name: node-exporter
 working_dir: docker/observability/node-exporter
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 ---
 name: smartctl-exporter
 working_dir: docker/observability/smartctl-exporter
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 ---
 name: liquidctl-exporter
 working_dir: docker/observability/liquidctl-exporter
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 ---
 name: cups
 working_dir: docker/system/cups
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 external_secrets:
   CUPS_ADMIN_PASSWORD: op://kubernetes/cups/ADMIN_PASSWORD
 ---
 name: scanner
 working_dir: docker/system/scanner
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 ---
 name: pbs
 working_dir: docker/system/pbs
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 ---
 name: backup
 working_dir: docker/backup/garage
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 ---
 name: frigate
 working_dir: docker/security/frigate
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
 external_secrets:
   FRIGATE_REOLINK_HOST: op://kubernetes/frigate/REOLINK_HOST
   FRIGATE_REOLINK_USER: op://kubernetes/frigate/REOLINK_USERNAME
