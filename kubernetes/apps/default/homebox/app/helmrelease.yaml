@@ -11,6 +11,9 @@ spec:
     name: homebox
   values:
     defaultPodOptions:
+      labels:
+        egress.cilium.io/gateway-external: "true"
+        egress.cilium.io/postgres: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

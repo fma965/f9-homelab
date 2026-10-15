@@ -52,6 +52,9 @@ spec:
                 memory: 4Gi
     defaultPodOptions:
       labels:
+        egress.cilium.io/dragonfly: "true"
+        egress.cilium.io/gateway-external: "true"
+        egress.cilium.io/postgres: "true"
         egress.cilium.io/smtp-relay: "true"
       resourceClaims:
         - name: gpu

@@ -51,6 +51,9 @@ spec:
       strategy:
         type: Recreate
       template:
+        metadata:
+          labels:
+            egress.cilium.io/gateway-external: "true"
         spec:
           containers:
             - name: grafana

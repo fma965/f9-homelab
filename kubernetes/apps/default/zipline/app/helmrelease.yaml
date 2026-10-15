@@ -71,6 +71,9 @@ spec:
               limits:
                 memory: 1Gi
     defaultPodOptions:
+      labels:
+        egress.cilium.io/gateway-external: "true"
+        egress.cilium.io/postgres: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
