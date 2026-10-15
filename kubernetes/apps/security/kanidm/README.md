@@ -13,11 +13,11 @@ Identity provider, run by [Kaniop](https://github.com/pando85/kaniop) (`../kanio
 
 ## Branding
 
-- **In git:** `app/resources/override.css` (colours and layout; the accent and surfaces are variables at the top) and `app/favicon.yaml` (the 48x48 favicon, rendered from `app/resources/logo.svg`) are mounted over the files the server ships in `/hpkg`. Kanidm reads them at start-up, so after editing, restart the pod: `kubectl -n security rollout restart statefulset kanidm-default`.
+- **In git:** `app/resources/override.css` (colours and layout; the accent and surfaces are variables at the top) and `app/favicon.yaml` (the 48x48 favicon, the emblem cropped from `app/resources/logo.png`) are mounted over the files the server ships in `/hpkg`. Kanidm reads them at start-up, so after editing, restart the pod: `kubectl -n security rollout restart statefulset kanidm-default`.
 - **In Kanidm itself (the heading and the sign-in logo are stored in its database, not in a file):**
     ```sh
     kanidm system domain set-displayname "F9 Auth" -D admin
-    kanidm system domain set-image app/resources/logo.svg svg -D admin
+    kanidm system domain set-image app/resources/logo.png png -D admin
     ```
     The image has to be under 256 KB and 1024x1024. The `admin` password is in `kanidm-admin-passwords` (`ADMIN_PASSWORD`). Per-app names and logos are set on each client: `displayname` in `KanidmOAuth2Client`, and `kanidm system oauth2 set-image <client> <file>` for the picture.
 - **Cannot be changed:** the browser tab title (`Login`) and the "Powered by Kanidm" footer text are in the server's HTML templates.

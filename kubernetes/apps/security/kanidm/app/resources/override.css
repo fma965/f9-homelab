@@ -5,13 +5,13 @@
  * `kanidm system domain set-displayname`, and the sign-in logo with `kanidm system domain set-image`.
  */
 :root {
-  --f9-bg: #0b1020;
-  --f9-surface: #111827;
-  --f9-border: #1f2937;
+  --f9-bg: #050e1e;
+  --f9-surface: #0b1830;
+  --f9-border: #1c2f52;
   --f9-text: #e5e7eb;
   --f9-muted: #9ca3af;
-  --f9-accent: #6366f1;
-  --f9-accent-hover: #818cf8;
+  --f9-accent: #f8a348;
+  --f9-accent-hover: #fbbd78;
 }
 
 html,
@@ -31,9 +31,9 @@ body {
 }
 
 .kanidm_logo {
-  width: 7rem;
-  height: 7rem;
-  border-radius: 1.4rem;
+  width: 11rem;
+  height: 11rem;
+  object-fit: contain;
 }
 
 h3,
@@ -51,10 +51,14 @@ h3,
 
 .form-control:focus {
   border-color: var(--f9-accent);
-  box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(248, 163, 72, 0.3);
 }
 
 .btn-primary {
+  --bs-btn-color: #1a1205;
+  --bs-btn-hover-color: #1a1205;
+  --bs-btn-active-color: #1a1205;
+  --bs-btn-disabled-color: #1a1205;
   --bs-btn-bg: var(--f9-accent);
   --bs-btn-border-color: var(--f9-accent);
   --bs-btn-hover-bg: var(--f9-accent-hover);
@@ -92,5 +96,5 @@ nav,
 
 .side-menu-item:hover,
 .side-menu-item.active {
-  background-color: rgba(99, 102, 241, 0.16);
+  background-color: rgba(248, 163, 72, 0.16);
 }
