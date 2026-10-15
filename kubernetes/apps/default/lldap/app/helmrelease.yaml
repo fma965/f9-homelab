@@ -11,6 +11,7 @@ spec:
   values:
     defaultPodOptions:
       labels:
+        egress.cilium.io/postgres: "true"
         egress.cilium.io/smtp-relay: "true"
       topologySpreadConstraints:
         - maxSkew: 1

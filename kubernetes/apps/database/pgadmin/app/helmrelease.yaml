@@ -36,6 +36,10 @@ spec:
           securityContext:
             runAsUser: 0
             runAsGroup: 0
+    defaultPodOptions:
+      labels:
+        egress.cilium.io/postgres: "true"
+
     service:
       app:
         controller: pgadmin

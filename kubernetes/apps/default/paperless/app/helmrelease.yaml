@@ -96,6 +96,10 @@ spec:
               limits:
                 memory: 6Gi
 
+    defaultPodOptions:
+      labels:
+        egress.cilium.io/dragonfly: "true"
+
     service:
       app:
         forceRename: paperless

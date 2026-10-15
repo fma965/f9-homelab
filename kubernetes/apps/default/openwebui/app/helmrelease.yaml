@@ -48,6 +48,10 @@ spec:
                 enabled: true
               startup:
                 enabled: false
+    defaultPodOptions:
+      labels:
+        egress.cilium.io/gateway-external: "true"
+
     service:
       app:
         ports:
