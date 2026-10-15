@@ -7,5 +7,6 @@ resources:
   - ./envoyextensionpolicy.yaml
   - ./grafanadashboard.yaml
   - ./helmrelease.yaml
+  - ./networkpolicy.yaml
   - ./o11y.yaml
   - ./ocirepository.yaml
