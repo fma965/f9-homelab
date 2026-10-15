@@ -66,22 +66,10 @@ spec:
     # pgAdmin), plus the Kubernetes widget's API server calls. Replies are already allowed in above.
     - toEntities:
         - cluster
-    # The NAS (TrueNAS UI, Webtop, Garage, Tdarr, Frigate monitors) and the UniFi controller
-    # (widget and monitor), as the cluster sees them.
+    # The NAS, on any port (TrueNAS UI, Webtop, Garage, Tdarr and Frigate monitors today, and
+    # whatever gets added), and the UniFi controller (widget and monitor), as the cluster sees them.
     - toCIDR:
         - 10.10.10.3/32
-      toPorts:
-        - ports:
-            - port: "443"
-              protocol: TCP
-            - port: "3000"
-              protocol: TCP
-            - port: "3909"
-              protocol: TCP
-            - port: "8265"
-              protocol: TCP
-            - port: "8971"
-              protocol: TCP
     - toCIDR:
         - 10.10.100.254/32
       toPorts:
