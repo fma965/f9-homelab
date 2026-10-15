@@ -6,4 +6,5 @@ resources:
   - ./grafana.yaml
   - ./grafanadatasource.yaml
   - ./mutatingadmissionpolicy.yaml
+  - ./networkpolicy.yaml
   - ./servicemonitor.yaml
