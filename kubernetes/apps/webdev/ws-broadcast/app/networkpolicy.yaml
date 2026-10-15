@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# WebSocket broadcaster for the games manager (public). Allow-list from the manifests and the
+# Cilium connection table on 15 Oct 2026 (M15). Probes come from the local node, which Cilium
+# always allows.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: ws-broadcast
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: ws-broadcast
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "13370"
+              protocol: TCP
+    # Replies to the app's own connections, which go through Services (kube-dns). Cilium
+    # evaluates the reverse-translated reply as new traffic to this pod and drops it without
+    # these rules ("Policy denied DROPPED" in Hubble). The destination is the pod's
+    # ephemeral source port, so no port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
