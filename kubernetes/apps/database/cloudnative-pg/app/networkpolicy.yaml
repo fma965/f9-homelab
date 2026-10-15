@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# CloudNativePG operator. Egress only (M15, 15 Oct 2026): it holds broad cluster RBAC, so it may
+# reach DNS, the API server and the Postgres instances it manages, and nothing else. Ingress is not
+# limited here: the API server calls its admission webhook (9443) and Prometheus scrapes it.
+# Allow-list from the Cilium connection table on 15 Oct 2026.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cloudnative-pg
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: cloudnative-pg
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # The API server. The pod can sit on a control-plane node, where the API server is its own node
+    # (`host`) or another control-plane node (`remote-node`).
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    # The instances: the status endpoint on 8000 (seen on all three), and SQL on 5432 for the
+    # operations it runs through the instance (roles, switchover). Their ingress policy already
+    # allows the database namespace on these ports.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+            - port: "8000"
+              protocol: TCP
