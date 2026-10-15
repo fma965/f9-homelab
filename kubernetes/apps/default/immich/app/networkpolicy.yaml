@@ -52,6 +52,14 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: database
             app: dragonfly
+    # Replies from the SMTP relay (Immich email notifications). It is reached through a
+    # Service, so its reply is evaluated as new traffic to this pod and dropped unless the
+    # relay is allowed in, even though the egress rule below lets the connection out
+    # (Hubble: "Policy denied DROPPED" SYN-ACK from network/smtp-relay).
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            app.kubernetes.io/name: smtp-relay
   egress:
     # Egress (M15): only the destinations below; anything else this pod tries to reach is
     # dropped. DNS goes through Cilium's DNS proxy (the `dns` rule) so the named hosts
