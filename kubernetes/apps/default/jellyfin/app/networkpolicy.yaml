@@ -28,6 +28,15 @@ spec:
         - ports:
             - port: "8096"
               protocol: TCP
+    # Homepage's widget (a Service call to this app).
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: homepage
+      toPorts:
+        - ports:
+            - port: "8096"
+              protocol: TCP
     # Replies to the app's own connections, which go through Services (kube-dns, lldap).
     # Cilium evaluates the reverse-translated reply as new traffic to this pod and drops it
     # without these rules ("Policy denied DROPPED" in Hubble). The destination is the pod's

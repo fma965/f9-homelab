@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Games manager (Directus backend and frontend, public, OIDC login). Allow-list from the
+# manifests and the Cilium connection table on 15 Oct 2026 (M15). Probes come from the local
+# node, which Cilium always allows.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: games-manager
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: games-manager
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "8055"
+              protocol: TCP
+            - port: "8080"
+              protocol: TCP
+    # The app calls auth.f9.casa (OIDC) and other public names, which resolve to the
+    # gateway, so the gateway pods reply from their own listener port to this pod's
+    # ephemeral port; the reply is evaluated as new traffic. No port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+    # Replies to the app's own connections, which go through Services (kube-dns, postgres-
+    # rw, dragonfly, smtp-relay). Cilium evaluates the reverse-translated reply as new
+    # traffic to this pod and drops it without these rules ("Policy denied DROPPED" in
+    # Hubble). The destination is the pod's ephemeral source port, so no port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            app: dragonfly
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            app.kubernetes.io/name: smtp-relay

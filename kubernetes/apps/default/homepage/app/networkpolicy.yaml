@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Homepage (the f9.casa dashboard, public). Allow-list from the manifests and the Cilium
+# connection table on 15 Oct 2026 (M15). Probes come from the local node, which Cilium always
+# allows.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: homepage
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: homepage
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "3000"
+              protocol: TCP
+    # Replies to the app's own connections, which go through Services (kube-dns, the widget
+    # targets (arr apps, downloaders, paperless, jellyfin, immich, Home Assistant, ESPHome,
+    # Gatus) and the Kubernetes API). Cilium evaluates the reverse-translated reply as new
+    # traffic to this pod and drops it without these rules ("Policy denied DROPPED" in
+    # Hubble). The destination is the pod's ephemeral source port, so no port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: sonarr
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: radarr
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: prowlarr
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: sabnzbd
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: qbittorrent
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: paperless
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: jellyfin
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: immich
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: home-assistant
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: esphome
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: gatus
+    # The Kubernetes widget talks to the API server; its replies come from the control-plane
+    # nodes.
+    - fromEntities:
+        - kube-apiserver

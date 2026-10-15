@@ -12,3 +12,4 @@ generatorOptions:
 resources:
   - ./ocirepository.yaml
   - ./helmrelease.yaml
+  - ./networkpolicy.yaml
