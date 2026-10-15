@@ -1,6 +1,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Seerr (media requests, public). Allow-list from the manifests and the Cilium connection table
 # on 15 Oct 2026 (M15). Probes come from the local node, which Cilium always allows.
+# Egress (M15): DNS, Radarr, Sonarr, the gateway (for Jellyfin) and a list of named internet hosts.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -45,3 +46,59 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: default
             app.kubernetes.io/name: jellyfin
+  egress:
+    # Egress (M15): only the destinations below; anything else this pod tries to reach is
+    # dropped. DNS goes through Cilium's DNS proxy (the `dns` rule) so the named hosts
+    # further down can be matched; every name may be looked up, only the listed ones can be
+    # connected to.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # Radarr and Sonarr, configured in Seerr as "radarr" and "sonarr" on port 80.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: radarr
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: sonarr
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+    # Jellyfin, configured as jellyfin.f9.casa:443. That name resolves to the external
+    # gateway, whose pods listen on 10443.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "10443"
+              protocol: TCP
+    # Internet hosts Seerr needs, by name (443 only): TMDB for metadata and images, GitHub
+    # for the update check and the anime list, and the services it uses for IMDb and Rotten
+    # Tomatoes ratings. Seerr is set to use TMDB for TV and anime metadata, and its
+    # notification agents are all disabled. If a feature stops working (missing ratings, no
+    # metadata), look for the denied name in Hubble and add it here.
+    - toFQDNs:
+        - matchName: api.themoviedb.org
+        - matchName: image.tmdb.org
+        - matchName: api.github.com
+        - matchName: raw.githubusercontent.com
+        - matchName: api.radarr.video
+        - matchName: 79frdp12pn-dsn.algolia.net
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
