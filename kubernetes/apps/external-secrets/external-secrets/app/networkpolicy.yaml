@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# External Secrets (controller, cert-controller, webhook). Egress only (M15, 16 Oct 2026): these
+# pods can read and write every Secret in the cluster, so they may reach DNS, the Kubernetes API
+# and, for the controller, 1Password Connect, and nothing else. Ingress is not limited here
+# (the API server calls the webhook on 10250 and Prometheus scrapes 8080).
+# Allow-list from the Cilium connection table on 16 Oct 2026.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: external-secrets
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: external-secrets
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # The Kubernetes API on the control-plane nodes (6443). A pod on a control-plane node sees
+    # its own node as `host` and the others as `remote-node`, so all three entities are needed.
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# The controller alone talks to 1Password Connect (the ClusterSecretStore's connectHost). Connect's
+# own ingress policy already allows the controller on port 80; the controller has no ingress
+# policy, so Connect's replies are not dropped.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: external-secrets-controller
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: external-secrets
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: external-secrets
+            app: onepassword-connect
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP

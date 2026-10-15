@@ -2,7 +2,8 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # 1Password Connect holds every secret in the vault. Only External Secrets, Prometheus and the NAS
 # may reach its API (port 80). Probes come from the local node, which Cilium always allows.
-# Allow-list taken from the Cilium connection table on 13 Oct 2026 (M15).
+# Allow-list taken from the Cilium connection table on 13 Oct 2026 (M15). Egress (16 Oct 2026):
+# DNS and 1Password's own servers only.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -28,4 +29,35 @@ spec:
       toPorts:
         - ports:
             - port: "80"
+              protocol: TCP
+    # Replies from CoreDNS to the pod's own lookups (reached through a Service, so evaluated
+    # as new traffic to this pod).
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+  egress:
+    # DNS through Cilium's DNS proxy so the named hosts below can be matched.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # Connect syncs the vault from 1Password (the account server, seen in its log as
+    # my.1password.com and b5n.1password.com) over HTTPS.
+    - toFQDNs:
+        - matchName: my.1password.com
+        - matchName: b5n.1password.com
+        - matchPattern: "*.1password.com"
+      toPorts:
+        - ports:
+            - port: "443"
               protocol: TCP
