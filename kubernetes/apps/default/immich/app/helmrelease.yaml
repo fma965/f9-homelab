@@ -51,6 +51,8 @@ spec:
               limits:
                 memory: 4Gi
     defaultPodOptions:
+      labels:
+        egress.cilium.io/smtp-relay: "true"
       resourceClaims:
         - name: gpu
           resourceClaimTemplateName: immich-gpu
