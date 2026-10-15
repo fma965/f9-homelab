@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+# Opts the app's pods in to the `nas` egress profile (The NAS (any port).) by labelling them
+# `egress.cilium.io/nas: "true"`. For HelmReleases of the bjw-s app-template chart; other charts
+# set their own pod-label value instead (see README.md).
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      group: helm.toolkit.fluxcd.io
+      kind: HelmRelease
+    patch: |-
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: _
+      spec:
+        values:
+          defaultPodOptions:
+            labels:
+              egress.cilium.io/nas: "true"
