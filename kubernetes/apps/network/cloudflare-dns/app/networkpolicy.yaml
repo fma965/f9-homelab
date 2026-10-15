@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# ExternalDNS for Cloudflare (public records). Egress only (M15, 15 Oct 2026): it holds a token
+# that can change the f9.casa zone, so it may reach DNS, the Kubernetes API and the Cloudflare
+# API, and nothing else. Ingress is not limited here (Prometheus scrapes 7979).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cloudflare-dns
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: cloudflare-dns
+  egress:
+    # DNS through Cilium's DNS proxy so the named host below can be matched.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # The Kubernetes API on the control-plane nodes (6443). A pod on a control-plane node sees
+    # its own node as `host` and the others as `remote-node`, so all three entities are needed.
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    - toFQDNs:
+        - matchName: api.cloudflare.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
