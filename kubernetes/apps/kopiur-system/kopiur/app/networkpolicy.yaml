@@ -1,0 +1,83 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Kopiur controller and webhook (operator for the app backups). Egress only (M15, 15 Oct 2026): they
+# hold broad RBAC and the repository password, so they may reach DNS, the API server and the mover
+# pods they start, and nothing else. Ingress is not limited here (the API server calls the webhook).
+# The backup repository is an NFS volume mounted by the node, not a connection from these pods.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kopiur-operator
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: kopiur
+    matchExpressions:
+      - key: app.kubernetes.io/component
+        operator: In
+        values: [controller, webhook]
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # The pods can sit on a control-plane node, where the API server is their own node (`host`) or
+    # another control-plane node (`remote-node`).
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    # The mover Jobs the controller starts (kopia server mode, the controller connects to them). They
+    # run in the namespace of the app being backed up, hence the namespace-wide match.
+    - toEndpoints:
+        - matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+          matchLabels:
+            app.kubernetes.io/managed-by: kopiur
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
+# Kopiur mover Jobs (backup, restore, maintenance, snapshot delete). They run in the namespace of the
+# app being backed up, so this is cluster-wide. Egress only (M15, 15 Oct 2026): a mover reads the
+# app's volume and writes the repository, both through volumes, and reports progress by patching the
+# Snapshot / Restore status, so it needs only DNS and the API server. Selects only pods the
+# controller labels `managed-by: kopiur`; it does not change ingress or any other pod.
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: kopiur-mover
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/managed-by: kopiur
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # The pods can sit on a control-plane node, where the API server is their own node (`host`) or
+    # another control-plane node (`remote-node`).
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
