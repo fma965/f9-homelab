@@ -11,4 +11,5 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./ocirepository.yaml
+  - ./networkpolicy.yaml
   - ./referencegrant.yaml
