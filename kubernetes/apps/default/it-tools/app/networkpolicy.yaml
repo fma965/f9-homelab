@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# IT Tools (browser-side developer utilities, internal). Egress only (M15, 15 Oct 2026): a static
+# site, so DNS is all it may reach. Ingress is not limited here.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: it-tools
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: it-tools
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP

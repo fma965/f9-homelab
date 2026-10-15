@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kaniop.rs/kanidmpersonaccount_v1beta1.json
+# Accounts are named name@id.f9.casa. Only a display name is set (no email or legal name) because
+# this repository is public. With no credentials defined, Kaniop generates a one-time link to
+# enrol a passkey; read it with `kubectl -n security describe kanidmpersonaccount scott`.
+apiVersion: kaniop.rs/v1beta1
+kind: KanidmPersonAccount
+metadata:
+  name: scott
+spec:
+  kanidmRef:
+    name: kanidm
+  personAttributes:
+    displayname: Scott

@@ -3,7 +3,8 @@
 # Postgres accepts connections only from the namespaces that run clients (default, webdev), from the
 # database namespace itself (replication, operator, backups, pgAdmin) and metrics from Prometheus.
 # Probes come from the local node, which Cilium always allows. Allow-list taken from the Cilium
-# connection table on 13 Oct 2026 (M15).
+# connection table on 13 Oct 2026 (M15). Egress (15 Oct 2026): the instances may reach only each other,
+# the API server, DNS and the NAS (the WAL and backup archive).
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -47,3 +48,60 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
+    # Replies to the instances' own connections through Services: the API server (kubernetes
+    # Service) and the other instances (the -rw / -r Services, replication). Cilium evaluates the
+    # reverse-translated reply as new traffic to this pod, to the pod's ephemeral port.
+    - fromEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # Replication and the instance manager's status calls between the instances.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+            - port: "8000"
+              protocol: TCP
+    # The instance manager reports to the Kubernetes API; the pods sit on control-plane nodes, so
+    # the API server is the pod's own node (`host`) or another one (`remote-node`).
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    # WAL archiving and base backups to Garage on the NAS (`endpointURL` nas.main.internal:3900),
+    # and the same store for a recovery. The archive runs every five minutes, so a short capture
+    # does not always show it.
+    - toCIDR:
+        - 10.10.10.3/32
+      toPorts:
+        - ports:
+            - port: "3900"
+              protocol: TCP

@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# VictoriaLogs (log storage). Egress only (M15, 15 Oct 2026): it only receives logs and answers
+# queries, so DNS is all it may reach. Ingress is not limited here (the collectors, Grafana).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: victoria-logs
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: victoria-logs-single
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP

@@ -26,3 +26,26 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # The builder clones and refreshes the guides from the public repository over HTTPS every
+    # five minutes (a refresh fails quietly and keeps the current site, so it is not seen in a short
+    # capture).
+    - toFQDNs:
+        - matchName: github.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

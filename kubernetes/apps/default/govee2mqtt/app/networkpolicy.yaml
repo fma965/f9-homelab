@@ -1,0 +1,49 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Govee2MQTT. Egress only (M15, 15 Oct 2026): DNS, Mosquitto and the Govee cloud API it is
+# configured with (an API key only; no account login, so no AWS IoT endpoint). `*.govee.com` covers
+# `openapi.api.govee.com` and `developer-api.govee.com` (443) and the Platform API's MQTT event
+# stream, `mqtt.openapi.govee.com` (8883). The LAN control (UDP) goes over the IoT interface. Hosts
+# are from the govee2mqtt source, not a capture. Ingress is not limited here.
+# This pod has a second (Multus) interface on the IoT network, 10.10.30.0/24, which Cilium does not
+# see; the routes in the pod send only that subnet there (checked: every ESPHome device and the
+# Zigbee controller are in it) and everything else out of eth0. So this policy limits the pod's
+# cluster and internet traffic and cannot affect device traffic.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: govee2mqtt
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: govee2mqtt
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: mosquitto
+      toPorts:
+        - ports:
+            - port: "1883"
+              protocol: TCP
+    - toFQDNs:
+        - matchPattern: "*.govee.com"
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+            - port: "8883"
+              protocol: TCP

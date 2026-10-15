@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kaniop.rs/kanidmgroup_v1beta1.json
+# Groups apps map to scopes with `scopeMap`. `members` is the exact list: anyone added to the group
+# by hand is removed again. People are in people.yaml (display name only, as this repository is public).
+apiVersion: kaniop.rs/v1beta1
+kind: KanidmGroup
+metadata:
+  name: admins
+spec:
+  kanidmRef:
+    name: kanidm
+  members:
+    - scott

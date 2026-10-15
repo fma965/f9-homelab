@@ -1,0 +1,53 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Kaniop (the Kanidm operator). Egress only (M15, 15 Oct 2026): it holds broad RBAC and the Kanidm
+# admin logins, so it may reach DNS, the API server, the Kanidm pods it manages and GitHub's raw host for the
+# logo, and nothing else. Ingress is not limited here (Prometheus scrapes it). Written from how the operator works
+# (it manages Kanidm through its HTTPS API), not from a capture, as it is new.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kaniop
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: kaniop
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # The pod can sit on a control-plane node, where the API server is its own node (`host`) or
+    # another control-plane node (`remote-node`).
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: security
+            app.kubernetes.io/name: kanidm
+      toPorts:
+        - ports:
+            - port: "8443"
+              protocol: TCP
+    # The site logo for the sign-in page, fetched from this repository (domainAppearance.image.url).
+    - toFQDNs:
+        - matchName: raw.githubusercontent.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

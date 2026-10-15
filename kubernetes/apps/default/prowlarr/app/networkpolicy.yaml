@@ -1,0 +1,49 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Prowlarr (indexer manager). Egress only (M15, 15 Oct 2026): it holds the API keys of Sonarr and
+# Radarr and the indexer logins, so it may reach the cluster and the public web on 80 and 443, and
+# nothing on the home network. The indexer sites change as indexers are added (deedee-ops pins nine
+# hosts; here the web is open on 80 / 443 so a new indexer does not need a policy change). Ingress is
+# not limited here.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: prowlarr
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: prowlarr
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # The other apps in the stack (Postgres, the download clients, Prowlarr, Jellyfin, ...), which
+    # are Services in the cluster and change as the stack does.
+    - toEntities:
+        - cluster
+    # Indexers, the Servarr API (api.althub.co.za), the indexer definitions (indexers.prowlarr.com)
+    # and FlareSolverr's targets: public addresses only, private ranges excluded.
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+          except:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+            - 169.254.0.0/16
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+            - port: "443"
+              protocol: TCP

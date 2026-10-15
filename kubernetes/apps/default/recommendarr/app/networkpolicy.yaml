@@ -1,0 +1,46 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Recommendarr (media recommendations using an AI model). Egress only (M15, 15 Oct 2026): it holds
+# the Sonarr, Radarr and Jellyfin API keys and an AI API key, so it may reach the cluster, the NAS
+# (the local language model) and the public web on 443. Which AI endpoint is configured lives in the
+# app, so the web is open on 443; narrow it once the endpoint is known. Ingress is not limited here.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: recommendarr
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: recommendarr
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # The other apps in the stack (Postgres, the download clients, Prowlarr, Jellyfin, ...), which
+    # are Services in the cluster and change as the stack does.
+    - toEntities:
+        - cluster
+    - toCIDR:
+        - 10.10.10.3/32
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+          except:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+            - 169.254.0.0/16
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

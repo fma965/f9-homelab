@@ -1,0 +1,59 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Envoy gateway proxies (envoy-external, envoy-internal): the public edge. Egress only (M15,
+# 15 Oct 2026): they may reach the cluster (every route backend, Authelia for ext-auth, the Envoy
+# controller on 18000, DNS) and the NAS (the routes that point at it: TrueNAS, Garage, Frigate,
+# Tdarr, Webtop, Doco-CD), and nothing on the internet. Ingress is not limited here. Allow-list
+# from the routes, the Backend / Service endpoints and Hubble on 15 Oct 2026.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: envoy-proxy
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: envoy
+      app.kubernetes.io/managed-by: envoy-gateway
+  egress:
+    # Route backends change with every app, so allow the whole cluster (pods, nodes and the API
+    # server). This also covers kube-dns.
+    - toEntities:
+        - cluster
+    # The routes that point at the NAS (any port, as the list grows with the routes).
+    - toCIDR:
+        - 10.10.10.3/32
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Envoy Gateway controller. Egress only (M15, 15 Oct 2026): it programs the proxies over xDS (they
+# connect to it) and manages Gateway API objects, so it needs only DNS and the API server. (It
+# would need GHCR only for Wasm / OCI extensions, which are not used: the EnvoyExtensionPolicy is
+# inline Lua.) Ingress is not limited here.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: envoy-gateway
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: gateway-helm
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # The pod can sit on a control-plane node, where the API server is its own node (`host`) or
+    # another control-plane node (`remote-node`).
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP

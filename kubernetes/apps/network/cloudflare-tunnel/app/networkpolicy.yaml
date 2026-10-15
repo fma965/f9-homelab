@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Cloudflare tunnel (cloudflared). Egress only (M15, 15 Oct 2026): this is the public way in to
+# the cluster, so it may reach DNS, Cloudflare's edge and the external gateway, and nothing else.
+# Ingress is not limited here (Prometheus scrapes 8080). Allow-list from the Cilium connection
+# table on 15 Oct 2026.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cloudflare-tunnel
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: cloudflare-tunnel
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # Cloudflare's edge: the tunnel connects out on 7844 (TCP, or UDP for QUIC) to the addresses
+    # region1.v2.argotunnel.com and region2.v2.argotunnel.com resolve to. Every connection seen was
+    # in 198.41.192.0/24 and 198.41.200.0/24, but cloudflared finds the edge through SRV lookups and
+    # Cloudflare can move it, which would take every public site down. So this allows any public
+    # address on 7844 only (private ranges excluded) rather than pinning those two ranges.
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+          except:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+            - 169.254.0.0/16
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+      toPorts:
+        - ports:
+            - port: "7844"
+              protocol: TCP
+            - port: "7844"
+              protocol: UDP
+    # The origin: the external gateway (the ingress rules in the HelmRelease point at
+    # envoy-external.network.svc:443; its pods listen on 10443).
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "10443"
+              protocol: TCP

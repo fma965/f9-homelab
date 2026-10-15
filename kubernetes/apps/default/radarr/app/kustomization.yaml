@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./pvc.yaml
+  - ./networkpolicy.yaml
   - ./ocirepository.yaml
   - ./helmrelease.yaml
 configMapGenerator:

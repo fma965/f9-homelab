@@ -1,0 +1,43 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Radarr. Egress only (M15, 15 Oct 2026): it holds the API keys of the download clients and
+# Jellyfin, so it may reach the cluster and the metadata / notification hosts it uses, and nothing
+# else. `image.tmdb.org` was seen in its logs; the rest from deedee-ops' radarr policy. Ingress is
+# not limited here.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: radarr
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: radarr
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # The other apps in the stack (Postgres, the download clients, Prowlarr, Jellyfin, ...), which
+    # are Services in the cluster and change as the stack does.
+    - toEntities:
+        - cluster
+    # Metadata and artwork (Radarr API, TMDB, the Servarr metadata API) and Discord for
+    # notifications.
+    - toFQDNs:
+        - matchName: api.althub.co.za
+        - matchName: api.radarr.video
+        - matchName: discord.com
+        - matchName: image.tmdb.org
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

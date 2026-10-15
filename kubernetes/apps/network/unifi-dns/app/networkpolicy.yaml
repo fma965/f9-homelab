@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# ExternalDNS for UniFi (internal records, through the unifi webhook sidecar). Egress only (M15,
+# 15 Oct 2026): it holds a UniFi API key, so it may reach DNS, the Kubernetes API and the UniFi
+# controller, and nothing else. Ingress is not limited here (Prometheus scrapes 7979 and 8080).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: unifi-dns
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: unifi-dns
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # The Kubernetes API on the control-plane nodes (6443). A pod on a control-plane node sees
+    # its own node as `host` and the others as `remote-node`, so all three entities are needed.
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    # The UniFi controller (UNIFI_HOST is https://unifi.internal), as the cluster reaches it.
+    - toCIDR:
+        - 10.10.100.254/32
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

@@ -1,0 +1,45 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# SABnzbd (Usenet downloader). Egress only (M15, 15 Oct 2026): it holds the Usenet account logins, so
+# it may reach DNS, the six news servers it is configured with (all on 119) and its update check.
+# Taken from /config/sabnzbd.ini (host and port lines only). Ingress is not limited here.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: sabnzbd
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: sabnzbd
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchName: eunews.frugalusenet.com
+        - matchName: news.usenetfarm.eu
+        - matchName: news.bulknews.eu
+        - matchName: news.frugalusenet.com
+        - matchName: bonus.frugalusenet.com
+        - matchName: eunews.blocknews.net
+      toPorts:
+        - ports:
+            - port: "119"
+              protocol: TCP
+    # The release check.
+    - toFQDNs:
+        - matchName: sabnzbd.org
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

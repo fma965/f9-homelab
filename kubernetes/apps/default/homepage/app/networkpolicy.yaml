@@ -45,3 +45,42 @@ spec:
     # nodes.
     - fromEntities:
         - kube-apiserver
+  # Egress: Homepage holds API keys for most of the apps it shows, so it may reach the cluster,
+  # the NAS and UniFi, and nothing on the internet but the search suggestions.
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # Widgets, site monitors and service discovery: about a dozen Services that change as apps are
+    # added (arr apps, downloaders, paperless, jellyfin, immich, Home Assistant, ESPHome, Gatus,
+    # pgAdmin), plus the Kubernetes widget's API server calls. Replies are already allowed in above.
+    - toEntities:
+        - cluster
+    # The NAS, on any port (TrueNAS UI, Webtop, Garage, Tdarr and Frigate monitors today, and
+    # whatever gets added), and the UniFi controller (widget and monitor), as the cluster sees them.
+    - toCIDR:
+        - 10.10.10.3/32
+    - toCIDR:
+        - 10.10.100.254/32
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    # The search bar's suggestions (`showSearchSuggestions` with the Google provider) are fetched by
+    # the server.
+    - toFQDNs:
+        - matchName: suggestqueries.google.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

@@ -39,7 +39,6 @@ resources:
   - ./sabnzbd/ks.yaml
   - ./seerr/ks.yaml
   - ./sonarr/ks.yaml
-  - ./spoolman/ks.yaml
   - ./techdocs/ks.yaml
   - ./unifi-backup/ks.yaml
   - ./zigbee/ks.yaml
