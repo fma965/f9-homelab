@@ -23,12 +23,18 @@ spec:
             - port: "53"
               protocol: TCP
     # Cloudflare's edge: the tunnel connects out on 7844 (TCP, or UDP for QUIC) to the addresses
-    # region1.v2.argotunnel.com and region2.v2.argotunnel.com resolve to. These two ranges are the
-    # ones Cloudflare documents for tunnels, and every connection seen was inside them. They are
-    # CIDRs, not names, because cloudflared finds the edge through SRV lookups.
-    - toCIDR:
-        - 198.41.192.0/24
-        - 198.41.200.0/24
+    # region1.v2.argotunnel.com and region2.v2.argotunnel.com resolve to. Every connection seen was
+    # in 198.41.192.0/24 and 198.41.200.0/24, but cloudflared finds the edge through SRV lookups and
+    # Cloudflare can move it, which would take every public site down. So this allows any public
+    # address on 7844 only (private ranges excluded) rather than pinning those two ranges.
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+          except:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+            - 169.254.0.0/16
+            - 172.16.0.0/12
+            - 192.168.0.0/16
       toPorts:
         - ports:
             - port: "7844"
