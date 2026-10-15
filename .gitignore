@@ -1,4 +1,4 @@
-.claude/
+.claude/worktrees/
 .private/
 .pytest_cache/
 .venv/
