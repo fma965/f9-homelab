@@ -66,6 +66,9 @@ spec:
               namespace: network
       prometheusSpec:
         externalUrl: https://prometheus.f9.casa
+        podMetadata:
+          labels:
+            egress.cilium.io/nas: "true"
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false

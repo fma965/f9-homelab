@@ -7,6 +7,11 @@ metadata:
 spec:
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.4.3
   instances: 3
+  # Egress profile labels (M15). CloudNativePG patches them onto the running pods; no restart.
+  inheritedMetadata:
+    labels:
+      egress.cilium.io/kube-apiserver: "true"
+      egress.cilium.io/nas: "true"
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
   storage:
