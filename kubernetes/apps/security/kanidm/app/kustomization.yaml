@@ -7,3 +7,4 @@ resources:
   - ./groups.yaml
   - ./kanidm.yaml
   - ./networkpolicy.yaml
+  - ./people.yaml
