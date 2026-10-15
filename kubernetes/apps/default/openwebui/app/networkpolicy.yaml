@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Open WebUI (AI chat, public, OIDC login). Allow-list from the manifests and the Cilium
 # connection table on 15 Oct 2026 (M15). Probes come from the local node, which Cilium always
-# allows. Egress (16 Oct 2026): DNS, the llama server on the NAS and the gateway (OIDC) only.
+# allows. Egress (16 Oct 2026): DNS, the llama server on the NAS, the gateway (OIDC) and the public internet on 80/443.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -69,4 +69,23 @@ spec:
       toPorts:
         - ports:
             - port: "10443"
+              protocol: TCP
+    # The public internet on 80/443, for web search and fetching pages in chats (it cannot
+    # be a name list: the sites are whatever the user or the search returns). Every private,
+    # link-local and CGNAT range is excluded, so a fetched URL cannot reach the LAN, the NAS
+    # admin pages, the UniFi controller or other cluster services (cluster pods are not
+    # matched by this rule in any case).
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+          except:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+            - 169.254.0.0/16
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+            - port: "443"
               protocol: TCP
