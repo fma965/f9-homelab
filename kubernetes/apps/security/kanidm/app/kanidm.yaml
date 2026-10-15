@@ -44,6 +44,13 @@ spec:
         capabilities:
           drop:
             - ALL
+  # The sign-in heading and logo. The operator owns these: anything set by hand with the Kanidm CLI is
+  # reset on its next reconcile (it calls DELETE /v1/domain/_image). The image is fetched by the
+  # operator from a URL and re-fetched when it changes.
+  domainAppearance:
+    displayName: F9 Auth
+    image:
+      url: https://raw.githubusercontent.com/fma965/f9-homelab/main/kubernetes/apps/security/kanidm/app/resources/logo.png
   # Branding: the stylesheet and favicon are mounted over the files the server ships in /hpkg (the
   # sign-in logo and the heading are set in Kanidm itself, see the README). The server reads them at
   # start-up, so restart the pod after editing resources/.
