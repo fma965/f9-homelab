@@ -49,10 +49,6 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
-    # The controller reads and updates Flux objects through the Kubernetes API server; the replies
-    # come from the control-plane nodes.
-    - fromEntities:
-        - kube-apiserver
     # Replies to the controller's own connections (kube-dns, Alertmanager for the Alerts, ...). They
     # come back through Services, where Cilium evaluates the reverse-translated reply as new traffic
     # to this pod and drops it ("Policy denied DROPPED" in Hubble). Allow any pod in the cluster to
@@ -74,6 +70,7 @@ spec:
               protocol: UDP
   # Egress: the API server, DNS, Alertmanager (the Alert provider) and the GitHub API (the
   # github-status provider posts commit statuses). Nothing else.
+  # The API server comes from the egress.cilium.io/kube-apiserver profile (the label is on the pod in the HelmRelease).
   egress:
     - toEndpoints:
         - matchLabels:
@@ -88,16 +85,6 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    # The pod can sit on a control-plane node, where the API server is its own node (`host`) or
-    # another control-plane node (`remote-node`).
-    - toEntities:
-        - host
-        - kube-apiserver
-        - remote-node
-      toPorts:
-        - ports:
-            - port: "6443"
-              protocol: TCP
     # The Alertmanager Provider (alertmanager-operated.o11y:9093).
     - toEndpoints:
         - matchLabels:
@@ -127,6 +114,7 @@ spec:
   endpointSelector:
     matchLabels:
       app: source-controller
+  # The API server comes from the egress.cilium.io/kube-apiserver profile (the label is on the pod in the HelmRelease).
   egress:
     - toEndpoints:
         - matchLabels:
@@ -141,16 +129,6 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    # The API server. The pods can sit on a control-plane node, where it is the pod's own node
-    # (`host`) or another control-plane node (`remote-node`).
-    - toEntities:
-        - host
-        - kube-apiserver
-        - remote-node
-      toPorts:
-        - ports:
-            - port: "6443"
-              protocol: TCP
     # Events to the notification-controller (its Service, 9090). Its ingress policy allows this.
     - toEndpoints:
         - matchLabels:
@@ -198,6 +176,7 @@ spec:
       - key: app
         operator: In
         values: [kustomize-controller, helm-controller]
+  # The API server comes from the egress.cilium.io/kube-apiserver profile (the label is on the pod in the HelmRelease).
   egress:
     - toEndpoints:
         - matchLabels:
@@ -208,16 +187,6 @@ spec:
             - port: "53"
               protocol: UDP
             - port: "53"
-              protocol: TCP
-    # The API server. The pods can sit on a control-plane node, where it is the pod's own node
-    # (`host`) or another control-plane node (`remote-node`).
-    - toEntities:
-        - host
-        - kube-apiserver
-        - remote-node
-      toPorts:
-        - ports:
-            - port: "6443"
               protocol: TCP
     # Events to the notification-controller (its Service, 9090). Its ingress policy allows this.
     - toEndpoints:
