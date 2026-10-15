@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Flux notification-controller: the GitHub webhook receiver (public through the external gateway) and
+# the event sink for the other Flux controllers. It is not on the reconcile path, so a mistake here
+# loses notifications and webhook-triggered reconciles, not GitOps. Ingress only (M15). Probes come
+# from the local node, which Cilium always allows. Allow-list from the manifests and the Cilium
+# connection table on 15 Oct 2026.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: notification-controller
+spec:
+  endpointSelector:
+    matchLabels:
+      app: notification-controller
+  ingress:
+    # GitHub's push webhook (flux-webhook.f9.casa -> webhook-receiver -> 9292).
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "9292"
+              protocol: TCP
+    # Events posted by the other Flux controllers (the notification-controller Service, 9090).
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: flux-system
+            app: helm-controller
+        - matchLabels:
+            io.kubernetes.pod.namespace: flux-system
+            app: kustomize-controller
+        - matchLabels:
+            io.kubernetes.pod.namespace: flux-system
+            app: source-controller
+        - matchLabels:
+            io.kubernetes.pod.namespace: flux-system
+            app.kubernetes.io/name: flux-operator
+      toPorts:
+        - ports:
+            - port: "9090"
+              protocol: TCP
+    # Metrics (the flux-components PodMonitor).
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: prometheus
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # The controller reads and updates Flux objects through the Kubernetes API server; the replies
+    # come from the control-plane nodes.
+    - fromEntities:
+        - kube-apiserver
+    # Replies to the controller's own connections (kube-dns, Alertmanager for the Alerts, ...). They
+    # come back through Services, where Cilium evaluates the reverse-translated reply as new traffic
+    # to this pod and drops it ("Policy denied DROPPED" in Hubble). Allow any pod in the cluster to
+    # reach this pod on the ephemeral port range only (32768 to 60999, the range the pod's own
+    # outgoing connections use); the ports above stay limited to the sources listed.
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: TCP
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: UDP
