@@ -1,0 +1,45 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Sonarr. Egress only (M15, 15 Oct 2026): it holds the API keys of the download clients and
+# Jellyfin, so it may reach the cluster and the metadata / notification hosts it uses, and nothing
+# else. Hosts from deedee-ops' sonarr policy and Sonarr's own docs; "fix as it breaks" applies (a
+# new import list or notification service needs its host added). Ingress is not limited here.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: sonarr
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: sonarr
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # The other apps in the stack (Postgres, the download clients, Prowlarr, Jellyfin, ...), which
+    # are Services in the cluster and change as the stack does.
+    - toEntities:
+        - cluster
+    # Metadata and artwork (TheTVDB, Skyhook, TheXEM, the Servarr metadata API) and Discord for
+    # notifications.
+    - toFQDNs:
+        - matchName: api.althub.co.za
+        - matchName: artworks.thetvdb.com
+        - matchName: discord.com
+        - matchName: services.sonarr.tv
+        - matchName: skyhook.sonarr.tv
+        - matchName: thexem.info
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
