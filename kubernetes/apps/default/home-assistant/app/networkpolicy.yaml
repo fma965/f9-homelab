@@ -1,0 +1,76 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Home Assistant. This covers its main (cluster) interface only: traffic over the three Multus
+# interfaces (IoT, NoT, Media) is not seen by Cilium and is unchanged. Probes come from the local
+# node, which Cilium always allows. Ingress only (M15). Allow-list from the manifests and the
+# Cilium connection table on 15 Oct 2026.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: home-assistant
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: home-assistant
+  ingress:
+    # The UI and API (8123) and the code-server (12321) through the external gateway.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "8123"
+              protocol: TCP
+            - port: "12321"
+              protocol: TCP
+    # In-cluster callers of the Home Assistant API: the ha-mcp server, Homepage's widget, Bambuddy
+    # (printer integration) and Gatus (its probe). All use home-assistant-app:8123.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: mcp
+            app.kubernetes.io/name: ha-mcp
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: homepage
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: bambuddy
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: gatus
+      toPorts:
+        - ports:
+            - port: "8123"
+              protocol: TCP
+    # home-assistant-app is also a LoadBalancer (10.10.69.240:8123), so devices on the home network
+    # connect straight to it; those connections arrive as the world (LAN clients) or as another
+    # node forwarding them. They stay limited to the API port. Home Assistant has its own login.
+    - fromEntities:
+        - world
+        - remote-node
+        - host
+      toPorts:
+        - ports:
+            - port: "8123"
+              protocol: TCP
+    # Home Assistant calls a long and changing list of Services (Postgres, Mosquitto, Jellyfin,
+    # Paperless, the arr apps, ESPHome, the gateway for OIDC, ...). Their replies come back through
+    # the Service and Cilium evaluates them as new traffic to this pod, so they are dropped without a
+    # rule ("Policy denied DROPPED" in Hubble). Rather than list every target, allow any pod in the
+    # cluster to reach this pod on the ephemeral port range only (32768 to 60999, the range the pod's
+    # own outgoing connections use). Port 8123 stays limited to the sources above, so no other pod can
+    # open a connection to Home Assistant directly.
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: TCP
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: UDP
