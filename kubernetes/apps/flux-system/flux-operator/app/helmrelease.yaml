@@ -10,6 +10,9 @@ spec:
     name: flux-operator
   interval: 1h
   values:
+    # Labels every resource of the chart, including the pod (the selector is not touched).
+    commonLabels:
+      egress.cilium.io/kube-apiserver: "true"
     serviceMonitor:
       create: true
     web:
