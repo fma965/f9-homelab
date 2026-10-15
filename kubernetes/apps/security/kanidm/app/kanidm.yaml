@@ -48,7 +48,7 @@ spec:
   # reset on its next reconcile (it calls DELETE /v1/domain/_image). The image is fetched by the
   # operator from a URL and re-fetched when it changes.
   domainAppearance:
-    displayName: F9 Auth
+    displayName: F9
     image:
       url: https://raw.githubusercontent.com/fma965/f9-homelab/main/kubernetes/apps/security/kanidm/app/resources/logo.png
   # Branding: the stylesheet and favicon are mounted over the files the server ships in /hpkg (the
