@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+# Gate a route with the gateway's OIDC filter against Kanidm, instead of Authelia's forward-auth
+# (the `ext-auth` component). Modelled on LucaDev/Home (apps/downloads/radarr/app/securitypolicy.yaml).
+# Kanidm has one issuer per client (https://id.f9.casa/oauth2/openid/<client>), requires PKCE S256 and
+# HTTP basic auth at the token endpoint, which Envoy Gateway's filter does. The two endpoints are
+# set here so the Envoy Gateway controller does not have to fetch the discovery document, which its
+# network policy does not allow. Kanidm's discovery lists exactly these two.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: ${APP}
+spec:
+  oidc:
+    provider:
+      issuer: https://id.f9.casa/oauth2/openid/${APP}
+      authorizationEndpoint: https://id.f9.casa/ui/oauth2
+      tokenEndpoint: https://id.f9.casa/oauth2/token
+    clientID: ${APP}
+    clientSecret:
+      name: ${APP}-kanidm-oauth2-credentials
+    redirectURL: https://${APP}.f9.casa/oauth2/callback
+    logoutPath: /logout
+    refreshToken: true
+  targetRefs:
+    - group: ${OIDC_GROUP_KIND:=gateway.networking.k8s.io}
+      kind: ${OIDC_KIND:=HTTPRoute}
+      name: ${OIDC_TARGET:=${APP}}

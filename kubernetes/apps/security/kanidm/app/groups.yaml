@@ -1,0 +1,11 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kaniop.rs/kanidmgroup_v1beta1.json
+# Groups apps map to scopes with `scopeMap`. Members are added with the Kanidm CLI or a
+# KanidmPersonAccount; no people are defined here because this repository is public.
+apiVersion: kaniop.rs/v1beta1
+kind: KanidmGroup
+metadata:
+  name: admins
+spec:
+  kanidmRef:
+    name: kanidm

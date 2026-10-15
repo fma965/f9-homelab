@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kaniop.rs/kanidmoauth2client_v1beta1.json
+# The Kanidm side of a route gated by the gateway's OIDC filter (see securitypolicy.yaml). Kaniop
+# creates the client in Kanidm and writes <app>-kanidm-oauth2-credentials next to it, with the
+# secret under `client-secret` (the key Envoy Gateway reads). Only members of OIDC_GROUP get a
+# token: the default is `admins`; set OIDC_GROUP in the Flux Kustomization to use another group.
+apiVersion: kaniop.rs/v1beta1
+kind: KanidmOAuth2Client
+metadata:
+  name: ${APP}
+spec:
+  kanidmRef:
+    name: kanidm
+    namespace: security
+  displayname: ${APP}
+  origin: https://${APP}.f9.casa/
+  redirectUrl:
+    - https://${APP}.f9.casa/oauth2/callback
+  scopeMap:
+    - group: ${OIDC_GROUP:=admins}@id.f9.casa
+      scopes:
+        - openid
+        - profile
+        - email
+        - groups
+  disableConsentPrompt: true
+  preferShortUsername: true
+  secretKeyAliases:
+    clientSecret:
+      - client-secret
+  strictRedirectUrl: true
