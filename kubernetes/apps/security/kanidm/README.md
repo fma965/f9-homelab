@@ -20,4 +20,4 @@ Identity provider, run by [Kaniop](https://github.com/pando85/kaniop) (`../kanio
     kanidm system domain set-image app/resources/logo.png png -D admin
     ```
     The image has to be under 256 KB and 1024x1024. The `admin` password is in `kanidm-admin-passwords` (`ADMIN_PASSWORD`). Per-app names and logos are set on each client: `displayname` in `KanidmOAuth2Client`, and `kanidm system oauth2 set-image <client> <file>` for the picture.
-- **Cannot be changed:** the browser tab title (`Login`) and the "Powered by Kanidm" footer text are in the server's HTML templates.
+- **Cannot be changed:** the browser tab title (`Login`) is in the server's HTML templates; the "Powered by Kanidm" footer is hidden with CSS.
