@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Govee2MQTT. Egress only (M15, 15 Oct 2026): DNS, Mosquitto and the Govee cloud API it is
-# configured with (an API key only; no account login, so no AWS IoT endpoint). `*.govee.com` covers
+# configured with (an API key only; no account login, so no AWS IoT endpoint). `**.govee.com` (a single `*` does not cross a dot) covers
 # `openapi.api.govee.com` and `developer-api.govee.com` (443) and the Platform API's MQTT event
 # stream, `mqtt.openapi.govee.com` (8883). The LAN control (UDP) goes over the IoT interface. Hosts
 # are from the govee2mqtt source, not a capture. Ingress is not limited here.
@@ -40,7 +40,7 @@ spec:
             - port: "1883"
               protocol: TCP
     - toFQDNs:
-        - matchPattern: "*.govee.com"
+        - matchPattern: "**.govee.com"
       toPorts:
         - ports:
             - port: "443"
