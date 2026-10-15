@@ -11,3 +11,46 @@ spec:
     name: kanidm
   members:
     - scott
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kaniop.rs/kanidmgroup_v1beta1.json
+# The household: the home apps (Home Assistant and similar).
+apiVersion: kaniop.rs/v1beta1
+kind: KanidmGroup
+metadata:
+  name: home
+spec:
+  kanidmRef:
+    name: kanidm
+  members:
+    - scott
+    - andrew
+    - ash
+    - homeassistant_kiosk
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kaniop.rs/kanidmgroup_v1beta1.json
+# The media apps (Jellyfin, Seerr and similar).
+apiVersion: kaniop.rs/v1beta1
+kind: KanidmGroup
+metadata:
+  name: media
+spec:
+  kanidmRef:
+    name: kanidm
+  members:
+    - scott
+    - andrew
+    - ash
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kaniop.rs/kanidmgroup_v1beta1.json
+# Open WebUI.
+apiVersion: kaniop.rs/v1beta1
+kind: KanidmGroup
+metadata:
+  name: openwebui
+spec:
+  kanidmRef:
+    name: kanidm
+  members:
+    - scott
+    - andrew
+    - ash
