@@ -1,0 +1,47 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# ESPHome (dashboard and code-server). Egress only (M15, 15 Oct 2026): DNS and the hosts firmware
+# builds download from (PyPI, GitHub release assets, PlatformIO and Espressif) plus the code-server
+# extension marketplace. The package hosts follow deedee-ops' ESPHome policy. The devices it flashes
+# and talks to are all on the IoT interface. Ingress is not limited here.
+# This pod has a second (Multus) interface on the IoT network, 10.10.30.0/24, which Cilium does not
+# see; the routes in the pod send only that subnet there (checked: every ESPHome device and the
+# Zigbee controller are in it) and everything else out of eth0. So this policy limits the pod's
+# cluster and internet traffic and cannot affect device traffic.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: esphome
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: esphome
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchName: files.pythonhosted.org
+        - matchName: github.com
+        - matchName: pypi.org
+        - matchName: raw.githubusercontent.com
+        - matchName: release-assets.githubusercontent.com
+        - matchPattern: "*.espressif.com"
+        - matchPattern: "**.platformio.org"
+        # code-server extensions
+        - matchName: open-vsx.org
+        - matchName: openvsxorg.blob.core.windows.net
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

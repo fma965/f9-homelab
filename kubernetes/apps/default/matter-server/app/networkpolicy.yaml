@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Matter server (matterjs-server). Egress only (M15, 15 Oct 2026): DNS and the Matter device
+# compliance ledger it looks devices up in (`on.dcl.csa-iot.org`) plus the certificates repository
+# on GitHub. Everything it commissions (mDNS, Thread through the SLZB border router, devices) is
+# on the IoT interface (--primary-interface=net1). The hosts are from the Matter DCL documentation,
+# not a capture. Ingress is not limited here (Home Assistant connects on 5580).
+# This pod has a second (Multus) interface on the IoT network, 10.10.30.0/24, which Cilium does not
+# see; the routes in the pod send only that subnet there (checked: every ESPHome device and the
+# Zigbee controller are in it) and everything else out of eth0. So this policy limits the pod's
+# cluster and internet traffic and cannot affect device traffic.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: matter-server
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: matter-server
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchName: on.dcl.csa-iot.org
+        - matchName: raw.githubusercontent.com
+        - matchName: github.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

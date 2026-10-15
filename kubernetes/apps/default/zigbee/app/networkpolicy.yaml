@@ -1,0 +1,36 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Zigbee2MQTT. Egress only (M15, 15 Oct 2026): DNS and Mosquitto. Its Zigbee radio is a network
+# coordinator on the IoT network (zigbee-controller.not.internal, 10.10.30.20). Ingress is not
+# limited here.
+# This pod has a second (Multus) interface on the IoT network, 10.10.30.0/24, which Cilium does not
+# see; the routes in the pod send only that subnet there (checked: every ESPHome device and the
+# Zigbee controller are in it) and everything else out of eth0. So this policy limits the pod's
+# cluster and internet traffic and cannot affect device traffic.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: zigbee
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: zigbee
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: mosquitto
+      toPorts:
+        - ports:
+            - port: "1883"
+              protocol: TCP
