@@ -131,6 +131,12 @@ access_control:
     - domain: "*.f9.casa"
       policy: deny
 
+ntp:
+  # Authelia checks the clock against an NTP server on the internet at start-up and refuses to
+  # start if that fails (the default). The nodes keep their own time, and this pod's egress is
+  # limited to the cluster (M15), so the check is off.
+  disable_startup_check: true
+
 notifier:
   disable_startup_check: true
   smtp:
