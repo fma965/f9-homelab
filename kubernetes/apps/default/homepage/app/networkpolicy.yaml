@@ -19,48 +19,28 @@ spec:
         - ports:
             - port: "3000"
               protocol: TCP
-    # Replies to the app's own connections, which go through Services (kube-dns, the widget
-    # targets (arr apps, downloaders, paperless, jellyfin, immich, Home Assistant, ESPHome,
-    # Gatus) and the Kubernetes API). Cilium evaluates the reverse-translated reply as new
-    # traffic to this pod and drops it without these rules ("Policy denied DROPPED" in
-    # Hubble). The destination is the pod's ephemeral source port, so no port can be listed.
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-        - matchLabels:
-            io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: sonarr
-        - matchLabels:
-            io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: radarr
-        - matchLabels:
-            io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: prowlarr
-        - matchLabels:
-            io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: sabnzbd
-        - matchLabels:
-            io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: qbittorrent
-        - matchLabels:
-            io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: paperless
-        - matchLabels:
-            io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: jellyfin
-        - matchLabels:
-            io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: immich
-        - matchLabels:
-            io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: home-assistant
-        - matchLabels:
-            io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: esphome
-        - matchLabels:
-            io.kubernetes.pod.namespace: o11y
-            app.kubernetes.io/name: gatus
+    # Homepage's widgets and site monitors call a changing set of Services (arr apps,
+    # downloaders, paperless, jellyfin, immich, Home Assistant, ESPHome, Gatus, pgAdmin,
+    # ...). Their replies come back through the Service and Cilium evaluates them as new
+    # traffic to this pod, so they are dropped without a rule ("Policy denied DROPPED" in
+    # Hubble). Rather than list every target, allow any pod in the cluster to reach this pod
+    # on the ephemeral port range only (32768 to 60999, the range the pod's own outgoing
+    # connections use, verified in the pod). Port 3000 stays gateway-only, so nothing in the
+    # cluster can open a connection to Homepage directly and skip the login.
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: TCP
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: UDP
     # The Kubernetes widget talks to the API server; its replies come from the control-plane
     # nodes.
     - fromEntities:
