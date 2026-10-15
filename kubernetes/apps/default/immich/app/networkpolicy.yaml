@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Immich (photos, public, OIDC login). Allow-list from the manifests and the Cilium connection
 # table on 15 Oct 2026 (M15). Probes come from the local node, which Cilium always allows.
-# Egress (M15): DNS, Postgres, Dragonfly, the NAS machine-learning server, the gateway and a short list of named hosts.
+# Egress (M15): DNS, Postgres, Dragonfly, the SMTP relay, the NAS machine-learning server, the gateway and a short list of named hosts.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -86,6 +86,15 @@ spec:
       toPorts:
         - ports:
             - port: "6379"
+              protocol: TCP
+    # The SMTP relay (smtp-relay.network.svc, port 25), for Immich email notifications.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            app.kubernetes.io/name: smtp-relay
+      toPorts:
+        - ports:
+            - port: "25"
               protocol: TCP
     # The machine-learning server, which runs on the NAS (docker/ai/immich-machine-learning,
     # port 3003). Smart search and face recognition call it.
