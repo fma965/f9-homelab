@@ -44,7 +44,7 @@ Use your own name (the same as your folder) and your own server password. This i
 Everything in the home folders is **backed up every night to Backblaze**, a cloud storage company, so it survives even if the server is lost.
 
 - **Encrypted before it leaves the house.** The contents of your files are scrambled before they are uploaded, so Backblaze can't read them. The *names* of files and folders are not hidden.
-- **It is a mirror, not a history.** The copy follows what is in the folder, so something you delete will disappear from the cloud copy the next night. If you delete something by accident, tell Scott as soon as you notice. The server also keeps weekly snapshots for a few weeks that may be able to bring it back.
+- **Deleted files are kept for 30 days.** The cloud copy follows what is in the folder, but when you delete or change a file, Backblaze keeps the older version for 30 days before removing it for good. If you delete something by accident, tell Scott within that time. The server also keeps weekly snapshots for a few weeks.
 - **Photos have their own backup.** See [Photos (Immich)](immich.md#backups).
 
 ## Please remember

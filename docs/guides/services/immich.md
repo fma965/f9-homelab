@@ -28,7 +28,7 @@ New photos then upload automatically, usually when you're on Wi-Fi.
 
 ## Backups
 
-The photos and videos on our server are copied to **Backblaze**, a cloud storage company, **every night**, so they survive even if the server is lost. The copy is encrypted before it is uploaded: the contents of the files are scrambled and Backblaze can't read them. The file names are not hidden. The copy mirrors the library, so something you permanently delete here disappears from the cloud copy the next night.
+The photos and videos on our server are copied to **Backblaze**, a cloud storage company, **every night**, so they survive even if the server is lost. The copy is encrypted before it is uploaded: the contents of the files are scrambled and Backblaze can't read them. The file names are not hidden. If you permanently delete something here, the cloud copy keeps it for 30 days before removing it for good.
 
 ## Tips
 
