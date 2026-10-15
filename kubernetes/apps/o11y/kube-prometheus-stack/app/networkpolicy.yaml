@@ -1,0 +1,103 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Alertmanager. Egress only (M15, 15 Oct 2026): DNS and the two notification services in its config
+# (Pushover for alerts, Healthchecks for the heartbeat). Ingress is not limited here (Prometheus,
+# Grafana, the silence-operator and the gateway call it). The Healthchecks host was read from the
+# receiver's URL (host only).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: alertmanager
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: alertmanager
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchName: api.pushover.net
+        - matchName: hc-ping.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Prometheus. Egress only (M15, 15 Oct 2026): it scrapes the cluster (pods, nodes, the API server) and
+# the NAS exporters (node 9100, smartctl 9633, Doco-CD 9130, liquidctl 9530 on 10.10.10.3), and calls
+# Alertmanager. Nothing else; in particular nothing on the internet. Allow-list from Hubble and the
+# ScrapeConfigs on 15 Oct 2026. Ingress is not limited here.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: prometheus
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus
+  egress:
+    - toEntities:
+        - cluster
+    - toCIDR:
+        - 10.10.10.3/32
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Prometheus operator. Egress only (M15, 15 Oct 2026): the API server and the Prometheus and
+# Alertmanager pods it reloads, so the cluster and nothing else. Ingress is not limited here (the API
+# server calls its admission webhook).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: prometheus-operator
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+  egress:
+    - toEntities:
+        - cluster
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# kube-state-metrics. Egress only (M15, 15 Oct 2026): it only lists objects from the API server.
+# Ingress is not limited here (Prometheus scrapes it).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kube-state-metrics
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: kube-state-metrics
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # The pod can sit on a control-plane node, where the API server is its own node (`host`) or
+    # another control-plane node (`remote-node`).
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP

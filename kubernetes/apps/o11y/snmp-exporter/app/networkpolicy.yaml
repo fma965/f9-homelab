@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# SNMP exporter (UPS metrics). Egress only (M15, 15 Oct 2026): DNS and SNMP (UDP 161) to the UPS
+# at 10.10.30.1 (`ups.not.internal`, seen in Hubble). Ingress is not limited here (Prometheus
+# scrapes it).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: prometheus-snmp-exporter
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus-snmp-exporter
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    - toCIDR:
+        - 10.10.30.1/32
+      toPorts:
+        - ports:
+            - port: "161"
+              protocol: UDP
