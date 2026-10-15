@@ -2,6 +2,7 @@
 # Zipline (file and link sharing, public, OIDC login). Allow-list from the manifests and the
 # Cilium connection table on 15 Oct 2026 (M15). Probes come from the local node, which Cilium
 # always allows.
+# Egress (M15): DNS, Postgres and the gateway (OIDC) only; nothing on the internet.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -40,3 +41,36 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: database
             cnpg.io/cluster: postgres17
+  egress:
+    # Egress (M15): only the destinations below; anything else this pod tries to reach is
+    # dropped. Zipline has no internet dependency: version checking is off and uploads go to
+    # an NFS volume the node mounts.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # The shared Postgres (postgres-rw.database.svc), also used by the init-db container.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    # The external gateway, for OIDC: Zipline signs in through auth.f9.casa (authorize,
+    # token and userinfo URLs), which resolves to the gateway; its pods listen on 10443.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "10443"
+              protocol: TCP
