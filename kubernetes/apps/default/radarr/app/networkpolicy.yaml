@@ -36,6 +36,7 @@ spec:
         - matchName: api.althub.co.za
         - matchName: api.radarr.video
         - matchName: discord.com
+        - matchName: radarr.servarr.com
         - matchName: image.tmdb.org
       toPorts:
         - ports:

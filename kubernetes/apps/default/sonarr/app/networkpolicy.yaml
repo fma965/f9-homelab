@@ -36,6 +36,7 @@ spec:
         - matchName: api.althub.co.za
         - matchName: artworks.thetvdb.com
         - matchName: discord.com
+        - matchName: sonarr.servarr.com
         - matchName: services.sonarr.tv
         - matchName: skyhook.sonarr.tv
         - matchName: thexem.info
