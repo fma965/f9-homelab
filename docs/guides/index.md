@@ -17,6 +17,7 @@ You don't need to know anything technical. Pick what you want to do below.
 | Print something (home only)                 | [Printing](services/printing.md)               |
 | Scan something                              | [Scanning](services/scanning.md)               |
 | Control lights, heating and so on           | [Home Assistant](services/home-assistant.md)   |
+| Control them when Home Assistant is down (home only) | [Emergency Control](services/emergency-control.md) |
 | Find out where we keep something (home only)| [Homebox](services/homebox.md)                 |
 | Look at the cameras (home only)             | [Cameras](services/cameras.md)                 |
 | Use the 3D printer                          | [3D printing](services/3d-printing.md)         |
