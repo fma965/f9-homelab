@@ -61,6 +61,7 @@ nav:
       - Printing: services/printing.md
       - Scanning: services/scanning.md
       - Smart home (Home Assistant): services/home-assistant.md
+      - If the smart home is down (Emergency Control): services/emergency-control.md
       - Household inventory (Homebox): services/homebox.md
       - Cameras: services/cameras.md
       - 3D printing: services/3d-printing.md

@@ -38,6 +38,7 @@ Your account isn't in the group that site needs. Ask Scott.
 
 - Check the device has power and is on Wi-Fi.
 - Try again from the Home Assistant app.
+- If Home Assistant itself won't open, use the **Emergency Control** app. See [If the smart home is down](../services/emergency-control.md).
 - Tell Scott if it keeps happening.
 
 ## Who to ask
