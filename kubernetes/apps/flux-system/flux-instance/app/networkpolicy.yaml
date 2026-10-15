@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Flux notification-controller: the GitHub webhook receiver (public through the external gateway) and
 # the event sink for the other Flux controllers. It is not on the reconcile path, so a mistake here
-# loses notifications and webhook-triggered reconciles, not GitOps. Ingress only (M15). Probes come
+# loses notifications and webhook-triggered reconciles, not GitOps. Ingress and egress (M15). Probes come
 # from the local node, which Cilium always allows. Allow-list from the manifests and the Cilium
 # connection table on 15 Oct 2026.
 apiVersion: cilium.io/v2
@@ -72,3 +72,45 @@ spec:
             - port: "32768"
               endPort: 60999
               protocol: UDP
+  # Egress: the API server, DNS, Alertmanager (the Alert provider) and the GitHub API (the
+  # github-status provider posts commit statuses). Nothing else.
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # The pod can sit on a control-plane node, where the API server is its own node (`host`) or
+    # another control-plane node (`remote-node`).
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    # The Alertmanager Provider (alertmanager-operated.o11y:9093).
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: alertmanager
+      toPorts:
+        - ports:
+            - port: "9093"
+              protocol: TCP
+    # The github-status Provider (github.com/fma965/f9-homelab) posts to the GitHub API.
+    - toFQDNs:
+        - matchName: api.github.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
