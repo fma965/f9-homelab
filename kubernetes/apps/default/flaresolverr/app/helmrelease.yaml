@@ -22,6 +22,10 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 1Gi
+    defaultPodOptions:
+      labels:
+        egress.cilium.io/web: "true"
+
     service:
       app:
         controller: flaresolverr

@@ -31,6 +31,9 @@ spec:
               limits:
                 memory: 256Mi
     defaultPodOptions:
+      labels:
+        egress.cilium.io/nas: "true"
+        egress.cilium.io/web: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

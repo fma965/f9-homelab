@@ -19,6 +19,7 @@ spec:
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: matter-server
+  # Access to the public internet (egress.cilium.io/internet) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
     - toEndpoints:
         - matchLabels:
@@ -30,11 +31,3 @@ spec:
               protocol: UDP
             - port: "53"
               protocol: TCP
-    - toCIDRSet:
-        - cidr: 0.0.0.0/0
-          except:
-            - 10.0.0.0/8
-            - 100.64.0.0/10
-            - 169.254.0.0/16
-            - 172.16.0.0/12
-            - 192.168.0.0/16

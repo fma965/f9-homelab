@@ -12,6 +12,7 @@ spec:
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: recommendarr
+  # Access to the NAS and the public web (egress.cilium.io/nas, /web) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
     - toEndpoints:
         - matchLabels:
@@ -30,17 +31,3 @@ spec:
     # are Services in the cluster and change as the stack does.
     - toEntities:
         - cluster
-    - toCIDR:
-        - 10.10.10.3/32
-    - toCIDRSet:
-        - cidr: 0.0.0.0/0
-          except:
-            - 10.0.0.0/8
-            - 100.64.0.0/10
-            - 169.254.0.0/16
-            - 172.16.0.0/12
-            - 192.168.0.0/16
-      toPorts:
-        - ports:
-            - port: "443"
-              protocol: TCP

@@ -11,6 +11,7 @@ spec:
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: flaresolverr
+  # Access to the public web (egress.cilium.io/web) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
     - toEndpoints:
         - matchLabels:
@@ -25,17 +26,3 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    - toCIDRSet:
-        - cidr: 0.0.0.0/0
-          except:
-            - 10.0.0.0/8
-            - 100.64.0.0/10
-            - 169.254.0.0/16
-            - 172.16.0.0/12
-            - 192.168.0.0/16
-      toPorts:
-        - ports:
-            - port: "80"
-              protocol: TCP
-            - port: "443"
-              protocol: TCP

@@ -47,6 +47,7 @@ spec:
         - kube-apiserver
   # Egress: Homepage holds API keys for most of the apps it shows, so it may reach the cluster,
   # the NAS and UniFi, and nothing on the internet but the search suggestions.
+  # Access to the NAS and UniFi (egress.cilium.io/nas, /unifi) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
     - toEndpoints:
         - matchLabels:
@@ -66,16 +67,6 @@ spec:
     # pgAdmin), plus the Kubernetes widget's API server calls. Replies are already allowed in above.
     - toEntities:
         - cluster
-    # The NAS, on any port (TrueNAS UI, Webtop, Garage, Tdarr and Frigate monitors today, and
-    # whatever gets added), and the UniFi controller (widget and monitor), as the cluster sees them.
-    - toCIDR:
-        - 10.10.10.3/32
-    - toCIDR:
-        - 10.10.100.254/32
-      toPorts:
-        - ports:
-            - port: "443"
-              protocol: TCP
     # The search bar's suggestions (`showSearchSuggestions` with the Google provider) are fetched by
     # the server.
     - toFQDNs:

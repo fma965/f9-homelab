@@ -11,6 +11,8 @@ spec:
     name: *app
   values:
     defaultPodOptions:
+      labels:
+        egress.cilium.io/unifi: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

@@ -45,6 +45,8 @@ spec:
                 memory: 1Gi
 
     defaultPodOptions:
+      labels:
+        egress.cilium.io/internet: "true"
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{

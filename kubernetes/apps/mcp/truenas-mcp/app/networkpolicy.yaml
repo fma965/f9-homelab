@@ -27,6 +27,7 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
+  # Access to the NAS (egress.cilium.io/nas) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
     # Egress (M15): DNS and the NAS API only (nas.main.internal, 10.10.10.3, port 443).
     # Anything else this pod tries to reach is dropped.
@@ -39,11 +40,4 @@ spec:
             - port: "53"
               protocol: UDP
             - port: "53"
-              protocol: TCP
-    # The TrueNAS API on the NAS (outside the cluster).
-    - toCIDR:
-        - 10.10.10.3/32
-      toPorts:
-        - ports:
-            - port: "443"
               protocol: TCP
