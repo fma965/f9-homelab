@@ -47,11 +47,10 @@ spec:
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: prometheus
+  # The NAS exporters come from the egress.cilium.io/nas profile label on the pod (prometheusSpec.podMetadata).
   egress:
     - toEntities:
         - cluster
-    - toCIDR:
-        - 10.10.10.3/32
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Prometheus operator. Egress only (M15, 15 Oct 2026): the API server and the Prometheus and

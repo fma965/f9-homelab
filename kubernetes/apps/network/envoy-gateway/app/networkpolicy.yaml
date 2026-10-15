@@ -14,14 +14,12 @@ spec:
     matchLabels:
       app.kubernetes.io/name: envoy
       app.kubernetes.io/managed-by: envoy-gateway
+  # The NAS routes come from the egress.cilium.io/nas profile label on the proxy pods (EnvoyProxy envoyDeployment.pod).
   egress:
     # Route backends change with every app, so allow the whole cluster (pods, nodes and the API
     # server). This also covers kube-dns.
     - toEntities:
         - cluster
-    # The routes that point at the NAS (any port, as the list grows with the routes).
-    - toCIDR:
-        - 10.10.10.3/32
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Envoy Gateway controller. Egress only (M15, 15 Oct 2026): it programs the proxies over xDS (they

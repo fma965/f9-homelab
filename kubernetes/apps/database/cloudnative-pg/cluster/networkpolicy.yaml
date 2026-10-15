@@ -48,22 +48,14 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
-    # Replies to the instances' own connections through Services: the API server (kubernetes
-    # Service) and the other instances (the -rw / -r Services, replication). Cilium evaluates the
-    # reverse-translated reply as new traffic to this pod, to the pod's ephemeral port.
-    - fromEntities:
-        - host
-        - kube-apiserver
-        - remote-node
-      toPorts:
-        - ports:
-            - port: "32768"
-              endPort: 60999
-              protocol: TCP
+    # Replies from the other instances to this pod's own connections through the -rw / -r Services
+    # (replication), evaluated the same way.
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: database
             cnpg.io/cluster: postgres17
+  # The API server and the NAS (WAL archive on Garage) come from the egress.cilium.io/kube-apiserver
+  # and /nas profile labels on the pods (Cluster inheritedMetadata).
   egress:
     - toEndpoints:
         - matchLabels:
@@ -85,25 +77,6 @@ spec:
             - port: "5432"
               protocol: TCP
             - port: "8000"
-              protocol: TCP
-    # The instance manager reports to the Kubernetes API; the pods sit on control-plane nodes, so
-    # the API server is the pod's own node (`host`) or another one (`remote-node`).
-    - toEntities:
-        - host
-        - kube-apiserver
-        - remote-node
-      toPorts:
-        - ports:
-            - port: "6443"
-              protocol: TCP
-    # WAL archiving and base backups to Garage on the NAS (`endpointURL` nas.main.internal:3900),
-    # and the same store for a recovery. The archive runs every five minutes, so a short capture
-    # does not always show it.
-    - toCIDR:
-        - 10.10.10.3/32
-      toPorts:
-        - ports:
-            - port: "3900"
               protocol: TCP
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
