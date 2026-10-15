@@ -1,0 +1,44 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Kanidm (id.f9.casa). Ingress and egress (M15, 15 Oct 2026): only the external gateway (the login
+# page and the OIDC endpoints, 8443) and the operator (its management API) may connect in, and the
+# pod may reach DNS and nothing else (LDAP is off and there is a single replica, so no replication).
+# Written from how the operator and Kanidm work, not from a capture, as it is new.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kanidm
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: kanidm
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+        - matchLabels:
+            io.kubernetes.pod.namespace: security
+            app.kubernetes.io/name: kaniop
+      toPorts:
+        - ports:
+            - port: "8443"
+              protocol: TCP
+    # Replies to the pod's own connections, which go through the kube-dns Service. Cilium evaluates
+    # the reverse-translated reply as new traffic to this pod and drops it without this rule. The
+    # destination is the pod's ephemeral source port, so no port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
