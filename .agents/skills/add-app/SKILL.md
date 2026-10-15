@@ -300,6 +300,8 @@ Add `networkpolicy.yaml` for any app that is routed or reachable from other pods
 - the specific in-cluster callers (Homepage widget, Home Assistant, Prometheus, ...);
 - for an app that does OIDC against `auth.f9.casa`, the gateway pods on any port (their replies come from the listener port).
 
+For a public app or one that holds credentials, also add `egress` (see the network-policy bullet in `AGENTS.md`): `kube-dns` on 53 with the `dns` proxy rule, each in-cluster target (`toEndpoints`) **and the same target under `ingress`**, off-cluster addresses with `toCIDR`, internet hosts with `toFQDNs` on 443. Copy zipline's (no internet) or seerr's (named hosts).
+
 A `LoadBalancer`, hostNetwork or Multus-attached app needs thought: Cilium does not see the Multus interfaces. The server-side dry run (`kubectl apply --dry-run=server -f networkpolicy.yaml`) validates the manifest; the real test is after merge, with Hubble (`Policy denied DROPPED`).
 
 ## Step 5: Verify
@@ -318,6 +320,7 @@ flate test all --path ./kubernetes/flux/cluster          # when tools and networ
 - **`readOnlyRootFilesystem: true` without a tmpfs**: apps that write to `/tmp` crash; mount an `emptyDir`.
 - **Putting an admin tool on `envoy-external`**: default to `envoy-internal`.
 - **A public route with no login**: add the `ext-auth` component, or confirm the app does its own OIDC.
+- **An egress rule with no matching ingress rule**: the connection opens and its reply is dropped, so it times out (Immich's SMTP relay, f9-homelab#2091).
 - **A network policy that omits the reply paths**: the app then fails intermittently (DNS) or cannot reach its database, and Hubble shows `Policy denied DROPPED` from `kube-dns` or the database pods.
 - **Guessing 1Password field names**: a wrong name renders an empty value silently.
 - **Mounting NFS without `zeroscaler` and the `csi-driver-nfs` dependency**: the pod then hangs when the NAS is down.
