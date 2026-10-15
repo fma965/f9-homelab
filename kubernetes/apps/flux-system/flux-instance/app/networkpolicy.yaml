@@ -114,3 +114,125 @@ spec:
         - ports:
             - port: "443"
               protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Flux source-controller (M15, egress, 15 Oct 2026): it holds the GitHub credentials and fetches
+# every chart and manifest, so it may reach DNS, the API server, GitHub and the registries in use,
+# and nothing else. Ingress is not limited here (the other controllers fetch artifacts on 9090).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: source-controller
+spec:
+  endpointSelector:
+    matchLabels:
+      app: source-controller
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # The API server. The pods can sit on a control-plane node, where it is the pod's own node
+    # (`host`) or another control-plane node (`remote-node`).
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    # Events to the notification-controller (its Service, 9090). Its ingress policy allows this.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: flux-system
+            app: notification-controller
+      toPorts:
+        - ports:
+            - port: "9090"
+              protocol: TCP
+    # The GitRepository for this repository (git over HTTPS).
+    - toFQDNs:
+        - matchName: github.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    # The OCI registries the sources pull from, and the hosts they redirect blob downloads to
+    # (checked against the registries: GHCR -> pkg-containers.githubusercontent.com, Quay ->
+    # cdn01.quay.io, the Giant Swarm registry -> an Azure blob account). `mirror.gcr.io` redirects
+    # on its own host. Sources reconcile every 10-15 minutes, so a short capture does not see them.
+    - toFQDNs:
+        - matchName: ghcr.io
+        - matchName: pkg-containers.githubusercontent.com
+        - matchName: quay.io
+        - matchPattern: "cdn*.quay.io"
+        - matchName: mirror.gcr.io
+        - matchName: gsoci.azurecr.io
+        - matchPattern: "*.blob.core.windows.net"
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Flux kustomize-controller and helm-controller (M15, egress, 15 Oct 2026): cluster-admin, so they
+# may reach DNS, the API server, the source-controller (artifacts) and the notification-controller
+# (events), and nothing else. Seen in Hubble: both fetch artifacts from source-controller:9090.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kustomize-helm-controllers
+spec:
+  endpointSelector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values: [kustomize-controller, helm-controller]
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # The API server. The pods can sit on a control-plane node, where it is the pod's own node
+    # (`host`) or another control-plane node (`remote-node`).
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    # Events to the notification-controller (its Service, 9090). Its ingress policy allows this.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: flux-system
+            app: notification-controller
+      toPorts:
+        - ports:
+            - port: "9090"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: flux-system
+            app: source-controller
+      toPorts:
+        - ports:
+            - port: "9090"
+              protocol: TCP
