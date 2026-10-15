@@ -68,7 +68,7 @@ specs:
   # The public web (80 and 443). Private ranges are excluded, so the cluster and the home network stay closed.
   - endpointSelector:
       matchLabels:
-        egress.cilium.io/internet: "true"
+        egress.cilium.io/web: "true"
     enableDefaultDeny:
       egress: false
       ingress: false
@@ -90,7 +90,7 @@ specs:
   # The public internet on any port (private ranges excluded), for pods whose destinations cannot be listed.
   - endpointSelector:
       matchLabels:
-        egress.cilium.io/internet-all: "true"
+        egress.cilium.io/internet: "true"
     enableDefaultDeny:
       egress: false
       ingress: false
