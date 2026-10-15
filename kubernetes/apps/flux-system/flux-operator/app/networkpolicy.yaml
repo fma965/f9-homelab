@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Flux operator (M15, egress, 15 Oct 2026): it installs and upgrades Flux and holds cluster-admin,
+# so it may reach DNS, the API server, the notification-controller (events) and the GHCR hosts the
+# Flux distribution comes from, and nothing else. Ingress is not limited here.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: flux-operator
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: flux-operator
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # The API server. The pods can sit on a control-plane node, where it is the pod's own node
+    # (`host`) or another control-plane node (`remote-node`).
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    # Events to the notification-controller (its Service, 9090). Its ingress policy allows this.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: flux-system
+            app: notification-controller
+      toPorts:
+        - ports:
+            - port: "9090"
+              protocol: TCP
+    # The Flux distribution (oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests and the
+    # ghcr.io/fluxcd images' manifests) and GHCR's blob host.
+    - toFQDNs:
+        - matchName: ghcr.io
+        - matchName: pkg-containers.githubusercontent.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
