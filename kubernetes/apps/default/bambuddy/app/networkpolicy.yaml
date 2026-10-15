@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Bambuddy (3D printer manager, public, OIDC login). This covers its main (cluster) interface only:
+# the virtual-printer ports (990, 3000-3002, 6000, 8883, 50000-50100) are on the Multus "not-routed"
+# interface (10.10.30.246) and are not seen by Cilium. Probes come from the local node, which Cilium
+# always allows. Ingress only (M15). Allow-list from the manifests and the Cilium connection table
+# on 15 Oct 2026.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: bambuddy
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: bambuddy
+  ingress:
+    # The web UI through the external gateway, and Home Assistant's Bambuddy integration (240
+    # connections in the connection table).
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: home-assistant
+      toPorts:
+        - ports:
+            - port: "8000"
+              protocol: TCP
+    # Replies to Bambuddy's own connections: kube-dns, Home Assistant (home-assistant-app:8123) and
+    # the gateway (auth.f9.casa for OIDC). They come back through Services, where Cilium evaluates
+    # the reverse-translated reply as new traffic to this pod and drops it ("Policy denied DROPPED"
+    # in Hubble). Allow any pod in the cluster to reach this pod on the ephemeral port range only
+    # (32768 to 60999, the range the pod's own outgoing connections use); port 8000 stays limited to
+    # the sources above.
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: TCP
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: UDP

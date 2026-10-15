@@ -1,0 +1,76 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Music Assistant (music server, public through the gateway). This covers its main (cluster)
+# interface only: the Media VLAN side (Multus "media", 10.10.40.241) where the players and Home
+# Assistant also talk to it is not seen by Cilium. Probes come from the local node, which Cilium
+# always allows. Ingress only (M15). Allow-list from the manifests and the Cilium connection table
+# on 15 Oct 2026.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: music-assistant
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: music-assistant
+  ingress:
+    # The web UI through the external gateway, and Home Assistant's Music Assistant integration
+    # (it normally uses the Media VLAN interface, which is not covered; this is in case it uses
+    # the Service).
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: home-assistant
+      toPorts:
+        - ports:
+            - port: "8095"
+              protocol: TCP
+    # music-assistant is also a LoadBalancer (10.10.69.205) for the players and the stream server:
+    # TCP 8095, 8097, 32500, 32501 and UDP 32410, 32412, 32413, 32414, 32500. Those connections come
+    # from devices on the home network (world) or another node forwarding them (remote-node, host),
+    # so they are allowed from there on those ports only.
+    - fromEntities:
+        - world
+        - remote-node
+        - host
+      toPorts:
+        - ports:
+            - port: "8095"
+              protocol: TCP
+            - port: "8097"
+              protocol: TCP
+            - port: "32500"
+              protocol: TCP
+            - port: "32501"
+              protocol: TCP
+            - port: "32410"
+              protocol: UDP
+            - port: "32412"
+              protocol: UDP
+            - port: "32413"
+              protocol: UDP
+            - port: "32414"
+              protocol: UDP
+            - port: "32500"
+              protocol: UDP
+    # Replies to Music Assistant's own connections (kube-dns, the gateway, Home Assistant, ...) come
+    # back through Services, where Cilium evaluates the reverse-translated reply as new traffic to
+    # this pod and drops it ("Policy denied DROPPED" in Hubble). Allow any pod in the cluster to reach
+    # this pod on the ephemeral port range only (32768 to 60999, the range the pod's own outgoing
+    # connections use); the service ports stay limited to the sources above.
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: TCP
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: UDP
