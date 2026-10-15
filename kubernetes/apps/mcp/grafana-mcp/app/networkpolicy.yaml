@@ -2,7 +2,7 @@
 # Grafana MCP server (read-only Grafana queries for the claude.ai connector). Only the external
 # Envoy gateway pods may connect (8000/TCP): the route is on envoy-external only and nothing
 # else in the cluster calls it. Probes come from the local node, which Cilium always allows.
-# Ingress only (M15); egress is not restricted.
+# Ingress and egress (M15).
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -35,3 +35,25 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: o11y
             app: grafana
+  egress:
+    # Egress (M15): DNS and Grafana only. This also blocks the server's built-in anonymous
+    # usage statistics to Grafana Labs, which it logs at start-up.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # Grafana, called at grafana-service.o11y.svc:3000.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app: grafana
+      toPorts:
+        - ports:
+            - port: "3000"
+              protocol: TCP

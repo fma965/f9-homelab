@@ -2,7 +2,7 @@
 # Home Assistant MCP server (the claude.ai connector; also guarded by the API-key policy and the
 # secret path). Only the external Envoy gateway pods may connect (80/TCP): the route is on
 # envoy-external only and nothing else in the cluster calls it. Probes come from the local node,
-# which Cilium always allows. Ingress only (M15); egress is not restricted.
+# which Cilium always allows. Ingress and egress (M15).
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -35,3 +35,25 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: default
             app.kubernetes.io/name: home-assistant
+  egress:
+    # Egress (M15): DNS and the Home Assistant API only. Anything else this pod tries to
+    # reach is dropped.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # Home Assistant, called at home-assistant-app.default.svc:8123.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: home-assistant
+      toPorts:
+        - ports:
+            - port: "8123"
+              protocol: TCP

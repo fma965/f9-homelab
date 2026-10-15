@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # UniFi network MCP server. Only the external Envoy gateway pods may connect (3000/TCP): the
 # route is on envoy-external only and nothing else in the cluster calls it. Probes come from the
-# local node, which Cilium always allows. Ingress only (M15); egress is not restricted.
+# local node, which Cilium always allows. Ingress and egress (M15).
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -27,3 +27,24 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
+  egress:
+    # Egress (M15): DNS and the UniFi controller only (unifi.internal resolves to
+    # 10.10.100.254 from the cluster, port 443). Anything else this pod tries to reach is
+    # dropped.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # The UniFi controller on the gateway (outside the cluster).
+    - toCIDR:
+        - 10.10.100.254/32
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
