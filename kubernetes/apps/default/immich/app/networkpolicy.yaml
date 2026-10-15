@@ -1,6 +1,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Immich (photos, public, OIDC login). Allow-list from the manifests and the Cilium connection
 # table on 15 Oct 2026 (M15). Probes come from the local node, which Cilium always allows.
+# Egress (M15): DNS, Postgres, Dragonfly, the NAS machine-learning server, the gateway and a short list of named hosts.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -51,3 +52,65 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: database
             app: dragonfly
+  egress:
+    # Egress (M15): only the destinations below; anything else this pod tries to reach is
+    # dropped. DNS goes through Cilium's DNS proxy (the `dns` rule) so the named hosts
+    # further down can be matched; every name may be looked up, only the listed ones can be
+    # connected to.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # The shared Postgres (postgres-rw.database.svc) and Dragonfly (dragonfly.database.svc).
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            app: dragonfly
+      toPorts:
+        - ports:
+            - port: "6379"
+              protocol: TCP
+    # The machine-learning server, which runs on the NAS (docker/ai/immich-machine-learning,
+    # port 3003). Smart search and face recognition call it.
+    - toCIDR:
+        - 10.10.10.3/32
+      toPorts:
+        - ports:
+            - port: "3003"
+              protocol: TCP
+    # The external gateway, for OIDC: Immich signs in through auth.f9.casa, which resolves
+    # to the gateway (its pods listen on 10443).
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "10443"
+              protocol: TCP
+    # Internet hosts by name (443 only): the new-version check. Unlike setups that run
+    # machine learning in the cluster, nothing here downloads models (the NAS does). If a
+    # feature stops working, look for the denied name in Hubble and add it here.
+    - toFQDNs:
+        - matchName: version.immich.cloud
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
