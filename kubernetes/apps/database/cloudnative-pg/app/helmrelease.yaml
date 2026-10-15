@@ -14,6 +14,8 @@ spec:
       create: true
     config:
       data:
+    podLabels:
+      egress.cilium.io/kube-apiserver: "true"
     resources:
       requests:
         cpu: 10m

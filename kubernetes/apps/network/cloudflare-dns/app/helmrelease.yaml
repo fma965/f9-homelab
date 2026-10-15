@@ -42,5 +42,7 @@ spec:
       - f9.casa
     serviceMonitor:
       enabled: true
+    podLabels:
+      egress.cilium.io/kube-apiserver: "true"
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret
