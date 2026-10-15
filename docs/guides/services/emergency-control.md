@@ -19,8 +19,17 @@ If only one thing isn't responding and everything else works, try [Troubleshooti
 
 1. Make sure your phone is on the **house Wi-Fi**.
 2. Open the **Emergency Control** app.
-3. Find the thing you want to control. The buttons are named after the lights, heating and appliances.
+3. Find the thing you want to control. The buttons are grouped:
+    - **Downstairs Lights:** Lounge Light, Hallway Light, Utility Light.
+    - **Upstairs Lights:** Landing Light, Office Light, Scott's Bedroom Light, Birchmore Room Light.
+    - **Appliances:** Force on Central Heating, Turn off Central Heating, Force on Dishwasher, Force On Washing Machine.
 4. Tap the button once, and wait a couple of seconds.
+
+## What each button does
+
+- **Light buttons** switch that light **on if it is off, and off if it is on**. Tap once, not repeatedly.
+- **Force on Central Heating** turns the heating on and sets the boiler to run hot. **Turn off Central Heating** turns it off again.
+- **Force on Dishwasher** and **Force On Washing Machine** switch on the smart plug the machine is plugged into, so the machine has power. You still start the wash on the machine itself.
 
 ## If it doesn't work
 
