@@ -10,6 +10,7 @@ spec:
   endpointSelector:
     matchLabels:
       app.kubernetes.io/instance: cloudflare-dns
+  # The API server comes from the egress.cilium.io/kube-apiserver profile (the label is on the pod in the HelmRelease).
   egress:
     # DNS through Cilium's DNS proxy so the named host below can be matched.
     - toEndpoints:
@@ -25,16 +26,6 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    # The Kubernetes API on the control-plane nodes (6443). A pod on a control-plane node sees
-    # its own node as `host` and the others as `remote-node`, so all three entities are needed.
-    - toEntities:
-        - host
-        - kube-apiserver
-        - remote-node
-      toPorts:
-        - ports:
-            - port: "6443"
-              protocol: TCP
     - toFQDNs:
         - matchName: api.cloudflare.com
       toPorts:
