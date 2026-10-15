@@ -11,6 +11,8 @@ spec:
   values:
     defaultPodOptions:
       enableServiceLinks: false
+      labels:
+        egress.cilium.io/smtp-relay: "true"
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
