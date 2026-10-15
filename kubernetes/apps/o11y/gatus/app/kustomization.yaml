@@ -5,12 +5,13 @@ kind: Kustomization
 resources:
   # - ./externalsecret.yaml
   - ./helmrelease.yaml
+  - ./networkpolicy.yaml
   - ./ocirepository.yaml
   - ./prometheusrule.yaml
 configMapGenerator:
   - name: gatus-configmap
     files:
-     # - buddy.yaml=./resources/buddy.yaml
+      # - buddy.yaml=./resources/buddy.yaml
       - config.yaml=./resources/config.yaml
 generatorOptions:
   disableNameSuffixHash: true
