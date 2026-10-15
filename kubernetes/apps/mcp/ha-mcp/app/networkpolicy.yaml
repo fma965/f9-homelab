@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Home Assistant MCP server (the claude.ai connector; also guarded by the API-key policy and the
+# secret path). Only the external Envoy gateway pods may connect (80/TCP): the route is on
+# envoy-external only and nothing else in the cluster calls it. Probes come from the local node,
+# which Cilium always allows. Ingress only (M15); egress is not restricted.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: ha-mcp
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: ha-mcp
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+    # CoreDNS replies to this pod's own lookups. They go through the kube-dns Service, so
+    # Cilium treats the reverse-translated reply as new traffic to the pod and (without this
+    # rule) drops it ("Policy denied DROPPED" from kube-dns in Hubble). The reply goes to an
+    # ephemeral source port, so no port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+    # Home Assistant is called at home-assistant-app.default.svc:8123. It is reached through
+    # a Service, so its replies are reverse-translated and evaluated as new connections to
+    # this pod (same effect as the DNS replies above); allow the pod in.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: home-assistant

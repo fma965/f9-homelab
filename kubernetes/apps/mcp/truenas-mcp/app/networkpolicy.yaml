@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# TrueNAS MCP server (read-only API key). Only the external Envoy gateway pods may connect
+# (8080/TCP): the route is on envoy-external only and nothing else in the cluster calls it.
+# Probes come from the local node, which Cilium always allows. Ingress only (M15); egress is not
+# restricted.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: truenas-mcp
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: truenas-mcp
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # CoreDNS replies to this pod's own lookups. They go through the kube-dns Service, so
+    # Cilium treats the reverse-translated reply as new traffic to the pod and (without this
+    # rule) drops it ("Policy denied DROPPED" from kube-dns in Hubble). The reply goes to an
+    # ephemeral source port, so no port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
