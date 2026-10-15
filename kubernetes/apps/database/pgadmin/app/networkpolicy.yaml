@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# pgAdmin (internal, behind Authelia). Egress only (M15, 15 Oct 2026): it holds database logins, so
+# it may reach DNS and the Postgres instances and nothing else (its own update check is blocked;
+# the UI only reports it). The instances already allow the database namespace on 5432 in their
+# ingress policy. Ingress is not limited here. Allow-list from Hubble on 15 Oct 2026.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: pgadmin
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: pgadmin
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
