@@ -12,20 +12,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: smtp-relay
   egress:
-    # DNS through Cilium's DNS proxy so the named host below can be matched.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
-          rules:
-            dns:
-              - matchPattern: "*"
     # The upstream provider: SMTP submission with STARTTLS (SMTP_SERVER, port 587).
     - toFQDNs:
         - matchName: in-v3.mailjet.com

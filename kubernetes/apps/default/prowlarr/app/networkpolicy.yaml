@@ -15,19 +15,6 @@ spec:
       app.kubernetes.io/name: prowlarr
   # Access to the public web (egress.cilium.io/web) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
-          rules:
-            dns:
-              - matchPattern: "*"
     # The other apps in the stack (Postgres, the download clients, Prowlarr, Jellyfin, ...), which
     # are Services in the cluster and change as the stack does.
     - toEntities:

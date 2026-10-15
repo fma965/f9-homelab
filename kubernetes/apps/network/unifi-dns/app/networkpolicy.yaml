@@ -13,13 +13,6 @@ spec:
   # The API server comes from the egress.cilium.io/kube-apiserver profile (the label is on the pod in the HelmRelease).
   # Access to the UniFi controller (egress.cilium.io/unifi) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
+    # Deny all egress (default-deny). DNS (allow-dns) and the egress.cilium.io profile labels add
+    # what the pod needs.
+    - {}

@@ -30,27 +30,7 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    # Replies from CoreDNS to the pod's own lookups (reached through a Service, so evaluated
-    # as new traffic to this pod).
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
   egress:
-    # DNS through Cilium's DNS proxy so the named hosts below can be matched.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
-          rules:
-            dns:
-              - matchPattern: "*"
     # Connect syncs the vault from 1Password over HTTPS. Its log shows my.1password.com and
     # b5n.1password.com, both one label under 1password.com, so one pattern covers them.
     - toFQDNs:

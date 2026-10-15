@@ -12,16 +12,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: cloudflare-tunnel
   egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
     # Cloudflare's edge: the tunnel connects out on 7844 (TCP, or UDP for QUIC) to the addresses
     # region1.v2.argotunnel.com and region2.v2.argotunnel.com resolve to. Every connection seen was
     # in 198.41.192.0/24 and 198.41.200.0/24, but cloudflared finds the edge through SRV lookups and

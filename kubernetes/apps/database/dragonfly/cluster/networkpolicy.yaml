@@ -43,22 +43,9 @@ spec:
     # its ephemeral port, so no port can be listed.
     - fromEndpoints:
         - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-        - matchLabels:
             io.kubernetes.pod.namespace: database
             app: dragonfly
   egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
     # Replication (replicas to the master on 6379) and the admin / health port (9999). The master
     # changes on a failover, so every pod may reach every other.
     - toEndpoints:

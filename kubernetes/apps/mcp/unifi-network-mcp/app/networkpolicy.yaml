@@ -19,26 +19,8 @@ spec:
         - ports:
             - port: "3000"
               protocol: TCP
-    # CoreDNS replies to this pod's own lookups. They go through the kube-dns Service, so
-    # Cilium treats the reverse-translated reply as new traffic to the pod and (without this
-    # rule) drops it ("Policy denied DROPPED" from kube-dns in Hubble). The reply goes to an
-    # ephemeral source port, so no port can be listed.
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
   # Access to the UniFi controller (egress.cilium.io/unifi) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
-    # Egress (M15): DNS and the UniFi controller only (unifi.internal resolves to
-    # 10.10.100.254 from the cluster, port 443). Anything else this pod tries to reach is
-    # dropped.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
+    # Deny all egress (default-deny). DNS (allow-dns) and the egress.cilium.io profile labels add
+    # what the pod needs.
+    - {}

@@ -40,14 +40,6 @@ spec:
         - ports:
             - port: "9187"
               protocol: TCP
-    # CoreDNS replies to the instances' own lookups. They go through the kube-dns Service, so
-    # Cilium treats the reverse-translated reply as new traffic to this pod and (without this
-    # rule) drops it; seen in Hubble as "Policy denied DROPPED" from kube-dns. The destination
-    # port of a reply is the pod's ephemeral source port, so no port can be listed.
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
     # Replies from the other instances to this pod's own connections through the -rw / -r Services
     # (replication), evaluated the same way.
     - fromEndpoints:
@@ -57,16 +49,6 @@ spec:
   # The API server and the NAS (WAL archive on Garage) come from the egress.cilium.io/kube-apiserver
   # and /nas profile labels on the pods (Cluster inheritedMetadata).
   egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
     # Replication and the instance manager's status calls between the instances.
     - toEndpoints:
         - matchLabels:

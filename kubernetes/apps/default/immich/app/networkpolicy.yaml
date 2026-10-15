@@ -38,34 +38,8 @@ spec:
         - ports:
             - port: "2283"
               protocol: TCP
-    # Replies to the app's own connections, which go through Services (kube-dns, postgres-
-    # rw, dragonfly). Cilium evaluates the reverse-translated reply as new traffic to this
-    # pod and drops it without these rules ("Policy denied DROPPED" in Hubble). The
-    # destination is the pod's ephemeral source port, so no port can be listed.
-    # The replies from the shared Postgres, Dragonfly and the SMTP relay come from their egress profiles.
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
   # Access to the NAS (egress.cilium.io/nas) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
-    # Egress (M15): only the destinations below; anything else this pod tries to reach is
-    # dropped. DNS goes through Cilium's DNS proxy (the `dns` rule) so the named hosts
-    # further down can be matched; every name may be looked up, only the listed ones can be
-    # connected to.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
-          rules:
-            dns:
-              - matchPattern: "*"
     # Internet hosts by name (443 only): the new-version check. Unlike setups that run
     # machine learning in the cluster, nothing here downloads models (the NAS does). If a
     # feature stops working, look for the denied name in Hubble and add it here.

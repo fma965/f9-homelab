@@ -18,16 +18,6 @@ spec:
         values: [controller, webhook]
   # The API server comes from the egress.cilium.io/kube-apiserver profile (the label is on the pod in the HelmRelease).
   egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
     # The mover Jobs the controller starts (kopia server mode, the controller connects to them). They
     # run in the namespace of the app being backed up, hence the namespace-wide match.
     - toEndpoints:
@@ -52,16 +42,6 @@ spec:
     matchLabels:
       app.kubernetes.io/managed-by: kopiur
   egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
     # The pods can sit on a control-plane node, where the API server is their own node (`host`) or
     # another control-plane node (`remote-node`).
     - toEntities:
