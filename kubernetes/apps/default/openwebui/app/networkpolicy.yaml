@@ -37,6 +37,7 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
+  # Access to the NAS and the public web (egress.cilium.io/nas, /web) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
     # Egress (M15): only the destinations below; anything else this pod tries to reach is
     # dropped. Open WebUI keeps its database (SQLite) and its embedding model on its own
@@ -50,31 +51,4 @@ spec:
             - port: "53"
               protocol: UDP
             - port: "53"
-              protocol: TCP
-    # The model server: llama on the NAS (OPENAI_API_BASE_URL is
-    # http://nas.main.internal:8080/v1).
-    - toCIDR:
-        - 10.10.10.3/32
-      toPorts:
-        - ports:
-            - port: "8080"
-              protocol: TCP
-    # The public internet on 80/443, for web search and fetching pages in chats (it cannot
-    # be a name list: the sites are whatever the user or the search returns). Every private,
-    # link-local and CGNAT range is excluded, so a fetched URL cannot reach the LAN, the NAS
-    # admin pages, the UniFi controller or other cluster services (cluster pods are not
-    # matched by this rule in any case).
-    - toCIDRSet:
-        - cidr: 0.0.0.0/0
-          except:
-            - 10.0.0.0/8
-            - 100.64.0.0/10
-            - 169.254.0.0/16
-            - 172.16.0.0/12
-            - 192.168.0.0/16
-      toPorts:
-        - ports:
-            - port: "80"
-              protocol: TCP
-            - port: "443"
               protocol: TCP

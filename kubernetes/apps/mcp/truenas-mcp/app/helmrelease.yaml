@@ -11,6 +11,8 @@ spec:
     name: *app
   values:
     defaultPodOptions:
+      labels:
+        egress.cilium.io/nas: "true"
       securityContext:
         runAsNonRoot: true
         # gcr.io/distroless/static-debian12:nonroot's baked-in UID/GID.

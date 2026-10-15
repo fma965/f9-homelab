@@ -47,6 +47,7 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
+  # Access to the NAS (egress.cilium.io/nas) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
     - toEndpoints:
         - matchLabels:
@@ -61,13 +62,6 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    # The AI features' language model on the NAS (nas.main.internal:8080).
-    - toCIDR:
-        - 10.10.10.3/32
-      toPorts:
-        - ports:
-            - port: "8080"
-              protocol: TCP
     # The embedding model (sentence-transformers/all-MiniLM-L6-v2) is downloaded from Hugging Face
     # into HF_HOME on first use; the cache is still empty, so this was not seen in a capture.
     - toFQDNs:

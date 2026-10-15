@@ -51,6 +51,8 @@ spec:
     defaultPodOptions:
       labels:
         egress.cilium.io/gateway-external: "true"
+        egress.cilium.io/nas: "true"
+        egress.cilium.io/web: "true"
 
     service:
       app:

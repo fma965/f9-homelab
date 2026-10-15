@@ -47,6 +47,7 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
+  # Access to the NAS (egress.cilium.io/nas) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
     # Egress (M15): only the destinations below; anything else this pod tries to reach is
     # dropped. DNS goes through Cilium's DNS proxy (the `dns` rule) so the named hosts
@@ -65,14 +66,6 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    # The machine-learning server, which runs on the NAS (docker/ai/immich-machine-learning,
-    # port 3003). Smart search and face recognition call it.
-    - toCIDR:
-        - 10.10.10.3/32
-      toPorts:
-        - ports:
-            - port: "3003"
-              protocol: TCP
     # Internet hosts by name (443 only): the new-version check. Unlike setups that run
     # machine learning in the cluster, nothing here downloads models (the NAS does). If a
     # feature stops working, look for the denied name in Hubble and add it here.

@@ -11,6 +11,7 @@ spec:
     matchLabels:
       app.kubernetes.io/instance: unifi-dns
   # The API server comes from the egress.cilium.io/kube-apiserver profile (the label is on the pod in the HelmRelease).
+  # Access to the UniFi controller (egress.cilium.io/unifi) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
     - toEndpoints:
         - matchLabels:
@@ -21,11 +22,4 @@ spec:
             - port: "53"
               protocol: UDP
             - port: "53"
-              protocol: TCP
-    # The UniFi controller (UNIFI_HOST is https://unifi.internal), as the cluster reaches it.
-    - toCIDR:
-        - 10.10.100.254/32
-      toPorts:
-        - ports:
-            - port: "443"
               protocol: TCP

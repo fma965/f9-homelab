@@ -27,6 +27,7 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
+  # Access to the UniFi controller (egress.cilium.io/unifi) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
     # Egress (M15): DNS and the UniFi controller only (unifi.internal resolves to
     # 10.10.100.254 from the cluster, port 443). Anything else this pod tries to reach is
@@ -40,11 +41,4 @@ spec:
             - port: "53"
               protocol: UDP
             - port: "53"
-              protocol: TCP
-    # The UniFi controller on the gateway (outside the cluster).
-    - toCIDR:
-        - 10.10.100.254/32
-      toPorts:
-        - ports:
-            - port: "443"
               protocol: TCP

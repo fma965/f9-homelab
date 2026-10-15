@@ -99,6 +99,7 @@ spec:
     defaultPodOptions:
       labels:
         egress.cilium.io/dragonfly: "true"
+        egress.cilium.io/nas: "true"
 
     service:
       app:

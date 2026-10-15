@@ -60,6 +60,8 @@ spec:
               limits:
                 memory: 512Mi
     defaultPodOptions:
+      labels:
+        egress.cilium.io/web: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
