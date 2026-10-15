@@ -1,9 +1,9 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
-# External Secrets (controller, cert-controller, webhook). Egress only (M15, 16 Oct 2026): these
+# External Secrets (controller, cert-controller, webhook). Egress only (M15, 15 Oct 2026): these
 # pods can read and write every Secret in the cluster, so they may reach DNS, the Kubernetes API
 # and, for the controller, 1Password Connect, and nothing else. Ingress is not limited here
 # (the API server calls the webhook on 10250 and Prometheus scrapes 8080).
-# Allow-list from the Cilium connection table on 16 Oct 2026.
+# Allow-list from the Cilium connection table on 15 Oct 2026.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
