@@ -41,8 +41,10 @@ spec:
             configBlock: |-
               pods verified
               fallthrough in-addr.arpa ip6.arpa
-          - name: autopath
-            parameters: "@kubernetes"
+          # Do not re-add the `autopath` plugin. It answers the first search-path query with a
+          # CNAME chain, so Cilium's DNS proxy caches the resolved IPs against the search-suffixed
+          # name (host.default.svc.cluster.local) rather than the name in `toFQDNs`, and FQDN
+          # network policies silently fail to match. See cilium/cilium#20191.
           - name: forward
             parameters: . /etc/resolv.conf
           - name: cache
