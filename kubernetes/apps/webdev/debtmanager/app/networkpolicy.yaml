@@ -25,13 +25,11 @@ spec:
     # rw). Cilium evaluates the reverse-translated reply as new traffic to this pod and
     # drops it without these rules ("Policy denied DROPPED" in Hubble). The destination is
     # the pod's ephemeral source port, so no port can be listed.
+    # The replies from the shared Postgres, Dragonfly and the SMTP relay come from their egress profiles.
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            cnpg.io/cluster: postgres17
   egress:
     - toEndpoints:
         - matchLabels:
@@ -46,14 +44,6 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            cnpg.io/cluster: postgres17
-      toPorts:
-        - ports:
-            - port: "5432"
-              protocol: TCP
     # Discord: the login (OAuth token exchange) and the notification webhook. Taken from the app
     # source; a short capture does not see them.
     - toFQDNs:

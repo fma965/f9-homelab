@@ -23,11 +23,3 @@ spec:
               protocol: UDP
             - port: "53"
               protocol: TCP
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            cnpg.io/cluster: postgres17
-      toPorts:
-        - ports:
-            - port: "5432"
-              protocol: TCP

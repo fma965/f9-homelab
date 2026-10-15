@@ -59,17 +59,6 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
-    # The external gateway, for OIDC: login goes through auth.f9.casa, which resolves to the
-    # gateway (its pods listen on 10443). The gateway is already allowed in above for the
-    # reply.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: network
-            gateway.envoyproxy.io/owning-gateway-name: envoy-external
-      toPorts:
-        - ports:
-            - port: "10443"
-              protocol: TCP
     # The public internet on 80/443, for web search and fetching pages in chats (it cannot
     # be a name list: the sites are whatever the user or the search returns). Every private,
     # link-local and CGNAT range is excluded, so a fetched URL cannot reach the LAN, the NAS

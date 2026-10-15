@@ -42,13 +42,11 @@ spec:
     # Cilium evaluates the reverse-translated reply as new traffic to this pod and drops it
     # without these rules ("Policy denied DROPPED" in Hubble). The destination is the pod's
     # ephemeral source port, so no port can be listed.
+    # The replies from the shared Postgres, Dragonfly and the SMTP relay come from their egress profiles.
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            app: dragonfly
   egress:
     - toEndpoints:
         - matchLabels:
@@ -63,14 +61,6 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            app: dragonfly
-      toPorts:
-        - ports:
-            - port: "6379"
-              protocol: TCP
     # The AI features' language model on the NAS (nas.main.internal:8080).
     - toCIDR:
         - 10.10.10.3/32

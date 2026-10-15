@@ -76,16 +76,6 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    # Jellyfin, configured as jellyfin.f9.casa:443. That name resolves to the external
-    # gateway, whose pods listen on 10443.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: network
-            gateway.envoyproxy.io/owning-gateway-name: envoy-external
-      toPorts:
-        - ports:
-            - port: "10443"
-              protocol: TCP
     # Internet hosts Seerr needs, by name (443 only): TMDB for metadata and images, GitHub
     # for the update check and the anime list, and the services it uses for IMDb and Rotten
     # Tomatoes ratings. Seerr is set to use TMDB for TV and anime metadata, and its
