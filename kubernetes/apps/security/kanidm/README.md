@@ -14,10 +14,5 @@ Identity provider, run by [Kaniop](https://github.com/pando85/kaniop) (`../kanio
 ## Branding
 
 - **In git:** `app/resources/override.css` (colours and layout; the accent and surfaces are variables at the top) and `app/favicon.yaml` (the 48x48 favicon, the emblem cropped from `app/resources/logo.png`) are mounted over the files the server ships in `/hpkg`. Kanidm reads them at start-up, so after editing, restart the pod: `kubectl -n security rollout restart statefulset kanidm-default`.
-- **In Kanidm itself (the heading and the sign-in logo are stored in its database, not in a file):**
-    ```sh
-    kanidm system domain set-displayname "F9 Auth" -D admin
-    kanidm system domain set-image app/resources/logo.png png -D admin
-    ```
-    The image has to be under 256 KB and 1024x1024. The `admin` password is in `kanidm-admin-passwords` (`ADMIN_PASSWORD`). Per-app names and logos are set on each client: `displayname` in `KanidmOAuth2Client`, and `kanidm system oauth2 set-image <client> <file>` for the picture.
+- **Heading and sign-in logo:** set in the `Kanidm` resource (`domainAppearance`: `displayName` and `image.url`). The operator owns them, so values set by hand with the Kanidm CLI (`set-image`, `set-displayname`) are reset on its next reconcile. The image is fetched from the URL (this repository's `resources/logo.png` on GitHub), must be under 256 KB and 1024x1024, and is re-fetched when the file changes. Changing the logo means committing a new `resources/logo.png` and waiting for the operator (or restarting it). Per-app names and pictures are set on each client: `displayname` and `image.url` in `KanidmOAuth2Client`.
 - **Cannot be changed:** the browser tab title (`Login`) is in the server's HTML templates; the "Powered by Kanidm" footer is hidden with CSS.
