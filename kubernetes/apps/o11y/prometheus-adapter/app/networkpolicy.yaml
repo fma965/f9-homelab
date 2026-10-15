@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Prometheus adapter (custom metrics API). Egress only (M15, 15 Oct 2026): it queries Prometheus and
+# talks to the API server, so the cluster and nothing else. Ingress is not limited here (the API
+# server calls it).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: prometheus-adapter
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus-adapter
+  egress:
+    - toEntities:
+        - cluster
