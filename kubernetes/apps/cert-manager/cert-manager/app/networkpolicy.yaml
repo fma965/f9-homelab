@@ -1,10 +1,10 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
-# cert-manager. Egress only (M15, 16 Oct 2026): the controller holds the ACME account key and the
+# cert-manager. Egress only (M15, 15 Oct 2026): the controller holds the ACME account key and the
 # Cloudflare DNS token, so it may reach DNS, the Kubernetes API, Let's Encrypt, the Cloudflare API
 # and the two DNS-over-HTTPS resolvers of its DNS-01 self-check, and nothing else. The cainjector
 # and webhook need only DNS and the API. Ingress is not limited here (the API server calls the
 # webhook on 10250 and Prometheus scrapes 9402).
-# Allow-list from the Cilium connection table and the HelmRelease on 16 Oct 2026.
+# Allow-list from the Cilium connection table and the HelmRelease on 15 Oct 2026.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
