@@ -61,6 +61,9 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: o11y
             app.kubernetes.io/name: gatus
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            app.kubernetes.io/name: pgadmin
     # The Kubernetes widget talks to the API server; its replies come from the control-plane
     # nodes.
     - fromEntities:
