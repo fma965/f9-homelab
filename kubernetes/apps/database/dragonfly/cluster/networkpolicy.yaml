@@ -71,3 +71,33 @@ spec:
               protocol: TCP
             - port: "9999"
               protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
+# Egress profile `egress.cilium.io/dragonfly`: a pod that uses the shared Dragonfly (Redis) carries the label
+# instead of repeating this rule, and the reply is allowed back in. Dragonfly's own ingress policy still
+# decides which namespaces may connect.
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: dragonfly-egress
+spec:
+  endpointSelector:
+    matchLabels:
+      egress.cilium.io/dragonfly: "true"
+  enableDefaultDeny:
+    egress: false
+    ingress: false
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            app: dragonfly
+      toPorts:
+        - ports:
+            - port: "6379"
+              protocol: TCP
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            app: dragonfly

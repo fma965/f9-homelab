@@ -54,3 +54,21 @@ ip route show
 cilium bgp routes
 cilium bgp peers
 ```
+
+## Egress profiles
+
+Shared egress rules are `CiliumClusterwideNetworkPolicy` objects selected by a pod label (after deedee-ops/home-ops). A pod opts in with `egress.cilium.io/<profile>: "true"` instead of repeating the rule in its own `networkpolicy.yaml`. Every profile has `enableDefaultDeny` off, so it only **adds** an allow: a pod is limited by its own policy (or a per-namespace deny-all) and the profiles it carries are added on top. Where the reply to the pod's own Service call would be dropped by its ingress policy, the profile also allows the reply in. DNS is cluster-wide (`allow-dns`), not a label.
+
+| Profile            | Allows                                                                        | Defined in                                           |
+| ------------------ | ----------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `kube-apiserver`   | the API server, 6443 (`host`, `kube-apiserver`, `remote-node`), and its reply | `app/egress-profiles.yaml`                           |
+| `nas`              | the NAS `10.10.10.3`, any port                                                | same                                                 |
+| `unifi`            | the UniFi controller `10.10.100.254:443`                                      | same                                                 |
+| `web`              | the public web, 80 and 443 (private ranges excluded)                          | same                                                 |
+| `internet`         | the public internet on any port (private ranges excluded)                     | same                                                 |
+| `gateway-external` | the external gateway, 10443, and its reply                                    | same                                                 |
+| `smtp-relay`       | the SMTP relay, 25, and its reply                                             | `network/smtp-relay/app/networkpolicy.yaml`          |
+| `postgres`         | the shared Postgres, 5432, and its reply                                      | `database/cloudnative-pg/cluster/networkpolicy.yaml` |
+| `dragonfly`        | the shared Dragonfly, 6379, and its reply                                     | `database/dragonfly/cluster/networkpolicy.yaml`      |
+
+Set the label in the app's HelmRelease: `defaultPodOptions.labels` for bjw-s app-template apps, the chart's own pod-label value (`podLabels` and the like) for others. After labelling, remove the matching stanza from the app's own policy (and its reply rule on the ingress side) and check Hubble for `Policy denied`. A pod whose own policy loses its last egress stanza would stop being limited, so keep `egress: - {}` (deny all) in it or rely on a per-namespace deny-all.

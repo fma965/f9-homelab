@@ -1,0 +1,127 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
+# Egress profiles (M15), after deedee-ops/home-ops (kubernetes/apps/kube-system/cilium/globalpolicy.yaml).
+# A pod opts in to a profile with a label, `egress.cilium.io/<profile>: "true"`, instead of repeating the
+# rule in its own policy. Every profile has `enableDefaultDeny` off in both directions, so it only adds an
+# allow and never puts a pod into default-deny by itself: a pod is limited by its own policy (or a
+# per-namespace deny-all), and the profiles it carries are added to that. Where a reply to the pod's own
+# Service call would be dropped by the pod's ingress policy, the profile also allows that reply in.
+# Label pods in their HelmRelease (defaultPodOptions.labels, or the chart's own pod-label value). See the
+# Egress profiles section of the Cilium README. Profiles that belong to one app are next to it: smtp-relay
+# (network/smtp-relay), postgres (database/cloudnative-pg) and dragonfly (database/dragonfly).
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: egress-profiles
+specs:
+  # The API server. Control-plane nodes run workloads, so a pod's own node is `host` and another node is
+  # `remote-node`; the reply comes back as new traffic from the same entities on the pod's ephemeral port.
+  - endpointSelector:
+      matchLabels:
+        egress.cilium.io/kube-apiserver: "true"
+    enableDefaultDeny:
+      egress: false
+      ingress: false
+    egress:
+      - toEntities:
+          - host
+          - kube-apiserver
+          - remote-node
+        toPorts:
+          - ports:
+              - port: "6443"
+                protocol: TCP
+    ingress:
+      - fromEntities:
+          - host
+          - kube-apiserver
+          - remote-node
+        toPorts:
+          - ports:
+              - port: "32768"
+                endPort: 60999
+                protocol: TCP
+  # The NAS (any port).
+  - endpointSelector:
+      matchLabels:
+        egress.cilium.io/nas: "true"
+    enableDefaultDeny:
+      egress: false
+      ingress: false
+    egress:
+      - toCIDR:
+          - 10.10.10.3/32
+  # The UniFi controller, as the cluster sees it.
+  - endpointSelector:
+      matchLabels:
+        egress.cilium.io/unifi: "true"
+    enableDefaultDeny:
+      egress: false
+      ingress: false
+    egress:
+      - toCIDR:
+          - 10.10.100.254/32
+        toPorts:
+          - ports:
+              - port: "443"
+                protocol: TCP
+  # The public web (80 and 443). Private ranges are excluded, so the cluster and the home network stay closed.
+  - endpointSelector:
+      matchLabels:
+        egress.cilium.io/web: "true"
+    enableDefaultDeny:
+      egress: false
+      ingress: false
+    egress:
+      - toCIDRSet:
+          - cidr: 0.0.0.0/0
+            except:
+              - 10.0.0.0/8
+              - 100.64.0.0/10
+              - 169.254.0.0/16
+              - 172.16.0.0/12
+              - 192.168.0.0/16
+        toPorts:
+          - ports:
+              - port: "80"
+                protocol: TCP
+              - port: "443"
+                protocol: TCP
+  # The public internet on any port (private ranges excluded), for pods whose destinations cannot be listed.
+  - endpointSelector:
+      matchLabels:
+        egress.cilium.io/internet: "true"
+    enableDefaultDeny:
+      egress: false
+      ingress: false
+    egress:
+      - toCIDRSet:
+          - cidr: 0.0.0.0/0
+            except:
+              - 10.0.0.0/8
+              - 100.64.0.0/10
+              - 169.254.0.0/16
+              - 172.16.0.0/12
+              - 192.168.0.0/16
+  # The external gateway: names under f9.casa (the OIDC login at auth.f9.casa, S3, public APIs) resolve to it
+  # inside the cluster and its pods listen on 10443. The reply is allowed back in.
+  - endpointSelector:
+      matchLabels:
+        egress.cilium.io/gateway-external: "true"
+    enableDefaultDeny:
+      egress: false
+      ingress: false
+    egress:
+      - toEndpoints:
+          - matchLabels:
+              io.kubernetes.pod.namespace: network
+              gateway.envoyproxy.io/owning-gateway-name: envoy-external
+        toPorts:
+          - ports:
+              - port: "10443"
+                protocol: TCP
+    ingress:
+      - fromEndpoints:
+          - matchLabels:
+              io.kubernetes.pod.namespace: network
+              gateway.envoyproxy.io/owning-gateway-name: envoy-external

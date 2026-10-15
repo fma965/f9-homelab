@@ -105,3 +105,33 @@ spec:
         - ports:
             - port: "3900"
               protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
+# Egress profile `egress.cilium.io/postgres`: a pod that uses the shared Postgres carries the label instead of
+# repeating this rule, and the database's reply is allowed back in. The instances' own ingress policy
+# still decides which namespaces may connect (default and webdev).
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: postgres-egress
+spec:
+  endpointSelector:
+    matchLabels:
+      egress.cilium.io/postgres: "true"
+  enableDefaultDeny:
+    egress: false
+    ingress: false
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17

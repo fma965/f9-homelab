@@ -1,0 +1,37 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
+# Cluster-wide DNS (M15, 15 Oct 2026). Every pod may ask kube-dns on 53, through Cilium's DNS
+# proxy, and receive the reply. The proxy is what lets `toFQDNs` rules learn addresses, and a
+# per-pod allow would otherwise have to repeat this stanza and its reply rule (forgetting the
+# reply caused the Zipline and Connect gaps). `enableDefaultDeny` is off in both directions so this
+# only adds an allow: pods without a policy stay open, and pods with one keep their own limits.
+# CoreDNS `autopath` stays off (cilium/cilium#20191).
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: allow-dns
+spec:
+  endpointSelector: {}
+  enableDefaultDeny:
+    egress: false
+    ingress: false
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+  # The reply is new traffic to the pod, so pods that have an ingress policy need it allowed too.
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
