@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Dragonfly (Redis) accepts clients from default and webdev, the database namespace (replication and
 # the operator) and metrics from Prometheus. Allow-list taken from the Cilium connection table on
-# 13 Oct 2026 (M15).
+# 13 Oct 2026 (M15). Egress (15 Oct 2026): the replicas may reach only each other and DNS.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -36,5 +36,38 @@ spec:
             app.kubernetes.io/name: prometheus
       toPorts:
         - ports:
+            - port: "9999"
+              protocol: TCP
+    # Replies to the pods' own connections through Services (kube-dns, and a replica reaching the
+    # master by name). Cilium evaluates the reverse-translated reply as new traffic to this pod, on
+    # its ephemeral port, so no port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            app: dragonfly
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # Replication (replicas to the master on 6379) and the admin / health port (9999). The master
+    # changes on a failover, so every pod may reach every other.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            app: dragonfly
+      toPorts:
+        - ports:
+            - port: "6379"
+              protocol: TCP
             - port: "9999"
               protocol: TCP
