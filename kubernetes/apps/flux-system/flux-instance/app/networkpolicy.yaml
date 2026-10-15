@@ -175,7 +175,7 @@ spec:
         - matchName: ghcr.io
         - matchName: pkg-containers.githubusercontent.com
         - matchName: quay.io
-        - matchPattern: "*.quay.io"
+        - matchPattern: "cdn*.quay.io"
         - matchName: mirror.gcr.io
         - matchName: gsoci.azurecr.io
         - matchPattern: "*.blob.core.windows.net"
