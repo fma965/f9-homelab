@@ -32,3 +32,34 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: database
             cnpg.io/cluster: postgres17
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    # Discord: the login (OAuth token exchange) and the notification webhook. Taken from the app
+    # source; a short capture does not see them.
+    - toFQDNs:
+        - matchName: discord.com
+        - matchName: discordapp.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
