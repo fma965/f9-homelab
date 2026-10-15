@@ -1,0 +1,24 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Obico ML API (print-failure detection for Bambuddy, in-cluster only). Egress only (M15, 15 Oct 2026):
+# an inference service that takes images and returns detections, so DNS is all it may reach. Ingress
+# is not limited here.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: obico-ml-api
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: obico-ml-api
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
