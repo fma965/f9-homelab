@@ -29,6 +29,8 @@ spec:
         enabled: true
       serviceMonitor:
         enabled: true
+    podLabels:
+      egress.cilium.io/kube-apiserver: "true"
     podSecurityContext:
       runAsNonRoot: true
       runAsUser: 1000
@@ -40,3 +42,6 @@ spec:
         cpu: 100m
       limits:
         memory: 2Gi
+    webhook:
+      podLabels:
+        egress.cilium.io/kube-apiserver: "true"

@@ -64,6 +64,7 @@ spec:
         # required for the operator to determine a primary in each deployed cluster
         # ref: https://deepwiki.com/dragonflydb/dragonfly-operator/2.2-manual-installation#namespace-resource
         control-plane: controller-manager
+        egress.cilium.io/kube-apiserver: "true"
       securityContext:
         runAsUser: 65534
         runAsGroup: 65534

@@ -10,10 +10,17 @@ spec:
     name: external-secrets
   interval: 1h
   values:
+    certController:
+      podLabels:
+        egress.cilium.io/kube-apiserver: "true"
     leaderElect: true
+    podLabels:
+      egress.cilium.io/kube-apiserver: "true"
     serviceMonitor:
       enabled: true
     grafanaDashboard:
       enabled: true
     webhook:
+      podLabels:
+        egress.cilium.io/kube-apiserver: "true"
       replicaCount: 2

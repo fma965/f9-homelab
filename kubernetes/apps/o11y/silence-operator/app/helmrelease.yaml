@@ -9,6 +9,16 @@ spec:
     kind: OCIRepository
     name: silence-operator
   interval: 1h
+  postRenderers:
+    - kustomize:
+        patches:
+          - # Opt the pod in to the API-server egress profile (egress.cilium.io, M15); the chart has no pod-label value
+            patch: |-
+              - op: add
+                path: /spec/template/metadata/labels/egress.cilium.io~1kube-apiserver
+                value: "true"
+            target:
+              kind: Deployment
   values:
     alertmanagerAddress: http://alertmanager-operated.o11y.svc.cluster.local:9093
     networkPolicy:

@@ -12,5 +12,7 @@ spec:
   values:
     dashboard:
       enabled: true
+    podLabels:
+      egress.cilium.io/kube-apiserver: "true"
     serviceMonitor:
       enabled: true

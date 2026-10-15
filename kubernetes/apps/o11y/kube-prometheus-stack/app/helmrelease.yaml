@@ -90,6 +90,8 @@ spec:
       fullnameOverride: node-exporter
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
+      podLabels:
+        egress.cilium.io/kube-apiserver: "true"
     grafana:
       enabled: false
       forceDeployDashboards: true

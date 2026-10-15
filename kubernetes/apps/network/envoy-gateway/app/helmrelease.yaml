@@ -12,6 +12,10 @@ spec:
   values:
     global:
       imageRegistry: mirror.gcr.io
+    deployment:
+      pod:
+        labels:
+          egress.cilium.io/kube-apiserver: "true"
     config:
       envoyGateway:
         extensionApis:
