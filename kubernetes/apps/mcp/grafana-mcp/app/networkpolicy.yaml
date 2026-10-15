@@ -20,14 +20,6 @@ spec:
         - ports:
             - port: "8000"
               protocol: TCP
-    # CoreDNS replies to this pod's own lookups. They go through the kube-dns Service, so
-    # Cilium treats the reverse-translated reply as new traffic to the pod and (without this
-    # rule) drops it ("Policy denied DROPPED" from kube-dns in Hubble). The reply goes to an
-    # ephemeral source port, so no port can be listed.
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
     # Grafana is called at grafana-service.o11y.svc:3000. It is reached through a Service,
     # so its replies are reverse-translated and evaluated as new connections to this pod
     # (same effect as the DNS replies above); allow the pod in.
@@ -36,18 +28,6 @@ spec:
             io.kubernetes.pod.namespace: o11y
             app: grafana
   egress:
-    # Egress (M15): DNS and Grafana only. This also blocks the server's built-in anonymous
-    # usage statistics to Grafana Labs, which it logs at start-up.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
     # Grafana, called at grafana-service.o11y.svc:3000.
     - toEndpoints:
         - matchLabels:

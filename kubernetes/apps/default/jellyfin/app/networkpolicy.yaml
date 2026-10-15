@@ -43,29 +43,9 @@ spec:
     # ephemeral source port, so no port can be listed.
     - fromEndpoints:
         - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-        - matchLabels:
             io.kubernetes.pod.namespace: default
             app.kubernetes.io/name: lldap
   egress:
-    # Egress (M15): only the destinations below; anything else this pod tries to reach is
-    # dropped. DNS goes through Cilium's DNS proxy (the `dns` rule) so the named hosts
-    # further down can be matched; every name may be looked up, only the listed ones can be
-    # connected to.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
-          rules:
-            dns:
-              - matchPattern: "*"
     # LLDAP, for the LDAP Authentication plugin (lldap.default.svc).
     - toEndpoints:
         - matchLabels:

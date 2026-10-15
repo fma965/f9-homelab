@@ -12,20 +12,6 @@ spec:
       app.kubernetes.io/instance: cloudflare-dns
   # The API server comes from the egress.cilium.io/kube-apiserver profile (the label is on the pod in the HelmRelease).
   egress:
-    # DNS through Cilium's DNS proxy so the named host below can be matched.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
-          rules:
-            dns:
-              - matchPattern: "*"
     - toFQDNs:
         - matchName: api.cloudflare.com
       toPorts:

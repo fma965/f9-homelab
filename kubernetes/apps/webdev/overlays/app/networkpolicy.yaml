@@ -18,23 +18,8 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
-    # Replies to the app's own connections, which go through Services (kube-dns). Cilium
-    # evaluates the reverse-translated reply as new traffic to this pod and drops it without
-    # these rules ("Policy denied DROPPED" in Hubble). The destination is the pod's
-    # ephemeral source port, so no port can be listed.
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
   # Egress: a static app with no outbound calls, so DNS is all it may reach.
   egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
+    # Deny all egress (default-deny). DNS (allow-dns) and the egress.cilium.io profile labels add
+    # what the pod needs.
+    - {}

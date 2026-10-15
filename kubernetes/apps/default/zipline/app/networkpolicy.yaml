@@ -30,26 +30,7 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: network
             gateway.envoyproxy.io/owning-gateway-name: envoy-internal
-    # Replies to the app's own connections, which go through Services (kube-dns, postgres-
-    # rw). Cilium evaluates the reverse-translated reply as new traffic to this pod and
-    # drops it without these rules ("Policy denied DROPPED" in Hubble). The destination is
-    # the pod's ephemeral source port, so no port can be listed.
-    # The replies from the shared Postgres, Dragonfly and the SMTP relay come from their egress profiles.
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
   egress:
-    # Egress (M15): only the destinations below; anything else this pod tries to reach is
-    # dropped. Zipline has no internet dependency: version checking is off and uploads go to
-    # an NFS volume the node mounts.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
+    # Deny all egress (default-deny). DNS (allow-dns) and the egress.cilium.io profile labels add
+    # what the pod needs.
+    - {}

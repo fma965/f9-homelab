@@ -15,20 +15,6 @@ spec:
       app.kubernetes.io/name: cert-manager
   # The API server comes from the egress.cilium.io/kube-apiserver profile (the label is on the pod in the HelmRelease).
   egress:
-    # DNS through Cilium's DNS proxy so the named hosts below can be matched.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
-          rules:
-            dns:
-              - matchPattern: "*"
     # ACME (Let's Encrypt, the ClusterIssuer's server) and the Cloudflare API (DNS-01 records).
     - toFQDNs:
         - matchName: acme-v02.api.letsencrypt.org
@@ -62,13 +48,6 @@ spec:
           - webhook
   # The API server comes from the egress.cilium.io/kube-apiserver profile (the label is on the pod in the HelmRelease).
   egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
+    # Deny all egress (default-deny). DNS (allow-dns) and the egress.cilium.io profile labels add
+    # what the pod needs.
+    - {}

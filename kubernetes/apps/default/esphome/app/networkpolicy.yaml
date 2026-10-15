@@ -17,19 +17,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: esphome
   egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
-          rules:
-            dns:
-              - matchPattern: "*"
     - toFQDNs:
         - matchName: files.pythonhosted.org
         - matchName: github.com

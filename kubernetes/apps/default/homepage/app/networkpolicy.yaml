@@ -49,19 +49,6 @@ spec:
   # the NAS and UniFi, and nothing on the internet but the search suggestions.
   # Access to the NAS and UniFi (egress.cilium.io/nas, /unifi) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
-          rules:
-            dns:
-              - matchPattern: "*"
     # Widgets, site monitors and service discovery: about a dozen Services that change as apps are
     # added (arr apps, downloaders, paperless, jellyfin, immich, Home Assistant, ESPHome, Gatus,
     # pgAdmin), plus the Kubernetes widget's API server calls. Replies are already allowed in above.

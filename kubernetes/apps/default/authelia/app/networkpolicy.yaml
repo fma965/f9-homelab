@@ -42,24 +42,9 @@ spec:
     # The replies from the shared Postgres, Dragonfly and the SMTP relay come from their egress profiles.
     - fromEndpoints:
         - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-        - matchLabels:
             io.kubernetes.pod.namespace: default
             app.kubernetes.io/name: lldap
   egress:
-    # Egress (M15): only the destinations below; anything else this pod tries to reach is
-    # dropped. DNS first.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
     # LLDAP, the user directory (lldap.default.svc).
     - toEndpoints:
         - matchLabels:

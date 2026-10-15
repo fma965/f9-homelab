@@ -38,30 +38,8 @@ spec:
         - ports:
             - port: "8000"
               protocol: TCP
-    # Replies to the app's own connections, which go through Services (kube-dns, dragonfly).
-    # Cilium evaluates the reverse-translated reply as new traffic to this pod and drops it
-    # without these rules ("Policy denied DROPPED" in Hubble). The destination is the pod's
-    # ephemeral source port, so no port can be listed.
-    # The replies from the shared Postgres, Dragonfly and the SMTP relay come from their egress profiles.
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
   # Access to the NAS (egress.cilium.io/nas) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
-          rules:
-            dns:
-              - matchPattern: "*"
     # The embedding model (sentence-transformers/all-MiniLM-L6-v2) is downloaded from Hugging Face
     # into HF_HOME on first use; the cache is still empty, so this was not seen in a capture.
     - toFQDNs:
