@@ -4,6 +4,7 @@
 # bind over LDAP, and only the internal Envoy gateway may reach the web UI. Probes come from the
 # local node, which Cilium always allows. Allow-list taken from the Cilium connection table and
 # the Jellyfin plugin directory on 13 Oct 2026 (L30, M15).
+# Egress (M15): DNS, Postgres (5432) and the SMTP relay (25) only.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -51,3 +52,34 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
+  egress:
+    # Egress (M15): only the destinations below; anything else this pod tries to reach is
+    # dropped. DNS first.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # The shared Postgres (postgres-rw.database.svc).
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    # The SMTP relay (smtp-relay.network.svc), used for mail.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            app.kubernetes.io/name: smtp-relay
+      toPorts:
+        - ports:
+            - port: "25"
+              protocol: TCP
