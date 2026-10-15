@@ -2,6 +2,8 @@
 
 **Address:** <https://music.f9.casa>
 
+**Works:** anywhere, at home or away.
+
 !!! warning "Work in progress"
     Music Assistant is still being set up. Some speakers, music sources or features may be missing or not working yet, and things may change. If something doesn't work, it may simply not be set up yet. Let Scott know what you tried.
 

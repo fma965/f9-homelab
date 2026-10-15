@@ -2,6 +2,8 @@
 
 **Address:** <https://status.f9.casa>
 
+**Works:** anywhere, at home or away.
+
 The status page checks our services all the time and shows which are working (green) and which are not (red).
 
 ## What to do

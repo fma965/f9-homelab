@@ -2,6 +2,11 @@
 
 **Address:** <https://sabnzbd.f9.casa>
 
+**Works:** at home only, on the house Wi-Fi or plugged in at home.
+
+!!! info "Away from home"
+    This site does not open on mobile data or other Wi-Fi. Downloads keep running either way.
+
 SABnzbd is the downloader for Usenet. Films and TV requested through [Seerr](seerr.md) are sent to it automatically, so most people never need to open it.
 
 !!! warning "Access is limited"

@@ -6,6 +6,8 @@ We have a Bambu Lab 3D printer. It lives in the **Comms Cupboard**, next to the 
 
 **Address:** <https://bambuddy.f9.casa>
 
+**Works:** anywhere, at home or away.
+
 Use Bambuddy to see the printer's status, queue prints and watch progress. It also keeps track of the filament spools (colour, type and roughly how much is left). Sign in with your house login.
 
 ## Sending prints from Bambu Studio

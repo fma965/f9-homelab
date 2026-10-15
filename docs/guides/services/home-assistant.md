@@ -2,6 +2,8 @@
 
 **Address:** <https://home.f9.casa>
 
+**Works:** anywhere, at home or away.
+
 Home Assistant is the brain of the house. It connects the lights, heating, cameras, locks, appliances and speakers, which would otherwise each need their own app, and lets them work together.
 
 ## What it does in our home

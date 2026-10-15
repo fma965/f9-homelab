@@ -2,6 +2,8 @@
 
 **Address:** <https://photos.f9.casa>
 
+**Works:** anywhere, at home or away.
+
 Immich is our private version of Google Photos. Your photos and videos stay on our own server, not with a big company.
 
 ## Set up on your phone

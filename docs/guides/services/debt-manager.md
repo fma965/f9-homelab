@@ -2,6 +2,8 @@
 
 **Address:** <https://debtmanager.f9.casa>
 
+**Works:** anywhere, at home or away.
+
 Debt Manager keeps track of money owed and who has paid. Payments are matched automatically from the bank using the **payment reference**, so nobody has to tick things off by hand.
 
 ## Using it

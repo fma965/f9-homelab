@@ -2,6 +2,8 @@
 
 **Address:** <https://requests.f9.casa>
 
+**Works:** anywhere, at home or away.
+
 If a film or TV show isn't in [Jellyfin](jellyfin.md), request it here. Requests go to the server, which finds and downloads it automatically.
 
 ## How to request

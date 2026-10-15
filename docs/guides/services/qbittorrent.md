@@ -2,6 +2,11 @@
 
 **Address:** <https://torrents.f9.casa>
 
+**Works:** at home only, on the house Wi-Fi or plugged in at home.
+
+!!! info "Away from home"
+    This site does not open on mobile data or other Wi-Fi. Downloads keep running either way.
+
 qBittorrent is the torrent downloader. Like SABnzbd, it is mostly used automatically by the film and TV tools, so most people never need to open it.
 
 !!! warning "Access is limited"

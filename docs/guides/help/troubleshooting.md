@@ -5,6 +5,7 @@
 1. Check the [status page](status.md).
 2. Try again in a minute. Services restart for updates.
 3. Check your own internet or Wi-Fi works.
+   Some sites only open at home (the cameras, Homebox, the download sites and printing). If you are away from home or on mobile data, that is why. See [Which site do I use?](../getting-started/which-site.md).
 4. Try a private/incognito window. If it works there, clear your browser data for that site.
 
 ## It keeps asking me to log in

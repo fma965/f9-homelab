@@ -2,6 +2,11 @@
 
 **Address:** <https://inventory.f9.casa>
 
+**Works:** at home only, on the house Wi-Fi or plugged in at home.
+
+!!! info "Away from home"
+    This site does not open on mobile data or other Wi-Fi. If you need something from it while you are out, ask Scott.
+
 !!! warning "Work in progress"
     Homebox is still being filled in. Many of our things aren't in it yet, so an empty search doesn't mean we don't have it. Scott is adding our products and sorting out the locations.
 

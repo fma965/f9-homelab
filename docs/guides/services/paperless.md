@@ -2,6 +2,8 @@
 
 **Address:** <https://docs.f9.casa>
 
+**Works:** anywhere, at home or away.
+
 Paperless is our digital filing cabinet. Letters, bills, manuals and warranties are scanned in, read automatically and made searchable.
 
 ## Find a document
