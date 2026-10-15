@@ -1,0 +1,42 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Homebox (home inventory, internal, OIDC login). Egress only (M15, 15 Oct 2026): DNS, its Postgres
+# database and the external gateway (`auth.f9.casa`, the OIDC provider, resolves to it inside the
+# cluster; its pods listen on 10443). The GitHub release check is already off
+# (HBOX_OPTIONS_CHECK_GITHUB_RELEASE). Ingress is not limited here. Allow-list from the manifests and
+# Hubble on 15 Oct 2026.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: homebox
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: homebox
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "10443"
+              protocol: TCP

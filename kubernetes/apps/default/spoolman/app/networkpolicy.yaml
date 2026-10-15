@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Spoolman (filament inventory, internal). Egress only (M15, 15 Oct 2026): DNS and the Spoolman
+# filament database it refreshes from GitHub Pages (`donkie.github.io/SpoolmanDB`, its default
+# EXTERNAL_DB_URL; not seen in a short capture). Ingress is not limited here.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: spoolman
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: spoolman
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchName: donkie.github.io
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
