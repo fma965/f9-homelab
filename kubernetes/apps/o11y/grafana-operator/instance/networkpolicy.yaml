@@ -49,11 +49,3 @@ spec:
         - ports:
             - port: "9428"
               protocol: TCP
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: network
-            gateway.envoyproxy.io/owning-gateway-name: envoy-external
-      toPorts:
-        - ports:
-            - port: "10443"
-              protocol: TCP

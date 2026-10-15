@@ -39,6 +39,7 @@ spec:
     # denied DROPPED" in Hubble). The destination of a reply is Authelia's ephemeral source port, so
     # no port can be listed. The Cilium table showed replies from the dns, lldap, dragonfly and
     # postgres Services; smtp-relay is used only for mail.
+    # The replies from the shared Postgres, Dragonfly and the SMTP relay come from their egress profiles.
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
@@ -46,15 +47,6 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: default
             app.kubernetes.io/name: lldap
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            app: dragonfly
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            cnpg.io/cluster: postgres17
-        - matchLabels:
-            io.kubernetes.pod.namespace: network
-            app.kubernetes.io/name: smtp-relay
   egress:
     # Egress (M15): only the destinations below; anything else this pod tries to reach is
     # dropped. DNS first.
@@ -76,31 +68,4 @@ spec:
       toPorts:
         - ports:
             - port: "389"
-              protocol: TCP
-    # Dragonfly, for sessions (dragonfly.database.svc).
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            app: dragonfly
-      toPorts:
-        - ports:
-            - port: "6379"
-              protocol: TCP
-    # The shared Postgres (postgres-rw.database.svc).
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            cnpg.io/cluster: postgres17
-      toPorts:
-        - ports:
-            - port: "5432"
-              protocol: TCP
-    # The SMTP relay (smtp-relay.network.svc), used for mail.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: network
-            app.kubernetes.io/name: smtp-relay
-      toPorts:
-        - ports:
-            - port: "25"
               protocol: TCP

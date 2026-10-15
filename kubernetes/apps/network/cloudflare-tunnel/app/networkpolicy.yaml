@@ -41,13 +41,3 @@ spec:
               protocol: TCP
             - port: "7844"
               protocol: UDP
-    # The origin: the external gateway (the ingress rules in the HelmRelease point at
-    # envoy-external.network.svc:443; its pods listen on 10443).
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: network
-            gateway.envoyproxy.io/owning-gateway-name: envoy-external
-      toPorts:
-        - ports:
-            - port: "10443"
-              protocol: TCP

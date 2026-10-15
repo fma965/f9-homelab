@@ -42,24 +42,11 @@ spec:
     # rw, dragonfly). Cilium evaluates the reverse-translated reply as new traffic to this
     # pod and drops it without these rules ("Policy denied DROPPED" in Hubble). The
     # destination is the pod's ephemeral source port, so no port can be listed.
+    # The replies from the shared Postgres, Dragonfly and the SMTP relay come from their egress profiles.
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            cnpg.io/cluster: postgres17
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            app: dragonfly
-    # Replies from the SMTP relay (Immich email notifications). It is reached through a
-    # Service, so its reply is evaluated as new traffic to this pod and dropped unless the
-    # relay is allowed in, even though the egress rule below lets the connection out
-    # (Hubble: "Policy denied DROPPED" SYN-ACK from network/smtp-relay).
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: network
-            app.kubernetes.io/name: smtp-relay
   egress:
     # Egress (M15): only the destinations below; anything else this pod tries to reach is
     # dropped. DNS goes through Cilium's DNS proxy (the `dns` rule) so the named hosts
@@ -78,32 +65,6 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    # The shared Postgres (postgres-rw.database.svc) and Dragonfly (dragonfly.database.svc).
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            cnpg.io/cluster: postgres17
-      toPorts:
-        - ports:
-            - port: "5432"
-              protocol: TCP
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            app: dragonfly
-      toPorts:
-        - ports:
-            - port: "6379"
-              protocol: TCP
-    # The SMTP relay (smtp-relay.network.svc, port 25), for Immich email notifications.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: network
-            app.kubernetes.io/name: smtp-relay
-      toPorts:
-        - ports:
-            - port: "25"
-              protocol: TCP
     # The machine-learning server, which runs on the NAS (docker/ai/immich-machine-learning,
     # port 3003). Smart search and face recognition call it.
     - toCIDR:
@@ -111,16 +72,6 @@ spec:
       toPorts:
         - ports:
             - port: "3003"
-              protocol: TCP
-    # The external gateway, for OIDC: Immich signs in through auth.f9.casa, which resolves
-    # to the gateway (its pods listen on 10443).
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: network
-            gateway.envoyproxy.io/owning-gateway-name: envoy-external
-      toPorts:
-        - ports:
-            - port: "10443"
               protocol: TCP
     # Internet hosts by name (443 only): the new-version check. Unlike setups that run
     # machine learning in the cluster, nothing here downloads models (the NAS does). If a
