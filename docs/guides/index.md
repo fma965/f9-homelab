@@ -13,6 +13,7 @@ You don't need to know anything technical. Pick what you want to do below.
 | Back up or look at photos and videos        | [Photos (Immich)](services/immich.md)          |
 | Send someone a file or screenshot link      | [Zipline](services/zipline.md)                 |
 | Find a letter, bill or manual               | [Documents (Paperless)](services/paperless.md) |
+| Keep or find my own files (home only)       | [Your files](services/files.md)                |
 | Print something (home only)                 | [Printing](services/printing.md)               |
 | Scan something                              | [Scanning](services/scanning.md)               |
 | Control lights, heating and so on           | [Home Assistant](services/home-assistant.md)   |

@@ -26,6 +26,10 @@ New photos then upload automatically, usually when you're on Wi-Fi.
 - **Explore** groups photos by people and places.
 - Use **Albums** to collect photos and share them with others in the house.
 
+## Backups
+
+The photos and videos on our server are copied to **Backblaze**, a cloud storage company, **every night**, so they survive even if the server is lost. The copy is encrypted before it is uploaded: the contents of the files are scrambled and Backblaze can't read them. The file names are not hidden. The copy mirrors the library, so something you permanently delete here disappears from the cloud copy the next night.
+
 ## Tips
 
 - Deleting from the app can also remove it from your phone. Check the confirmation.
