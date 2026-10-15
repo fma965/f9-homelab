@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Gatus (status page and uptime probes, public). Only the external Envoy gateway pods, Prometheus
+# (metrics) and Homepage (its Gatus widget) may connect, all on 80/TCP. Allow-list from the
+# manifests and the Cilium connection table on 15 Oct 2026 (M15). Probes come from the local
+# node, which Cilium always allows.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: gatus
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: gatus
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: prometheus
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: homepage
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+    # Gatus probes almost every Service in the cluster (HTTP, TCP, DNS), and their replies come back
+    # through the Service, where Cilium evaluates them as new traffic to this pod and drops them
+    # ("Policy denied DROPPED" in Hubble). Rather than list every target, allow any pod in the
+    # cluster to reach this pod on the ephemeral port range only (32768 to 60999, the range the pod's
+    # own outgoing connections use). Port 80 stays limited to the sources above, so nothing else can
+    # open a connection to Gatus directly.
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: TCP
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: UDP
+    # The gatus-sidecar talks to the Kubernetes API server (it reads routes); its replies come
+    # from the control-plane nodes.
+    - fromEntities:
+        - kube-apiserver
