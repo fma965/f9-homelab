@@ -20,7 +20,6 @@ You don't need to know anything technical. Pick what you want to do below.
 | Look at the cameras (home only)             | [Cameras](services/cameras.md)                 |
 | Use the 3D printer                          | [3D printing](services/3d-printing.md)         |
 | Ask an AI assistant                         | [AI chat](services/ai-chat.md)                 |
-| Search the web without being tracked        | [Private search](services/search.md)           |
 | Find games we can play together | [Games Manager](services/games-manager.md) |
 | Check or pay what's owed | [Debt Manager](services/debt-manager.md) |
 | Check downloads (limited access, home only) | [SABnzbd](services/sabnzbd.md), [qBittorrent](services/qbittorrent.md) |
