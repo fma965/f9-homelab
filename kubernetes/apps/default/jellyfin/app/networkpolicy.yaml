@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Jellyfin (media server, public, LDAP login against LLDAP). Allow-list from the manifests and
 # the Cilium connection table on 15 Oct 2026 (M15). Probes come from the local node, which
-# Cilium always allows. Egress (M15): DNS, LLDAP and a list of named internet hosts only.
+# Cilium always allows. Egress (M15): DNS, LLDAP and the internet on 443, but not the LAN or the rest of the cluster.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -50,9 +50,7 @@ spec:
             app.kubernetes.io/name: lldap
   egress:
     # Egress (M15): only the destinations below; anything else this pod tries to reach is
-    # dropped. DNS goes through Cilium's DNS proxy (the `dns` rule) so the named hosts
-    # further down can be matched; every name may be looked up, only the listed ones can be
-    # connected to.
+    # dropped.
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
@@ -63,9 +61,6 @@ spec:
               protocol: UDP
             - port: "53"
               protocol: TCP
-          rules:
-            dns:
-              - matchPattern: "*"
     # LLDAP, for the LDAP Authentication plugin (lldap.default.svc).
     - toEndpoints:
         - matchLabels:
@@ -75,32 +70,21 @@ spec:
         - ports:
             - port: "389"
               protocol: TCP
-    # Internet hosts Jellyfin needs, by name (443 only). Seeded from deedee-ops/home-ops and
-    # checked against this install's plugins (Intro Skipper, LDAP Authentication, Trakt). If
-    # a feature stops working (missing posters, a plugin that will not install, Trakt not
-    # syncing), look for the denied name in Hubble and add it here. The media itself is an
-    # NFS mount done by the node, so it needs no rule.
-    - toFQDNs:
-        # Jellyfin updates, plugin catalogue and downloads
-        - matchName: repo.jellyfin.org
-        - matchPattern: "*.mirror.jellyfin.org"
-        # Metadata and artwork providers
-        - matchName: api.themoviedb.org
-        - matchName: image.tmdb.org
-        - matchPattern: "*.thetvdb.com"
-        - matchName: assets.fanart.tv
-        - matchName: webservice.fanart.tv
-        - matchName: www.omdbapi.com
-        - matchName: m.media-amazon.com
-        # Intro Skipper plugin (manifest and release downloads)
-        - matchName: intro-skipper.org
-        - matchName: github.com
-        - matchName: raw.githubusercontent.com
-        - matchName: objects.githubusercontent.com
-        - matchName: release-assets.githubusercontent.com
-        - matchName: cdn.jsdelivr.net
-        # Trakt plugin
-        - matchName: api.trakt.tv
+    # The internet on 443: metadata and artwork (TMDb, TheTVDB, fanart, OMDb), Jellyfin
+    # updates and the plugin catalogue (Intro Skipper, Trakt, GitHub). Everything in the
+    # private and link-local ranges is excluded, so a compromised or tricked Jellyfin cannot
+    # reach the LAN (the NAS, UniFi, other VLANs), the nodes or any other pod by IP.
+    # Hostnames are not matched on purpose: pods here use ndots:5 with CoreDNS autopath, so
+    # Cilium's name rules would learn the search-suffixed name instead of the real one and
+    # never match. The media itself is an NFS mount done by the node.
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+          except:
+            - 10.0.0.0/8
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+            - 100.64.0.0/10
+            - 169.254.0.0/16
       toPorts:
         - ports:
             - port: "443"
