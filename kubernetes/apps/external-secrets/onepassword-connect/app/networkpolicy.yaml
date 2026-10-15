@@ -51,11 +51,9 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    # Connect syncs the vault from 1Password (the account server, seen in its log as
-    # my.1password.com and b5n.1password.com) over HTTPS.
+    # Connect syncs the vault from 1Password over HTTPS. Its log shows my.1password.com and
+    # b5n.1password.com, both one label under 1password.com, so one pattern covers them.
     - toFQDNs:
-        - matchName: my.1password.com
-        - matchName: b5n.1password.com
         - matchPattern: "*.1password.com"
       toPorts:
         - ports:
