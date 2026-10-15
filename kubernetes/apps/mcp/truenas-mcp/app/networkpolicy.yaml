@@ -1,8 +1,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # TrueNAS MCP server (read-only API key). Only the external Envoy gateway pods may connect
 # (8080/TCP): the route is on envoy-external only and nothing else in the cluster calls it.
-# Probes come from the local node, which Cilium always allows. Ingress only (M15); egress is not
-# restricted.
+# Probes come from the local node, which Cilium always allows. Ingress and egress (M15).
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -28,3 +27,23 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
+  egress:
+    # Egress (M15): DNS and the NAS API only (nas.main.internal, 10.10.10.3, port 443).
+    # Anything else this pod tries to reach is dropped.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # The TrueNAS API on the NAS (outside the cluster).
+    - toCIDR:
+        - 10.10.10.3/32
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
