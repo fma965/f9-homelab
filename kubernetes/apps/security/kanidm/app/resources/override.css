@@ -78,13 +78,9 @@ a {
   color: var(--f9-accent-hover);
 }
 
-/* Footer: keep the link to the project, drop the grey band */
+/* Footer: hide the "Powered by Kanidm" band */
 .footer {
-  background: transparent !important;
-}
-
-.footer .text-muted {
-  color: var(--f9-muted) !important;
+  display: none !important;
 }
 
 /* Signed-in pages */
