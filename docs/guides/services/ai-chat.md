@@ -2,6 +2,8 @@
 
 **Address:** <https://ai.f9.casa>
 
+**Works:** anywhere, at home or away.
+
 Open WebUI is a ChatGPT-style assistant that runs on our own server, so your conversations stay in the house.
 
 !!! info "It's not Claude or ChatGPT"

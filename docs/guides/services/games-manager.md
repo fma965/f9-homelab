@@ -2,6 +2,8 @@
 
 **Address:** <https://games.f9.casa>
 
+**Works:** anywhere, at home or away.
+
 Games Manager compares the games that a group of people own. Pick who is playing and it shows which games you share, so you can see what you can all play together and which games suit the number of players you have.
 
 ## Using it

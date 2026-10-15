@@ -2,6 +2,8 @@
 
 **Address:** <https://overlays.f9.casa>
 
+**Works:** anywhere, at home or away.
+
 Overlays are web pages used as graphics on top of a live stream or recording in OBS, such as a game-challenge tracker. You don't need to sign in.
 
 ## Using one in OBS

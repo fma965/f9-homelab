@@ -2,6 +2,8 @@
 
 **Address:** <https://jellyfin.f9.casa>
 
+**Works:** anywhere, at home or away.
+
 Jellyfin is our own streaming service. It plays the films and TV shows stored on the server, on any device.
 
 ## Watching

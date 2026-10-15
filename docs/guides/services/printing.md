@@ -1,5 +1,7 @@
 # Printing
 
+**Works:** at home only. The printer is on the house network, so you have to be on the house Wi-Fi or plugged in at home.
+
 We have one black-and-white laser printer (a **Ricoh SP 211**). It sits in the **Comms Cupboard**, next to the scanner and the 3D printer, and is shared over the network, so you can print from your phone or computer without plugging anything in.
 
 !!! info "Printer address"

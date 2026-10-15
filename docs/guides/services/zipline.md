@@ -2,6 +2,8 @@
 
 **Address:** <https://i.f9.casa>
 
+**Works:** anywhere, at home or away.
+
 Zipline turns a file or image into a **link** you can send to anyone, which is handy when it's too big for a message.
 
 ## Share a file
