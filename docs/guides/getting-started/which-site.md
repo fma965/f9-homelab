@@ -23,7 +23,6 @@ The **Works** column says where each one opens: **Anywhere** means at home or aw
 | qBittorrent | <https://torrents.f9.casa> | Torrent downloads (limited access) | Home only | House login |
 | Debt Manager | <https://debtmanager.f9.casa> | Money owed and payments | Anywhere | Discord |
 | Stream overlays | <https://overlays.f9.casa> | OBS overlays | Anywhere | None |
-| Private search | <https://search.f9.casa> | Search without tracking | Not available | None |
 | Status page | <https://status.f9.casa> | Is everything up? | Anywhere | None |
 
 !!! info "Home only sites"

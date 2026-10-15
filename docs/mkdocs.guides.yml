@@ -69,9 +69,8 @@ nav:
   - Other apps:
       - Debt Manager: services/debt-manager.md
       - Stream overlays: services/overlays.md
-  - AI & search:
+  - AI:
       - AI chat (Open WebUI): services/ai-chat.md
-      - Private search: services/search.md
   - Help:
       - Is something down?: help/status.md
       - Troubleshooting: help/troubleshooting.md
