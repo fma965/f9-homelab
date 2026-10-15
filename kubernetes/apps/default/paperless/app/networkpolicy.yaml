@@ -49,3 +49,42 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: database
             app: dragonfly
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            app: dragonfly
+      toPorts:
+        - ports:
+            - port: "6379"
+              protocol: TCP
+    # The AI features' language model on the NAS (nas.main.internal:8080).
+    - toCIDR:
+        - 10.10.10.3/32
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # The embedding model (sentence-transformers/all-MiniLM-L6-v2) is downloaded from Hugging Face
+    # into HF_HOME on first use; the cache is still empty, so this was not seen in a capture.
+    - toFQDNs:
+        - matchName: huggingface.co
+        - matchPattern: "*.huggingface.co"
+        - matchPattern: "*.hf.co"
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

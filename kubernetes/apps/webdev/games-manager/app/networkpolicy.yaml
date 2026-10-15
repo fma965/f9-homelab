@@ -48,3 +48,48 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: network
             app.kubernetes.io/name: smtp-relay
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            app: dragonfly
+      toPorts:
+        - ports:
+            - port: "6379"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            app.kubernetes.io/name: smtp-relay
+      toPorts:
+        - ports:
+            - port: "25"
+              protocol: TCP
+    # auth.f9.casa (OIDC login) and s3.f9.casa (file storage) resolve to the external gateway
+    # inside the cluster (its pods listen on 10443).
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "10443"
+              protocol: TCP
