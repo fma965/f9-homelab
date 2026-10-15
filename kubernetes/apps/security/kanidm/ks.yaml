@@ -10,14 +10,15 @@ spec:
   healthCheckExprs:
     - apiVersion: kaniop.rs/v1beta1
       kind: Kanidm
-      failed: status.conditions.exists(c, c.type == 'Available' && c.status == 'False')
       current: status.conditions.exists(c, c.type == 'Available' && c.status == 'True')
   interval: 1h
   path: ./kubernetes/apps/security/kanidm/app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: security
+  timeout: 10m
   wait: true

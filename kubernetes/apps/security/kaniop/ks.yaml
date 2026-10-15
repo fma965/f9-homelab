@@ -8,6 +8,7 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/security/kaniop/app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
