@@ -98,6 +98,9 @@ spec:
         - matchName: raw.githubusercontent.com
         - matchName: api.radarr.video
         - matchName: 79frdp12pn-dsn.algolia.net
+        # Avatars: Seerr's avatar proxy fetches user pictures from Gravatar server-side
+        - matchName: gravatar.com
+        - matchPattern: "*.gravatar.com"
       toPorts:
         - ports:
             - port: "443"
