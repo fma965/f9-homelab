@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="F9">
+  <rect width="512" height="512" rx="112" fill="#111827"/>
+  <rect x="24" y="24" width="464" height="464" rx="92" fill="none" stroke="#6366f1" stroke-width="12"/>
+  <text x="256" y="338" text-anchor="middle" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="236" font-weight="800" fill="#e5e7eb" letter-spacing="-8">F9</text>
+</svg>

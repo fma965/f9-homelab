@@ -1,0 +1,96 @@
+/*
+ * Kanidm login and account pages (id.f9.casa). Mounted over /hpkg/override.css.
+ * Change the accent and the surfaces here. The page <title> ("Login") and the heading text are not
+ * ours to change in HTML: the heading is the site display name, set with
+ * `kanidm system domain set-displayname`, and the sign-in logo with `kanidm system domain set-image`.
+ */
+:root {
+  --f9-bg: #0b1020;
+  --f9-surface: #111827;
+  --f9-border: #1f2937;
+  --f9-text: #e5e7eb;
+  --f9-muted: #9ca3af;
+  --f9-accent: #6366f1;
+  --f9-accent-hover: #818cf8;
+}
+
+html,
+body {
+  background: var(--f9-bg);
+  color: var(--f9-text);
+}
+
+/* Sign-in card */
+.form-signin {
+  background: var(--f9-surface);
+  border: 1px solid var(--f9-border);
+  border-radius: 1rem;
+  padding: 2.25rem 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  max-width: 460px;
+}
+
+.kanidm_logo {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 1.4rem;
+}
+
+h3,
+.form-label,
+.form-check-label {
+  color: var(--f9-text);
+}
+
+.form-control,
+.form-control:focus {
+  background: var(--f9-bg);
+  color: var(--f9-text);
+  border-color: var(--f9-border);
+}
+
+.form-control:focus {
+  border-color: var(--f9-accent);
+  box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--f9-accent);
+  --bs-btn-border-color: var(--f9-accent);
+  --bs-btn-hover-bg: var(--f9-accent-hover);
+  --bs-btn-hover-border-color: var(--f9-accent-hover);
+  --bs-btn-active-bg: var(--f9-accent-hover);
+  --bs-btn-active-border-color: var(--f9-accent-hover);
+  --bs-btn-disabled-bg: var(--f9-accent);
+  --bs-btn-disabled-border-color: var(--f9-accent);
+}
+
+.form-check-input:checked {
+  background-color: var(--f9-accent);
+  border-color: var(--f9-accent);
+}
+
+a {
+  color: var(--f9-accent-hover);
+}
+
+/* Footer: keep the link to the project, drop the grey band */
+.footer {
+  background: transparent !important;
+}
+
+.footer .text-muted {
+  color: var(--f9-muted) !important;
+}
+
+/* Signed-in pages */
+nav,
+.side-menu {
+  background: var(--f9-surface) !important;
+  border-color: var(--f9-border) !important;
+}
+
+.side-menu-item:hover,
+.side-menu-item.active {
+  background-color: rgba(99, 102, 241, 0.16);
+}
