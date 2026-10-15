@@ -83,7 +83,7 @@ spec:
     - toFQDNs:
         - matchName: huggingface.co
         - matchPattern: "*.huggingface.co"
-        - matchPattern: "*.hf.co"
+        - matchPattern: "**.hf.co"
       toPorts:
         - ports:
             - port: "443"
