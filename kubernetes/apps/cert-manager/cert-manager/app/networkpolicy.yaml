@@ -1,0 +1,90 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# cert-manager. Egress only (M15, 15 Oct 2026): the controller holds the ACME account key and the
+# Cloudflare DNS token, so it may reach DNS, the Kubernetes API, Let's Encrypt, the Cloudflare API
+# and the two DNS-over-HTTPS resolvers of its DNS-01 self-check, and nothing else. The cainjector
+# and webhook need only DNS and the API. Ingress is not limited here (the API server calls the
+# webhook on 10250 and Prometheus scrapes 9402).
+# Allow-list from the Cilium connection table and the HelmRelease on 15 Oct 2026.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cert-manager-controller
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: cert-manager
+  egress:
+    # DNS through Cilium's DNS proxy so the named hosts below can be matched.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # The Kubernetes API on the control-plane nodes (6443). A pod on a control-plane node sees
+    # its own node as `host` and the others as `remote-node`, so all three entities are needed.
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    # ACME (Let's Encrypt, the ClusterIssuer's server) and the Cloudflare API (DNS-01 records).
+    - toFQDNs:
+        - matchName: acme-v02.api.letsencrypt.org
+        - matchName: api.cloudflare.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    # The DNS-01 self-check queries 1.1.1.1 and 1.0.0.1 over HTTPS (dns01RecursiveNameservers
+    # in the HelmRelease), by address, so no name is involved.
+    - toCIDR:
+        - 1.0.0.1/32
+        - 1.1.1.1/32
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cert-manager-cainjector-webhook
+spec:
+  endpointSelector:
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: In
+        values:
+          - cainjector
+          - webhook
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
