@@ -9,7 +9,7 @@ Identity provider, run by [Kaniop](https://github.com/pando85/kaniop) (`../kanio
 - **Passkeys only:** a group's account policy can require passkeys (`credential-type-minimum: passkey`); Kaniop's `KanidmGroup` has an account-policy field for it.
 - **Gating a route:** add `../../../../components/oidc` to the app's Flux Kustomization instead of `ext-auth` (see `kubernetes/components/oidc`).
 
-**Not backed up yet.** Kanidm holds the accounts and passkeys. Kaniop has `KanidmBackupRepository` / `KanidmBackupSchedule` (S3, as in bjw-s-labs/home-ops); add one (a Garage bucket and a 1Password item) before moving real apps onto it.
+**Backups.** `app/backup.yaml` has a `KanidmBackupRepository` (`nas`, the `kanidm` bucket on Garage, client-side encrypted) and a `KanidmBackupSchedule` (nightly at 02:30; latest 8, 7 daily, 4 weekly, 6 monthly). Credentials and the encryption key are the 1Password item `kanidm` (fields `ID`, `KEY`, `ENCRYPTION_KEY`), pulled by `app/externalsecret.yaml`. Kaniop marks its online-backup transport as experimental, so after the first night check `kubectl -n security get kanidmbackup,kanidmbackupschedule,kanidmbackuprepository` and test one `KanidmRestore` into a scratch instance before relying on it. The encryption key must outlive the oldest backup, and the schedule fields cannot be edited in place (delete and recreate).
 
 ## Branding
 
