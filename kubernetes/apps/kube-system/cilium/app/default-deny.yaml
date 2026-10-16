@@ -6,9 +6,9 @@
 # labels on it add. A new pod, a Helm hook Job or a CronJob in one of these namespaces therefore starts
 # with no egress until it is given a policy or a profile label.
 #
-# A namespace goes on this list when every pod and transient pod in it already has what it needs. Left
-# out: rook-ceph (its pods are not done yet). Pods on the host network (the Cilium agents and operator, the
-# Multus and CSI node pods, etcd-defrag) are not selected: Cilium does not apply pod policy to them.
+# A namespace goes on this list when every pod and transient pod in it already has what it needs. Every
+# namespace with pods is covered. Pods on the host network (the Cilium agents and operator, the Multus and CSI
+# node pods, the Ceph CSI node plugins, etcd-defrag) are not selected: Cilium does not apply pod policy to them.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
@@ -30,6 +30,7 @@ spec:
           - network
           - o11y
           - openebs-system
+          - rook-ceph
           - security
           - system-upgrade
           - webdev
