@@ -55,10 +55,14 @@ spec:
   # The relay takes mail from the cluster without a login (Authelia does the same) and adds its own
   # upstream credentials, so the secret only holds empty values; the schema requires a username and password.
   # The operator deploys the sender with fixed labels, so its network policy is in networkpolicy.yaml.
+  # `image` is set because, left alone, the operator swaps /server: for /tools: in the server image but keeps
+  # its digest, which pulls the server image again (no kanidm-mail-sender in it). Keep the tag in step with
+  # the server image above.
   mailSender:
     credentialsSecret:
       name: kanidm-mail-credentials
     fromAddress: kanidm@f9.casa
+    image: kanidm/tools:1.11.2@sha256:144783fc589ac9611f6149f54f95d0d9472c1bf6078e7ed5781be441bcca7d24
     relay: smtp://smtp-relay.network.svc.cluster.local:25
   # Branding: the stylesheet and favicon are mounted over the files the server ships in /hpkg (the
   # sign-in logo and the heading are set in Kanidm itself, see the README). The server reads them at
