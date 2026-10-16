@@ -9,6 +9,24 @@ spec:
     kind: OCIRepository
     name: kube-prometheus-stack
   interval: 1h
+  postRenderers:
+    - kustomize:
+        patches:
+          - 
+            # The admission webhook hook Jobs (create and patch the certificate) call the API server, and the
+            # chart has no pod-label value for them (egress.cilium.io, M15)
+            patch: |-
+              apiVersion: batch/v1
+              kind: Job
+              metadata:
+                name: _
+              spec:
+                template:
+                  metadata:
+                    labels:
+                      egress.cilium.io/kube-apiserver: "true"
+            target:
+              kind: Job
   valuesFrom:
     - kind: ConfigMap
       name: flux-metrics-configmap

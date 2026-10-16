@@ -7,8 +7,8 @@
 # with no egress until it is given a policy or a profile label.
 #
 # A namespace goes on this list when every pod and transient pod in it already has what it needs. Left
-# out, with the reason: o11y (Gatus, the blackbox and smartctl exporters), kube-system, rook-ceph,
-# openebs-system and system-upgrade.
+# out, with the reason: kube-system (CoreDNS, Hubble, Spegel, metrics-server and others need their real
+# destinations worked out first) and rook-ceph.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
@@ -27,7 +27,10 @@ spec:
           - kopiur-system
           - mcp
           - network
+          - o11y
+          - openebs-system
           - security
+          - system-upgrade
           - webdev
   egress:
     - {}
