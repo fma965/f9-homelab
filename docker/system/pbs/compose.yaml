@@ -13,7 +13,7 @@ services:
     tmpfs:
       - /run
     volumes:
-      - "/mnt/Data/PBS:/backups"
+      - "/mnt/F9/PBS:/backups"
       - "/mnt/apps-pool/appdata/pbs/etc:/etc/proxmox-backup"
       - "/mnt/apps-pool/appdata/pbs/lib:/var/lib/proxmox-backup"
       - "/mnt/apps-pool/appdata/pbs/logs:/var/log/proxmox-backup"

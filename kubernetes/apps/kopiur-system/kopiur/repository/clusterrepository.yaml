@@ -13,7 +13,7 @@ spec:
       volume:
         nfs:
           server: nas.main.internal
-          path: /mnt/Data/Kubernetes/Kopiur
+          path: /mnt/F9/Kubernetes/Kopiur
   encryption:
     passwordSecretRef:
       name: kopiur-repository-secret
