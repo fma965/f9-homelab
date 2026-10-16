@@ -1,3 +1,4 @@
+---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # TrueNAS MCP server (read-only API key). Only the external Envoy gateway pods may connect
 # (8080/TCP): the route is on envoy-external only and nothing else in the cluster calls it.
@@ -19,8 +20,3 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
-  # Access to the NAS (egress.cilium.io/nas) comes from the profile label(s) on the pod, set in the HelmRelease.
-  egress:
-    # Deny all egress (default-deny). DNS (allow-dns) and the egress.cilium.io profile labels add
-    # what the pod needs.
-    - {}

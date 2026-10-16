@@ -36,7 +36,3 @@ spec:
         - ports:
             - port: "1883"
               protocol: TCP
-  # The broker only answers its clients and never connects out (no bridges), so it is limited to
-  # deny-all egress (M15, 16 Oct 2026). Replies to the connections above are allowed as part of them.
-  egress:
-    - {}
