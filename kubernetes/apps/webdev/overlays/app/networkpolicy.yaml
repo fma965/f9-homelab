@@ -1,3 +1,4 @@
+---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Stream overlays (public). Allow-list from the manifests and the Cilium connection table on 15
 # Oct 2026 (M15). Probes come from the local node, which Cilium always allows.
@@ -18,8 +19,3 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
-  # Egress: a static app with no outbound calls, so DNS is all it may reach.
-  egress:
-    # Deny all egress (default-deny). DNS (allow-dns) and the egress.cilium.io profile labels add
-    # what the pod needs.
-    - {}

@@ -1,3 +1,4 @@
+---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Games manager (Directus backend and frontend, public, OIDC login). Allow-list from the
 # manifests and the Cilium connection table on 15 Oct 2026 (M15). Probes come from the local
@@ -31,7 +32,3 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: network
             gateway.envoyproxy.io/owning-gateway-name: envoy-internal
-  egress:
-    # Deny all egress (default-deny). DNS (allow-dns) and the egress.cilium.io profile labels add
-    # what the pod needs.
-    - {}

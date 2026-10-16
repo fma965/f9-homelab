@@ -1,22 +1,3 @@
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
-# External Secrets (controller, cert-controller, webhook). Egress only (M15, 15 Oct 2026): these
-# pods can read and write every Secret in the cluster, so they may reach DNS, the Kubernetes API
-# and, for the controller, 1Password Connect, and nothing else. Ingress is not limited here
-# (the API server calls the webhook on 10250 and Prometheus scrapes 8080).
-# Allow-list from the Cilium connection table on 15 Oct 2026.
-apiVersion: cilium.io/v2
-kind: CiliumNetworkPolicy
-metadata:
-  name: external-secrets
-spec:
-  endpointSelector:
-    matchLabels:
-      app.kubernetes.io/instance: external-secrets
-  # The API server comes from the egress.cilium.io/kube-apiserver profile (the label is on the pod in the HelmRelease).
-  egress:
-    # Deny all egress (default-deny). DNS (allow-dns) and the egress.cilium.io profile labels add
-    # what the pod needs.
-    - {}
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # The controller alone talks to 1Password Connect (the ClusterSecretStore's connectHost). Connect's

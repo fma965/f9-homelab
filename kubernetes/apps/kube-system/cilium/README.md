@@ -57,7 +57,7 @@ cilium bgp peers
 
 ## Egress profiles
 
-Shared egress rules are `CiliumClusterwideNetworkPolicy` objects selected by a pod label (after deedee-ops/home-ops). A pod opts in with `egress.cilium.io/<profile>: "true"` instead of repeating the rule in its own `networkpolicy.yaml`. Every profile has `enableDefaultDeny` off, so it only **adds** an allow: a pod is limited by its own policy (or a per-namespace deny-all) and the profiles it carries are added on top. Where the reply to the pod's own Service call would be dropped by its ingress policy, the profile also allows the reply in. DNS is cluster-wide (`allow-dns`), not a label.
+Shared egress rules are `CiliumClusterwideNetworkPolicy` objects selected by a pod label (after deedee-ops/home-ops). A pod opts in with `egress.cilium.io/<profile>: "true"` instead of repeating the rule in its own `networkpolicy.yaml`. Every profile has `enableDefaultDeny` off, so it only **adds** an allow: every pod is already default-deny for egress (the cluster-wide `allow-dns` policy selects all pods and has an `egress` section), so its own policy and the profiles it carries are added on top of DNS. Where the reply to the pod's own Service call would be dropped by its ingress policy, the profile also allows the reply in. DNS is cluster-wide (`allow-dns`), not a label.
 
 | Profile            | Allows                                                                        | Defined in                                           |
 | ------------------ | ----------------------------------------------------------------------------- | ---------------------------------------------------- |
@@ -72,4 +72,4 @@ Shared egress rules are `CiliumClusterwideNetworkPolicy` objects selected by a p
 | `postgres`         | the shared Postgres, 5432, and its reply                                      | `database/cloudnative-pg/cluster/networkpolicy.yaml` |
 | `dragonfly`        | the shared Dragonfly, 6379, and its reply                                     | `database/dragonfly/cluster/networkpolicy.yaml`      |
 
-Set the label in the app's HelmRelease: `defaultPodOptions.labels` for bjw-s app-template apps, the chart's own pod-label value (`podLabels` and the like) for others. After labelling, remove the matching stanza from the app's own policy (and its reply rule on the ingress side) and check Hubble for `Policy denied`. A pod whose own policy loses its last egress stanza would stop being limited, so keep `egress: - {}` (deny all) in it or rely on a per-namespace deny-all.
+Set the label in the app's HelmRelease: `defaultPodOptions.labels` for bjw-s app-template apps, the chart's own pod-label value (`podLabels` and the like) for others. After labelling, remove the matching stanza from the app's own policy (and its reply rule on the ingress side) and check Hubble for `Policy denied`. A pod with no policy and no labels can reach DNS and nothing else.

@@ -1,3 +1,4 @@
+---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # UniFi network MCP server. Only the external Envoy gateway pods may connect (3000/TCP): the
 # route is on envoy-external only and nothing else in the cluster calls it. Probes come from the
@@ -19,8 +20,3 @@ spec:
         - ports:
             - port: "3000"
               protocol: TCP
-  # Access to the UniFi controller (egress.cilium.io/unifi) comes from the profile label(s) on the pod, set in the HelmRelease.
-  egress:
-    # Deny all egress (default-deny). DNS (allow-dns) and the egress.cilium.io profile labels add
-    # what the pod needs.
-    - {}

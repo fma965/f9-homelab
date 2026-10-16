@@ -3,8 +3,8 @@
 # Egress profiles (M15), after deedee-ops/home-ops (kubernetes/apps/kube-system/cilium/globalpolicy.yaml).
 # A pod opts in to a profile with a label, `egress.cilium.io/<profile>: "true"`, instead of repeating the
 # rule in its own policy. Every profile has `enableDefaultDeny` off in both directions, so it only adds an
-# allow and never puts a pod into default-deny by itself: a pod is limited by its own policy (or a
-# per-namespace deny-all), and the profiles it carries are added to that. Where a reply to the pod's own
+# allow and never changes the default: every pod is already default-deny for egress (allow-dns), and the
+# profiles it carries are added to that. Where a reply to the pod's own
 # Service call would be dropped by the pod's ingress policy, the profile also allows that reply in.
 # Label pods in their HelmRelease (defaultPodOptions.labels, or the chart's own pod-label value). See the
 # Egress profiles section of the Cilium README. Profiles that belong to one app are next to it: smtp-relay

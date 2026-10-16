@@ -33,7 +33,3 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-  egress:
-    # Deny all egress (default-deny). DNS (allow-dns) and the egress.cilium.io profile labels add
-    # what the pod needs.
-    - {}

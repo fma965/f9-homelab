@@ -1,3 +1,4 @@
+---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # cert-manager. Egress only (M15, 15 Oct 2026): the controller holds the ACME account key and the
 # Cloudflare DNS token, so it may reach DNS, the Kubernetes API, Let's Encrypt, the Cloudflare API
@@ -32,22 +33,3 @@ spec:
         - ports:
             - port: "443"
               protocol: TCP
----
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
-apiVersion: cilium.io/v2
-kind: CiliumNetworkPolicy
-metadata:
-  name: cert-manager-cainjector-webhook
-spec:
-  endpointSelector:
-    matchExpressions:
-      - key: app.kubernetes.io/name
-        operator: In
-        values:
-          - cainjector
-          - webhook
-  # The API server comes from the egress.cilium.io/kube-apiserver profile (the label is on the pod in the HelmRelease).
-  egress:
-    # Deny all egress (default-deny). DNS (allow-dns) and the egress.cilium.io profile labels add
-    # what the pod needs.
-    - {}

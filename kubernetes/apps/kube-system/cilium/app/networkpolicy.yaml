@@ -1,11 +1,15 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
-# Cluster-wide DNS (M15, 15 Oct 2026). Every pod may ask kube-dns on 53, through Cilium's DNS
-# proxy, and receive the reply. The proxy is what lets `toFQDNs` rules learn addresses, and a
-# per-pod allow would otherwise have to repeat this stanza and its reply rule (forgetting the
-# reply caused the Zipline and Connect gaps). `enableDefaultDeny` is off in both directions so this
-# only adds an allow: pods without a policy stay open, and pods with one keep their own limits.
-# CoreDNS `autopath` stays off (cilium/cilium#20191).
+# Cluster-wide DNS and the default egress deny (M15, 16 Oct 2026). Every pod may ask kube-dns on 53,
+# through Cilium's DNS proxy, and receive the reply. Because this rule selects every pod and has an
+# `egress` section, it also puts every pod into default-deny for egress: what a pod may reach beyond DNS is
+# only what its own policy and the `egress.cilium.io/<profile>` labels on it add (a new pod, Helm hook Job
+# or CronJob starts with DNS and nothing else). Ingress is left open (`enableDefaultDeny.ingress: false`):
+# the ingress section is only the reply to DNS, for pods that have an ingress policy. The proxy is what lets
+# `toFQDNs` rules learn addresses, and forgetting the reply caused the Zipline and Connect gaps. Pods on the
+# host network are never selected by pod policy. CoreDNS `autopath` stays off (cilium/cilium#20191).
+# Recovery if egress breaks cluster-wide: add `egress: false` under `enableDefaultDeny` (pods without a
+# policy then stay open again).
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
@@ -13,7 +17,6 @@ metadata:
 spec:
   endpointSelector: {}
   enableDefaultDeny:
-    egress: false
     ingress: false
   egress:
     - toEndpoints:
