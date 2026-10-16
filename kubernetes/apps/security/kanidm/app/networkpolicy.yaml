@@ -24,3 +24,23 @@ spec:
         - ports:
             - port: "8443"
               protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# The backups (M15, 16 Oct 2026): the sidecar in the Kanidm pod and the data-mover Jobs Kaniop starts for
+# discovery, retention and restore read and write the Garage bucket on the NAS (S3, 3900). Every pod in the
+# namespace may reach it, because the Jobs are created by the operator and their labels were not known when
+# this was written; narrow the selector to the Job and Kanidm labels once Hubble shows them. DNS comes from
+# allow-dns. Ingress is not limited here.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: security-nas-s3
+spec:
+  endpointSelector: {}
+  egress:
+    - toCIDR:
+        - 10.10.10.3/32
+      toPorts:
+        - ports:
+            - port: "3900"
+              protocol: TCP
