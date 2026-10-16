@@ -57,6 +57,9 @@ spec:
             enabled: true
       ui:
         enabled: true
+        # The UI backend lists namespaces and pods from the API server (egress.cilium.io, M15)
+        podLabels:
+          egress.cilium.io/kube-apiserver: "true"
     ipam:
       mode: kubernetes
     ipv4NativeRoutingCIDR: 10.42.0.0/16
