@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# UniFi backup (daily CronJob). Egress only (M15, 16 Oct 2026): it asks the UniFi gateway for a
+# backup (unifi.internal, the `egress.cilium.io/unifi` profile label in the HelmRelease), saves it to
+# the NAS through an NFS volume the node mounts (not a pod connection) and pings Healthchecks when it
+# is done. DNS comes from allow-dns. Allow-list from the script.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: unifi-backup
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: unifi-backup
+  egress:
+    - toFQDNs:
+        - matchName: hc-ping.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

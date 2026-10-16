@@ -51,6 +51,9 @@ spec:
                 memory: 32Mi
               limits:
                 memory: 128Mi
+    defaultPodOptions:
+      labels:
+        egress.cilium.io/unifi: "true"
     persistence:
       script:
         type: configMap
