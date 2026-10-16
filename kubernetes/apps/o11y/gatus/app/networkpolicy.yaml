@@ -50,3 +50,10 @@ spec:
     # from the control-plane nodes.
     - fromEntities:
         - kube-apiserver
+  # Egress (M15, 16 Oct 2026): Gatus probes the routes (through the gateways, which are in the cluster),
+  # the in-cluster services and the API server (the sidecar watches HTTPRoutes), so it gets the cluster;
+  # the public ICMP checks (1.1.1.1, 8.8.8.8, 9.9.9.9) are the `internet` profile label. It sends no
+  # alerts (none are configured).
+  egress:
+    - toEntities:
+        - cluster

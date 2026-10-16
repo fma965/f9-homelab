@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Blackbox exporter, LAN (ICMP / TCP / HTTP probes of the nodes, the NAS and the NoT VLAN devices). Egress
+# only (M15, 16 Oct 2026): the cluster (the nodes are `host` / `remote-node`), the NoT VLAN
+# `10.10.30.0/24` (zigbee-controller, nvr, kvm, doorbell), the NAS (the `egress.cilium.io/nas` label: ICMP
+# and NFS 2049) and the public web (`web`: https://one.one.one.one). A rule on a CIDR or an entity covers
+# ICMP as well. DNS comes from allow-dns. Ingress is not limited here (Prometheus scrapes it).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: blackbox-exporter-lan
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: blackbox-exporter-lan
+  egress:
+    - toEntities:
+        - cluster
+    - toCIDR:
+        - 10.10.30.0/24

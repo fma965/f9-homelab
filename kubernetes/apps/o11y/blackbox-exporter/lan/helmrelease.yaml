@@ -11,6 +11,10 @@ spec:
   interval: 1h
   values:
     fullnameOverride: blackbox-exporter-lan
+    pod:
+      labels:
+        egress.cilium.io/nas: "true"
+        egress.cilium.io/web: "true"
     config:
       modules:
         http_2xx:
