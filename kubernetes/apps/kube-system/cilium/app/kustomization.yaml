@@ -7,6 +7,7 @@ resources:
   - ./helmrelease.yaml
   - ./default-deny.yaml
   - ./egress-profiles.yaml
+  - ./hubble-networkpolicy.yaml
   - ./hubble-ui.yaml
   - ./ocirepository.yaml
   - ./networking.yaml

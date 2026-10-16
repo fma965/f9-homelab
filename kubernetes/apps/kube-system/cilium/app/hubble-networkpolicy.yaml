@@ -1,0 +1,42 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Hubble relay. Egress only (M15, 16 Oct 2026): it gathers flows from the Hubble server in every Cilium agent
+# (4244, TLS), which listens on the node (`host` for its own node, `remote-node` for the others). DNS
+# comes from allow-dns. Ingress is not limited here (the UI and the CLI connect to it).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: hubble-relay
+spec:
+  endpointSelector:
+    matchLabels:
+      k8s-app: hubble-relay
+  egress:
+    - toEntities:
+        - host
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "4244"
+              protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Hubble UI. Egress only (M15, 16 Oct 2026): its backend talks to the Hubble relay (4245, seen in Hubble) and
+# nothing else. DNS comes from allow-dns. Ingress is not limited here (the gateway reaches it).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: hubble-ui
+spec:
+  endpointSelector:
+    matchLabels:
+      k8s-app: hubble-ui
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: hubble-relay
+      toPorts:
+        - ports:
+            - port: "4245"
+              protocol: TCP

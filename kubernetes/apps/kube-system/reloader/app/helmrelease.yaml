@@ -14,6 +14,9 @@ spec:
     reloader:
       enableHA: true
       deployment:
+        # Labels the Deployment and its pod template (egress.cilium.io, M15)
+        labels:
+          egress.cilium.io/kube-apiserver: "true"
         replicas: 1
       readOnlyRootFileSystem: true
       podMonitor:

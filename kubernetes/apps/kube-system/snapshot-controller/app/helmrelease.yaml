@@ -11,6 +11,8 @@ spec:
   interval: 1h
   values:
     controller:
+      podLabels:
+        egress.cilium.io/kube-apiserver: "true"
       serviceMonitor:
         create: true
     webhook:

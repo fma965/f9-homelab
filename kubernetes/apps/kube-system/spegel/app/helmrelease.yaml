@@ -9,6 +9,17 @@ spec:
     kind: OCIRepository
     name: spegel
   interval: 1h
+  postRenderers:
+    - kustomize:
+        patches:
+          - # The chart has no pod-label value for this DaemonSet (egress.cilium.io, M15)
+            patch: |-
+              - op: add
+                path: /spec/template/metadata/labels/egress.cilium.io~1kube-apiserver
+                value: "true"
+            target:
+              kind: DaemonSet
+              name: spegel
   values:
     grafanaDashboard:
       enabled: true

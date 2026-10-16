@@ -11,6 +11,8 @@ spec:
   interval: 1h
   values:
     kind: Deployment
+    podLabels:
+      egress.cilium.io/kube-apiserver: "true"
     deschedulerPolicyAPIVersion: descheduler/v1alpha2
     deschedulerPolicy:
       metricsProviders:

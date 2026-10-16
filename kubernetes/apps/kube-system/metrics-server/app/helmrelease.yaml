@@ -18,6 +18,8 @@ spec:
       - --kubelet-request-timeout=2s
     metrics:
       enabled: true
+    podLabels:
+      egress.cilium.io/kube-apiserver: "true"
     serviceMonitor:
       enabled: true
     resources:
