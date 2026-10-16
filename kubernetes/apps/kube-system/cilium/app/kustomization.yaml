@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./grafanadashboard.yaml
   - ./helmrelease.yaml
+  - ./cidr-groups.yaml
   - ./egress-profiles.yaml
   - ./hubble-networkpolicy.yaml
   - ./hubble-ui.yaml

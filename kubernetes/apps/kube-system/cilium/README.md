@@ -59,10 +59,12 @@ cilium bgp peers
 
 Shared egress rules are `CiliumClusterwideNetworkPolicy` objects selected by a pod label (after deedee-ops/home-ops). A pod opts in with `egress.cilium.io/<profile>: "true"` instead of repeating the rule in its own `networkpolicy.yaml`. Every profile has `enableDefaultDeny` off, so it only **adds** an allow: every pod is already default-deny for egress (the cluster-wide `allow-dns` policy selects all pods and has an `egress` section), so its own policy and the profiles it carries are added on top of DNS. Where the reply to the pod's own Service call would be dropped by its ingress policy, the profile also allows the reply in. DNS is cluster-wide (`allow-dns`), not a label.
 
+Addresses that several policies share are `CiliumCIDRGroup` objects in `app/cidr-groups.yaml` (currently `nas`), referenced with `cidrGroupRef` under `toCIDRSet` or `fromCIDRSet`. A group is applied by this Kustomization, so a policy in another app that refers to it matches only once the group exists.
+
 | Profile            | Allows                                                                        | Defined in                                           |
 | ------------------ | ----------------------------------------------------------------------------- | ---------------------------------------------------- |
 | `kube-apiserver`   | the API server, 6443 (`host`, `kube-apiserver`, `remote-node`), and its reply | `app/egress-profiles.yaml`                           |
-| `nas`              | the NAS `10.10.10.3`, any port                                                | same                                                 |
+| `nas`              | the NAS (CIDR group `nas`), any port                                          | same                                                 |
 | `unifi`            | the UniFi controller `10.10.100.254:443`                                      | same                                                 |
 | `talos`            | the Talos API, 50000 on the nodes (`host`, `remote-node`), and its reply      | same                                                 |
 | `web`              | the public web, 80 and 443 (private ranges excluded)                          | same                                                 |
