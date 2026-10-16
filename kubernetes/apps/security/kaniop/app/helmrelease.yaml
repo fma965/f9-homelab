@@ -19,6 +19,19 @@ spec:
                 value: "true"
             target:
               kind: Deployment
+          - # The CRD hook Jobs (apply, migrate, verify) call the API server too
+            patch: |-
+              apiVersion: batch/v1
+              kind: Job
+              metadata:
+                name: _
+              spec:
+                template:
+                  metadata:
+                    labels:
+                      egress.cilium.io/kube-apiserver: "true"
+            target:
+              kind: Job
   values:
     metrics:
       enabled: true

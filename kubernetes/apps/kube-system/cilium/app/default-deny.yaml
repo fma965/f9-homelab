@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
+# Default-deny egress per namespace (M15). `egress: - {}` is Cilium's deny-all: it puts every pod in
+# these namespaces into default-deny for egress and allows nothing itself. What a pod may reach is then
+# only what its own policy, the cluster-wide DNS policy (allow-dns) and the `egress.cilium.io/<profile>`
+# labels on it add. A new pod, a Helm hook Job or a CronJob in one of these namespaces therefore starts
+# with no egress until it is given a policy or a profile label.
+#
+# A namespace goes on this list when every pod and transient pod in it already has what it needs. Left
+# out, with the reason: default (Home Assistant, Music Assistant, Bambuddy, qBittorrent and Mosquitto
+# have no policy yet), o11y (Gatus, the blackbox and smartctl exporters), kube-system, rook-ceph,
+# openebs-system and system-upgrade.
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: default-deny-egress
+spec:
+  endpointSelector:
+    matchExpressions:
+      - key: io.kubernetes.pod.namespace
+        operator: In
+        values:
+          - cert-manager
+          - database
+          - external-secrets
+          - flux-system
+          - kopiur-system
+          - mcp
+          - network
+          - security
+          - webdev
+  egress:
+    - {}
