@@ -9,6 +9,7 @@ resources:
   - ./favicon.yaml
   - ./groups.yaml
   - ./kanidm.yaml
+  - ./logos.yaml
   - ./networkpolicy.yaml
   - ./people.yaml
 configMapGenerator:

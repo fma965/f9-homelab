@@ -61,6 +61,9 @@ spec:
     - name: favicon
       configMap:
         name: kanidm-favicon
+    - name: logos
+      configMap:
+        name: kanidm-logos
   volumeMounts:
     - name: branding
       mountPath: /hpkg/override.css
@@ -68,6 +71,21 @@ spec:
     - name: favicon
       mountPath: /hpkg/img/favicon.png
       subPath: favicon.png
+    - name: logos
+      mountPath: /hpkg/img/logo-180.png
+      subPath: logo-180.png
+    - name: logos
+      mountPath: /hpkg/img/logo-192.png
+      subPath: logo-192.png
+    - name: logos
+      mountPath: /hpkg/img/logo-256.png
+      subPath: logo-256.png
+    - name: logos
+      mountPath: /hpkg/img/logo-square.svg
+      subPath: logo-square.svg
+    - name: logos
+      mountPath: /hpkg/img/logo.svg
+      subPath: logo.svg
   storage:
     volumeClaimTemplate:
       spec:
