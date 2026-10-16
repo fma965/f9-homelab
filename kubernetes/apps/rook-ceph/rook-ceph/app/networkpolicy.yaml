@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Every pod in the namespace (M15, 16 Oct 2026). Ceph is a mesh: in a two-minute Hubble capture the monitors
+# (3300), managers and OSDs (6800-7300, which one uses depends on the daemon), the MDS, the CSI controller and
+# the operator all talk only to each other, and to the API server (the operator, the CSI controller and
+# provisioner). So egress is limited to this namespace plus the API server; the ports are left open because
+# Ceph picks them per daemon and a wrong guess stalls storage for the whole cluster. The rook-created pods
+# (OSD prepare, crash collector, exporter) cannot carry the profile label, hence the API server rule here.
+# Ingress is not limited (clients are the nodes' kernel RBD and CephFS, and Prometheus). The CSI node plugins
+# run on the host network, so Cilium does not apply this to them.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: rook-ceph
+spec:
+  endpointSelector: {}
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: rook-ceph
+    - toEntities:
+        - kube-apiserver
+        - host
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
