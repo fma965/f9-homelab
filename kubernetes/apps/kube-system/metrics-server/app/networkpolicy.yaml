@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Metrics server. Egress only (M15, 16 Oct 2026): the API server (the `kube-apiserver` profile label) and the
+# kubelet on every node (10250, `--kubelet-use-node-status-port`; a node is `host` for its own pod and
+# `remote-node` for the others). DNS comes from allow-dns. Ingress is not limited here (the API server
+# calls it for the metrics API, Prometheus scrapes it).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: metrics-server
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: metrics-server
+  egress:
+    - toEntities:
+        - host
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "10250"
+              protocol: TCP
