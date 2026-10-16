@@ -71,6 +71,8 @@ spec:
               size: 5Gi
     defaultPodOptions:
       automountServiceAccountToken: true
+      labels:
+        egress.cilium.io/internet: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
