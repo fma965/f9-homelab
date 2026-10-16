@@ -74,3 +74,12 @@ spec:
             - port: "32768"
               endPort: 60999
               protocol: UDP
+  # Egress on eth0 only (M15, 16 Oct 2026): Cilium does not see the Multus interfaces, and the routes in
+  # the pod send only the VLAN subnets out of them (checked). The profile labels in the HelmRelease add
+  # the rest; DNS comes from allow-dns.
+  egress:
+    # The integrations in the cluster (Jellyfin, Sonarr, Radarr, qBittorrent, SABnzbd, Paperless, Postgres,
+    # Mosquitto, Matter, Bambuddy, the gateway for the public names). The NAS (Frigate, Wyoming voice,
+    # NUT), the UniFi controller and the public internet are the nas, unifi and internet profiles.
+    - toEntities:
+        - cluster

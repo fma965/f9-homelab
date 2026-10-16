@@ -74,3 +74,10 @@ spec:
             - port: "32768"
               endPort: 60999
               protocol: UDP
+  # Egress on eth0 only (M15, 16 Oct 2026): Cilium does not see the Multus interfaces, and the routes in
+  # the pod send only the VLAN subnets out of them (checked). The profile labels in the HelmRelease add
+  # the rest; DNS comes from allow-dns.
+  egress:
+    # Deny all egress (default-deny); the gateway (public names) and the internet (streaming providers) are
+    # the gateway-external and internet profile labels.
+    - {}
