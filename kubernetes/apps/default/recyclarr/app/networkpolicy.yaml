@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Recyclarr (nightly CronJob that syncs the quality profiles to Sonarr and Radarr). Egress only (M15,
+# 16 Oct 2026): Sonarr and Radarr in the cluster, and GitHub, where it fetches the TRaSH Guides it
+# applies. DNS comes from allow-dns. Allow-list from its config.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: recyclarr
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: recyclarr
+  egress:
+    - toEntities:
+        - cluster
+    - toFQDNs:
+        - matchName: github.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
