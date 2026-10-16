@@ -44,3 +44,32 @@ spec:
         - ports:
             - port: "3900"
               protocol: TCP
+---
+# The mail sender the operator deploys for spec.mailSender. Its pod labels are fixed by the operator, so it
+# cannot take the egress.cilium.io profile labels; this repeats the two profiles it needs. It calls Kanidm
+# at its public address (https://id.f9.casa, through the external gateway) and hands mail to the SMTP relay.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kanidm-mail-sender
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: kanidm-mail-sender
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "10443"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            app.kubernetes.io/name: smtp-relay
+      toPorts:
+        - ports:
+            - port: "25"
+              protocol: TCP
