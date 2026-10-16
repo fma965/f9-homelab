@@ -102,7 +102,7 @@ spec:
       repository:
         type: nfs
         server: nas.main.internal
-        path: /mnt/Data/Kubernetes/Kopiur
+        path: /mnt/F9/Kubernetes/Kopiur
         globalMounts:
           - path: /repository
       tmpfs:
