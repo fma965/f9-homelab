@@ -24,7 +24,7 @@ spec:
     keyRef:
       name: kanidm-backup-secret
   s3:
-    bucket: kanidm
+    bucket: f9-kanidm
     endpoint: http://nas.main.internal:3900
     forcePathStyle: true
     insecure: true
