@@ -143,6 +143,10 @@ spec:
                 memory: 1Gi
 
     defaultPodOptions:
+      labels:
+        egress.cilium.io/internet: "true"
+        egress.cilium.io/nas: "true"
+        egress.cilium.io/unifi: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

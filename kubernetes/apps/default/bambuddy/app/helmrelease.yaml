@@ -11,6 +11,8 @@ spec:
     name: bambuddy
   values:
     defaultPodOptions:
+      labels:
+        egress.cilium.io/web: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 2000
