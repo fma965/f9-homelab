@@ -7,8 +7,8 @@
 # with no egress until it is given a policy or a profile label.
 #
 # A namespace goes on this list when every pod and transient pod in it already has what it needs. Left
-# out, with the reason: kube-system (CoreDNS, Hubble, Spegel, metrics-server and others need their real
-# destinations worked out first) and rook-ceph.
+# out: rook-ceph (its pods are not done yet). Pods on the host network (the Cilium agents and operator, the
+# Multus and CSI node pods, etcd-defrag) are not selected: Cilium does not apply pod policy to them.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
@@ -24,6 +24,7 @@ spec:
           - default
           - external-secrets
           - flux-system
+          - kube-system
           - kopiur-system
           - mcp
           - network

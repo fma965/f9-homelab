@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# CoreDNS. Egress only (M15, 16 Oct 2026): the API server (the `kube-apiserver` profile label) and the node's
+# DNS resolver. Talos runs a host DNS forwarder at 169.254.116.108 on every node (`hostDNS`,
+# `forwardKubeDNSToHost`), and CoreDNS's `forward . /etc/resolv.conf` sends everything it does not answer
+# itself there, over TCP (`use_tcp`): Hubble shows `coredns -> 169.254.116.108:53 (host)`, and the connection
+# table shows nothing else but the API server. The identity is `host`, so an entity rule is what matches (a
+# CIDR rule does not match a node's own address). `remote-node` is included in case the resolver is ever
+# another node's. DNS from the pods to CoreDNS is not limited here (no ingress policy).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: coredns
+spec:
+  endpointSelector:
+    matchLabels:
+      k8s-app: kube-dns
+  egress:
+    - toEntities:
+        - host
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: TCP
+            - port: "53"
+              protocol: UDP
