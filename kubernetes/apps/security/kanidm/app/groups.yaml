@@ -54,3 +54,20 @@ spec:
     - scott
     - andrew
     - ash
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kaniop.rs/kanidmgroup_v1beta1.json
+# Lets these people change their own email address (Kanidm's built-in group, which has no members by default).
+# Their address is where password and credential reset links are sent (spec.mailSender in kanidm.yaml). The
+# resource name cannot hold underscores, so `kanidmName` gives the built-in group's name.
+apiVersion: kaniop.rs/v1beta1
+kind: KanidmGroup
+metadata:
+  name: idm-people-self-mail-write
+spec:
+  kanidmName: idm_people_self_mail_write
+  kanidmRef:
+    name: kanidm
+  members:
+    - scott
+    - andrew
+    - ash
