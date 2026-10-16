@@ -35,6 +35,10 @@ spec:
       enabled: true
     envoy:
       enabled: false
+    certgen:
+      # The Hubble certificate Job and CronJob create and rotate Secrets through the API server (egress.cilium.io, M15)
+      podLabels:
+        egress.cilium.io/kube-apiserver: "true"
     hubble:
       enabled: true
       # Chart default generates the certificates at render time, so they would change on every
