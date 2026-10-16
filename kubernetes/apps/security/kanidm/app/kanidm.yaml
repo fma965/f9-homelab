@@ -81,6 +81,9 @@ spec:
       mountPath: /hpkg/img/logo-256.png
       subPath: logo-256.png
     - name: logos
+      mountPath: /hpkg/img/icon-oauth2.svg
+      subPath: icon-oauth2.svg
+    - name: logos
       mountPath: /hpkg/img/logo-square.svg
       subPath: logo-square.svg
     - name: logos
