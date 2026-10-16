@@ -49,8 +49,8 @@ specs:
       egress: false
       ingress: false
     egress:
-      - toCIDR:
-          - 10.10.10.3/32
+      - toCIDRSet:
+          - cidrGroupRef: nas
   # The UniFi controller, as the cluster sees it.
   - endpointSelector:
       matchLabels:

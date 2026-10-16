@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumcidrgroup_v2.json
+# Addresses that several policies refer to, defined once (M15, 16 Oct 2026; after bjw-s-labs/home-ops).
+# Policies reference a group with `cidrGroupRef: <name>` under `toCIDRSet` or `fromCIDRSet`. If an address
+# changes it changes here. The groups are in the Cilium Kustomization, so a policy in another app that
+# refers to one only matches once this has been applied.
+apiVersion: cilium.io/v2
+kind: CiliumCIDRGroup
+metadata:
+  name: nas
+spec:
+  externalCIDRs:
+    - 10.10.10.3/32 # TrueNAS

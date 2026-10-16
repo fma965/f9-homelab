@@ -24,8 +24,8 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    - fromCIDR:
-        - 10.10.10.3/32 # TrueNAS (Docker host)
+    - fromCIDRSet:
+        - cidrGroupRef: nas # TrueNAS (Docker host)
       toPorts:
         - ports:
             - port: "80"
