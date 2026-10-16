@@ -7,8 +7,7 @@
 # with no egress until it is given a policy or a profile label.
 #
 # A namespace goes on this list when every pod and transient pod in it already has what it needs. Left
-# out, with the reason: default (Home Assistant, Music Assistant, Bambuddy, qBittorrent and Mosquitto
-# have no policy yet), o11y (Gatus, the blackbox and smartctl exporters), kube-system, rook-ceph,
+# out, with the reason: o11y (Gatus, the blackbox and smartctl exporters), kube-system, rook-ceph,
 # openebs-system and system-upgrade.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
@@ -22,6 +21,7 @@ spec:
         values:
           - cert-manager
           - database
+          - default
           - external-secrets
           - flux-system
           - kopiur-system
