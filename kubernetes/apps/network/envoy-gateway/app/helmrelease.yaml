@@ -10,6 +10,11 @@ spec:
     name: envoy-gateway
   interval: 1h
   values:
+    certgen:
+      job:
+        pod:
+          labels:
+            egress.cilium.io/kube-apiserver: "true"
     global:
       imageRegistry: mirror.gcr.io
     deployment:
