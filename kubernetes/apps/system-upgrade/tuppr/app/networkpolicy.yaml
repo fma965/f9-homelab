@@ -1,0 +1,54 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Tuppr controller (Talos and Kubernetes upgrades). Egress only (M15, 16 Oct 2026): it can reboot nodes, so it
+# may reach only what an upgrade needs. The API server and the Talos API come from the `kube-apiserver` and
+# `talos` profile labels in the HelmRelease. Added here: Alertmanager (it silences alerts during an upgrade,
+# alertmanager-operated:9093) and the registries it checks the installer image on before an upgrade
+# (`remote.Head` on factory.talos.dev/metal-installer/..., which redirects to GHCR). From tuppr's source and
+# our TalosUpgrade, not from an upgrade run: it is idle between upgrades. DNS comes from allow-dns.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: tuppr
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: tuppr
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: alertmanager
+      toPorts:
+        - ports:
+            - port: "9093"
+              protocol: TCP
+    - toFQDNs:
+        - matchName: factory.talos.dev
+        - matchName: ghcr.io
+        - matchName: pkg-containers.githubusercontent.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# The Jobs tuppr starts to upgrade a node (they run talosctl against the node's Talos API). They carry
+# `app.kubernetes.io/part-of: tuppr`, set by the controller, so the `talos` profile label cannot be used on
+# them: this is the same rule. The image pull is the kubelet's, not the pod's. DNS comes from allow-dns.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: tuppr-jobs
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/part-of: tuppr
+  egress:
+    - toEntities:
+        - host
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "50000"
+              protocol: TCP

@@ -11,6 +11,9 @@ spec:
   interval: 1h
   values:
     replicaCount: 2
+    podLabels:
+      egress.cilium.io/kube-apiserver: "true"
+      egress.cilium.io/talos: "true"
     monitoring:
       serviceMonitor:
         enabled: true

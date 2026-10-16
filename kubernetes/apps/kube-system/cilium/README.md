@@ -64,6 +64,7 @@ Shared egress rules are `CiliumClusterwideNetworkPolicy` objects selected by a p
 | `kube-apiserver`   | the API server, 6443 (`host`, `kube-apiserver`, `remote-node`), and its reply | `app/egress-profiles.yaml`                           |
 | `nas`              | the NAS `10.10.10.3`, any port                                                | same                                                 |
 | `unifi`            | the UniFi controller `10.10.100.254:443`                                      | same                                                 |
+| `talos`            | the Talos API, 50000 on the nodes (`host`, `remote-node`), and its reply      | same                                                 |
 | `web`              | the public web, 80 and 443 (private ranges excluded)                          | same                                                 |
 | `internet`         | the public internet on any port (private ranges excluded)                     | same                                                 |
 | `gateway-external` | the external gateway, 10443, and its reply                                    | same                                                 |

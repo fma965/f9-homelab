@@ -18,6 +18,8 @@ spec:
       localpv:
         image:
           registry: quay.io/
+        podLabels:
+          egress.cilium.io/kube-apiserver: "true"
         basePath: &hostPath /var/openebs/local
       hostpathClass:
         enabled: true
