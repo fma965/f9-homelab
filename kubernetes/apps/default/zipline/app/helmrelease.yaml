@@ -115,6 +115,6 @@ spec:
       media:
         type: nfs
         server: nas.main.internal
-        path: /mnt/F9/Zipline
+        path: /mnt/Media/Zipline
         globalMounts:
           - path: /uploads

@@ -13,4 +13,4 @@ services:
     tty: true
     volumes:
       - "/dev/bus/usb:/dev/bus/usb"
-      - "/mnt/F9/Documents/incoming:/output"
+      - "/mnt/Media/Documents/incoming:/output"
