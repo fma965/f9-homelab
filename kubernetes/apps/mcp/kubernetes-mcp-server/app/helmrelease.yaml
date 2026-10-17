@@ -1,0 +1,84 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app kubernetes-mcp-server
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    image:
+      registry: quay.io
+      repository: containers/kubernetes_mcp_server
+      # Chart default is the floating `latest` tag — pin explicitly like
+      # every other image in this repo.
+      version: v0.0.67@sha256:e47f6ccc5347e1ea6be495d8d9ab55ac8a995fe87800fb984fa770cebe14ad44
+
+    # No built-in inbound auth exists for HTTP mode — only full OAuth/OIDC
+    # (Keycloak/Entra) or a passthrough mode that still expects an OAuth
+    # header. There's no static bearer/API-key option. Gated at the gateway
+    # instead (apikey.yaml), same as unifi-network-mcp/truenas-mcp.
+    #
+    # The ServiceAccount token is still mounted for in-cluster K8s API
+    # access (required, unlike an OAuth-passthrough deployment) — the
+    # apiKeyAuth SecurityPolicy on the HTTPRoute is the only thing standing
+    # between "anyone on the LAN" and this SA's RBAC grant.
+    serviceAccount:
+      create: true
+      automountToken: true
+
+    rbac:
+      create: true
+      # Bind the built-in `view` ClusterRole rather than inventing a
+      # narrower one — `view` already excludes Secret contents by design,
+      # and read_only below refuses every mutating MCP tool before RBAC
+      # would even be consulted. Belt and suspenders, not redundant: RBAC
+      # bounds what the tools *could* do if a future version added a
+      # write tool without a matching readOnlyHint; read_only bounds what
+      # today's tools are willing to attempt.
+      extraClusterRoleBindings:
+        - name: use-view-role
+          roleRef:
+            name: view
+            external: true
+
+    config:
+      read_only: true
+      log_level: 2
+      # Redundant with the `view` binding (view can't read Secret data
+      # anyway) but keeps this server's own tool-level guard from ever
+      # depending on RBAC alone.
+      denied_resources:
+        - version: v1
+          resource: secrets
+
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        memory: 256Mi
+
+    ingress:
+      enabled: false
+
+    httpRoute:
+      enabled: true
+      annotations:
+        gatus.home-operations.com/endpoint: |-
+          conditions: ["[STATUS] == any(200,401,404,406)"]
+      parentRefs:
+        - group: gateway.networking.k8s.io
+          kind: Gateway
+          name: envoy-external
+          namespace: network
+      hostnames:
+        - "k8s-mcp.f9.casa"
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
