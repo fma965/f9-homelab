@@ -64,6 +64,6 @@ spec:
       backup:
         type: nfs
         server: nas.main.internal
-        path: /mnt/F9/Kubernetes/unifi-backup
+        path: /mnt/Boot/Kubernetes/unifi-backup
         globalMounts:
           - path: /backup

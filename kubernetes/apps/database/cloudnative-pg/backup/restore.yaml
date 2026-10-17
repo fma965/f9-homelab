@@ -13,7 +13,7 @@ spec:
         - name: backup
           nfs:
             server: nas.main.internal
-            path: /mnt/F9/Kubernetes/postgres
+            path: /mnt/Boot/Kubernetes/postgres
 
       securityContext:
         fsGroup: 1000
