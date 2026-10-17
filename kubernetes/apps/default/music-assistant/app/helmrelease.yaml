@@ -137,7 +137,7 @@ spec:
       media:
         type: nfs
         server: nas.main.internal
-        path: /mnt/F9/Media/Music
+        path: /mnt/Media/Library/Music
         advancedMounts:
           music-assistant:
             app:

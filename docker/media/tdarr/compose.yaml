@@ -12,7 +12,7 @@ services:
               capabilities: [gpu]
     environment:
       TZ: "Europe/London"
-      # scott:media, matches ownership of /mnt/F9/Media
+      # scott:media, matches ownership of /mnt/Media/Library
       PUID: "1000"
       PGID: "3000"
       UMASK_SET: "002"
@@ -37,5 +37,5 @@ services:
       # source library is read-only so nothing can be replaced or deleted.
       # Tdarr writes results to /output; once outputs are verified, change
       # /media to read-write to allow in-place replacement.
-      - /mnt/F9/Media:/media:ro
-      - /mnt/F9/Media/.tdarr-output:/output
+      - /mnt/Media/Library:/media:ro
+      - /mnt/Media/Library/.tdarr-output:/output

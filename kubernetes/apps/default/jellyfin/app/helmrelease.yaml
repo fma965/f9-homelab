@@ -107,7 +107,7 @@ spec:
       media:
         type: nfs
         server: nas.main.internal
-        path: /mnt/F9/Media
+        path: /mnt/Media/Library
         globalMounts:
           - path: /media
       tmpfs:

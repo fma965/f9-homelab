@@ -142,6 +142,6 @@ spec:
       media:
         type: nfs
         server: nas.main.internal
-        path: /mnt/F9/Media/Downloads
+        path: /mnt/Media/Library/Downloads
         globalMounts:
           - path: /downloads
