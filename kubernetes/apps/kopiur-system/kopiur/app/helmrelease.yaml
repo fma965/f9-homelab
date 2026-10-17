@@ -14,7 +14,7 @@ spec:
       - name: repo
         nfs:
           server: nas.main.internal
-          path: /mnt/F9/Kubernetes/Kopiur
+          path: /mnt/Boot/Kubernetes/Kopiur
     extraVolumeMounts:
       - name: repo
         mountPath: /repo

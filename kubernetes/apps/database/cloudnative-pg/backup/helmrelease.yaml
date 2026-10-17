@@ -75,4 +75,4 @@ spec:
       backup:
         type: nfs
         server: nas.main.internal
-        path: /mnt/F9/Kubernetes/postgres
+        path: /mnt/Boot/Kubernetes/postgres
