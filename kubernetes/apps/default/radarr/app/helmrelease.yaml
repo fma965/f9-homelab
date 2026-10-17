@@ -99,13 +99,13 @@ spec:
       media:
         type: nfs
         server: nas.main.internal
-        path: "/mnt/F9/Media/Movies"
+        path: "/mnt/Media/Library/Movies"
         globalMounts:
           - path: /movies
       downloads:
         type: nfs
         server: nas.main.internal
-        path: /mnt/F9/Media/Downloads
+        path: /mnt/Media/Library/Downloads
         globalMounts:
           - path: /downloads
       tmp:
