@@ -1,0 +1,57 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app flux-operator-mcp
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    # Only transport this server speaks.
+    transport: http
+
+    # Disables the mutating MCP tools (apply/delete/suspend/resume/...).
+    # This is a tool-level guard, NOT an RBAC restriction — see the rbac
+    # note below, this does not shrink what the ServiceAccount can do.
+    readonly: true
+
+    # The chart's only RBAC option is all-or-nothing: `rbac.create: true`
+    # grants the release ServiceAccount **cluster-admin**, because the
+    # Flux Operator's own CRDs span every namespace and there's no
+    # narrower built-in role that covers them. There is no equivalent of
+    # kubernetes-mcp-server's `extraClusterRoleBindings` to bind something
+    # less than cluster-admin instead.
+    #
+    # `readonly: true` above keeps the MCP tool surface read-only, but the
+    # underlying ServiceAccount token remains cluster-admin regardless —
+    # a bug in the server, or the API key leaking, is a full cluster
+    # compromise, not just a Flux-resources compromise. Worth deciding
+    # deliberately rather than by default; flagging it in the PR too.
+    rbac:
+      create: true
+
+    # The chart's own NetworkPolicy, scoped to only the gateway's
+    # namespace. Without this, anything else in the `network` (or any)
+    # namespace could reach the ClusterIP Service unauthenticated — the
+    # apiKeyAuth SecurityPolicy below only guards the envoy-external path,
+    # same caveat noted in grafana-mcp's ExternalSecret.
+    networkPolicy:
+      create: true
+      ingress:
+        namespaces:
+          - network
+
+    httpRoute:
+      enabled: true
+      annotations:
+        gatus.home-operations.com/endpoint: |-
+          conditions: ["[STATUS] == any(200,401,404,406)"]
+      parentRefs:
+        - name: envoy-external
+          namespace: network
+          sectionName: http
+      hostnames:
+        - "flux-mcp.f9.casa"
