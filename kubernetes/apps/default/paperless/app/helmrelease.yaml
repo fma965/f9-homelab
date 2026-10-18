@@ -120,7 +120,7 @@ spec:
       nas:
         type: nfs
         server: nas.main.internal
-        path: /mnt/Media/Documents
+        path: /mnt/Vault/Documents
         advancedMounts:
           paperless:
             app:

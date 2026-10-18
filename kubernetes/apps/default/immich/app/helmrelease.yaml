@@ -96,7 +96,7 @@ spec:
       library:
         type: nfs
         server: nas.main.internal
-        path: /mnt/Media/Photos
+        path: /mnt/Vault/Photos
         globalMounts:
           - path: /usr/src/app/upload
       tmpfs:

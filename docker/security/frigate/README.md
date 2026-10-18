@@ -7,7 +7,7 @@ NVR / object detection, previously run in the cluster (`kubernetes/apps/default/
 1. Create the appdata directory on the NAS (Doco-CD creates it as `root`, which is fine - Frigate's container runs as root):
 
     ```bash
-    sudo mkdir -p /mnt/AI/apps-temp/appdata/frigate/config
+    sudo mkdir -p /mnt/apps/appdata/frigate/config
     ```
 
 2. Camera credentials come from 1Password Connect (`external_secrets` in `.doco-cd.yaml`, pulling from the existing `go2rtc` item in the `kubernetes` vault), not a hand-placed `.env` - `.env.example` documents the variable names for local/manual testing only, and `env_file: .env` in `compose.yaml` is `required: false` so its absence never blocks a deploy. For this to actually resolve, the `doco-cd` app itself needs:
@@ -24,8 +24,8 @@ NVR / object detection, previously run in the cluster (`kubernetes/apps/default/
 
 ### Storage
 
-- `/config` (db, logs) - `/mnt/AI/apps-temp/appdata/frigate/config` on the apps NVMe pool.
-- `/media/frigate` (recordings, snapshots, exports) - `/mnt/Data/CCTV`, the CCTV dataset (1 TiB refquota, on the `Data` pool). Same dataset an NFS share already exists for, but Frigate here bind-mounts it directly since it's running on the NAS itself.
+- `/config` (db, logs) - `/mnt/apps/appdata/frigate/config` on the apps NVMe pool.
+- `/media/frigate` (recordings, snapshots, exports) - `/mnt/CCTV/frigate`, the frigate dataset (1 TiB refquota, on the `CCTV` pool). Same dataset an NFS share already exists for, but Frigate here bind-mounts it directly since it's running on the NAS itself.
 - `/tmp/cache` - 1 GB tmpfs, per Frigate's own recommendation for recording segment staging.
 
 Retention is set to 30 days for motion-triggered recording (`record.motion.days`), 14 days for alerts/detections (`record.alerts.retain.days` / `record.detections.retain.days`), keep an eye on `Data/CCTV` usage against the 1 TiB quota and tighten those in `config/config.yml` if it fills up faster than expected.
