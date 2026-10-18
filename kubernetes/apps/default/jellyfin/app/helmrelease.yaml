@@ -110,6 +110,12 @@ spec:
         path: /mnt/Media/Library
         globalMounts:
           - path: /media
+      media2:
+        type: nfs
+        server: nas.main.internal
+        path: /mnt/Vault/Media
+        globalMounts:
+          - path: /media2
       tmpfs:
         type: emptyDir
         advancedMounts:
