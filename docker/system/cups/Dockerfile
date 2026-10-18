@@ -1,4 +1,4 @@
-FROM ydkn/cups@sha256:d1ff67ec80d627273bbc2cf96abdb5a139e33f68f1a66d6648f824a2d1c87f58
+FROM ydkn/cups@sha256:964558b4c5a7fb7a693c2084569a16d74fb3003bcbeed9420be183c8a90fba19
 
 # Ricoh SP 211 is a GDI printer: it ignores PCL/PostScript and needs Ricoh's own
 # CUPS raster filter. Ricoh doesn't publish a Linux driver for the SP 200 series,
