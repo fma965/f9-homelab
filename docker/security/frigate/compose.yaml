@@ -47,8 +47,8 @@ services:
       # frigate.db and logs; config.yml itself comes from git, below
       - /mnt/apps/appdata/frigate/config:/config
       - ./config/config.yml:/config/config.yml:ro
-      # the frigate dataset - 1 TiB refquota on the CCTV single drive pool
-      - /mnt/CCTV/frigate:/media/frigate
+      # the frigate dataset - 2 TiB refquota on the Archive 8TB single drive pool
+      - /mnt/Archive/CCTV:/media/frigate
       - type: tmpfs
         target: /tmp/cache
         tmpfs:
