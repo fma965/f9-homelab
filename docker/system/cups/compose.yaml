@@ -16,6 +16,6 @@ services:
     privileged: "true"
     restart: "unless-stopped"
     volumes:
-      - "/mnt/AI/apps-temp/appdata/cups:/etc/cups"
+      - "/mnt/AI/appdata/cups:/etc/cups"
       - "/var/run/dbus:/var/run/dbus"
       - "/dev/bus/usb:/dev/bus/usb"
