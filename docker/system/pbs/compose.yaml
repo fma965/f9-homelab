@@ -14,6 +14,6 @@ services:
       - /run
     volumes:
       - "/mnt/AI/PBS:/backups"
-      - "/mnt/apps-pool/appdata/pbs/etc:/etc/proxmox-backup"
-      - "/mnt/apps-pool/appdata/pbs/lib:/var/lib/proxmox-backup"
-      - "/mnt/apps-pool/appdata/pbs/logs:/var/log/proxmox-backup"
+      - "/mnt/AI/apps-temp/appdata/pbs/etc:/etc/proxmox-backup"
+      - "/mnt/AI/apps-temp/appdata/pbs/lib:/var/lib/proxmox-backup"
+      - "/mnt/AI/apps-temp/appdata/pbs/logs:/var/log/proxmox-backup"

@@ -7,4 +7,4 @@ services:
     network_mode: "host"
     restart: unless-stopped
     volumes:
-      - "/mnt/apps-pool/appdata/isponsorblocktv:/app/data"
+      - "/mnt/AI/apps-temp/appdata/isponsorblocktv:/app/data"
