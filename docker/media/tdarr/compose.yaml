@@ -29,11 +29,11 @@ services:
       - 8265:8265
       - 8266:8266
     volumes:
-      - /mnt/AI/apps-temp/appdata/tdarr/server:/app/server
-      - /mnt/AI/apps-temp/appdata/tdarr/configs:/app/configs
-      - /mnt/AI/apps-temp/appdata/tdarr/logs:/app/logs
+      - /mnt/apps/appdata/tdarr/server:/app/server
+      - /mnt/apps/appdata/tdarr/configs:/app/configs
+      - /mnt/apps/appdata/tdarr/logs:/app/logs
       # transcode cache, kept on NVMe rather than the F9 spinning pool
-      - /mnt/AI/apps-temp/appdata/tdarr/temp:/temp
+      - /mnt/apps/appdata/tdarr/temp:/temp
       # source library is read-only so nothing can be replaced or deleted.
       # Tdarr writes results to /output; once outputs are verified, change
       # /media to read-write to allow in-place replacement.

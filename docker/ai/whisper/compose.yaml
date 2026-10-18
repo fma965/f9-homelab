@@ -5,7 +5,7 @@ services:
     ports:
       - "10200:10200"
     volumes:
-      - "/mnt/AI/appdata/piper/data:/data"
+      - "/mnt/apps/appdata/piper/data:/data"
     command: --voice en_GB-cori-high
 
   whisper:
@@ -14,5 +14,5 @@ services:
     ports:
       - "10300:10300"
     volumes:
-      - "/mnt/AI/appdata/whisper/data:/data"
+      - "/mnt/apps/appdata/whisper/data:/data"
     command: "--model Systran/faster-whisper-medium --language en"

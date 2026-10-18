@@ -21,4 +21,4 @@ services:
     ports:
       - 7400:9000/tcp
     volumes:
-      - /mnt/AI/appdata/stable-diffusion:/config
+      - /mnt/apps/appdata/stable-diffusion:/config

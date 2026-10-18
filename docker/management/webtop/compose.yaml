@@ -13,7 +13,7 @@ services:
     devices:
       - "/dev/dri:/dev/dri"
     volumes:
-      - /mnt/AI/apps-temp/appdata/webtop/config:/config
+      - /mnt/apps/appdata/webtop/config:/config
       - ./resources:/custom-cont-init.d:ro
     ports:
       - 3000:3000

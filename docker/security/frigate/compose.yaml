@@ -45,7 +45,7 @@ services:
       # Port 5000 (internal, unauthenticated) is intentionally not published.
     volumes:
       # frigate.db and logs; config.yml itself comes from git, below
-      - /mnt/AI/apps-temp/appdata/frigate/config:/config
+      - /mnt/apps/appdata/frigate/config:/config
       - ./config/config.yml:/config/config.yml:ro
       # the CCTV dataset - 1 TiB refquota on the Data pool
       - /mnt/Data/CCTV:/media/frigate
