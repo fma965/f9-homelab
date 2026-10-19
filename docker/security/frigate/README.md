@@ -25,10 +25,10 @@ NVR / object detection, previously run in the cluster (`kubernetes/apps/default/
 ### Storage
 
 - `/config` (db, logs) - `/mnt/apps/appdata/frigate/config` on the apps NVMe pool.
-- `/media/frigate` (recordings, snapshots, exports) - `/mnt/Archive/CCTV`, the CCTV dataset on the `Archive` pool (a single 8 TB disk, no redundancy, no quota, so recordings can use the whole pool). Frigate bind-mounts it directly since it runs on the NAS itself; there is no NFS export.
+- `/media/frigate` (recordings, snapshots, exports) - `/mnt/Archive/CCTV`, the CCTV dataset (2 TiB refquota, on the `Archive` pool, a single 8 TB disk with no redundancy). Frigate bind-mounts it directly since it runs on the NAS itself; there is no NFS export.
 - `/tmp/cache` - 1 GB tmpfs, per Frigate's own recommendation for recording segment staging.
 
-Retention is set to 30 days for motion-triggered recording (`record.motion.days`), 14 days for alerts/detections (`record.alerts.retain.days` / `record.detections.retain.days`), keep an eye on `Archive/CCTV` usage (the dataset has no quota) and tighten those in `config/config.yml` if it fills up faster than expected.
+Retention is set to 30 days for motion-triggered recording (`record.motion.days`), 14 days for alerts/detections (`record.alerts.retain.days` / `record.detections.retain.days`), keep an eye on `Archive/CCTV` usage against the 2 TiB quota and tighten those in `config/config.yml` if it fills up faster than expected.
 
 ### Hardware acceleration
 
