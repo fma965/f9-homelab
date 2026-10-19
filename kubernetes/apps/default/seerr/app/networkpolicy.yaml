@@ -1,7 +1,8 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Seerr (media requests, public). Allow-list from the manifests and the Cilium connection table
 # on 15 Oct 2026 (M15). Probes come from the local node, which Cilium always allows.
-# Egress (M15): DNS, Radarr, Sonarr, the gateway (for Jellyfin) and a list of named internet hosts.
+# Egress (M15): DNS, Radarr, Sonarr, Jellyfin, the gateway (the public Jellyfin and OIDC names) and a list of
+# named internet hosts.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -64,6 +65,16 @@ spec:
       toPorts:
         - ports:
             - port: "80"
+              protocol: TCP
+    # Jellyfin, configured in Seerr as http://jellyfin.default.svc.cluster.local:8096 (users, libraries and
+    # the media scan). The replies are covered by the ingress rule above that lists the jellyfin pods.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: jellyfin
+      toPorts:
+        - ports:
+            - port: "8096"
               protocol: TCP
     # Internet hosts Seerr needs, by name (443 only): TMDB for metadata and images, GitHub
     # for the update check and the anime list, and the services it uses for IMDb and Rotten
