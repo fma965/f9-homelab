@@ -34,8 +34,12 @@ spec:
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # The Jobs tuppr starts to upgrade a node (they run talosctl against the node's Talos API). They carry
-# `app.kubernetes.io/part-of: tuppr`, set by the controller, so the `talos` profile label cannot be used on
-# them: this is the same rule. The image pull is the kubelet's, not the pod's. DNS comes from allow-dns.
+# `app.kubernetes.io/part-of: tuppr`, set by the controller, so the `talos` and `kube-apiserver` profile
+# labels cannot be used on them: these are the same two rules. talosctl also cordons and drains the node
+# through the Kubernetes API before it reboots it, so the API server (6443) is needed as well: without it
+# the Job installs the new image, fails at "cordoning node ... connection timed out" and the node never
+# reboots (found in the first run of the 19 Oct 2026 Talos 1.14.4 upgrade). The image pull is the
+# kubelet's, not the pod's. DNS comes from allow-dns.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -51,4 +55,12 @@ spec:
       toPorts:
         - ports:
             - port: "50000"
+              protocol: TCP
+    - toEntities:
+        - host
+        - kube-apiserver
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6443"
               protocol: TCP
