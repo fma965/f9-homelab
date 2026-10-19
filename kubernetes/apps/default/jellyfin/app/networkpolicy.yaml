@@ -50,11 +50,15 @@ spec:
         - ports:
             - port: "8096"
               protocol: TCP
-    # Tracearr polls Jellyfin's API for sessions and users (jellyfin.default.svc:8096).
+    # Tracearr polls Jellyfin's API for sessions and users, and Seerr reads users and libraries and scans
+    # for new media (both through jellyfin.default.svc:8096).
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: default
             app.kubernetes.io/name: tracearr
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: seerr
       toPorts:
         - ports:
             - port: "8096"
