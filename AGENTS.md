@@ -10,7 +10,7 @@ This file is the canonical, agent-independent source of repository policy. Essen
 - `talos/`: Talos templates (`cluster.yaml.j2`, `controlplane.yaml.j2`, `schematic.yaml.j2`), `nodes/` overrides and recipes (`mod.just`). `bootstrap/`: helmfile and kustomize bootstrap with recipes.
 - `docker/<group>/<app>/`: Compose stacks for the NAS Docker host, deployed by Doco-CD from `.doco-cd.yaml`.
 - `docs/guides/` and `docs/mkdocs.guides.yml`: the housemate guides (public), built and served by the `help` app. Technical documentation is **not** in this repository; it lives in a separate private repository.
-- `.github/workflows/`: Konflate PR summary, image check, Renovate, tagging and label sync. `.renovaterc.json5`: Renovate configuration.
+- `.github/workflows/`: image check, Renovate, tagging and label sync. `.renovaterc.json5`: Renovate configuration.
 - `.mise/config.toml`: tool versions and environment (`KUBECONFIG`, `TALOSCONFIG`, `FLATE_PATH`). `.justfile` and `mod.just` files: operational commands. `.lefthook.toml`: git hooks (formatting).
 - Git-ignored and local only: `kubeconfig`, `talosconfig`, `.private/`, `.claude/worktrees/`.
 
@@ -56,7 +56,7 @@ flate test all --path ./kubernetes/apps
 flate diff all --path ./kubernetes/apps --base origin/main
 ```
 
-These commands may fetch upstream sources. The Konflate workflow also posts a rendered summary on each pull request (`https://konflate.f9.casa/api/prs/<number>/summary`). Neither replaces checking CRDs, secrets, or runtime behavior omitted from rendered output. For documentation-only changes, targeted reference and whitespace checks are sufficient. Report which checks ran and any validation gaps; do not claim an unavailable render or test passed.
+These commands may fetch upstream sources. On a pull request branch that is behind `main`, diff against its merge base (`--base "$(git merge-base origin/main HEAD)"`): against `origin/main` the diff also shows `main`'s newer commits as reverted. Neither replaces checking CRDs, secrets, or runtime behavior omitted from rendered output. For documentation-only changes, targeted reference and whitespace checks are sufficient. Report which checks ran and any validation gaps; do not claim an unavailable render or test passed.
 
 For Talos or Kubernetes upgrades, read `talos/cluster.yaml.j2` (installer and kubelet images), `talos/controlplane.yaml.j2` (control-plane images), the node overrides under `talos/nodes/` and the recipes in `talos/mod.just`. Verify the target Kubernetes version against the specific Talos release's published support matrix and cite it in reviews; an unchecked pairing is unverified, not implicitly compatible.
 
