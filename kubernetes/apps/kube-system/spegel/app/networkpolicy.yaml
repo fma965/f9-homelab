@@ -2,9 +2,10 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Spegel (the peer-to-peer image mirror, one per node). Egress only (M15, 16 Oct 2026): the API server (the
 # `kube-apiserver` profile label, for peer discovery) and the other Spegel pods: the router on 5001 (seen in
-# Hubble between all three) and the registry on 5000, which a pod serves to its peers. Containerd reaches the
-# local pod through its hostPort (the node, not a pod connection). DNS comes from allow-dns. Ingress is
-# not limited here.
+# Hubble between all three) and the registry on 5000, which a pod serves to its peers. Since Spegel 0.8.0
+# (19 Oct 2026) containerd reaches its local pod through the `spegel-registry` Service (NodePort 30020,
+# `trafficDistribution: PreferSameNode`) instead of a hostPort; that is traffic from the node, not from
+# a pod. DNS comes from allow-dns. Ingress is not limited here.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
