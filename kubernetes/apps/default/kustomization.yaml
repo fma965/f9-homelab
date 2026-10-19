@@ -40,6 +40,7 @@ resources:
   - ./seerr/ks.yaml
   - ./sonarr/ks.yaml
   - ./techdocs/ks.yaml
+  - ./tracearr/ks.yaml
   - ./unifi-backup/ks.yaml
   - ./zigbee/ks.yaml
   - ./zipline/ks.yaml
