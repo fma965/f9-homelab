@@ -2,7 +2,7 @@
 # Tracearr (Jellyfin stream monitoring, public, own login). Written from the manifests and Tracearr's source,
 # not from a run (19 Oct 2026, M15): check Hubble for `Policy denied DROPPED` after the first deploy.
 # Egress: DNS (allow-dns), the shared Dragonfly (the `dragonfly` profile label, which also allows its reply),
-# Jellyfin and one named internet host. The TimescaleDB sidecar is on 127.0.0.1 inside the pod and needs no rule.
+# Jellyfin, Seerr and named internet hosts. The TimescaleDB sidecar is on 127.0.0.1 inside the pod and needs no rule.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -20,14 +20,17 @@ spec:
         - ports:
             - port: "3000"
               protocol: TCP
-    # Replies to the app's own connection to Jellyfin, which goes through a Service. Cilium evaluates
-    # the reverse-translated reply as new traffic to this pod and drops it without this rule
+    # Replies to the app's own connections to Jellyfin and Seerr, which go through Services. Cilium
+    # evaluates the reverse-translated reply as new traffic to this pod and drops it without this rule
     # ("Policy denied DROPPED" in Hubble). The destination is the pod's ephemeral source port, so no
     # port can be listed.
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: default
             app.kubernetes.io/name: jellyfin
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: seerr
   egress:
     # Jellyfin, added in Tracearr as http://jellyfin.default.svc.cluster.local:8096 (sessions, users, libraries).
     - toEndpoints:
@@ -37,6 +40,15 @@ spec:
       toPorts:
         - ports:
             - port: "8096"
+              protocol: TCP
+    # Seerr, added in Tracearr as http://seerr.default.svc.cluster.local (port 80) for the request data.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: seerr
+      toPorts:
+        - ports:
+            - port: "80"
               protocol: TCP
     # GitHub: the version check (api.github.com) and the Jellyfin plugin update check, which reads a
     # manifest from raw.githubusercontent.com (found blocked on 19 Oct 2026: ETIMEDOUT in the app log).
