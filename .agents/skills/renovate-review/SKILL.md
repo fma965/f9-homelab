@@ -19,7 +19,7 @@ Determine **what changes on deployment and whether this repository relies on the
 Prefer evidence that already exists:
 
 - The **Konflate** comment on the pull request, or its API: `https://konflate.f9.casa/api/prs/<number>/summary` (send `Accept: text/markdown`). It lists affected resources, additions and removals, image changes and render errors. If Konflate did not render the PR, say **unverified**, never "unchanged" or "safe".
-- Locally: `flate diff all --path ./kubernetes/flux/cluster --base origin/main` and `flate test all --path ./kubernetes/flux/cluster`. Do not claim to have run them unless you did; a SKILL.md grants no shell or cluster access.
+- Locally: `flate diff all --path ./kubernetes/apps --base origin/main` and `flate test all --path ./kubernetes/apps`. Do not claim to have run them unless you did; a SKILL.md grants no shell or cluster access.
 
 Pay special attention to resource names, label **values** as well as keys, selectors, ports, services, RBAC, storage classes, CRDs, probes, immutable fields and persistent-volume behavior. A render may omit CRDs and Secret data; their absence is not evidence of no change. One unrelated rendering failure is not proof that the upgraded chart fails.
 
@@ -43,7 +43,7 @@ Check raised minimum versions, removed APIs or fields, changed auth, storage or 
 Search the **actual consumers** of anything removed or renamed, not just whether the new value is set explicitly:
 
 - Under `kubernetes/`, inspect selectors and labels in Prometheus `ServiceMonitor`s, alerts and dashboards, **`CiliumNetworkPolicy`s** (they select pods by label and allow specific container ports, so a renamed label or changed port breaks the app), HTTPRoutes and gateway `SecurityPolicy`s (`ext-auth`, API keys), PDBs, Flux `dependsOn`/`healthChecks`, `values`/`valuesFrom`/`postRenderers`, service DNS names and CRD instances.
-- Trace application Kustomizations and shared-component usage from `kubernetes/flux/cluster/`. Cilium, Envoy Gateway, External Secrets, Rook-Ceph, CloudNativePG, Dragonfly and kopiur updates merit close inspection for compatibility and data safety where affected.
+- Trace application Kustomizations and shared-component usage from `kubernetes/apps/`, and the cluster-wide patches in the FluxInstance (`kubernetes/apps/flux-system/flux-instance`). Cilium, Envoy Gateway, External Secrets, Rook-Ceph, CloudNativePG, Dragonfly and kopiur updates merit close inspection for compatibility and data safety where affected.
 - For `app-template` or other shared chart changes, look for several affected HelmReleases. Chart defaults can change even when the values in this repository do not.
 - In `docker/` and `talos/`, search the corresponding consumers rather than assuming everything is a Kubernetes release.
 

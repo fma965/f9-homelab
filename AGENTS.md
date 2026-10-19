@@ -5,7 +5,7 @@ This file is the canonical, agent-independent source of repository policy. Essen
 ## Repository map
 
 - `kubernetes/apps/<namespace>/<app>/`: application Flux Kustomizations (`ks.yaml`), HelmReleases, chart sources, and configuration. Each namespace folder has a `namespace.yaml` and a `kustomization.yaml` listing its apps.
-- `kubernetes/flux/cluster/`: Flux entry point (`cluster-apps`) and cluster-wide patches applied to every child Kustomization and HelmRelease.
+- `kubernetes/apps/flux-system/flux-instance/`: the FluxInstance. It syncs `kubernetes/apps` directly and carries the cluster-wide patches applied to every child Kustomization and HelmRelease.
 - `kubernetes/components/`: reusable Kustomize components: `alerts`, `ext-auth` (Authelia in front of a route), `gpu`, `kopiur` (`backup`, `secret`), `oidc` (Kanidm OIDC in front of a route; a trial, only `echo` uses it, Authelia remains the live login) and `zeroscaler`.
 - `talos/`: Talos templates (`cluster.yaml.j2`, `controlplane.yaml.j2`, `schematic.yaml.j2`), `nodes/` overrides and recipes (`mod.just`). `bootstrap/`: helmfile and kustomize bootstrap with recipes.
 - `docker/<group>/<app>/`: Compose stacks for the NAS Docker host, deployed by Doco-CD from `.doco-cd.yaml`.
@@ -19,7 +19,7 @@ This file is the canonical, agent-independent source of repository policy. Essen
 - This repository manages live infrastructure through GitOps. Flux can reconcile changes under `kubernetes/` soon after merge, and Doco-CD redeploys `docker/` stacks from `main`. Consider rendered resources and deployment impact, not only the source diff.
 - Kubernetes applications live under `kubernetes/apps/<namespace>/<app>/`. Follow neighbouring applications rather than assuming a layout from another home-ops repository.
 - `metadata.namespace` is intentionally omitted on application HelmReleases and Flux Kustomizations. The namespace folder's `kustomization.yaml` sets the namespace of the Flux Kustomizations, and each application's Flux Kustomization sets `spec.targetNamespace` for its deployed resources. Do not add redundant namespaces or flag their absence without checking that chain. Namespace manifests use the literal name `_`, which the namespace kustomization renames.
-- Cluster-wide defaults are patched onto every HelmRelease in `kubernetes/flux/cluster/ks.yaml` (CRD handling, rollback and remediation). Do not repeat them in individual HelmReleases.
+- Cluster-wide defaults are patched onto every HelmRelease in the FluxInstance (`kubernetes/apps/flux-system/flux-instance/app/helmrelease.yaml`; CRD handling, rollback and remediation). Do not repeat them in individual HelmReleases.
 - Application workloads use Flux HelmReleases with `spec.chartRef` pointing to a per-app `OCIRepository` in `ocirepository.yaml`, nearly all on the bjw-s `app-template` chart. Follow the add-app skill for scaffolding. Existing raw manifests and operator-managed resources are not automatically violations.
 - Prefer immutable `@sha256:` digests for container images (Renovate maintains them). OCI Helm chart sources use `OCIRepository.spec.ref.tag`; do not apply the container-image digest convention to chart references. A small number of upstream chart and Talos images are unpinned by the owner's decision.
 - Commit and pull request titles use Conventional Commits with a scope: `feat(<app>): ...`, `fix(<app>): ...`, `docs(guides): ...`, `chore(<scope>): ...`. Renovate uses `fix(container): update image ...` and similar.
@@ -52,8 +52,8 @@ Use the repository's mise-managed tools and inspect `just --list` for available 
 For Kubernetes manifest changes, inspect the rendered impact when tools and network access permit:
 
 ```sh
-flate test all --path ./kubernetes/flux/cluster
-flate diff all --path ./kubernetes/flux/cluster --base origin/main
+flate test all --path ./kubernetes/apps
+flate diff all --path ./kubernetes/apps --base origin/main
 ```
 
 These commands may fetch upstream sources. The Konflate workflow also posts a rendered summary on each pull request (`https://konflate.f9.casa/api/prs/<number>/summary`). Neither replaces checking CRDs, secrets, or runtime behavior omitted from rendered output. For documentation-only changes, targeted reference and whitespace checks are sufficient. Report which checks ran and any validation gaps; do not claim an unavailable render or test passed.
