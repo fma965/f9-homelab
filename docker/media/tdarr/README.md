@@ -1,6 +1,6 @@
 ## Tdarr
 
-Re-encodes high-bitrate TV files to reclaim space on the F9 pool, using the RTX 3060 (NVENC).
+Re-encodes high-bitrate TV files to reclaim space on the `Media` pool, using the RTX 3060 (NVENC).
 
 ### Before the first deploy
 
