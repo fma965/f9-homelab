@@ -38,10 +38,13 @@ spec:
         - ports:
             - port: "8096"
               protocol: TCP
-    # The update check (releases on GitHub). Notification destinations (Discord, ntfy, Pushover,
-    # SMTP) are not enabled yet: when one is, look for the denied name in Hubble and add it here.
+    # GitHub: the version check (api.github.com) and the Jellyfin plugin update check, which reads a
+    # manifest from raw.githubusercontent.com (found blocked on 19 Oct 2026: ETIMEDOUT in the app log).
+    # Notification destinations (Discord, ntfy, Pushover, SMTP) are not enabled yet: when one is, look
+    # for the denied name in Hubble and add it here.
     - toFQDNs:
         - matchName: api.github.com
+        - matchName: raw.githubusercontent.com
       toPorts:
         - ports:
             - port: "443"
