@@ -21,7 +21,7 @@ services:
       LLAMA_API_KEY: ${LLAMA_API_KEY}
     ports:
       - 8080:8080
-    image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:b01e2d9a95a4d2d27b1d74e0b6668da9cff2e050b9ea53b2b549652d6098c6f0
+    image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:ffbb0d908f22ca66c0261dc96b260f4a12429eda88bd561c09fd9fa94caa220a
     volumes:
       - /mnt/apps/appdata/llamacpp/models:/models:ro
     command: >-
