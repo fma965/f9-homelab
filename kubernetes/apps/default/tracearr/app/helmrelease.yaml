@@ -1,0 +1,193 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tracearr
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: tracearr
+  interval: 1h
+  values:
+    controllers:
+      tracearr:
+        # two ReadWriteOnce volumes (app data and the database), so no rolling update
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/connorgallopo/tracearr
+              tag: 2.8.3@sha256:df06e1a22b7eda67929a3076c5fe4ad2e03df8f92324ab09c2f3b18137a82c83
+            env:
+              TZ: Europe/London
+              NODE_ENV: production
+              HOST: 0.0.0.0
+              PORT: &port 3000
+              LOG_LEVEL: info
+              TRUST_PROXY: "true"
+              # TimescaleDB is the sidecar below (localhost only); Redis is the shared Dragonfly
+              # (Tracearr prefixes its keys, so it coexists with Immich and Paperless).
+              DATABASE_URL: postgres://tracearr@127.0.0.1:5432/tracearr
+              REDIS_URL: redis://dragonfly.database.svc.cluster.local:6379
+              # Tracearr's own scheduled backups go to the kopiur-backed volume; the image cache is a
+              # throwaway emptyDir so it stays out of the backups.
+              BACKUP_DIR: /data/tracearr/backup
+              IMAGE_CACHE_DIR: /cache
+              IMAGE_CACHE_MAX_MB: "1024"
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
+            probes:
+              # No liveness probe: /health also answers while the database or Redis is briefly
+              # unavailable, and restarting the pod for that would not help.
+              liveness:
+                enabled: false
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  periodSeconds: 10
+                  failureThreshold: 30
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+          # TimescaleDB for Tracearr's time-series data. It listens on 127.0.0.1 only and trusts local
+          # connections, so nothing outside this pod can reach it. The shared postgres17 cluster has
+          # no TimescaleDB extension, which is why this is a sidecar.
+          timescale:
+            image:
+              repository: timescale/timescaledb-ha
+              tag: pg18.4-ts2.29.1@sha256:26a7598a17939878a388864a8faea56f4b90558163b28cfa0e73600091689c82
+            args:
+              - postgres
+              - -c
+              - listen_addresses=127.0.0.1
+              - -c
+              - timescaledb.license=timescale
+              - -c
+              - timescaledb.max_tuples_decompressed_per_dml_transaction=100000
+              - -c
+              - timescaledb.telemetry_level=off
+              - -c
+              - max_locks_per_transaction=4096
+              - -c
+              - max_connections=150
+              - -c
+              - shared_buffers=256MB
+            env:
+              POSTGRES_USER: tracearr
+              POSTGRES_DB: tracearr
+              POSTGRES_HOST_AUTH_METHOD: trust
+              PGDATA: /home/postgres/pgdata/data
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: [pg_isready, -h, 127.0.0.1, -U, tracearr]
+                  periodSeconds: 10
+            # The HA image writes outside PGDATA (sockets and config), so the root filesystem stays writable.
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 250m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+    defaultPodOptions:
+      labels:
+        egress.cilium.io/dragonfly: "true"
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media Service
+          gethomepage.dev/name: Tracearr
+          gethomepage.dev/description: "Jellyfin stream monitoring and account sharing detection"
+          gethomepage.dev/icon: tracearr
+        hostnames:
+          - "{{ .Release.Name }}.f9.casa"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+    persistence:
+      data:
+        existingClaim: "{{ .Release.Name }}"
+        advancedMounts:
+          tracearr:
+            app:
+              - path: /data/tracearr
+      # The database volume is named explicitly: left alone the chart names it after the release,
+      # which is the kopiur volume above.
+      postgres:
+        type: persistentVolumeClaim
+        forceRename: tracearr-postgres
+        storageClass: ceph-block
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        retain: true
+        advancedMounts:
+          tracearr:
+            timescale:
+              - path: /home/postgres/pgdata
+      cache:
+        type: emptyDir
+        advancedMounts:
+          tracearr:
+            app:
+              - path: /cache
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          tracearr:
+            app:
+              - path: /tmp
+      dshm:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 512Mi
+        advancedMounts:
+          tracearr:
+            timescale:
+              - path: /dev/shm

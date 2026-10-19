@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Tracearr (Jellyfin stream monitoring, public, own login). Written from the manifests and Tracearr's source,
+# not from a run (19 Oct 2026, M15): check Hubble for `Policy denied DROPPED` after the first deploy.
+# Egress: DNS (allow-dns), the shared Dragonfly (the `dragonfly` profile label, which also allows its reply),
+# Jellyfin and one named internet host. The TimescaleDB sidecar is on 127.0.0.1 inside the pod and needs no rule.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: tracearr
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: tracearr
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "3000"
+              protocol: TCP
+    # Replies to the app's own connection to Jellyfin, which goes through a Service. Cilium evaluates
+    # the reverse-translated reply as new traffic to this pod and drops it without this rule
+    # ("Policy denied DROPPED" in Hubble). The destination is the pod's ephemeral source port, so no
+    # port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: jellyfin
+  egress:
+    # Jellyfin, added in Tracearr as http://jellyfin.default.svc.cluster.local:8096 (sessions, users, libraries).
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: jellyfin
+      toPorts:
+        - ports:
+            - port: "8096"
+              protocol: TCP
+    # The update check (releases on GitHub). Notification destinations (Discord, ntfy, Pushover,
+    # SMTP) are not enabled yet: when one is, look for the denied name in Hubble and add it here.
+    - toFQDNs:
+        - matchName: api.github.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
