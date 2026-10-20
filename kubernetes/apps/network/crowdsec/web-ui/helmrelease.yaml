@@ -1,0 +1,138 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app crowdsec-web-ui
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: crowdsec-web-ui
+  values:
+    controllers:
+      crowdsec-web-ui:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          # Registers this pod as a LAPI machine the same way the agent does (the chart's own registration
+          # token, in crowdsec-lapi-secrets). The LAPI refuses to register a name twice, so the credentials
+          # live on an emptyDir and the machine is registered once per pod.
+          register:
+            image:
+              repository: mirror.gcr.io/crowdsecurity/crowdsec
+              tag: v1.8.1@sha256:0f2523fa61ef507f15d953045cface490cc880670c62f2755ced17524107f71a
+            command:
+              - sh
+              - -ec
+              - |-
+                [ -s /credentials/lapi.yaml ] || cscli -c /staging/etc/crowdsec/config.yaml lapi register \
+                  --machine "$POD_NAME" --url "$LAPI_URL" --token "$REGISTRATION_TOKEN" --file /credentials/lapi.yaml
+                yq -r .password /credentials/lapi.yaml > /credentials/password
+            env:
+              LAPI_URL: &lapi http://crowdsec-service.network.svc.cluster.local:8080
+              POD_NAME: &podName
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.name
+              REGISTRATION_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: crowdsec-lapi-secrets
+                    key: registrationToken
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+        containers:
+          app:
+            image:
+              repository: ghcr.io/theduffman85/crowdsec-web-ui
+              tag: 2026.10.8@sha256:1e7ef2ddb701c8610301787c9ed476b57184ec5f5e839db804fbb4da3dccc17f
+            env:
+              # No login of its own: Authelia (ext-auth) is in front, and only the `admin` group gets through.
+              CONFIG_AUTH_ENABLED: "false"
+              CONFIG_INSTANCE_LAPI_AUTH_PASSWORD_FILE: /credentials/password
+              CONFIG_INSTANCE_LAPI_AUTH_USERNAME: *podName
+              CONFIG_INSTANCE_LAPI_URL: *lapi
+              CONFIG_INSTANCE_METRICS_0_NAME: LAPI
+              CONFIG_INSTANCE_METRICS_0_URL: http://crowdsec-service.network.svc.cluster.local:6060/metrics
+              CONFIG_INSTANCE_METRICS_1_NAME: Agent
+              CONFIG_INSTANCE_METRICS_1_URL: http://crowdsec-agent-service.network.svc.cluster.local:6060/metrics
+              CONFIG_SERVER_PORT: &port 3000
+              # Would otherwise check GitHub for new releases; Renovate handles updates.
+              CONFIG_UPDATES_ENABLED: "false"
+              TZ: Europe/London
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext: *securityContext
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 512Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Infrastructure
+          gethomepage.dev/name: CrowdSec
+          gethomepage.dev/description: "Alerts and bans at the public gateway (admin)"
+          gethomepage.dev/icon: crowdsec
+        hostnames:
+          - crowdsec.f9.casa
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+    persistence:
+      # Settings, saved filters and the alert cache (SQLite). Not backed up: everything but the settings is
+      # re-read from the LAPI.
+      data:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: ceph-block
+        globalMounts:
+          - path: /app/data
+      credentials:
+        type: emptyDir
+      # cscli needs a writable data directory.
+      cscli:
+        type: emptyDir
+        advancedMounts:
+          crowdsec-web-ui:
+            register:
+              - path: /var/lib/crowdsec/data
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          crowdsec-web-ui:
+            app:
+              - path: /tmp
