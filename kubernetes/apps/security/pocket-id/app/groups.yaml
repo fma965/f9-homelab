@@ -10,3 +10,43 @@ spec:
   users:
     userRefs:
       - name: scott
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidusergroup_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDUserGroup
+metadata:
+  name: home
+spec:
+  friendlyName: Home
+  users:
+    userRefs:
+      - name: scott
+      - name: andrew
+      - name: ash
+      - name: homeassistant-kiosk
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidusergroup_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDUserGroup
+metadata:
+  name: media
+spec:
+  friendlyName: Media
+  users:
+    userRefs:
+      - name: scott
+      - name: andrew
+      - name: ash
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidusergroup_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDUserGroup
+metadata:
+  name: openwebui
+spec:
+  friendlyName: Open WebUI
+  users:
+    userRefs:
+      - name: scott
+      - name: andrew
+      - name: ash
