@@ -19,7 +19,7 @@ There is no automated AI reviewer in this repository. This file is for an agent 
 - **Exposure:** a route moved to `envoy-external`, a new public route without Authelia or an API-key policy, a new `LoadBalancer`, a relaxed `securityContext`, new capabilities or a namespace Pod Security change.
 - **Network policy:** for a new or changed `CiliumNetworkPolicy`, check the reply paths through Services (`kube-dns`, databases, other apps), the gateway pods on the container port, and Multus or hostNetwork pods that Cilium does not cover. Hubble drop checks belong in the post-merge steps.
 - **Secrets:** nothing in plaintext, 1Password field names that really exist, `op://` references only where the mechanism allows them.
-- **Docs and the register:** a change that alters exposure or policy should mention the matching documentation or risk-register update (those live in the private repository).
+- **Docs and the register:** a major change (see `AGENTS.md`: an app or service added, removed or reworked, or a change to exposure, network policy, storage or backups, secrets handling, Pod Security, or the Flux or Talos structure) should link a pull request that updates the private technical documentation and the risk register. Flag a missing one; a dependency bump needs none.
 - **Conventions:** the ordering and scaffolding in `.agents/instructions/sorting.instructions.md` and the add-app skill. A documented repository convention is not a finding.
 
 ## Findings

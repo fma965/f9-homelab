@@ -311,7 +311,7 @@ kustomize build kubernetes/apps/<namespace>/<app>/app   # must render; ${APP} va
 flate test all --path ./kubernetes/apps                  # when tools and network access permit
 ```
 
-`lefthook` formats on commit. Show the user the created files and get confirmation before committing. Commit style: `feat(<app>): deploy`. After merge, check the app, the route, and Hubble for drops. If the app changes exposure or adds a dependency, the private technical docs and the risk register may need an update.
+`lefthook` formats on commit. Show the user the created files and get confirmation before committing. Commit style: `feat(<app>): deploy`. After merge, check the app, the route, and Hubble for drops. A new app is a major change: also update the private technical docs (app inventory and, if it is routed, the exposure map) and add a risk-register change-log row, as `AGENTS.md` requires.
 
 ## Common mistakes
 
