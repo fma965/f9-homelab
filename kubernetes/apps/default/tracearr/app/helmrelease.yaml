@@ -140,7 +140,8 @@ spec:
       app:
         annotations:
           gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == any(200,401)"]
+            conditions: ["[STATUS] == 200"]
+            url: "https://{{ .Release.Name }}.f9.casa/health"
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Media Service
           gethomepage.dev/name: Tracearr
