@@ -6,7 +6,9 @@ metadata:
   name: cluster-apps
   namespace: flux-system
 spec:
-  deletionPolicy: WaitForTermination
+  # Deleting this Kustomization must leave the apps and their volumes in place (WaitForTermination would
+  # delete everything it applied).
+  deletionPolicy: Orphan
   interval: 1h
   path: ./kubernetes/apps
   prune: true
