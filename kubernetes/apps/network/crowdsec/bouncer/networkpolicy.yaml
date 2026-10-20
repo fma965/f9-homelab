@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# CrowdSec bouncer (M15). Egress only: it asks the LAPI which addresses are banned and calls nothing else.
+# The chart has no pod-label value, so this selects the pods by name. The gateway proxies reach it on 8080
+# (no ingress policy) and so does Prometheus.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: crowdsec-bouncer
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: crowdsec-bouncer
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s-app: crowdsec
+            type: lapi
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
