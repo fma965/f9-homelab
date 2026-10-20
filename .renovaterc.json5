@@ -6,6 +6,9 @@
     "github>home-operations/renovate-presets//apps/talosFactory.json5#8.1.0",
     ":timezone(Europe/London)",
   ],
+  // The Protect Main ruleset does not require up-to-date branches, and the default `auto` would rebase every
+  // open pull request, rerunning CI, each time main moves. Rebase only when a branch conflicts.
+  rebaseWhen: "conflicted",
   lockFileMaintenance: {
     enabled: true,
     schedule: ["before 3am on the first day of the month"],
