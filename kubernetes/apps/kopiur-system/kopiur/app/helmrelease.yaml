@@ -45,3 +45,18 @@ spec:
     webhook:
       podLabels:
         egress.cilium.io/kube-apiserver: "true"
+    # The web console (https://kopiur.home-operations.com/ui/). No login of its own: every request is the one
+    # fixed identity below, bound to view and operate backups. Only the internal gateway may reach it
+    # (networkpolicy.yaml), so the home network and the VPN are the access control.
+    ui:
+      enabled: true
+      auth:
+        anonymous:
+          enabled: true
+          user: homelab
+      podLabels:
+        egress.cilium.io/kube-apiserver: "true"
+      rbac:
+        bindings:
+          - role: user
+            users: [homelab]
