@@ -15,6 +15,7 @@ disable_tools = ["1password-cli"]
 "1password-cli" = "2.35.0"
 actionlint = "1.7.12"
 cloudflared = "2026.10.1"
+crane = "0.22.1"
 flux2 = "2.9.6"
 gh = "2.102.0"
 "github:home-operations/flate" = "v0.6.5"
