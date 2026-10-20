@@ -11,3 +11,30 @@ spec:
   admin: true
   userInfoSecretRef:
     name: pocket-id-user-scott
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketiduser_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDUser
+metadata:
+  name: andrew
+spec:
+  userInfoSecretRef:
+    name: pocket-id-user-andrew
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketiduser_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDUser
+metadata:
+  name: ash
+spec:
+  userInfoSecretRef:
+    name: pocket-id-user-ash
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketiduser_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDUser
+metadata:
+  name: homeassistant-kiosk
+spec:
+  userInfoSecretRef:
+    name: pocket-id-user-homeassistant-kiosk
