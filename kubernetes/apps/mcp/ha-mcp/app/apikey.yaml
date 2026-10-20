@@ -34,6 +34,8 @@ spec:
     extractFrom:
       - headers:
           - x-api-key
+  # Merge with the gateway-level crowdsec-bouncer policy (extAuth) instead of replacing it.
+  mergeType: StrategicMerge
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
