@@ -57,3 +57,22 @@ spec:
     namespace: flux-system
   targetNamespace: kopiur-system
   wait: false
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+# The RoleBindings live in the namespaces of the apps being backed up, so this Kustomization has no
+# targetNamespace (it would override them) and each binding names its namespace.
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kopiur-ui-browse
+spec:
+  dependsOn:
+    - name: kopiur
+  interval: 1h
+  path: ./kubernetes/apps/kopiur-system/kopiur/browse
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false

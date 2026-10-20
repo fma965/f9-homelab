@@ -66,9 +66,12 @@ spec:
       podLabels:
         egress.cilium.io/kube-apiserver: "true"
       rbac:
+        # Renders the ClusterRole `kopiur-ui-browse` (the in-snapshot file browser). It binds nobody: the
+        # RoleBindings in ../browse grant it per namespace, because browsing runs a session pod that holds the
+        # repository credentials and anyone who can exec into it can read them.
+        browseRole: true
         # `user` = view and operate (snapshot now, restore, suspend, maintenance). The route only lets the
-        # `admins` group through, so nobody else reaches the console. `kopiur-ui-browse` is not bound: it would
-        # hand over the repository credentials of the namespace.
+        # `admins` group through, so nobody else reaches the console.
         bindings:
           - role: user
             groups: [admins]

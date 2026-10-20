@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/rbac.authorization.k8s.io/rolebinding_v1.json
+# Lets the `admins` group browse the files inside the Kopiur snapshots of the `default` namespace (console, "browse").
+# The session pod holds this namespace's repository credentials, so this grants them: bind it only where you
+# would hand those over anyway, and per namespace, never with a ClusterRoleBinding.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kopiur-ui-browse
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kopiur-ui-browse
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: Group
+    name: admins
