@@ -1,7 +1,31 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
-# CrowdSec agent (M15). The API server and the public web come from the egress profile labels on the pod
-# (HelmRelease agent.podLabels); this adds the one in-cluster call, to the LAPI. The LAPI has no ingress policy,
-# so the agent, the bouncer and Prometheus can reach it.
+# CrowdSec LAPI and agent (M15). Egress only; the pods have no ingress policy, so the agent, the bouncer and
+# Prometheus can reach the LAPI. The API server comes from the egress.cilium.io/kube-apiserver label on the
+# agent (HelmRelease agent.podLabels). Hostnames from the FQDN cache and Hubble on 20 Oct 2026; restart the pod
+# after adding a name here.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: crowdsec-lapi
+spec:
+  endpointSelector:
+    matchLabels:
+      k8s-app: crowdsec
+      type: lapi
+  egress:
+    # The CrowdSec central API (community blocklist, signals, console enrolment), its push API (console
+    # decisions) and the hub index and version check.
+    - toFQDNs:
+        - matchName: api.crowdsec.net
+        - matchName: hub-data.crowdsec.net
+        - matchName: papi.api.crowdsec.net
+        - matchName: version.crowdsec.net
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -20,4 +44,12 @@ spec:
       toPorts:
         - ports:
             - port: "8080"
+              protocol: TCP
+    # The hub (collections and parsers) and the version check.
+    - toFQDNs:
+        - matchName: hub-data.crowdsec.net
+        - matchName: version.crowdsec.net
+      toPorts:
+        - ports:
+            - port: "443"
               protocol: TCP
