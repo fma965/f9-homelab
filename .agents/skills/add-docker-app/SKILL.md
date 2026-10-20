@@ -46,7 +46,7 @@ Stacks live in `docker/<group>/<app>/compose.yaml` and are deployed GitOps-style
     - Only publish `ports:` for what must be reachable. Do not publish web UIs to the whole LAN by accident.
     - Add a Gatus endpoint and Homepage tile the way the neighbouring entries do.
 
-6. **Verify**: `docker compose -f docker/<group>/<app>/compose.yaml config --quiet` (unset `${VAR}` warnings are expected). Show the user the files before committing. Commit style: `feat(<app>): deploy to the NAS`. After merge Doco-CD deploys within a few minutes; check its container logs on the NAS (`docker logs doco-cd`) and the stack's health. Do not run anything on the NAS unless the user asks.
+6. **Verify**: `docker compose -f docker/<group>/<app>/compose.yaml config --quiet` (unset `${VAR}` warnings are expected). Show the user the files before committing. Commit style: `feat(<app>): deploy to the NAS`. After merge Doco-CD deploys within a few minutes; check its container logs on the NAS (`docker logs doco-cd`) and the stack's health. Do not run anything on the NAS unless the user asks. A new or changed stack is a major change: also update the private technical docs (docker host page and inventory, the firewall or exposure notes if a port changed) and the risk-register change log, as `AGENTS.md` requires.
 
 ## Common mistakes
 
