@@ -1,0 +1,48 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/httproute_v1.json
+# Kopiur web console (admin): fleet view of the backups, snapshot now, restore, suspend a schedule. Internal
+# gateway only, and logged in with Pocket ID (securitypolicy.yaml). The one filter makes the gateway set the shared
+# token header on every request it forwards (the HTTPRouteFilter below).
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: kopiur-ui
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Infrastructure
+    gethomepage.dev/name: Kopiur
+    gethomepage.dev/description: "Backups: snapshots, restores, schedules (admin)"
+    gethomepage.dev/icon: kopia
+    gethomepage.dev/pod-selector: app.kubernetes.io/component=ui
+spec:
+  hostnames:
+    - kopiur.f9.casa
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+  rules:
+    - backendRefs:
+        - name: kopiur-ui
+          port: 8090
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: gateway.envoyproxy.io
+            kind: HTTPRouteFilter
+            name: kopiur-ui
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/httproutefilter_v1alpha1.json
+# Copies the shared token from the Secret `kopiur-ui-proxy-token` (key `credential`) into X-Kopiur-Proxy-Token on
+# every request the route forwards. `overwrite` replaces a token the browser sent. It fails closed: with the Secret
+# or key missing, the gateway answers the route with a 500 rather than forwarding without the token.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: HTTPRouteFilter
+metadata:
+  name: kopiur-ui
+spec:
+  credentialInjection:
+    credential:
+      valueRef:
+        name: kopiur-ui-proxy-token
+    header: X-Kopiur-Proxy-Token
+    overwrite: true

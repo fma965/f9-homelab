@@ -1,0 +1,49 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+# The login and the identity headers, after Kopiur's Envoy Gateway recipe (docs/ui.md in home-operations/kopiur).
+# `oidc` sends anyone without a session to Pocket ID and keeps the ID token in a cookie; `jwt` validates that
+# cookie on every request and copies claims into the headers the console reads (ui.auth.* in helmrelease.yaml).
+# The endpoints are set here so the Envoy Gateway controller does not have to fetch the discovery document,
+# which its network policy does not allow. A claim missing from the ID token leaves its header unset (and a header
+# the browser sent is not replaced), so the console would see no groups: check the user menu after the first login.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: kopiur-ui
+spec:
+  jwt:
+    providers:
+      - name: pocket-id
+        claimToHeaders:
+          - claim: preferred_username
+            header: x-user-username
+          - claim: groups
+            header: x-user-groups
+          - claim: email
+            header: x-user-email
+        extractFrom:
+          cookies:
+            - IdToken-kopiur-ui
+        issuer: https://id.f9.casa
+        remoteJWKS:
+          uri: https://id.f9.casa/.well-known/jwks.json
+  oidc:
+    clientIDRef:
+      name: kopiur-ui-oidc
+    clientSecret:
+      name: kopiur-ui-oidc
+    cookieNames:
+      idToken: IdToken-kopiur-ui
+    logoutPath: /logout
+    provider:
+      authorizationEndpoint: https://id.f9.casa/authorize
+      endSessionEndpoint: https://id.f9.casa/api/oidc/end-session
+      issuer: https://id.f9.casa
+      tokenEndpoint: https://id.f9.casa/api/oidc/token
+    redirectURL: https://kopiur.f9.casa/oauth2/callback
+    refreshToken: true
+    scopes: [openid, profile, email, groups]
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: kopiur-ui

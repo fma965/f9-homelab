@@ -45,18 +45,30 @@ spec:
     webhook:
       podLabels:
         egress.cilium.io/kube-apiserver: "true"
-    # The web console (https://kopiur.home-operations.com/ui/). No login of its own: every request is the one
-    # fixed identity below, bound to view and operate backups. Only the internal gateway may reach it
-    # (networkpolicy.yaml), so the home network and the VPN are the access control.
+    # The web console (https://kopiur.home-operations.com/ui/). It has no login of its own: the envoy-internal
+    # gateway logs people in with Pocket ID (ui/securitypolicy.yaml), copies the username and groups from the ID
+    # token into these headers and injects the shared token that proves the headers came from it. The console
+    # then acts as that user, so Kubernetes RBAC decides what they may do (the bindings below).
     ui:
       enabled: true
       auth:
-        anonymous:
-          enabled: true
-          user: homelab
+        # Pocket ID's `groups` claim carries the group names (`admins`); only those are forwarded to Kubernetes.
+        allowedGroups: [admins]
+        emailHeader: x-user-email
+        # Envoy Gateway encodes a list claim as base64 JSON, and cannot be told otherwise.
+        groupsFormat: base64Json
+        groupsHeader: x-user-groups
+        proxySecret:
+          # Envoy Gateway reads only the key `credential`, so the console reads that key too.
+          existingSecret: kopiur-ui-proxy-token
+          key: credential
+        userHeader: x-user-username
       podLabels:
         egress.cilium.io/kube-apiserver: "true"
       rbac:
+        # `user` = view and operate (snapshot now, restore, suspend, maintenance). The route only lets the
+        # `admins` group through, so nobody else reaches the console. `kopiur-ui-browse` is not bound: it would
+        # hand over the repository credentials of the namespace.
         bindings:
           - role: user
-            users: [homelab]
+            groups: [admins]
