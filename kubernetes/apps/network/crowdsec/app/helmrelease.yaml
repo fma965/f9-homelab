@@ -22,6 +22,9 @@ spec:
       repository: mirror.gcr.io/crowdsecurity/crowdsec
       tag: v1.8.1@sha256:0f2523fa61ef507f15d953045cface490cc880670c62f2755ced17524107f71a
     lapi:
+      env:
+        - name: ENROLL_INSTANCE_NAME
+          value: f9-homelab
       envFrom:
         - secretRef:
             name: &secret crowdsec-secret
