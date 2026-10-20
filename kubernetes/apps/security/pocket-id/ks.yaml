@@ -1,0 +1,45 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: pocket-id-operator
+spec:
+  interval: 1h
+  path: ./kubernetes/apps/security/pocket-id/operator
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: security
+  wait: true
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app pocket-id
+spec:
+  components:
+    - ../../../../components/kopiur/backup
+  dependsOn:
+    - name: onepassword-connect
+      namespace: external-secrets
+    - name: pocket-id-operator
+  interval: 1h
+  path: ./kubernetes/apps/security/pocket-id/app
+  postBuild:
+    substitute:
+      APP: *app
+      # The data directory belongs to the instance's user (65534); the mover must read it as that user.
+      KOPIUR_CAPACITY: 1Gi
+      KOPIUR_PGID: "65534"
+      KOPIUR_PUID: "65534"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: security
+  wait: false

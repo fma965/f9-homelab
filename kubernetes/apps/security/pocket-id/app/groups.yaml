@@ -1,0 +1,12 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidusergroup_v1alpha1.json
+# `admins` is the group the oidc component lets in by default (OIDC_GROUP).
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDUserGroup
+metadata:
+  name: admins
+spec:
+  friendlyName: Admins
+  users:
+    userRefs:
+      - name: scott

@@ -9,5 +9,4 @@ components:
 
 resources:
   - ./namespace.yaml
-  - ./kanidm/ks.yaml
-  - ./kaniop/ks.yaml
+  - ./pocket-id/ks.yaml
