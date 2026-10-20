@@ -32,3 +32,26 @@ spec:
     namespace: flux-system
   targetNamespace: network
   wait: false
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app crowdsec-web-ui
+spec:
+  components:
+    - ../../../../components/ext-auth
+  dependsOn:
+    - name: crowdsec
+  interval: 1h
+  path: ./kubernetes/apps/network/crowdsec/web-ui
+  postBuild:
+    substitute:
+      APP: *app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: network
+  wait: false
