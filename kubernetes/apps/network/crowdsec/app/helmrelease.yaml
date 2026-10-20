@@ -25,6 +25,8 @@ spec:
       env:
         - name: ENROLL_INSTANCE_NAME
           value: f9-homelab
+        - name: USE_WAL # the LAPI warns that SQLite may block while the community blocklist is inserted
+          value: "true"
       envFrom:
         - secretRef:
             name: &secret crowdsec-secret
@@ -38,10 +40,6 @@ spec:
           storageClassName: ceph-block
       podAnnotations:
         secret.reloader.stakater.com/reload: *secret
-      podLabels:
-        # Console enrolment, the community blocklist and the hub (collections) are all HTTPS on the public web.
-        # Narrow this to named hosts once Hubble has shown which ones it uses.
-        egress.cilium.io/web: "true"
     agent:
       additionalAcquisition:
         - source: kubernetes
@@ -58,7 +56,6 @@ spec:
         serviceMonitor:
           enabled: true
       podLabels:
-        # The agent reads the proxy logs through the API server and downloads the collection from the hub.
+        # The agent reads the proxy logs through the API server.
         egress.cilium.io/kube-apiserver: "true"
-        egress.cilium.io/web: "true"
       serviceAccountName: crowdsec-agent
