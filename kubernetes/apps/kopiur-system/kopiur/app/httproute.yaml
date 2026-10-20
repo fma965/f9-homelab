@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/httproute_v1.json
+# Kopiur web console (admin): fleet view of the backups, snapshot now, restore, suspend a schedule. Internal
+# gateway only and no login of its own: the console runs every request as one fixed identity that can view and
+# operate the backups (see the ui values in helmrelease.yaml), so the network is the access control.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: kopiur-ui
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Infrastructure
+    gethomepage.dev/name: Kopiur
+    gethomepage.dev/description: "Backups: snapshots, restores, schedules (admin)"
+    gethomepage.dev/icon: kopia
+    gethomepage.dev/pod-selector: app.kubernetes.io/component=ui
+spec:
+  hostnames:
+    - kopiur.f9.casa
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+  rules:
+    - backendRefs:
+        - name: kopiur-ui
+          port: 8090

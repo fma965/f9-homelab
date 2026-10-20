@@ -52,3 +52,27 @@ spec:
         - ports:
             - port: "6443"
               protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Kopiur web console. It has no login, so only the internal gateway may reach it (a pod that could call
+# it would be the fixed identity that can operate every backup). Egress is the API server, from the
+# egress.cilium.io/kube-apiserver label on the pod (HelmRelease ui.podLabels); it calls nothing else.
+# Probes come from the local node, which Cilium always allows.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kopiur-ui
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: kopiur
+      app.kubernetes.io/component: ui
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+      toPorts:
+        - ports:
+            - port: "8090"
+              protocol: TCP
