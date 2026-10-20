@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# CrowdSec agent (M15). The API server and the public web come from the egress profile labels on the pod
+# (HelmRelease agent.podLabels); this adds the one in-cluster call, to the LAPI. The LAPI has no ingress policy,
+# so the agent, the bouncer and Prometheus can reach it.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: crowdsec-agent
+spec:
+  endpointSelector:
+    matchLabels:
+      k8s-app: crowdsec
+      type: agent
+  egress:
+    # Alerts to the local API, port 8080.
+    - toEndpoints:
+        - matchLabels:
+            k8s-app: crowdsec
+            type: lapi
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
