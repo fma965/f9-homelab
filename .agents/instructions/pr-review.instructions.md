@@ -9,7 +9,7 @@ There is no automated AI reviewer in this repository. This file is for an agent 
 - Read the PR and the diff with `gh pr view <number>` and `gh pr diff <number>`. Identify every file, not only the headline change.
 - Get the **rendered** impact. A one-line values or chart change can fan out across many resources, and a harmless-looking diff can rename a selector or a resource.
     - The Konflate workflow comments a rendered summary on each PR; the same data is at `https://konflate.f9.casa/api/prs/<number>/summary` (send `Accept: text/markdown`).
-    - Locally: `flate diff all --path ./kubernetes/flux/cluster --base origin/main` and `flate test all --path ./kubernetes/flux/cluster`.
+    - Locally: `flate diff all --path ./kubernetes/apps --base origin/main` and `flate test all --path ./kubernetes/apps`.
     - If neither is available, say the rendered impact is **unverified**; do not call the change "unchanged" or "safe".
 - Do not claim to have run a command or fetched a result that you did not.
 

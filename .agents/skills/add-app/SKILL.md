@@ -289,7 +289,7 @@ spec:
 
 Add `./<app>/ks.yaml` to `kubernetes/apps/<namespace>/kustomization.yaml` `resources`, in alphabetical position (`namespace.yaml` stays first; leave commented-out entries where they are).
 
-**New namespace?** Copy an existing namespace folder (for example `default`) with its `namespace.yaml` (keep the literal `name: _`, the Pod Security labels and the `prune: disabled` annotation) and `kustomization.yaml` (keep the `alerts` and `kopiur/secret` components). The `cluster-apps` Flux Kustomization points at `./kubernetes/apps`; confirm with `flate test` that it is picked up.
+**New namespace?** Copy an existing namespace folder (for example `default`) with its `namespace.yaml` (keep the literal `name: _`, the Pod Security labels and the `prune: disabled` annotation) and `kustomization.yaml` (keep the `alerts` and `kopiur/secret` components). The FluxInstance syncs `./kubernetes/apps`; confirm with `flate test` that it is picked up.
 
 ## Step 4: Network policy
 
@@ -308,7 +308,7 @@ A `LoadBalancer`, hostNetwork or Multus-attached app needs thought: Cilium does 
 
 ```bash
 kustomize build kubernetes/apps/<namespace>/<app>/app   # must render; ${APP} variables staying literal is expected
-flate test all --path ./kubernetes/flux/cluster          # when tools and network access permit
+flate test all --path ./kubernetes/apps                  # when tools and network access permit
 ```
 
 `lefthook` formats on commit. Show the user the created files and get confirmation before committing. Commit style: `feat(<app>): deploy`. After merge, check the app, the route, and Hubble for drops. If the app changes exposure or adds a dependency, the private technical docs and the risk register may need an update.
