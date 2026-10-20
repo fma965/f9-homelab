@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pocket-id-operator
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: pocket-id-operator
+  values:
+    # The instance, users, groups and clients are manifests in ../app (and the oidc component), not chart values.
+    instance:
+      enabled: false
+    metrics:
+      prometheusRule:
+        enabled: false
+    operator:
+      # The operator would fetch an icon for every client from a CDN and upload it; the clients are few, so the
+      # operator gets no internet access instead (set a logo on a client with spec.logoUrl if wanted).
+      autoGenerateLogos: false
+      labels:
+        egress.cilium.io/kube-apiserver: "true"
+      timezone: Europe/London

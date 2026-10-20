@@ -1,31 +1,22 @@
 ---
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kaniop.rs/kanidmoauth2client_v1beta1.json
-# The Kanidm side of a route gated by the gateway's OIDC filter (see securitypolicy.yaml). Kaniop
-# creates the client in Kanidm and writes <app>-kanidm-oauth2-credentials next to it, with the
-# secret under `client-secret` (the key Envoy Gateway reads). Only members of OIDC_GROUP get a
-# token: the default is `admins`; set OIDC_GROUP in the Flux Kustomization to use another group.
-apiVersion: kaniop.rs/v1beta1
-kind: KanidmOAuth2Client
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+# The Pocket ID side of a route gated by the gateway's OIDC filter (see securitypolicy.yaml). The operator
+# creates the client in Pocket ID and writes ${APP}-oidc-credentials next to it, with the secret under
+# `client-secret` (the key Envoy Gateway reads). The client id is declared so the SecurityPolicy can name it.
+# Only members of OIDC_GROUP get a token: the default is `admins`; set OIDC_GROUP in the Flux Kustomization to
+# use another group (it must exist in Pocket ID: see kubernetes/apps/security/pocket-id/app/groups.yaml).
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
 metadata:
   name: ${APP}
 spec:
-  kanidmRef:
-    name: kanidm
-    namespace: security
-  displayname: ${APP}
-  origin: https://${APP}.f9.casa/
-  redirectUrl:
+  allowedUserGroups:
+    - groupName: ${OIDC_GROUP:=admins}
+  callbackUrls:
     - https://${APP}.f9.casa/oauth2/callback
-  scopeMap:
-    - group: ${OIDC_GROUP:=admins}@id.f9.casa
-      scopes:
-        - openid
-        - profile
-        - email
-        - groups
-  disableConsentPrompt: true
-  preferShortUsername: true
-  secretKeyAliases:
-    clientSecret:
-      - client-secret
-  strictRedirectUrl: true
+  clientID: ${APP}
+  launchUrl: https://${APP}.f9.casa/
+  secret:
+    keys:
+      clientSecret: client-secret
+  skipConsent: true

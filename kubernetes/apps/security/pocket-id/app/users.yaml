@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketiduser_v1alpha1.json
+# The first login: `kubectl -n security get pocketiduser scott -o jsonpath='{.status.oneTimeLoginURL}'` prints a
+# one-time link (valid for an hour) to register the first passkey. Deleting this resource does not delete the
+# user in Pocket ID, so nobody loses a passkey by accident.
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDUser
+metadata:
+  name: scott
+spec:
+  admin: true
+  userInfoSecretRef:
+    name: pocket-id-user-scott

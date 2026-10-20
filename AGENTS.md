@@ -6,7 +6,7 @@ This file is the canonical, agent-independent source of repository policy. Essen
 
 - `kubernetes/apps/<namespace>/<app>/`: application Flux Kustomizations (`ks.yaml`), HelmReleases, chart sources, and configuration. Each namespace folder has a `namespace.yaml` and a `kustomization.yaml` listing its apps.
 - `kubernetes/apps/flux-system/flux-instance/`: the FluxInstance. It syncs `kubernetes/apps` directly and carries the cluster-wide patches applied to every child Kustomization and HelmRelease.
-- `kubernetes/components/`: reusable Kustomize components: `alerts`, `ext-auth` (Authelia in front of a route), `gpu`, `kopiur` (`backup`, `secret`), `oidc` (Kanidm OIDC in front of a route; a trial, only `echo` uses it, Authelia remains the live login) and `zeroscaler`.
+- `kubernetes/components/`: reusable Kustomize components: `alerts`, `ext-auth` (Authelia in front of a route), `gpu`, `kopiur` (`backup`, `secret`), `oidc` (Pocket ID OIDC in front of a route; a trial, only `echo` uses it, Authelia remains the live login) and `zeroscaler`.
 - `talos/`: Talos templates (`cluster.yaml.j2`, `controlplane.yaml.j2`, `schematic.yaml.j2`), `nodes/` overrides and recipes (`mod.just`). `bootstrap/`: helmfile and kustomize bootstrap with recipes.
 - `docker/<group>/<app>/`: Compose stacks for the NAS Docker host, deployed by Doco-CD from `.doco-cd.yaml`.
 - `docs/guides/` and `docs/mkdocs.guides.yml`: the housemate guides (public), built and served by the `help` app. Technical documentation is **not** in this repository; it lives in a separate private repository.
