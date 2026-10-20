@@ -16,10 +16,10 @@ Determine **what changes on deployment and whether this repository relies on the
 
 ## 2. Inspect the rendered change (when applicable)
 
-Prefer evidence that already exists:
+Render the change locally:
 
-- The **Konflate** comment on the pull request, or its API: `https://konflate.f9.casa/api/prs/<number>/summary` (send `Accept: text/markdown`). It lists affected resources, additions and removals, image changes and render errors. If Konflate did not render the PR, say **unverified**, never "unchanged" or "safe".
-- Locally: `flate diff all --path ./kubernetes/apps --base origin/main` and `flate test all --path ./kubernetes/apps`. Do not claim to have run them unless you did; a SKILL.md grants no shell or cluster access.
+- `flate diff all --path ./kubernetes/apps --base <base>` and `flate test all --path ./kubernetes/apps`. For a PR branch behind `main`, use its merge base (`git merge-base origin/main <branch>`) as `<base>`: against `origin/main` the diff also shows `main`'s newer commits as reverted. `flate diff all` lists the affected resources, additions and removals and render errors; `flate diff images` lists image changes. Do not claim to have run them unless you did; a SKILL.md grants no shell or cluster access.
+- If the render cannot run, say **unverified**, never "unchanged" or "safe".
 
 Pay special attention to resource names, label **values** as well as keys, selectors, ports, services, RBAC, storage classes, CRDs, probes, immutable fields and persistent-volume behavior. A render may omit CRDs and Secret data; their absence is not evidence of no change. One unrelated rendering failure is not proof that the upgraded chart fails.
 
@@ -55,4 +55,4 @@ A documented repository convention is **not** a finding. Apply the namespace and
 - A finding identifies the **changed line**, the **affected consumer or path**, the concrete failure mode, and the supporting rendered or upstream evidence. Confirm a replacement name or value from upstream manifests rather than guessing a fix.
 - Escalate documented risks: unsupported Talos/Kubernetes pairings, CRD or schema incompatibilities, data-loss or storage mutations, new security relaxations, unexpected suspend or prune, and selector or resource renames that break live consumers. For uncertain evidence, report **Unknown / needs verification** instead of asserting a failure or a successful test.
 - For an ordinary same-tag digest refresh, keep the review **compact**: recommendation, what changed, and any meaningful caveat. Skip empty sections.
-- Do not fabricate Konflate results, upstream comparisons, tool calls or post-merge checks.
+- Do not fabricate render results, upstream comparisons, tool calls or post-merge checks.
