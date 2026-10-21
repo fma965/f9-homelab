@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/fma965/debt-manager
-              tag: v2.0.2@sha256:9a0ee7e288b9b0790b93ad4d5e7d0180437e60363e5e9d9ba62fff33b6e5e8b5
+              tag: v2.0.3@sha256:0517354313d040803a625e1cb8a7f031ca2b3325e845211cc00d5c490557a0ac
             env:
               #DEBUG: true
               DB_TYPE: pgsql
