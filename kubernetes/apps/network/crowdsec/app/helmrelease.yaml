@@ -47,9 +47,14 @@ spec:
           selector: gateway.envoyproxy.io/owning-gateway-name=envoy-external
           labels:
             type: envoy
+        - source: kubernetes
+          namespace: default
+          selector: app.kubernetes.io/name=home-assistant
+          labels:
+            type: home-assistant
       env:
         - name: COLLECTIONS
-          value: yanis-kouidri/envoy
+          value: yanis-kouidri/envoy crowdsecurity/home-assistant
       hostVarLog: false
       isDeployment: true
       metrics:

@@ -1,0 +1,28 @@
+---
+# The CrowdSec agent (network namespace) reads the Home Assistant logs through the API server (acquisition
+# source `kubernetes`), so it needs pod list/watch and pod/log in this namespace only. The ServiceAccount is
+# defined with CrowdSec; this Role and binding live here because the crowdsec Kustomization targets `network`.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: crowdsec-agent
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: crowdsec-agent
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: crowdsec-agent
+subjects:
+  - kind: ServiceAccount
+    name: crowdsec-agent
+    namespace: network
