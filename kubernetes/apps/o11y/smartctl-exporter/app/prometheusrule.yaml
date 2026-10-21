@@ -18,9 +18,12 @@ spec:
           labels:
             severity: critical
 
+        # A critical warning of exactly 4 is the NVMe "reliability degraded" bit on its own, which the
+        # Ceph NVMe drives raise (and fail SMART with) once their vendor wear estimate runs out.
         - alert: SmartDeviceTestFailed
           expr: |-
             (smartctl_device_smart_status != 1 or smartctl_device_status != 1)
+            unless on(instance, device) smartctl_device_critical_warning == 4
           for: 5m
           annotations:
             summary: >-
@@ -30,7 +33,7 @@ spec:
 
         - alert: SmartDeviceCriticalWarning
           expr: |-
-            smartctl_device_critical_warning != 0
+            smartctl_device_critical_warning != 0 and smartctl_device_critical_warning != 4
           for: 5m
           annotations:
             summary: >-
