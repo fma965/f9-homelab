@@ -56,6 +56,18 @@ spec:
               repository: ghcr.io/home-operations/home-assistant
               tag: 2026.10.2@sha256:a582f4b113e3018517a5ae9727b873e262aa787fa97f07b97b71bfc57f14d470
             env:
+              # The Pocket ID client for auth_oidc, read through `!env_var` in /config/secrets.yaml. The discovery URL
+              # (https://id.f9.casa/.well-known/openid-configuration) and roles are in /config/configuration.yaml.
+              HOMEASSISTANT_OAUTH_CLIENT_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: home-assistant-oidc-credentials
+                    key: client_id
+              HOMEASSISTANT_OAUTH_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: home-assistant-oidc-credentials
+                    key: client_secret
               TZ: Europe/London
             envFrom:
               - secretRef:

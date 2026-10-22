@@ -8,4 +8,5 @@ resources:
   - ./helmrelease.yaml
   - ./ocirepository.yaml
   - ./networkpolicy.yaml
+  - ./oidcclient.yaml
   - ./rbac.yaml
