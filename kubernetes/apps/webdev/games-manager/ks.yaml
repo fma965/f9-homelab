@@ -8,8 +8,8 @@ spec:
   dependsOn:
     - name: cloudnative-pg
       namespace: database
-    - name: authelia
-      namespace: default
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/webdev/games-manager/app
   prune: true
