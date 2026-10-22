@@ -20,9 +20,22 @@ spec:
               repository: directus/directus
               tag: 12.5.0@sha256:7de5d6898b955dab1672619aed590035dcade4f8d7396d913e55543e114d1331
             env:
+              # Sign-in through Pocket ID (id.f9.casa). The provider keeps the name `authentik` and users are matched
+              # by email, so existing accounts carry over. These override the old Authelia values in the secret.
               AUTH_AUTHENTIK_ALLOW_PUBLIC_REGISTRATION: "true"
+              AUTH_AUTHENTIK_CLIENT_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: games-manager-oidc-credentials
+                    key: client_id
+              AUTH_AUTHENTIK_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: games-manager-oidc-credentials
+                    key: client_secret
               AUTH_AUTHENTIK_DRIVER: "openid"
               AUTH_AUTHENTIK_IDENTIFIER_KEY: "email"
+              AUTH_AUTHENTIK_ISSUER_URL: "https://id.f9.casa/.well-known/openid-configuration"
               AUTH_AUTHENTIK_LABEL: "F9 Auth"
               AUTH_DISABLE_DEFAULT: "true"
               AUTH_PROVIDERS: "authentik"
