@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+# The Pocket ID client for Open WebUI's login (ai.f9.casa, chat.f9.casa). The operator writes the Secret
+# `openwebui-oidc-credentials` (`client_id`, `client_secret`), which the HelmRelease reads. Open WebUI merges a new
+# subject into the existing account with the same email (OAUTH_MERGE_ACCOUNTS_BY_EMAIL), so accounts carry over.
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: openwebui
+spec:
+  allowedUserGroups:
+    - groupName: admins
+    - groupName: openwebui
+  callbackUrls:
+    - https://ai.f9.casa/oauth/oidc/callback
+    - https://chat.f9.casa/oauth/oidc/callback
+  clientID: openwebui
+  launchUrl: https://ai.f9.casa/
+  skipConsent: true
