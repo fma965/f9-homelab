@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+# The Pocket ID client for Grafana's login (grafana.f9.casa, internal gateway). The operator writes the Secret
+# `grafana-oidc-credentials` (`client_id`, `client_secret`), which the Grafana deployment reads. Only the `admins`
+# group may sign in, as Grafana's own role mapping also requires.
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: grafana
+spec:
+  allowedUserGroups:
+    - groupName: admins
+  callbackUrls:
+    - https://grafana.f9.casa/login/generic_oauth
+  clientID: grafana
+  launchUrl: https://grafana.f9.casa/
+  pkceEnabled: true
+  skipConsent: true

@@ -23,6 +23,8 @@ metadata:
 spec:
   dependsOn:
     - name: grafana-operator
+    - name: pocket-id
+      namespace: security
     - name: rook-ceph-cluster
       namespace: rook-ceph
   interval: 1h
