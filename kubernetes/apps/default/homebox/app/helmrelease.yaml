@@ -46,8 +46,20 @@ spec:
               HBOX_WEB_PORT: &port 7745
               HBOX_OIDC_ENABLED: "true"
               HBOX_OPTIONS_TRUST_PROXY: "true"
+              # Sign-in through Pocket ID (id.f9.casa); its groups claim carries the group names (`admins`, `home`).
+              HBOX_OIDC_ISSUER_URL: https://id.f9.casa
+              HBOX_OIDC_CLIENT_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: homebox-oidc-credentials
+                    key: client_id
+              HBOX_OIDC_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: homebox-oidc-credentials
+                    key: client_secret
               HBOX_OIDC_SCOPE: "openid profile email groups"
-              HBOX_OIDC_ALLOWED_GROUPS: "admin,home"
+              HBOX_OIDC_ALLOWED_GROUPS: "admins,home"
               HBOX_OIDC_AUTO_REDIRECT: "true"
               HBOX_OPTIONS_ALLOW_LOCAL_LOGIN: "false"
               TZ: Europe/London
