@@ -43,3 +43,13 @@ spec:
         - ports:
             - port: "443"
               protocol: TCP
+    # The frontend's Discord login (games.f9.casa/login.php) exchanges the code and reads the user
+    # server-side at discordapp.com/api (oauth2/token, users/@me). Blocked, the callback returned a
+    # blank page (found 22 Oct 2026; name from the Cilium FQDN cache and the frontend source). The
+    # discord.com authorize page is opened by the browser, not the pod.
+    - toFQDNs:
+        - matchName: discordapp.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
