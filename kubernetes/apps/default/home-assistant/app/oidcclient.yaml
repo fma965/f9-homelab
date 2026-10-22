@@ -3,7 +3,8 @@
 # The Pocket ID client for Home Assistant's auth_oidc login (home.f9.casa). The operator writes the Secret
 # `home-assistant-oidc-credentials` (`client_id`, `client_secret`), which the HelmRelease passes in as the variables
 # that /config/secrets.yaml reads. The discovery URL and the role mapping live in /config/configuration.yaml on the
-# volume, not here. auth_oidc links a new subject to the existing user with a local login of the same username.
+# volume, not here. auth_oidc links a new subject to the existing user that has a stored local credential with the
+# same username (local login itself is off: `auth_providers: []`).
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDOIDCClient
 metadata:
