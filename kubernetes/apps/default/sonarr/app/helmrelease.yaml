@@ -31,12 +31,24 @@ spec:
               TZ: Europe/London
               SONARR__APP__INSTANCENAME: sonarr
               SONARR__APP__THEME: dark
-              SONARR__AUTH__METHOD: External
-              SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              # Sonarr signs people in itself with Pocket ID (id.f9.casa); the route has no Authelia in front. It lets
+              # exactly one identity in: the `sub` of the owner's Pocket ID user (SONARR__AUTH__OIDCUSERIDENTIFIER, from
+              # the secret). Callers of /api (Prowlarr, Seerr, Recyclarr, Homepage) still use the API key.
+              SONARR__AUTH__METHOD: Oidc
+              SONARR__AUTH__OIDCAUTHORITY: https://id.f9.casa
+              SONARR__AUTH__OIDCCLIENTID: sonarr
+              SONARR__AUTH__OIDCCLIENTSECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: sonarr-oidc-credentials
+                    key: client_secret
+              SONARR__AUTH__REQUIRED: Enabled
               SONARR__LOG__CONSOLEFORMAT: Clef
               SONARR__LOG__DBENABLED: "False"
               SONARR__LOG__LEVEL: info
               SONARR__SERVER__PORT: &port 80
+              # Trust the gateway's X-Forwarded-Proto, so the callback URL Sonarr builds is https (the pod network).
+              SONARR__SERVER__TRUSTEDNETWORKS: 10.42.0.0/16
               SONARR__UPDATE__BRANCH: develop
             envFrom: *envFrom
             probes:
@@ -62,6 +74,9 @@ spec:
               limits:
                 memory: 2Gi
     defaultPodOptions:
+      labels:
+        # The OIDC discovery and token calls go to id.f9.casa, which resolves to the external gateway in the cluster.
+        egress.cilium.io/gateway-external: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

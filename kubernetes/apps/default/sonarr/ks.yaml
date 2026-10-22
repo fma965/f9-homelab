@@ -6,13 +6,14 @@ metadata:
   name: &app sonarr
 spec:
   components:
-    - ../../../../components/ext-auth
     - ../../../../components/zeroscaler
   dependsOn:
     - name: csi-driver-nfs
       namespace: kube-system
     - name: cloudnative-pg
       namespace: database
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/default/sonarr/app
   postBuild:
