@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+# The Pocket ID client for Homebox's login (inventory.f9.casa). The operator writes the Secret
+# `homebox-oidc-credentials` (`client_id`, `client_secret`), which the HelmRelease reads. Homebox matches a new
+# issuer and subject to the existing user with the same email, so accounts carry over from Authelia.
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: homebox
+spec:
+  allowedUserGroups:
+    - groupName: admins
+    - groupName: home
+  callbackUrls:
+    - https://inventory.f9.casa/api/v1/users/login/oidc/callback
+  clientID: homebox
+  launchUrl: https://inventory.f9.casa/
+  pkceEnabled: true
+  skipConsent: true
