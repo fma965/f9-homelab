@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+# The Pocket ID client for Zipline's login (i.f9.casa). The operator writes the Secret `zipline-oidc-credentials`
+# (`client_id`, `client_secret`), which the HelmRelease reads. Zipline matches OIDC accounts by subject only and
+# refuses a new subject whose username already exists, so existing users re-link once from their settings.
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: zipline
+spec:
+  callbackUrls:
+    - https://i.f9.casa/api/auth/oauth/oidc
+  clientID: zipline
+  launchUrl: https://i.f9.casa/
+  skipConsent: true

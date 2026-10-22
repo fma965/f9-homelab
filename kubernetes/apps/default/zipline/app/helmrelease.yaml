@@ -42,10 +42,21 @@ spec:
               FEATURES_USER_REGISTRATION: false
               FEATURES_OAUTH_REGISTRATION: true
               FEATURES_VERSION_CHECKING: false
-              # OIDC
-              OAUTH_OIDC_AUTHORIZE_URL: https://auth.f9.casa/api/oidc/authorization
-              OAUTH_OIDC_USERINFO_URL: https://auth.f9.casa/api/oidc/userinfo
-              OAUTH_OIDC_TOKEN_URL: https://auth.f9.casa/api/oidc/token
+              # OIDC through Pocket ID (id.f9.casa). Zipline matches accounts only by subject, so after the switch each
+              # user re-links once while logged in: Settings, unlink OIDC, link it again.
+              OAUTH_OIDC_AUTHORIZE_URL: https://id.f9.casa/authorize
+              OAUTH_OIDC_CLIENT_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: zipline-oidc-credentials
+                    key: client_id
+              OAUTH_OIDC_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: zipline-oidc-credentials
+                    key: client_secret
+              OAUTH_OIDC_USERINFO_URL: https://id.f9.casa/api/oidc/userinfo
+              OAUTH_OIDC_TOKEN_URL: https://id.f9.casa/api/oidc/token
               # Files
               FILES_ROUTE: /u
               FILES_LENGTH: 6
