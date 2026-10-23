@@ -8,7 +8,7 @@ If a film or TV show isn't in [Jellyfin](jellyfin.md), request it here. Requests
 
 ## How to request
 
-1. Open the site and sign in with your house login (it uses your Jellyfin account).
+1. Open the site and choose **Quick Connect** on the sign-in page. It shows a code. On the Jellyfin website, where you are already signed in, open the menu in the top corner, choose **Quick Connect** and type the code in. Seerr uses your Jellyfin account, so there is no separate password. See [Your account](../getting-started/your-account.md).
 2. Search for the title.
 3. Press **Request**. For a TV show, pick which seasons you want.
 4. Wait. Seerr shows the status (pending, processing, available).

@@ -37,7 +37,10 @@ Your folder is yours. Everyone's folder name shows in the list, but you can only
 
 ## Signing in
 
-Use your own name (the same as your folder) and your own server password. This is **not** the house login used on the websites, so it has its own password. If you don't have one or you've forgotten it, ask Scott.
+Use your own name (the same as your folder) and your own server password.
+
+!!! warning "This is a separate account"
+    The file server (TrueNAS) has its own username and password. It is **not** the F9 login used on the websites and is not linked to any other account, so a passkey does not work here and changing one never changes the other. If you don't have a password or you've forgotten it, ask Scott.
 
 ## Backups
 

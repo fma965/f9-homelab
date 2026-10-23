@@ -8,7 +8,7 @@ Jellyfin is our own streaming service. It plays the films and TV shows stored on
 
 ## Watching
 
-1. Open the site (or one of the apps below) and sign in with your house login.
+1. Open the site and press the **F9 Authentication** button under the sign-in box. Confirm with your passkey. (On a TV or phone app, use [Quick Connect](#signing-in-on-the-apps) instead.)
 2. Pick a library such as **Movies** or **Shows**.
 3. Choose something and press play.
 
@@ -17,6 +17,16 @@ Jellyfin remembers where you stopped, so you can carry on from another device.
 ## Which app should I use?
 
 The website works anywhere, but a dedicated app is nicer on a TV or phone. When an app asks for a server, enter `https://jellyfin.f9.casa`.
+
+### Signing in on the apps
+
+The apps can't open the F9 sign-in page, so they use **Quick Connect**:
+
+1. In the app, choose **Quick Connect** on the sign-in screen. It shows a short code.
+2. On the Jellyfin website, where you are already signed in, open the menu in the top corner, choose **Quick Connect** and type the code in.
+3. The app signs in. The code only lasts a few minutes.
+
+There is no password to type. See [Your account](../getting-started/your-account.md) for more.
 
 ### Android TV, Google TV and Fire TV: Wholphin (recommended)
 

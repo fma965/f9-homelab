@@ -8,7 +8,7 @@ Zipline turns a file or image into a **link** you can send to anyone, which is h
 
 ## Share a file
 
-1. Open the site and sign in with your house login.
+1. Open the site and sign in with the F9 login (a passkey).
 2. Drag the file in (or press the upload button).
 3. Copy the link it gives you and send it.
 

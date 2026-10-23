@@ -8,7 +8,7 @@ Games Manager compares the games that a group of people own. Pick who is playing
 
 ## Using it
 
-1. Open the site and sign in with Discord.
+1. Open the site and sign in with the F9 login (a passkey).
 2. Choose the players who are joining in.
 3. See the games you all own, and filter by how many players a game supports.
 4. Open a game to see its details.

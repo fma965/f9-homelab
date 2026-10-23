@@ -10,7 +10,15 @@
 
 ## It keeps asking me to log in
 
-Make sure cookies are enabled. If it still happens, sign out of Pocket ID (`id.f9.casa`) and sign in again.
+Make sure cookies are enabled. If it still happens, sign out of the F9 login (<https://id.f9.casa>) and sign in again.
+
+## I lost my phone or my passkey doesn't work
+
+Use your other passkey if you added one. If not, ask Scott for a new one-time link and set up a fresh passkey. Check the device has its screen lock switched on, because passkeys need it. See [Your account](../getting-started/your-account.md).
+
+## The app asks for a code (Quick Connect)
+
+TV and phone apps and Seerr sign in with Quick Connect. Open the Jellyfin website where you are signed in, open the menu in the top corner, choose **Quick Connect** and type the code before it expires. See [Your account](../getting-started/your-account.md#quick-connect-tv-apps-phone-apps-and-seerr).
 
 ## "Access denied" or "Forbidden"
 
