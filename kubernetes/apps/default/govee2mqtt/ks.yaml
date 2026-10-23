@@ -7,15 +7,18 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur/backup
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
   dependsOn:
     - name: mosquitto
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/default/govee2mqtt/app
   postBuild:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 1Gi
+      OIDC_HOST: govee.f9.casa
   prune: true
   sourceRef:
     kind: GitRepository
