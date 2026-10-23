@@ -6,18 +6,22 @@ metadata:
   name: &app radarr
 spec:
   components:
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
     - ../../../../components/zeroscaler
   dependsOn:
     - name: csi-driver-nfs
       namespace: kube-system
     - name: cloudnative-pg
       namespace: database
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/default/radarr/app
   postBuild:
     substitute:
       APP: *app
+      OIDC_GROUP: media
+      OIDC_TARGET: radarr-app
   prune: true
   sourceRef:
     kind: GitRepository

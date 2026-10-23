@@ -93,6 +93,22 @@ spec:
               - name: *app
                 port: *port
 
+      # The API (key-authenticated by the app, used by phone apps and scripts) stays outside the Pocket ID login: the
+      # longer /api match wins over the app route, which is gated by the oidc component.
+      api:
+        hostnames: ["{{ .Release.Name }}.f9.casa"]
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /api
+            backendRefs:
+              - name: *app
+                port: *port
+
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
