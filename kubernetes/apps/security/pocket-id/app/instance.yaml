@@ -57,4 +57,7 @@ spec:
     appName: F9
   userManagement:
     allowUserSignups: disabled
+    # Every address is treated as verified (`email_verified: true`): the users are created by the operator from
+    # lldap, not by self-signup, and apps that link accounts by email (Bambuddy) require the claim.
+    emailsVerified: true
   versionCheckDisabled: true
