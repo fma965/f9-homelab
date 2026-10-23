@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur/backup
-    - ../../../../components/ext-auth
   dependsOn:
     - name: multus-networks
       namespace: kube-system

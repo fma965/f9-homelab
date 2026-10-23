@@ -1,36 +1,25 @@
 ---
-# yaml-language-server: $schema=https://schemas.budimanjojo.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
-# The ext-auth component in ks.yaml targets a single route (the Alertmanager one, via EXT_AUTH_TARGET).
-# This is the same policy for the Prometheus route, which was otherwise reachable without signing in.
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+# The oidc component in ks.yaml gates a single route (the Alertmanager one, via OIDC_TARGET). This is the same
+# policy for the Prometheus route (client in oidcclient-prometheus.yaml), which was otherwise reachable without
+# signing in. The endpoints are the ones in Pocket ID's discovery document, as in the component.
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
   name: kube-prometheus-stack-prometheus
 spec:
-  extAuth:
-    headersToExtAuth:
-      - "accept"
-      - "cookie"
-      - "location"
-      - "authorization"
-      - "proxy-authorization"
-      - "header-authorization"
-      - "x-forwarded-proto"
-      - "x-forwarded-for"
-    failOpen: false
-    http:
-      backendRefs:
-        - group: ""
-          kind: Service
-          name: authelia
-          namespace: default
-          port: 80
-      path: /api/authz/ext-authz/
-      headersToBackend:
-        - Remote-User
-        - Remote-Groups
-        - Remote-Name
-        - Remote-Email
+  oidc:
+    provider:
+      issuer: https://id.f9.casa
+      authorizationEndpoint: https://id.f9.casa/authorize
+      tokenEndpoint: https://id.f9.casa/api/oidc/token
+      endSessionEndpoint: https://id.f9.casa/api/oidc/end-session
+    clientID: prometheus
+    clientSecret:
+      name: prometheus-oidc-credentials
+    redirectURL: https://prometheus.f9.casa/oauth2/callback
+    logoutPath: /logout
+    refreshToken: true
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute

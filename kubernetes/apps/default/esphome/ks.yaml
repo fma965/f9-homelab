@@ -6,13 +6,15 @@ metadata:
   name: &app esphome
 spec:
   components:
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
     - ../../../../components/kopiur/backup
   dependsOn:
     - name: multus-networks
       namespace: kube-system
     - name: rook-ceph-cluster
       namespace: rook-ceph
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/default/esphome/app
   postBuild:

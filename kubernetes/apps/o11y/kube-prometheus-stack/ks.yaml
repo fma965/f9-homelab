@@ -6,16 +6,18 @@ metadata:
   name: kube-prometheus-stack
 spec:
   components:
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/o11y/kube-prometheus-stack/app
   postBuild:
     substitute:
-      APP: kube-prometheus-stack
-      EXT_AUTH_TARGET: kube-prometheus-stack-alertmanager
+      APP: alertmanager
+      OIDC_TARGET: kube-prometheus-stack-alertmanager
   prune: true
   sourceRef:
     kind: GitRepository

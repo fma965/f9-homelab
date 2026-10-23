@@ -7,9 +7,11 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur/backup
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
   dependsOn:
     - name: mosquitto
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/default/zigbee/app
   postBuild:
