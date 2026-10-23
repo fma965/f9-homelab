@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # SMTP relay (maddy, forwards the cluster's mail to Mailjet). Egress only (M15, 15 Oct 2026):
-# the relay takes mail without a login from lldap, immich and games-manager, so a
+# the relay takes mail without a login from immich and games-manager, so a
 # compromised pod must not be able to send mail anywhere but through the one provider. Ingress
 # is not limited here yet; callers reach port 25 and Prometheus scrapes 8080.
 apiVersion: cilium.io/v2
@@ -21,8 +21,8 @@ spec:
               protocol: TCP
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
-# Egress profile `egress.cilium.io/smtp-relay`: a pod that sends mail through the relay (LLDAP,
-# Immich, Games Manager and others) carries the label instead of repeating this rule, and the relay's
+# Egress profile `egress.cilium.io/smtp-relay`: a pod that sends mail through the relay (Immich,
+# Games Manager and others) carries the label instead of repeating this rule, and the relay's
 # reply is allowed back in (see egress-profiles in kube-system/cilium).
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
