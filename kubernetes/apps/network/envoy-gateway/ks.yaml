@@ -25,6 +25,8 @@ metadata:
 spec:
   dependsOn:
     - name: envoy-gateway
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/network/envoy-gateway/config
   prune: true
