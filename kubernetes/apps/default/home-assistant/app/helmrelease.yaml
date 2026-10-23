@@ -214,7 +214,9 @@ spec:
               - identifier: app
                 port: 8123
 
-      code: # The resulting HTTPRoute will be named home-assistant-code
+      # The resulting HTTPRoutes are named home-assistant-code and home-assistant-matter. Each is a whole hostname, so the
+      # Pocket ID login (oidc-code.yaml) can return to /oauth2/callback on it.
+      code:
         annotations:
           gatus.home-operations.com/endpoint: |-
             conditions: ["[STATUS] == any(200,401)"]
@@ -226,40 +228,26 @@ spec:
           gethomepage.dev/pod-selector: app.kubernetes.io/name=home-assistant
         enabled: true
         hostnames:
-          - home.f9.casa
+          - ha-code.f9.casa
         parentRefs:
           - name: envoy-external
             namespace: network
         rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /code/
-            filters:
-              - type: URLRewrite
-                urlRewrite:
-                  path:
-                    type: ReplacePrefixMatch
-                    replacePrefixMatch: /
-            backendRefs:
+          - backendRefs:
               - identifier: code-server
                 port: 12321
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /matter/
-            filters:
-              - type: URLRewrite
-                urlRewrite:
-                  path:
-                    type: ReplacePrefixMatch
-                    replacePrefixMatch: /
-              - type: RequestHeaderModifier
-                requestHeaderModifier:
-                  add:
-                    - name: "x-ingress-path"
-                      value: "matter"
-            backendRefs:
+
+      matter:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
+        hostnames:
+          - matter-hub.f9.casa
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
               - identifier: matter-hub
                 port: 8482
 

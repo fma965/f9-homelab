@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur/backup
-    - ../../../../components/ext-auth
   dependsOn:
     - name: mosquitto
     - name: cloudnative-pg
@@ -23,7 +22,6 @@ spec:
   postBuild:
     substitute:
       APP: home-assistant
-      EXT_AUTH_TARGET: home-assistant-code
       # HA backup tarballs (Kopiur already backs up /config), editor extensions, caches, logs
       KOPIUR_IGNORE_RULES: "[/lost+found, /backups/*, /.code-server/*, /.cache/*, home-assistant.log*]"
   prune: true
