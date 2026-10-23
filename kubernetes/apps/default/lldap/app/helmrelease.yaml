@@ -92,7 +92,7 @@ spec:
           gethomepage.dev/icon: mdi-account-key
         hostnames: ["{{ .Release.Name }}.f9.casa"]
         parentRefs:
-          # Internal only: the admin UI is not needed from the internet. Authelia reaches LLDAP over
+          # Internal only: the admin UI is not needed from the internet. Jellyfin reaches LLDAP over
           # the in-cluster service (ldap://lldap.default.svc.cluster.local:389), not this route.
           - name: envoy-internal
             namespace: network

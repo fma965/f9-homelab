@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/envoyextensionpolicy_v1alpha1.json
 # Only one EnvoyExtensionPolicy can attach to a Gateway, so each gateway gets one policy with its Lua scripts.
 # Rebuild X-Forwarded-For on both gateways so it can never be chosen by the client.
-# Runs before ext_authz (see filterOrder in envoy.yaml) so Authelia sees the sanitised value.
+# Runs before ext_authz (see filterOrder in envoy.yaml) so the CrowdSec bouncer sees the sanitised value.
 # - Direct peer inside the pod network (cloudflared): trust Cloudflare's Cf-Connecting-Ip
 #   (Cloudflare overwrites it, a tunnel client cannot set it).
 # - Any other peer (LAN clients hitting the LoadBalancer IPs): use the real TCP peer address.

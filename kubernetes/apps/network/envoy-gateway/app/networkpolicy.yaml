@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Envoy gateway proxies (envoy-external, envoy-internal): the public edge. Egress only (M15,
-# 15 Oct 2026): they may reach the cluster (every route backend, Authelia for ext-auth, the Envoy
+# 15 Oct 2026): they may reach the cluster (every route backend, the CrowdSec bouncer, the Envoy
 # controller on 18000, DNS) and the NAS (the routes that point at it: TrueNAS, Garage, Frigate,
 # Tdarr, Webtop, Doco-CD), and nothing on the internet. Ingress is not limited here. Allow-list
 # from the routes, the Backend / Service endpoints and Hubble on 15 Oct 2026.

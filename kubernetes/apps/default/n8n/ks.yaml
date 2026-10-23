@@ -6,17 +6,20 @@ metadata:
   name: &app n8n
 spec:
   components:
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
+    - ../../../../components/oidc-claims
     - ../../../../components/kopiur/backup
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/default/n8n/app
   postBuild:
     substitute:
       APP: *app
-      EXT_AUTH_TARGET: n8n-app
+      OIDC_TARGET: n8n-app
   prune: true
   sourceRef:
     kind: GitRepository
