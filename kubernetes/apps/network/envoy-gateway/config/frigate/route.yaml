@@ -1,0 +1,54 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: frigate
+  annotations:
+    gatus.home-operations.com/enabled: "true"
+spec:
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+      sectionName: https
+  hostnames:
+    - "frigate.f9.casa"
+  rules:
+    - filters:
+        # Frigate's own login is off; its proxy.header_map reads Remote-User (set from the ID token by the SecurityPolicy) and
+        # Remote-Groups, which the gateway sets here (a client's own value is overwritten): the route decides the role, and the
+        # Pocket ID policy decides who reaches the route.
+        - type: RequestHeaderModifier
+          requestHeaderModifier:
+            set:
+              - name: Remote-Groups
+                value: admin
+      backendRefs:
+        - name: frigate-external
+          port: 8971
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: cctv
+  annotations:
+    gatus.home-operations.com/enabled: "true"
+spec:
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+      sectionName: https
+  hostnames:
+    - "cctv.f9.casa"
+  rules:
+    - filters:
+        # Frigate's own login is off; its proxy.header_map reads Remote-User (set from the ID token by the SecurityPolicy) and
+        # Remote-Groups, which the gateway sets here (a client's own value is overwritten): the route decides the role, and the
+        # Pocket ID policy decides who reaches the route.
+        - type: RequestHeaderModifier
+          requestHeaderModifier:
+            set:
+              - name: Remote-Groups
+                value: home
+      backendRefs:
+        - name: frigate-external
+          port: 8971

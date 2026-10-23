@@ -1,0 +1,45 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: truenas
+spec:
+  oidc:
+    provider:
+      issuer: https://id.f9.casa
+      authorizationEndpoint: https://id.f9.casa/authorize
+      tokenEndpoint: https://id.f9.casa/api/oidc/token
+      endSessionEndpoint: https://id.f9.casa/api/oidc/end-session
+    clientID: truenas
+    clientSecret:
+      name: truenas-oidc-credentials
+    redirectURL: https://truenas.f9.casa/oauth2/callback
+    logoutPath: /logout
+    refreshToken: true
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: truenas
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: truenas
+spec:
+  allowedUserGroups:
+    - groupName: admins
+  callbackUrls:
+    - https://truenas.f9.casa/oauth2/callback
+  clientID: truenas
+  description: File server administration
+  launchUrl: https://truenas.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/truenas.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/truenas.webp
+  name: TrueNAS
+  secret:
+    keys:
+      clientSecret: client-secret
+  skipConsent: true
