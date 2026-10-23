@@ -30,6 +30,32 @@ spec:
             envFrom:
               - secretRef:
                   name: immich-secret
+          render-config:
+            image:
+              repository: ghcr.io/immich-app/immich-server
+              tag: v3.3.5@sha256:485d546a2e31d6a8b4db8423fcba5c109de8c218d93410af115fd1ccfc4352a6
+            command:
+              - sh
+              - -c
+              - |
+                sed -e "s|__OAUTH_CLIENT_ID__|$OAUTH_CLIENT_ID|" \
+                    -e "s|__OAUTH_CLIENT_SECRET__|$OAUTH_CLIENT_SECRET|" \
+                    /template/immich.json > /immich-config/immich.json
+            env:
+              OAUTH_CLIENT_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-oidc-credentials
+                    key: client_id
+              OAUTH_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-oidc-credentials
+                    key: client_secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
         containers:
           main:
             image:
@@ -40,6 +66,7 @@ spec:
               REDIS_PORT: 6379
               TZ: Europe/London
               PUBLIC_IMMICH_SERVER_URL: "https://photos.f9.casa"
+              IMMICH_CONFIG_FILE: /immich-config/immich.json
             envFrom:
               - secretRef:
                   name: immich-secret
@@ -88,7 +115,51 @@ spec:
           - backendRefs:
               - name: *app
                 port: *port
+    configMaps:
+      config:
+        data:
+          # All of Immich's settings (Administration, Settings are read-only while this is set). The OAuth client
+          # comes from the Pocket ID operator's Secret; `render-config` fills in the two placeholders.
+          immich.json: |
+            {
+              "ffmpeg": { "accel": "vaapi" },
+              "library": { "watch": { "enabled": true } },
+              "machineLearning": { "urls": ["http://nas.main.internal:3003"] },
+              "notifications": {
+                "smtp": {
+                  "enabled": true,
+                  "from": "admin@f9.casa",
+                  "transport": { "host": "smtp-relay.network.svc.cluster.local", "port": 25, "ignoreCert": true }
+                }
+              },
+              "oauth": {
+                "enabled": true,
+                "autoLaunch": true,
+                "issuerUrl": "https://id.f9.casa/.well-known/openid-configuration",
+                "clientId": "__OAUTH_CLIENT_ID__",
+                "clientSecret": "__OAUTH_CLIENT_SECRET__"
+              },
+              "passwordLogin": { "enabled": false },
+              "server": { "externalDomain": "https://photos.f9.casa" },
+              "storageTemplate": { "enabled": true, "template": "{{ `{{y}}/{{MM}}/{{filename}}` }}" }
+            }
     persistence:
+      config-template:
+        type: configMap
+        name: immich
+        advancedMounts:
+          server:
+            render-config:
+              - path: /template
+      config:
+        type: emptyDir
+        advancedMounts:
+          server:
+            render-config:
+              - path: /immich-config
+            main:
+              - path: /immich-config
+                readOnly: true
       matplotlib:
         type: emptyDir
         globalMounts:

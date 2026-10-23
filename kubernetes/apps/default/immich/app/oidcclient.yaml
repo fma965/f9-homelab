@@ -1,9 +1,8 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
 # The Pocket ID client for Immich's login (photos.f9.casa). The operator writes the Secret `immich-oidc-credentials`
-# (`client_id`, `client_secret`). Immich keeps its OAuth settings in its database (Administration, Settings, OAuth),
-# so the issuer URL, client ID and secret are entered there, not here. Immich refuses to link a new subject to an
-# account that is still linked to the old one, so the Authelia links are cleared at the switch.
+# (`client_id`, `client_secret`), which the HelmRelease writes into Immich's config file. Immich refuses to link a
+# new subject to an account that is still linked to the old one, so the Authelia links are cleared at the switch.
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDOIDCClient
 metadata:
