@@ -38,7 +38,7 @@
         siteMonitor: http://nas.main.internal:8265
     - Frigate:
         icon: frigate
-        href: https://frigate.f9.casa
+        href: https://cctv.f9.casa
         description: "Security cameras: live view and recordings"
         siteMonitor: http://nas.main.internal:8971
 
