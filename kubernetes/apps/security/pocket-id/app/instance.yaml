@@ -55,6 +55,9 @@ spec:
       - 10.42.0.0/16
   ui:
     appName: F9
+    # Where people land after signing in at id.f9.casa itself: the apps page, with a tile for every app they may open.
+    # A sign-in that starts from an app still returns to that app.
+    homePageUrl: /settings/apps
   userManagement:
     allowUserSignups: disabled
   versionCheckDisabled: true
