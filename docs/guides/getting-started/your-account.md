@@ -36,11 +36,11 @@ You only need to do this once for each app on each device.
 
 ## The file server has its own password
 
-Your network folder on the house file server (TrueNAS, see [Your files](../services/files.md)) is **separate**. It has its own username and its own password, set by Scott. It is not connected to the F9 login or to any other account:
+Your network folder on the house file server (TrueNAS, see [Your files](../services/files.md)) is **separate**. It has its own username and its own password. It is not connected to the F9 login:
 
 - A passkey does not work there.
-- Changing one never changes the other.
-- If you forget the file server password, ask Scott to reset it.
+- Changing your F9 login never changes the file server password.
+- To set or reset the file server password, use [Reset Password](https://reset.f9.casa) (see [Your files](../services/files.md#set-or-reset-your-password)). It sets the same password for your Jellyfin and Seerr accounts too.
 
 ## Lost your phone or passkey?
 

@@ -40,8 +40,19 @@ Your folder is yours. Everyone's folder name shows in the list, but you can only
 Use your own name (the same as your folder) and your own server password.
 
 !!! warning "This is a separate account"
-    The file server (TrueNAS) has its own username and password. It is **not** the F9 login used on the websites and is not linked to any other account, so a passkey does not work here and changing one never changes the other. If you don't have a password or you've forgotten it, ask Scott.
+    The file server (TrueNAS) has its own username and password. It is **not** the F9 login used on the websites, so a passkey does not work here.
 
+## Set or reset your password
+
+If you don't have a password yet, or you've forgotten it, you can set a new one yourself:
+
+1. Open <https://reset.f9.casa> (at home, or on the VPN) and confirm it is you with your passkey.
+2. Either **choose a password** (at least 14 characters, using at least three of lower case, upper case, numbers and symbols, and not a common password or your name), or press **Set Random Password** and save the one it shows. A random password is shown **once**, so put it in your password manager straight away.
+3. Use the new password the next time your computer or phone asks.
+
+The same password is also set for your **Jellyfin** and **Seerr** accounts, so they all stay in step.
+
+If the page says it isn't available for your account, ask Scott.
 ## Backups
 
 Everything in the home folders is **backed up every night to Backblaze**, a cloud storage company, so it survives even if the server is lost.

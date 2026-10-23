@@ -28,6 +28,9 @@ The apps can't open the F9 sign-in page, so they use **Quick Connect**:
 
 There is no password to type. See [Your account](../getting-started/your-account.md) for more.
 
+!!! tip "A password, if an app needs one"
+    Your Jellyfin account also has a password, the same one as your file server password. If a device can't use Quick Connect, sign in with your name and that password. You can set it at [reset.f9.casa](https://reset.f9.casa).
+
 ### Android TV, Google TV and Fire TV: Wholphin (recommended)
 
 [Wholphin](https://github.com/damontecres/Wholphin) is a modern, fast TV app with a much nicer interface than the official Jellyfin TV app. It works well with a remote and has good subtitle and audio options.

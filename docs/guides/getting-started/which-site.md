@@ -36,4 +36,4 @@ The **Works** column says where each one opens: **Anywhere** means at home or aw
     TV and phone apps, and Seerr, can't show a sign-in page. They sign in with **Quick Connect**: the app shows a code and you approve it from a device where you are already signed in. See [Your account](your-account.md#quick-connect-tv-apps-phone-apps-and-seerr).
 
 !!! warning "The file server is separate"
-    Your network folder (the house file server, TrueNAS) has **its own username and password**. It is not linked to the F9 login or to anything else, and passkeys don't work there. Ask Scott if you need it set or reset. See [Your files](../services/files.md).
+    Your network folder (the house file server, TrueNAS) has **its own username and password**. It is not linked to the F9 login, and passkeys don't work there. You can set or reset it yourself at [reset.f9.casa](https://reset.f9.casa). See [Your files](../services/files.md#set-or-reset-your-password).
