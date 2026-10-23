@@ -8,7 +8,6 @@ resources:
   - ./cidr-groups.yaml
   - ./egress-profiles.yaml
   - ./hubble-networkpolicy.yaml
-  - ./hubble-ui.yaml
   - ./ocirepository.yaml
   - ./networking.yaml
   - ./networkpolicy.yaml

@@ -1,7 +1,8 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/httproute_v1.json
-# Hubble UI: live service map and flow viewer (admin). Internal gateway only, behind Authelia
-# (the SecurityPolicy comes from the ext-auth component in ks.yaml).
+# Hubble UI: live service map and flow viewer (admin). Internal gateway only, behind the Pocket ID login (the
+# SecurityPolicy and client come from the oidc component in ks.yaml). It is its own Flux Kustomization, apart from
+# the Cilium install, so that Cilium never waits on Pocket ID (which needs Cilium to run).
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
