@@ -19,6 +19,8 @@ spec:
       KOPIUR_CAPACITY: 1Gi
       OIDC_DESCRIPTION: Media recommendations
       OIDC_GROUP: media
+      OIDC_ICON: pocket-id
+      OIDC_ICON_DARK: pocket-id-light
       OIDC_TITLE: Recommendarr
   prune: true
   sourceRef:

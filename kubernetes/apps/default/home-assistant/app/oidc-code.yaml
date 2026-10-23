@@ -16,6 +16,9 @@ spec:
   clientID: ha-code
   description: Edit the Home Assistant config files
   launchUrl: https://ha-code.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/code-server.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/code-server.webp
   name: Home Assistant Code
   secret:
     keys:
@@ -58,6 +61,9 @@ spec:
   clientID: matter-hub
   description: Matter bridge for Home Assistant
   launchUrl: https://matter-hub.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/matter-light.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/matter.webp
   name: Matter Hub
   secret:
     keys:

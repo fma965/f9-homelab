@@ -24,6 +24,8 @@ spec:
       # ESP-IDF toolchains/frameworks (~4 GB), re-downloaded on demand
       KOPIUR_IGNORE_RULES: "[/lost+found, /.cache/*]"
       OIDC_DESCRIPTION: ESP device firmware and builds
+      OIDC_ICON: esphome
+      OIDC_ICON_DARK: esphome-light
       OIDC_TITLE: ESPHome
   prune: true
   sourceRef:

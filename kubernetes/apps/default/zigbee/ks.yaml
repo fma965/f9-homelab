@@ -19,6 +19,8 @@ spec:
       APP: *app
       KOPIUR_CAPACITY: 1Gi
       OIDC_DESCRIPTION: Zigbee network and pairing
+      OIDC_ICON: zigbee2mqtt
+      OIDC_ICON_DARK: zigbee2mqtt-light
       OIDC_TITLE: Zigbee2MQTT
       ZEROSCALER_JOB_NAME: zigbee_probe
   prune: true

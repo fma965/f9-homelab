@@ -14,5 +14,8 @@ spec:
   clientID: games-manager
   description: Find games you can play together
   launchUrl: https://gamesdb.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/steam.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/steam.webp
   name: Games Manager
   skipConsent: true

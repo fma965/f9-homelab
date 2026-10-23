@@ -18,6 +18,7 @@ spec:
       APP: *app
       KOPIUR_CAPACITY: 1Gi
       OIDC_DESCRIPTION: Flow-based automation
+      OIDC_ICON: node-red
       OIDC_TITLE: Node-RED
   prune: true
   sourceRef:

@@ -7,6 +7,8 @@
 # use another group (it must exist in Pocket ID: see kubernetes/apps/security/pocket-id/app/groups.yaml).
 # OIDC_HOST is the route's hostname when it is not ${APP}.f9.casa. OIDC_TITLE and OIDC_DESCRIPTION are the name and
 # one-line description people see in Pocket ID (its apps page and the sign-in screens); the title defaults to ${APP}.
+# OIDC_ICON is the name of an icon in homarr-labs/dashboard-icons (webp, via jsDelivr) that the operator downloads once and
+# uploads; OIDC_ICON_DARK is its dark-mode variant (default: the same icon). With neither set the Pocket ID logo is used.
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDOIDCClient
 metadata:
@@ -19,6 +21,9 @@ spec:
   clientID: ${APP}
   description: ${OIDC_DESCRIPTION:=}
   launchUrl: https://${OIDC_HOST:=${APP}.f9.casa}/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/${OIDC_ICON_DARK:=${OIDC_ICON:=pocket-id}}.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/${OIDC_ICON:=pocket-id}.webp
   name: ${OIDC_TITLE:=${APP}}
   secret:
     keys:

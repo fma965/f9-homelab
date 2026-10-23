@@ -17,8 +17,8 @@ spec:
       prometheusRule:
         enabled: false
     operator:
-      # The operator would fetch an icon for every client from a CDN and upload it; the clients are few, so the
-      # operator gets no internet access instead (set a logo on a client with spec.logoUrl if wanted).
+      # Automatic icons stay off: each client names its own icon (spec.logo, the oidc component's OIDC_ICON), which the
+      # operator downloads from jsDelivr (allowed by name in networkpolicy.yaml).
       autoGenerateLogos: false
       labels:
         egress.cilium.io/kube-apiserver: "true"

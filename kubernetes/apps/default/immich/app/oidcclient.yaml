@@ -15,5 +15,8 @@ spec:
   clientID: immich
   description: Photos and videos
   launchUrl: https://photos.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/immich.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/immich.webp
   name: Immich
   skipConsent: true

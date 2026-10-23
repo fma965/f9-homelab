@@ -17,6 +17,7 @@ spec:
     substitute:
       APP: echo
       OIDC_DESCRIPTION: Test service that shows request headers
+      OIDC_ICON: webhook
       OIDC_TITLE: Echo
   prune: true
   sourceRef:

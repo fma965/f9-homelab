@@ -19,5 +19,8 @@ spec:
   clientID: jellyfin
   description: Films and TV
   launchUrl: https://jellyfin.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/jellyfin.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/jellyfin.webp
   name: Jellyfin
   skipConsent: true

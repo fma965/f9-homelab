@@ -22,6 +22,8 @@ spec:
       OIDC_DESCRIPTION: Scanned documents
       OIDC_GROUP: home
       OIDC_HOST: docs.f9.casa
+      OIDC_ICON: paperless
+      OIDC_ICON_DARK: paperless-light
       OIDC_TITLE: Paperless
   prune: true
   sourceRef:

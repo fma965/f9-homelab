@@ -15,6 +15,9 @@ spec:
   clientID: sonarr
   description: TV downloads
   launchUrl: https://sonarr.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/sonarr.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/sonarr.webp
   logoutCallbackUrls:
     - https://sonarr.f9.casa/signout-callback-oidc
   name: Sonarr

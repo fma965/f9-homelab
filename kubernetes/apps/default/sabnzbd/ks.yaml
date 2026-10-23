@@ -22,6 +22,8 @@ spec:
       KOPIUR_CAPACITY: 1Gi
       OIDC_DESCRIPTION: Usenet downloads
       OIDC_GROUP: downloads
+      OIDC_ICON: sabnzbd
+      OIDC_ICON_DARK: sabnzbd-light
       OIDC_TARGET: sabnzbd-app
       OIDC_TITLE: SABnzbd
   prune: true

@@ -70,6 +70,9 @@ spec:
   clientID: truenas
   description: File server administration
   launchUrl: https://truenas.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/truenas.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/truenas.webp
   name: TrueNAS
   secret:
     keys:
@@ -157,6 +160,9 @@ spec:
   clientID: remote
   description: Browser desktop on the file server
   launchUrl: https://remote.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/webtop.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/webtop.webp
   name: Webtop
   secret:
     keys:
@@ -241,6 +247,9 @@ spec:
   clientID: nanokvm
   description: Remote console for the file server
   launchUrl: https://kvm.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/sipeed.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/sipeed.webp
   name: NanoKVM
   secret:
     keys:
@@ -395,6 +404,9 @@ spec:
   clientID: garage
   description: S3 storage administration
   launchUrl: https://garage.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/garage.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/garage.webp
   name: Garage
   secret:
     keys:
@@ -480,6 +492,9 @@ spec:
   clientID: tdarr
   description: Media transcoding
   launchUrl: https://tdarr.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/tdarr.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/tdarr.webp
   name: Tdarr
   secret:
     keys:
@@ -623,6 +638,9 @@ spec:
   clientID: frigate
   description: Camera system with admin rights
   launchUrl: https://frigate.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/frigate-light.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/frigate.webp
   name: Frigate
   secret:
     keys:
@@ -687,6 +705,9 @@ spec:
   clientID: cctv
   description: Live view and recorded clips
   launchUrl: https://cctv.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/frigate-light.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/frigate.webp
   name: Cameras
   secret:
     keys:
