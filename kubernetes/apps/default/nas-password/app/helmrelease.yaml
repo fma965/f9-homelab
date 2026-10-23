@@ -25,9 +25,9 @@ spec:
           app:
             image:
               repository: ghcr.io/fma965/nas-password-reset
-              tag: 0.3.2@sha256:efc9a36f03bd0a9de4d2d884dc9afeae4e3b357f7bb27691d9a41ad3e13ab3b1
+              tag: 0.3.4@sha256:5e35ed0b89fff8f27eb519a61f56e69f24afaad460559459014ed0231b18c07c
             env:
-              APP_NAME: File server password
+              APP_NAME: Password Reset Procedure
               COOLDOWN_SECONDS: "600"
               HELP_URL: https://help.f9.casa/services/files/
               # Also set the same password on the matching Jellyfin account (it needs JELLYFIN_API_KEY in the Secret).
