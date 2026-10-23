@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Grafana. Egress only (M15, 15 Oct 2026): DNS, its two datasources (Prometheus and Alertmanager,
-# which also receives its alerts) and the external gateway, because `auth.f9.casa` (the OIDC
+# which also receives its alerts) and the external gateway, because `id.f9.casa` (the OIDC
 # provider) resolves to it inside the cluster (its pods listen on 10443). Plugin installs and
 # update checks are off. Ingress is not limited here. Allow-list from the GrafanaDatasource objects
 # and the Grafana config on 15 Oct 2026.

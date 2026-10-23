@@ -1,7 +1,6 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
-# Gate a route with the gateway's OIDC filter against Pocket ID, instead of Authelia's forward-auth (the
-# `ext-auth` component). Pocket ID has one issuer for every client (https://id.f9.casa). The endpoints are set
+# Gate a route with the gateway's OIDC filter against Pocket ID. Pocket ID has one issuer for every client (https://id.f9.casa). The endpoints are set
 # here so the Envoy Gateway controller does not have to fetch the discovery document, which its network policy
 # does not allow; they are the ones in Pocket ID's discovery document (/.well-known/openid-configuration).
 apiVersion: gateway.envoyproxy.io/v1alpha1

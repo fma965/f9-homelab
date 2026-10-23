@@ -31,7 +31,7 @@ spec:
               TZ: Europe/London
               SONARR__APP__INSTANCENAME: sonarr
               SONARR__APP__THEME: dark
-              # Sonarr signs people in itself with Pocket ID (id.f9.casa); the route has no Authelia in front. It lets
+              # Sonarr signs people in itself with Pocket ID (id.f9.casa); the route has no gateway login in front. It lets
               # exactly one identity in: the `sub` of the owner's Pocket ID user (SONARR__AUTH__OIDCUSERIDENTIFIER, from
               # the secret). Callers of /api (Prowlarr, Seerr, Recyclarr, Homepage) still use the API key.
               SONARR__AUTH__METHOD: Oidc

@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # CrowdSec web UI (M15). It holds a LAPI login that can ban and unban addresses, so it may reach only the
 # LAPI (8080) and the LAPI and agent metrics (6060), and only the external gateway may reach it (the route is
-# behind Authelia). Nothing on the internet: the update check is off.
+# behind the Pocket ID login). Nothing on the internet: the update check is off.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:

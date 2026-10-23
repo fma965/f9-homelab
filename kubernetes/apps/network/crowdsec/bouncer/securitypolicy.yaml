@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
 # Asks the bouncer about every request on the public gateway. `failOpen: true` so an outage of CrowdSec
-# never takes the public routes down. A route with its own SecurityPolicy (the `ext-auth` Authelia routes,
+# never takes the public routes down. A route with its own SecurityPolicy (the `oidc` routes,
 # the MCP API-key routes) replaces this one, so those are not checked here (Envoy Gateway: no `mergeType`
 # means only the most specific policy applies).
 apiVersion: gateway.envoyproxy.io/v1alpha1

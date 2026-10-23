@@ -27,7 +27,7 @@ spec:
             - port: "8000"
               protocol: TCP
     # Replies to Bambuddy's own connections: kube-dns, Home Assistant (home-assistant-app:8123) and
-    # the gateway (auth.f9.casa for OIDC). They come back through Services, where Cilium evaluates
+    # the gateway (id.f9.casa for OIDC). They come back through Services, where Cilium evaluates
     # the reverse-translated reply as new traffic to this pod and drops it ("Policy denied DROPPED"
     # in Hubble). Allow any pod in the cluster to reach this pod on the ephemeral port range only
     # (32768 to 60999, the range the pod's own outgoing connections use); port 8000 stays limited to

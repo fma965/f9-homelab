@@ -10,7 +10,7 @@
 
 ## It keeps asking me to log in
 
-Make sure cookies are enabled. If it still happens, sign out of Authelia (`auth.f9.casa`) and sign in again.
+Make sure cookies are enabled. If it still happens, sign out of Pocket ID (`id.f9.casa`) and sign in again.
 
 ## "Access denied" or "Forbidden"
 

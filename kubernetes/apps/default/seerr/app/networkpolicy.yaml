@@ -29,7 +29,7 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    # The app calls auth.f9.casa (OIDC) and other public names, which resolve to the
+    # The app calls public names, which resolve to the
     # gateway, so the gateway pods reply from their own listener port to this pod's
     # ephemeral port; the reply is evaluated as new traffic. No port can be listed.
     - fromEndpoints:

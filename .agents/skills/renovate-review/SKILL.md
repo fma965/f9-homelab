@@ -42,7 +42,7 @@ Check raised minimum versions, removed APIs or fields, changed auth, storage or 
 
 Search the **actual consumers** of anything removed or renamed, not just whether the new value is set explicitly:
 
-- Under `kubernetes/`, inspect selectors and labels in Prometheus `ServiceMonitor`s, alerts and dashboards, **`CiliumNetworkPolicy`s** (they select pods by label and allow specific container ports, so a renamed label or changed port breaks the app), HTTPRoutes and gateway `SecurityPolicy`s (`ext-auth`, API keys), PDBs, Flux `dependsOn`/`healthChecks`, `values`/`valuesFrom`/`postRenderers`, service DNS names and CRD instances.
+- Under `kubernetes/`, inspect selectors and labels in Prometheus `ServiceMonitor`s, alerts and dashboards, **`CiliumNetworkPolicy`s** (they select pods by label and allow specific container ports, so a renamed label or changed port breaks the app), HTTPRoutes and gateway `SecurityPolicy`s (`oidc`, API keys), PDBs, Flux `dependsOn`/`healthChecks`, `values`/`valuesFrom`/`postRenderers`, service DNS names and CRD instances.
 - Trace application Kustomizations and shared-component usage from `kubernetes/apps/`, and the cluster-wide patches in the FluxInstance (`kubernetes/apps/flux-system/flux-instance`). Cilium, Envoy Gateway, External Secrets, Rook-Ceph, CloudNativePG, Dragonfly and kopiur updates merit close inspection for compatibility and data safety where affected.
 - For `app-template` or other shared chart changes, look for several affected HelmReleases. Chart defaults can change even when the values in this repository do not.
 - In `docker/` and `talos/`, search the corresponding consumers rather than assuming everything is a Kubernetes release.

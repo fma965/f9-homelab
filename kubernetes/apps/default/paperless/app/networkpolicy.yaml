@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
-# Paperless-ngx (documents, public behind Authelia). Allow-list from the manifests and the
+# Paperless-ngx (documents, public behind the Pocket ID login). Allow-list from the manifests and the
 # Cilium connection table on 15 Oct 2026 (M15). Probes come from the local node, which Cilium
 # always allows.
 apiVersion: cilium.io/v2
