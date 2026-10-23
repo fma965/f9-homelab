@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+# The Pocket ID side of securitypolicy-prometheus.yaml: the same client the oidc component makes for Alertmanager.
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: prometheus
+spec:
+  allowedUserGroups:
+    - groupName: admins
+  callbackUrls:
+    - https://prometheus.f9.casa/oauth2/callback
+  clientID: prometheus
+  launchUrl: https://prometheus.f9.casa/
+  secret:
+    keys:
+      clientSecret: client-secret
+  skipConsent: true

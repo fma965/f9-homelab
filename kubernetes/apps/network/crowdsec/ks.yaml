@@ -40,14 +40,17 @@ metadata:
   name: &app crowdsec-web-ui
 spec:
   components:
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
   dependsOn:
     - name: crowdsec
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/network/crowdsec/web-ui
   postBuild:
     substitute:
       APP: *app
+      OIDC_HOST: crowdsec.f9.casa
   prune: true
   sourceRef:
     kind: GitRepository

@@ -6,13 +6,15 @@ metadata:
   name: &app pgadmin
 spec:
   components:
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
     - name: snapshot-controller
       namespace: kube-system
     - name: cloudnative-pg
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/database/pgadmin/app
   postBuild:
