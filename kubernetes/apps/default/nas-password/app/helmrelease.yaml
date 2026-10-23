@@ -38,9 +38,7 @@ spec:
               TRUENAS_URL: wss://nas.main.internal/api/current
               TZ: Europe/London
               # Pocket ID user name = file server account. Only these accounts can ever be reset here.
-              # TEMPORARY: `scott` is here so the page can be tested with the owner's own account. It is the admin
-              # account, so remove it again (the service also refuses any account that carries API roles).
-              USER_MAP: andrew,ash,scott
+              USER_MAP: andrew,ash
             envFrom:
               - secretRef:
                   name: nas-password-secret
