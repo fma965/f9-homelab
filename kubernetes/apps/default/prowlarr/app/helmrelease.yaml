@@ -81,6 +81,7 @@ spec:
           gethomepage.dev/name: Prowlarr
           gethomepage.dev/description: "Search sources for Sonarr and Radarr (admin)"
           gethomepage.dev/icon: prowlarr
+          gethomepage.dev/app: prowlarr
           gethomepage.dev/widget.type: prowlarr
           gethomepage.dev/widget.url: http://prowlarr.default
           gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_PROWLARR_KEY}}` }}"
