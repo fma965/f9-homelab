@@ -19,6 +19,16 @@ spec:
         - ports:
             - port: "8096"
               protocol: TCP
+    # The file server password page sets the same password on the matching Jellyfin account (Jellyfin's API, through
+    # jellyfin.default.svc:8096).
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: nas-password
+      toPorts:
+        - ports:
+            - port: "8096"
+              protocol: TCP
     # Home Assistant's Jellyfin integration (seen in the connection table).
     - fromEndpoints:
         - matchLabels:
