@@ -50,7 +50,9 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      OIDC_DESCRIPTION: Alerts and bans at the public gateway
       OIDC_HOST: crowdsec.f9.casa
+      OIDC_TITLE: CrowdSec
   prune: true
   sourceRef:
     kind: GitRepository

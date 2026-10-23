@@ -18,6 +18,8 @@ spec:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 1Gi
+      OIDC_DESCRIPTION: Zigbee network and pairing
+      OIDC_TITLE: Zigbee2MQTT
       ZEROSCALER_JOB_NAME: zigbee_probe
   prune: true
   sourceRef:

@@ -20,8 +20,10 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      OIDC_DESCRIPTION: Indexer search for the download apps
       OIDC_GROUP: media
       OIDC_TARGET: prowlarr-app
+      OIDC_TITLE: Prowlarr
   prune: true
   sourceRef:
     kind: GitRepository

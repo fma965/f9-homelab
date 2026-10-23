@@ -15,7 +15,9 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      OIDC_DESCRIPTION: Housemate guides
       OIDC_GROUP: home
+      OIDC_TITLE: Help
   prune: true
   sourceRef:
     kind: GitRepository

@@ -5,7 +5,8 @@
 # `client-secret` (the key Envoy Gateway reads). The client id is declared so the SecurityPolicy can name it.
 # Only members of OIDC_GROUP get a token: the default is `admins`; set OIDC_GROUP in the Flux Kustomization to
 # use another group (it must exist in Pocket ID: see kubernetes/apps/security/pocket-id/app/groups.yaml).
-# OIDC_HOST is the route's hostname when it is not ${APP}.f9.casa.
+# OIDC_HOST is the route's hostname when it is not ${APP}.f9.casa. OIDC_TITLE and OIDC_DESCRIPTION are the name and
+# one-line description people see in Pocket ID (its apps page and the sign-in screens); the title defaults to ${APP}.
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDOIDCClient
 metadata:
@@ -16,7 +17,9 @@ spec:
   callbackUrls:
     - https://${OIDC_HOST:=${APP}.f9.casa}/oauth2/callback
   clientID: ${APP}
+  description: ${OIDC_DESCRIPTION:=}
   launchUrl: https://${OIDC_HOST:=${APP}.f9.casa}/
+  name: ${OIDC_TITLE:=${APP}}
   secret:
     keys:
       clientSecret: client-secret

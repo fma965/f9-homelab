@@ -11,5 +11,7 @@ spec:
   callbackUrls:
     - https://i.f9.casa/api/auth/oauth/oidc
   clientID: zipline
+  description: Share files and images by link
   launchUrl: https://i.f9.casa/
+  name: Zipline
   skipConsent: true

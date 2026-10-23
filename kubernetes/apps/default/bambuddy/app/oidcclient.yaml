@@ -10,6 +10,8 @@ spec:
   callbackUrls:
     - https://bambuddy.f9.casa/api/v1/auth/oidc/callback
   clientID: bambuddy
+  description: 3D printer control
   launchUrl: https://bambuddy.f9.casa/
+  name: Bambuddy
   pkceEnabled: true
   skipConsent: true

@@ -17,6 +17,8 @@ spec:
   postBuild:
     substitute:
       APP: kopia
+      OIDC_DESCRIPTION: Backup repository browser
+      OIDC_TITLE: Kopia
   prune: true
   sourceRef:
     kind: GitRepository

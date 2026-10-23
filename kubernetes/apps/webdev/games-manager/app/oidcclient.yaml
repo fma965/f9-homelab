@@ -12,5 +12,7 @@ spec:
   callbackUrls:
     - https://gamesdb.f9.casa/auth/login/authentik/callback
   clientID: games-manager
+  description: Find games you can play together
   launchUrl: https://gamesdb.f9.casa/
+  name: Games Manager
   skipConsent: true

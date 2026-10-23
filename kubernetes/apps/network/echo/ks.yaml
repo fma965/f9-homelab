@@ -16,6 +16,8 @@ spec:
   postBuild:
     substitute:
       APP: echo
+      OIDC_DESCRIPTION: Test service that shows request headers
+      OIDC_TITLE: Echo
   prune: true
   sourceRef:
     kind: GitRepository

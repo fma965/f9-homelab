@@ -17,5 +17,7 @@ spec:
   callbackUrls:
     - https://jellyfin.f9.casa/sso/OID/redirect/pocket-id
   clientID: jellyfin
+  description: Films and TV
   launchUrl: https://jellyfin.f9.casa/
+  name: Jellyfin
   skipConsent: true
