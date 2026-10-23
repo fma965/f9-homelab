@@ -26,6 +26,7 @@ resources:
   - ./mosquitto/ks.yaml
   - ./music-assistant/ks.yaml
   # - ./n8n/ks.yaml
+  - ./nas-password/ks.yaml
   - ./obico-ml-api/ks.yaml
   - ./openwebui/ks.yaml
   - ./paperless/ks.yaml

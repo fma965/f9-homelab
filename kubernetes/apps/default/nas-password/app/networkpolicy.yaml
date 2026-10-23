@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# File server password page (M15). It holds a TrueNAS key that can reset local account passwords, so it is as
+# closed as it can be: only the internal gateway may connect in (8080), and it may reach only the NAS on 443 (the
+# TrueNAS API) and DNS. Not the `nas` egress profile, which would allow every port on the NAS.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: nas-password
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: nas-password
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+  egress:
+    - toCIDRSet:
+        - cidrGroupRef: nas
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

@@ -1,0 +1,95 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app nas-password
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      *app :
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+        containers:
+          app:
+            image:
+              repository: ghcr.io/fma965/nas-password-reset
+              tag: 0.1.0@sha256:9f218749ebbc544788cf47319c02a272e1c0e6f8bf21a1231ba99438f7419e44
+            env:
+              APP_NAME: File server password
+              COOLDOWN_SECONDS: "600"
+              HELP_URL: https://help.f9.casa/services/files/
+              MAX_AUTH_AGE_SECONDS: "300"
+              PORT: &port 8080
+              TRUENAS_INSECURE: "true" # the NAS has a self-signed certificate; this pod can only reach the NAS
+              TRUENAS_URL: wss://nas.main.internal/api/current
+              TZ: Europe/London
+              # Pocket ID user name = file server account. Only these accounts can ever be reset here.
+              USER_MAP: andrew,ash
+            envFrom:
+              - secretRef:
+                  name: nas-password-secret
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: *port
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+              readiness: *probe
+            resources:
+              requests:
+                cpu: 5m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == any(200,401)"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Home
+          gethomepage.dev/name: File server password
+          gethomepage.dev/description: "Reset your network drive password"
+          gethomepage.dev/icon: truenas
+        hostnames:
+          - nas-password.f9.casa
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+    persistence:
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
