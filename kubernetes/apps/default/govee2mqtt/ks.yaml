@@ -20,6 +20,7 @@ spec:
       KOPIUR_CAPACITY: 1Gi
       OIDC_DESCRIPTION: Govee devices to MQTT
       OIDC_HOST: govee.f9.casa
+      OIDC_ICON: mqtt
       OIDC_TITLE: Govee2MQTT
   prune: true
   sourceRef:

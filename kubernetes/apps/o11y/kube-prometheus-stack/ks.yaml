@@ -18,6 +18,7 @@ spec:
     substitute:
       APP: alertmanager
       OIDC_DESCRIPTION: Alert routing
+      OIDC_ICON: alertmanager
       OIDC_TARGET: kube-prometheus-stack-alertmanager
       OIDC_TITLE: Alertmanager
   prune: true

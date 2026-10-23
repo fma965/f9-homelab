@@ -14,6 +14,9 @@ spec:
   clientID: kopiur-ui
   description: Backup snapshots, restores and schedules
   launchUrl: https://kopiur.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/kopia.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/kopia.webp
   name: Kopiur
   secret:
     keys:

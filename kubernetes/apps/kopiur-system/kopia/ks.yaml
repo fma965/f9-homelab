@@ -18,6 +18,7 @@ spec:
     substitute:
       APP: kopia
       OIDC_DESCRIPTION: Backup repository browser
+      OIDC_ICON: kopia
       OIDC_TITLE: Kopia
   prune: true
   sourceRef:

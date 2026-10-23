@@ -34,6 +34,8 @@ spec:
       APP: *app
       OIDC_DESCRIPTION: Network flows and policy drops
       OIDC_HOST: hubble.f9.casa
+      OIDC_ICON: cilium
+      OIDC_ICON_DARK: cilium-light
       OIDC_TITLE: Hubble
   prune: true
   sourceRef:

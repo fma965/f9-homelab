@@ -17,5 +17,8 @@ spec:
   clientID: openwebui
   description: AI chat
   launchUrl: https://ai.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/open-webui-light.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/open-webui.webp
   name: Open WebUI
   skipConsent: true

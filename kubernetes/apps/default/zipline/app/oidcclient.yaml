@@ -13,5 +13,8 @@ spec:
   clientID: zipline
   description: Share files and images by link
   launchUrl: https://i.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/zipline-light.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/zipline.webp
   name: Zipline
   skipConsent: true

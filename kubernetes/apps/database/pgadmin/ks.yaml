@@ -21,6 +21,7 @@ spec:
     substitute:
       APP: *app
       OIDC_DESCRIPTION: PostgreSQL administration
+      OIDC_ICON: pgadmin
       OIDC_TITLE: pgAdmin
   prune: true
   sourceRef:

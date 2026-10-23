@@ -16,6 +16,7 @@ spec:
     substitute:
       APP: flux-operator
       OIDC_DESCRIPTION: GitOps status and reconciliation
+      OIDC_ICON: flux-cd
       OIDC_TITLE: Flux Operator
   prune: true
   sourceRef:

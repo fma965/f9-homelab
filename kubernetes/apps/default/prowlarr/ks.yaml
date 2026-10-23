@@ -22,6 +22,7 @@ spec:
       APP: *app
       OIDC_DESCRIPTION: Indexer search for the download apps
       OIDC_GROUP: media
+      OIDC_ICON: prowlarr
       OIDC_TARGET: prowlarr-app
       OIDC_TITLE: Prowlarr
   prune: true

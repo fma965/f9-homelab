@@ -16,6 +16,9 @@ spec:
   clientID: homebox
   description: What we own and where it is
   launchUrl: https://inventory.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/homebox.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/homebox.webp
   name: Homebox
   pkceEnabled: true
   skipConsent: true

@@ -13,6 +13,9 @@ spec:
   clientID: prometheus
   description: Metrics and queries
   launchUrl: https://prometheus.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/prometheus.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/prometheus.webp
   name: Prometheus
   secret:
     keys:

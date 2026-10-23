@@ -17,6 +17,8 @@ spec:
       APP: *app
       OIDC_DESCRIPTION: Housemate guides
       OIDC_GROUP: home
+      OIDC_ICON: mkdocs
+      OIDC_ICON_DARK: mkdocs-light
       OIDC_TITLE: Help
   prune: true
   sourceRef:

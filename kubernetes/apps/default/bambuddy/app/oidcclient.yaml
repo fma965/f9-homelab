@@ -12,6 +12,9 @@ spec:
   clientID: bambuddy
   description: 3D printer control
   launchUrl: https://bambuddy.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/bambu-lab.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/bambu-lab.webp
   name: Bambuddy
   pkceEnabled: true
   skipConsent: true
