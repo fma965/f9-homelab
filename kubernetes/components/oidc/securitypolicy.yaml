@@ -18,7 +18,7 @@ spec:
     clientID: ${APP}
     clientSecret:
       name: ${APP}-oidc-credentials
-    redirectURL: https://${APP}.f9.casa/oauth2/callback
+    redirectURL: https://${OIDC_HOST:=${APP}.f9.casa}/oauth2/callback
     logoutPath: /logout
     refreshToken: true
   targetRefs:
