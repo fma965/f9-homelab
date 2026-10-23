@@ -11,6 +11,7 @@ spec:
   callbackUrls:
     - https://photos.f9.casa/auth/login
     - https://photos.f9.casa/user-settings
+    - app.immich:///oauth-callback
   clientID: immich
   launchUrl: https://photos.f9.casa/
   skipConsent: true
