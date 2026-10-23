@@ -515,7 +515,16 @@ spec:
   hostnames:
     - "frigate.f9.casa"
   rules:
-    - backendRefs:
+    - filters:
+        # Frigate's own login is off; its proxy.header_map reads Remote-User (set from the ID token by the SecurityPolicy) and
+        # Remote-Groups, which the gateway sets here (a client's own value is overwritten): the route decides the role, and the
+        # Pocket ID policy decides who reaches the route.
+        - type: RequestHeaderModifier
+          requestHeaderModifier:
+            set:
+              - name: Remote-Groups
+                value: admin
+      backendRefs:
         - name: frigate-external
           port: 8971
 ---
@@ -533,7 +542,16 @@ spec:
   hostnames:
     - "cctv.f9.casa"
   rules:
-    - backendRefs:
+    - filters:
+        # Frigate's own login is off; its proxy.header_map reads Remote-User (set from the ID token by the SecurityPolicy) and
+        # Remote-Groups, which the gateway sets here (a client's own value is overwritten): the route decides the role, and the
+        # Pocket ID policy decides who reaches the route.
+        - type: RequestHeaderModifier
+          requestHeaderModifier:
+            set:
+              - name: Remote-Groups
+                value: home
+      backendRefs:
         - name: frigate-external
           port: 8971
 ---
@@ -555,6 +573,28 @@ spec:
     redirectURL: https://frigate.f9.casa/oauth2/callback
     logoutPath: /logout
     refreshToken: true
+    # Plain-text ID token cookie and profile scope, so the JWT filter below can read the user name (see
+    # components/oidc-claims; this policy is a raw manifest, so the same settings are inline).
+    cookieNames:
+      idToken: frigate-id-token
+    disableTokenEncryption: true
+    scopes:
+      - profile
+      - email
+  jwt:
+    providers:
+      - name: pocket-id
+        issuer: https://id.f9.casa
+        audiences:
+          - frigate
+        remoteJWKS:
+          uri: https://id.f9.casa/.well-known/jwks.json
+        extractFrom:
+          cookies:
+            - frigate-id-token
+        claimToHeaders:
+          - claim: preferred_username
+            header: Remote-User
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
@@ -567,7 +607,7 @@ metadata:
   name: frigate
 spec:
   allowedUserGroups:
-    - groupName: home
+    - groupName: admins
   callbackUrls:
     - https://frigate.f9.casa/oauth2/callback
   clientID: frigate
@@ -595,6 +635,28 @@ spec:
     redirectURL: https://cctv.f9.casa/oauth2/callback
     logoutPath: /logout
     refreshToken: true
+    # Plain-text ID token cookie and profile scope, so the JWT filter below can read the user name (see
+    # components/oidc-claims; this policy is a raw manifest, so the same settings are inline).
+    cookieNames:
+      idToken: cctv-id-token
+    disableTokenEncryption: true
+    scopes:
+      - profile
+      - email
+  jwt:
+    providers:
+      - name: pocket-id
+        issuer: https://id.f9.casa
+        audiences:
+          - cctv
+        remoteJWKS:
+          uri: https://id.f9.casa/.well-known/jwks.json
+        extractFrom:
+          cookies:
+            - cctv-id-token
+        claimToHeaders:
+          - claim: preferred_username
+            header: Remote-User
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
