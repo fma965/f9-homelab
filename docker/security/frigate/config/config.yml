@@ -181,7 +181,8 @@ tls:
   enabled: false
 # Frigate only applies proxy.header_map/role_map below when its own auth is
 # disabled; with it on, Remote-* headers are ignored and the UI shows its own
-# login. Authelia (via Envoy ext-authz) is the real gate for frigate/cctv.f9.casa.
+# login. The Envoy gateway is the real gate for frigate/cctv.f9.casa: Pocket ID decides who gets in, and the route
+# sets Remote-User / Remote-Groups (see network/envoy-gateway/config/externalservices.yaml).
 # NOTE: this means port 8971 trusts Remote-User/Remote-Groups from anything that
 # can reach it directly (LAN only, not port-forwarded). Add proxy.auth_secret
 # with an X-Proxy-Secret header from Envoy, or firewall 8971, to close that.
@@ -196,6 +197,8 @@ proxy:
         - admin
       viewer:
         - home
+  # A request that arrives without a role header is a viewer, not an admin.
+  default_role: viewer
 detect:
   enabled: true
 semantic_search:
