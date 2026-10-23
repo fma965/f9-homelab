@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+# The Pocket ID client for Bambuddy's login (bambuddy.f9.casa). The operator writes the Secret
+# `bambuddy-oidc-credentials` (`client_id`, `client_secret`), which the HelmRelease reads.
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: bambuddy
+spec:
+  callbackUrls:
+    - https://bambuddy.f9.casa/api/v1/auth/oidc/callback
+  clientID: bambuddy
+  launchUrl: https://bambuddy.f9.casa/
+  pkceEnabled: true
+  skipConsent: true

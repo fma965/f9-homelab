@@ -10,6 +10,8 @@ spec:
   dependsOn:
     - name: multus-networks
       namespace: kube-system
+    - name: pocket-id
+      namespace: security
     - name: rook-ceph-cluster
       namespace: rook-ceph
   interval: 1h
