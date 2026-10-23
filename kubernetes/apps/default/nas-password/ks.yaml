@@ -20,6 +20,7 @@ spec:
       APP: *app
       OIDC_DESCRIPTION: Reset your file server password
       OIDC_GROUP: home
+      OIDC_HOST: reset.f9.casa
       OIDC_ICON: truenas
       OIDC_TITLE: File server password
   prune: true
