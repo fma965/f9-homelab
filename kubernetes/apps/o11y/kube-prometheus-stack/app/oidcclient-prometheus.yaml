@@ -11,7 +11,9 @@ spec:
   callbackUrls:
     - https://prometheus.f9.casa/oauth2/callback
   clientID: prometheus
+  description: Metrics and queries
   launchUrl: https://prometheus.f9.casa/
+  name: Prometheus
   secret:
     keys:
       clientSecret: client-secret

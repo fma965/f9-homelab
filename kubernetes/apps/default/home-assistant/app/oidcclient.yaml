@@ -16,6 +16,8 @@ spec:
   callbackUrls:
     - https://home.f9.casa/auth/oidc/callback
   clientID: home-assistant
+  description: Smart home
   launchUrl: https://home.f9.casa/
+  name: Home Assistant
   pkceEnabled: true
   skipConsent: true

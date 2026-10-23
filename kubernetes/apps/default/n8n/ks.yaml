@@ -19,7 +19,9 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      OIDC_DESCRIPTION: Workflow automation
       OIDC_TARGET: n8n-app
+      OIDC_TITLE: n8n
   prune: true
   sourceRef:
     kind: GitRepository

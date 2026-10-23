@@ -12,7 +12,9 @@ spec:
   callbackUrls:
     - https://kopiur.f9.casa/oauth2/callback
   clientID: kopiur-ui
+  description: Backup snapshots, restores and schedules
   launchUrl: https://kopiur.f9.casa/
+  name: Kopiur
   secret:
     keys:
       clientID: client-id

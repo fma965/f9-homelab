@@ -19,8 +19,10 @@ spec:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 15Gi
+      OIDC_DESCRIPTION: Scanned documents
       OIDC_GROUP: home
       OIDC_HOST: docs.f9.casa
+      OIDC_TITLE: Paperless
   prune: true
   sourceRef:
     kind: GitRepository

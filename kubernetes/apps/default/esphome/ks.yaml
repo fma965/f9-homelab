@@ -23,6 +23,8 @@ spec:
       KOPIUR_CAPACITY: 5Gi
       # ESP-IDF toolchains/frameworks (~4 GB), re-downloaded on demand
       KOPIUR_IGNORE_RULES: "[/lost+found, /.cache/*]"
+      OIDC_DESCRIPTION: ESP device firmware and builds
+      OIDC_TITLE: ESPHome
   prune: true
   sourceRef:
     kind: GitRepository

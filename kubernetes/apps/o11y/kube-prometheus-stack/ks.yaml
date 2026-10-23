@@ -17,7 +17,9 @@ spec:
   postBuild:
     substitute:
       APP: alertmanager
+      OIDC_DESCRIPTION: Alert routing
       OIDC_TARGET: kube-prometheus-stack-alertmanager
+      OIDC_TITLE: Alertmanager
   prune: true
   sourceRef:
     kind: GitRepository

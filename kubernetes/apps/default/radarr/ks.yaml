@@ -20,8 +20,10 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      OIDC_DESCRIPTION: Movie downloads
       OIDC_GROUP: media
       OIDC_TARGET: radarr-app
+      OIDC_TITLE: Radarr
   prune: true
   sourceRef:
     kind: GitRepository

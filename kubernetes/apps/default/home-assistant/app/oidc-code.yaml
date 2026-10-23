@@ -14,7 +14,9 @@ spec:
   callbackUrls:
     - https://ha-code.f9.casa/oauth2/callback
   clientID: ha-code
+  description: Edit the Home Assistant config files
   launchUrl: https://ha-code.f9.casa/
+  name: Home Assistant Code
   secret:
     keys:
       clientSecret: client-secret
@@ -54,7 +56,9 @@ spec:
   callbackUrls:
     - https://matter-hub.f9.casa/oauth2/callback
   clientID: matter-hub
+  description: Matter bridge for Home Assistant
   launchUrl: https://matter-hub.f9.casa/
+  name: Matter Hub
   secret:
     keys:
       clientSecret: client-secret

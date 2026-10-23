@@ -20,6 +20,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      OIDC_DESCRIPTION: PostgreSQL administration
+      OIDC_TITLE: pgAdmin
   prune: true
   sourceRef:
     kind: GitRepository

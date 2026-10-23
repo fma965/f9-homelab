@@ -15,5 +15,7 @@ spec:
     - https://ai.f9.casa/oauth/oidc/callback
     - https://chat.f9.casa/oauth/oidc/callback
   clientID: openwebui
+  description: AI chat
   launchUrl: https://ai.f9.casa/
+  name: Open WebUI
   skipConsent: true

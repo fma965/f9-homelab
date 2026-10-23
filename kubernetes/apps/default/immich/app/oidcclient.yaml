@@ -13,5 +13,7 @@ spec:
     - https://photos.f9.casa/user-settings
     - app.immich:///oauth-callback
   clientID: immich
+  description: Photos and videos
   launchUrl: https://photos.f9.casa/
+  name: Immich
   skipConsent: true

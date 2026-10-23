@@ -17,7 +17,9 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      OIDC_DESCRIPTION: How the homelab is built and run
       OIDC_HOST: wiki.f9.casa
+      OIDC_TITLE: Technical docs
   prune: true
   sourceRef:
     kind: GitRepository

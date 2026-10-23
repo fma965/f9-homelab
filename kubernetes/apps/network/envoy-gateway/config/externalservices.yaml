@@ -68,7 +68,9 @@ spec:
   callbackUrls:
     - https://truenas.f9.casa/oauth2/callback
   clientID: truenas
+  description: File server administration
   launchUrl: https://truenas.f9.casa/
+  name: TrueNAS
   secret:
     keys:
       clientSecret: client-secret
@@ -153,7 +155,9 @@ spec:
   callbackUrls:
     - https://remote.f9.casa/oauth2/callback
   clientID: remote
+  description: Browser desktop on the file server
   launchUrl: https://remote.f9.casa/
+  name: Webtop
   secret:
     keys:
       clientSecret: client-secret
@@ -235,7 +239,9 @@ spec:
   callbackUrls:
     - https://kvm.f9.casa/oauth2/callback
   clientID: nanokvm
+  description: Remote console for the file server
   launchUrl: https://kvm.f9.casa/
+  name: NanoKVM
   secret:
     keys:
       clientSecret: client-secret
@@ -387,7 +393,9 @@ spec:
   callbackUrls:
     - https://garage.f9.casa/oauth2/callback
   clientID: garage
+  description: S3 storage administration
   launchUrl: https://garage.f9.casa/
+  name: Garage
   secret:
     keys:
       clientSecret: client-secret
@@ -470,7 +478,9 @@ spec:
   callbackUrls:
     - https://tdarr.f9.casa/oauth2/callback
   clientID: tdarr
+  description: Media transcoding
   launchUrl: https://tdarr.f9.casa/
+  name: Tdarr
   secret:
     keys:
       clientSecret: client-secret
@@ -611,7 +621,9 @@ spec:
   callbackUrls:
     - https://frigate.f9.casa/oauth2/callback
   clientID: frigate
+  description: Camera system with admin rights
   launchUrl: https://frigate.f9.casa/
+  name: Frigate
   secret:
     keys:
       clientSecret: client-secret
@@ -673,7 +685,9 @@ spec:
   callbackUrls:
     - https://cctv.f9.casa/oauth2/callback
   clientID: cctv
+  description: Live view and recorded clips
   launchUrl: https://cctv.f9.casa/
+  name: Cameras
   secret:
     keys:
       clientSecret: client-secret

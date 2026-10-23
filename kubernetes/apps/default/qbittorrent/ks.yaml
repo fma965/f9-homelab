@@ -22,8 +22,10 @@ spec:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 2Gi
+      OIDC_DESCRIPTION: Torrent downloads
       OIDC_GROUP: downloads
       OIDC_HOST: torrents.f9.casa
+      OIDC_TITLE: qBittorrent
   prune: true
   sourceRef:
     kind: GitRepository

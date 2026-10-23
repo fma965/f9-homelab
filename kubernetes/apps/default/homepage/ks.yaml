@@ -15,8 +15,10 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      OIDC_DESCRIPTION: A button for everything
       OIDC_GROUP: home
       OIDC_HOST: f9.casa
+      OIDC_TITLE: Homepage
   prune: true
   sourceRef:
     kind: GitRepository

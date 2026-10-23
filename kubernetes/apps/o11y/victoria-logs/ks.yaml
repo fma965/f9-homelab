@@ -17,6 +17,8 @@ spec:
   postBuild:
     substitute:
       APP: victoria-logs
+      OIDC_DESCRIPTION: Log search
+      OIDC_TITLE: VictoriaLogs
   prune: true
   sourceRef:
     kind: GitRepository

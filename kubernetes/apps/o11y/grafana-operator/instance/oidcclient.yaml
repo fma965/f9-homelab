@@ -13,6 +13,8 @@ spec:
   callbackUrls:
     - https://grafana.f9.casa/login/generic_oauth
   clientID: grafana
+  description: Dashboards
   launchUrl: https://grafana.f9.casa/
+  name: Grafana
   pkceEnabled: true
   skipConsent: true

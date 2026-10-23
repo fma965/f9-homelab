@@ -14,6 +14,8 @@ spec:
   callbackUrls:
     - https://inventory.f9.casa/api/v1/users/login/oidc/callback
   clientID: homebox
+  description: What we own and where it is
   launchUrl: https://inventory.f9.casa/
+  name: Homebox
   pkceEnabled: true
   skipConsent: true

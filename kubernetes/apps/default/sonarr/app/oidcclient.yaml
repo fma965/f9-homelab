@@ -13,8 +13,10 @@ spec:
   callbackUrls:
     - https://sonarr.f9.casa/signin-oidc
   clientID: sonarr
+  description: TV downloads
   launchUrl: https://sonarr.f9.casa/
   logoutCallbackUrls:
     - https://sonarr.f9.casa/signout-callback-oidc
+  name: Sonarr
   pkceEnabled: true
   skipConsent: true

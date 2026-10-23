@@ -20,8 +20,10 @@ spec:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 1Gi
+      OIDC_DESCRIPTION: Usenet downloads
       OIDC_GROUP: downloads
       OIDC_TARGET: sabnzbd-app
+      OIDC_TITLE: SABnzbd
   prune: true
   sourceRef:
     kind: GitRepository

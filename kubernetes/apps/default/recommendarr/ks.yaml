@@ -17,7 +17,9 @@ spec:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 1Gi
+      OIDC_DESCRIPTION: Media recommendations
       OIDC_GROUP: media
+      OIDC_TITLE: Recommendarr
   prune: true
   sourceRef:
     kind: GitRepository
