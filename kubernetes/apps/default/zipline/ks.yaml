@@ -11,6 +11,8 @@ spec:
       namespace: database
     - name: csi-driver-nfs
       namespace: kube-system
+    - name: pocket-id
+      namespace: security
   path: ./kubernetes/apps/default/zipline/app
   postBuild:
     substitute:
