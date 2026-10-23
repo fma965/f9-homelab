@@ -6,12 +6,17 @@ metadata:
   name: &app homepage
 spec:
   components:
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
+  dependsOn:
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/default/homepage/app
   postBuild:
     substitute:
       APP: *app
+      OIDC_GROUP: home
+      OIDC_HOST: f9.casa
   prune: true
   sourceRef:
     kind: GitRepository

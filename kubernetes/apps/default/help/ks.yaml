@@ -6,12 +6,16 @@ metadata:
   name: &app help
 spec:
   components:
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
+  dependsOn:
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/default/help/app
   postBuild:
     substitute:
       APP: *app
+      OIDC_GROUP: home
   prune: true
   sourceRef:
     kind: GitRepository

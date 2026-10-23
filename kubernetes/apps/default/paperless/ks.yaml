@@ -7,14 +7,19 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur/backup
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
     - ../../../../components/zeroscaler
+  dependsOn:
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: "./kubernetes/apps/default/paperless/app"
   postBuild:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 15Gi
+      OIDC_GROUP: home
+      OIDC_HOST: docs.f9.casa
   prune: true
   sourceRef:
     kind: GitRepository
