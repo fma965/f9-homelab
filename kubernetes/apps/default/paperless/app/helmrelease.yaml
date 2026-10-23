@@ -49,10 +49,11 @@ spec:
               PAPERLESS_REDIS: redis://dragonfly.database.svc.cluster.local:6379
               # Configure user permissions
               USERMAP_GID: "1000" # gladius:external-services
-              # Configure SSO
+              # Configure SSO: the gateway logs people in with Pocket ID and sets Remote-User from the ID token
+              # (components/oidc-claims)
               PAPERLESS_ENABLE_HTTP_REMOTE_USER: "true"
               PAPERLESS_HTTP_REMOTE_USER_HEADER_NAME: "HTTP_REMOTE_USER"
-              PAPERLESS_LOGOUT_REDIRECT_URL: "https://auth.f9.casa/logout"
+              PAPERLESS_LOGOUT_REDIRECT_URL: "https://docs.f9.casa/logout"
               # Configure AI suggestions (local llama.cpp, OpenAI-compatible API)
               PAPERLESS_AI_ENABLED: "true"
               PAPERLESS_AI_LLM_BACKEND: openai-like
