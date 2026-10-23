@@ -78,8 +78,8 @@ spec:
             conditions: ["[STATUS] == any(200,401)"]
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
-          gethomepage.dev/name: File server password
-          gethomepage.dev/description: "Reset your network drive password"
+          gethomepage.dev/name: Reset Password
+          gethomepage.dev/description: "Reset your File Server, Jellyfin and Seerr password"
           gethomepage.dev/icon: truenas
         hostnames:
           - reset.f9.casa
