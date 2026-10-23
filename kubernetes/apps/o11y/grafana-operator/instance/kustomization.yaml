@@ -7,4 +7,5 @@ resources:
   - ./grafanadatasource.yaml
   - ./mutatingadmissionpolicy.yaml
   - ./networkpolicy.yaml
+  - ./oidcclient.yaml
   - ./servicemonitor.yaml

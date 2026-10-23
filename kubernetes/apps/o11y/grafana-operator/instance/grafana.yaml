@@ -15,23 +15,30 @@ spec:
       reporting_enabled: "false"
     auth:
       disable_login_form: "false"
+      # Pocket ID gives every user a new subject. Grafana only falls back to the email when this is on;
+      # otherwise the existing user is not found and sign-up fails on the taken login. Pocket ID has
+      # signups off and its emails are set by the admin, which is what makes the lookup safe here.
+      oauth_allow_insecure_email_lookup: "true"
     auth.anonymous:
       enabled: "false"
-    # OIDC against Authelia. Endpoints and client credentials come from GF_AUTH_GENERIC_OAUTH_*
-    # (grafana-admin-password-secret). Only the Authelia `admin` group may sign in: any other user
-    # gets no valid role and is refused (role_attribute_strict). The local admin login stays as a
-    # break-glass in case Authelia is down.
+    # OIDC against Pocket ID (id.f9.casa). The client comes from GF_AUTH_GENERIC_OAUTH_CLIENT_ID and
+    # _SECRET (the operator's Secret grafana-oidc-credentials). Only the Pocket ID `admins` group may sign
+    # in: any other user gets no valid role and is refused (role_attribute_strict). The local admin login
+    # stays as a break-glass in case Pocket ID is down.
     auth.generic_oauth:
       enabled: "true"
-      name: Authelia
+      name: Pocket ID
       allow_sign_up: "true"
       auto_login: "false"
+      auth_url: https://id.f9.casa/authorize
+      token_url: https://id.f9.casa/api/oidc/token
+      api_url: https://id.f9.casa/api/oidc/userinfo
       use_pkce: "true"
       scopes: openid profile email groups
       email_attribute_path: email
       login_attribute_path: preferred_username
       name_attribute_path: name
-      role_attribute_path: "contains(groups[*], 'admin') && 'Admin'"
+      role_attribute_path: "contains(groups[*], 'admins') && 'Admin'"
       role_attribute_strict: "true"
       allow_assign_grafana_admin: "false"
     log:
@@ -61,6 +68,16 @@ spec:
                 - secretRef:
                     name: grafana-admin-password-secret
               env:
+                - name: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-oidc-credentials
+                      key: client_id
+                - name: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-oidc-credentials
+                      key: client_secret
                 - name: GF_SECURITY_ADMIN_PASSWORD
                   valueFrom:
                     secretKeyRef:
