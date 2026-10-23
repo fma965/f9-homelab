@@ -25,11 +25,13 @@ spec:
           app:
             image:
               repository: ghcr.io/fma965/nas-password-reset
-              tag: 0.2.0@sha256:8c7681c563a4338405d643ede228c238930711d557e92e69c42b73cac05246ae
+              tag: 0.3.1@sha256:b2fbac38352657de292c77d7bca051025e9836142c6d56f744e261f2e923a988
             env:
               APP_NAME: File server password
               COOLDOWN_SECONDS: "600"
               HELP_URL: https://help.f9.casa/services/files/
+              # Also offer to set the same password on the matching Jellyfin account (it needs JELLYFIN_API_KEY in the Secret).
+              JELLYFIN_URL: http://jellyfin.default.svc.cluster.local:8096
               MAX_AUTH_AGE_SECONDS: "300"
               PORT: &port 8080
               TRUENAS_INSECURE: "true" # the NAS has a self-signed certificate; this pod can only reach the NAS

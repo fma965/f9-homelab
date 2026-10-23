@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # File server password page (M15). It holds a TrueNAS key that can reset local account passwords, so it is as
 # closed as it can be: only the internal gateway may connect in (8080), and it may reach only the NAS on 443 (the
-# TrueNAS API) and DNS. Not the `nas` egress profile, which would allow every port on the NAS.
+# TrueNAS API), Jellyfin on 8096 (to set the same password there) and DNS. Not the `nas` egress profile, which would allow every port on the NAS.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -19,7 +19,21 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
+    # Jellyfin's replies to the calls this pod makes through its Service come back as new traffic to this pod
+    # (the destination is the pod's ephemeral port, so no port can be listed).
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: jellyfin
   egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: jellyfin
+      toPorts:
+        - ports:
+            - port: "8096"
+              protocol: TCP
     - toCIDRSet:
         - cidrGroupRef: nas
       toPorts:
