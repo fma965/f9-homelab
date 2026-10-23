@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app nas-password
+spec:
+  components:
+    - ../../../../components/oidc
+    - ../../../../components/oidc-claims
+  dependsOn:
+    - name: onepassword-connect
+      namespace: external-secrets
+    - name: pocket-id
+      namespace: security
+  interval: 1h
+  path: ./kubernetes/apps/default/nas-password/app
+  postBuild:
+    substitute:
+      APP: *app
+      OIDC_DESCRIPTION: Reset your file server password
+      OIDC_GROUP: home
+      OIDC_HOST: reset.f9.casa
+      OIDC_ICON: truenas
+      OIDC_TITLE: File server password
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: default
+  wait: false

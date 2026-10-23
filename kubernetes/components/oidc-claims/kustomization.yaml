@@ -2,7 +2,8 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 # Use after the oidc component. Gives the app the user's name and email as request headers, for an app that logs
 # people in from a header (Paperless): the JWT filter reads the ID token that the OIDC filter keeps in a cookie and
-# copies claims into Remote-User, Remote-Email and Remote-Name. The token cookie is plain text because the JWT
+# copies claims into Remote-User, Remote-Email, Remote-Name and Remote-Auth-Time (when the person signed in, in
+# seconds: an app that changes something important can ask for a recent sign-in). The token cookie is plain text because the JWT
 # filter cannot read an encrypted one. `groups` is an array, which claim-to-header does not support.
 # This is a component, not `patches` in the Flux Kustomization: the FluxInstance replaces a Kustomization's own
 # `patches` list with its defaults. The patch matches by kind because Flux fills in ${APP} after the build.
@@ -32,6 +33,8 @@ patches:
                   header: Remote-Email
                 - claim: name
                   header: Remote-Name
+                - claim: auth_time
+                  header: Remote-Auth-Time
       - op: add
         path: /spec/oidc/cookieNames
         value:
