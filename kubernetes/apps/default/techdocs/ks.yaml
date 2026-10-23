@@ -6,15 +6,18 @@ metadata:
   name: &app techdocs
 spec:
   components:
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
   dependsOn:
     - name: onepassword-connect
       namespace: external-secrets
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/default/techdocs/app
   postBuild:
     substitute:
       APP: *app
+      OIDC_HOST: wiki.f9.casa
   prune: true
   sourceRef:
     kind: GitRepository

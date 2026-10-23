@@ -146,7 +146,6 @@ spec:
           gethomepage.dev/description: "How the homelab is built and run (admins only)"
           gethomepage.dev/icon: mdi-book-lock
         hostnames:
-          - techdocs.f9.casa
           - wiki.f9.casa
         parentRefs:
           - name: envoy-external
