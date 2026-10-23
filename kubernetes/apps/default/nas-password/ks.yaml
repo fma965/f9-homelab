@@ -18,12 +18,12 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      OIDC_DESCRIPTION: Reset your file server password
+      OIDC_DESCRIPTION: Reset your password for the File Server (SMB), Jellyfin and Seerr
       OIDC_GROUP: home
       OIDC_HOST: reset.f9.casa
       OIDC_ICON: truenas
       OIDC_REAUTH: "true"
-      OIDC_TITLE: File server password
+      OIDC_TITLE: Reset Password
   prune: true
   sourceRef:
     kind: GitRepository
