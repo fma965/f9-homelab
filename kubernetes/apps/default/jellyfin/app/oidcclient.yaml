@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+# The Pocket ID client for the Jellyfin SSO plugin (9p4/jellyfin-plugin-sso, provider name `pocket-id`). The operator
+# writes the Secret `jellyfin-oidc-credentials` (`client_id`, `client_secret`). The plugin has no declarative config:
+# once it is installed, post a provider named `pocket-id` to `/sso/OID/Add/pocket-id` with an API key, using
+# `oidEndpoint: https://id.f9.casa`, the two values from that Secret, and the scopes `openid profile email groups`.
+# LDAP login against LLDAP keeps working next to it. Native Jellyfin apps cannot do SSO; they use Quick Connect.
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: jellyfin
+spec:
+  allowedUserGroups:
+    - groupName: admins
+    - groupName: home
+  callbackUrls:
+    - https://jellyfin.f9.casa/sso/OID/redirect/pocket-id
+  clientID: jellyfin
+  launchUrl: https://jellyfin.f9.casa/
+  skipConsent: true

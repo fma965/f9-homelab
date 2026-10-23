@@ -57,6 +57,8 @@ spec:
               limits:
                 memory: 4Gi
     defaultPodOptions:
+      labels:
+        egress.cilium.io/gateway-external: "true"
       resourceClaims:
         - name: gpu
           resourceClaimTemplateName: jellyfin-gpu
