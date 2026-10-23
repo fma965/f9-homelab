@@ -9,7 +9,7 @@ Scaffolds `kubernetes/apps/<namespace>/<app>/` with a Flux Kustomization (`ks.ya
 
 | Reference app                      | Shows                                                                                         |
 | ---------------------------------- | --------------------------------------------------------------------------------------------- |
-| `kubernetes/apps/default/help`     | Stateless app, multiple containers, config from a ConfigMap, public route behind `ext-auth`   |
+| `kubernetes/apps/default/help`     | Stateless app, multiple containers, config from a ConfigMap, public route behind `oidc`       |
 | `kubernetes/apps/default/zipline`  | Postgres (`init-db`), ExternalSecret, NFS media with `zeroscaler`, OIDC login, network policy |
 | `kubernetes/apps/default/jellyfin` | kopiur-backed persistence, GPU component, dependencies                                        |
 | `kubernetes/apps/default/seerr`    | Small app with an ExternalSecret and a network policy                                         |
@@ -21,7 +21,7 @@ Ask the user for anything not already given:
 
 1. **App name** and **namespace** (existing folders: `ls kubernetes/apps/`). Home and household apps go in `default`, the owner's own dev projects in `webdev`, MCP servers in `mcp`.
 2. **Image** repository + tag (upstream's current release; never from memory).
-3. **Port** the app listens on, and whether it gets a **route**: `envoy-internal` (default; admin and management tools) or `envoy-external` (public). Public routes without a login of their own need `ext-auth`.
+3. **Port** the app listens on, and whether it gets a **route**: `envoy-internal` (default; admin and management tools) or `envoy-external` (public). Routes without a login of their own need the `oidc` component.
 4. **Persistence**: does the app store state? Local state → kopiur backup component. Files on the NAS → an NFS mount (then the `zeroscaler` component).
 5. **Secrets**: env vars from 1Password → ExternalSecret. Get the 1Password item name AND its exact field names; never guess them.
 6. **Database**: a Postgres database on the shared `postgres17` cluster, or Dragonfly (Redis)?
@@ -71,7 +71,7 @@ Add `components`, `dependsOn` and `postBuild` when needed. `postBuild.substitute
 ```yaml
 spec:
     components:
-        - ../../../../components/ext-auth # public route with no login of its own
+        - ../../../../components/oidc # route with no login of its own
         - ../../../../components/kopiur/backup # app keeps state on a ceph-block PVC
         - ../../../../components/zeroscaler # app mounts NFS from the NAS (scales to 0 when the NAS is down)
     dependsOn:
@@ -79,6 +79,8 @@ spec:
           namespace: database
         - name: csi-driver-nfs # mounts NFS
           namespace: kube-system
+        - name: pocket-id # the oidc component creates a PocketIDOIDCClient
+          namespace: security
     postBuild:
         substitute:
             APP: *app
@@ -88,7 +90,7 @@ spec:
             # KOPIUR_CAPACITY: 10Gi
 ```
 
-Other components: `gpu` (Intel GPU claim, see jellyfin) and `alerts` (already applied per namespace). `ext-auth` creates an Authelia `SecurityPolicy` named `${APP}` targeting the route of the same name; use `EXT_AUTH_TARGET` if the route is named differently.
+Other components: `gpu` (Intel GPU claim, see jellyfin) and `alerts` (already applied per namespace). `oidc` creates a Pocket ID `PocketIDOIDCClient` and a `SecurityPolicy` named `${APP}` targeting the route of the same name; use `OIDC_TARGET` if the route is named differently, `OIDC_HOST` if its hostname is not `${APP}.f9.casa` and `OIDC_GROUP` for who may enter. `oidc-claims` after it adds `Remote-User`, `Remote-Email` and `Remote-Name` headers for an app that trusts them. A second route in an app-template HelmRelease renames the first from `<app>` to `<app>-app`, so set `OIDC_TARGET` then.
 
 ### app/kustomization.yaml
 
@@ -298,7 +300,7 @@ Add `networkpolicy.yaml` for any app that is routed or reachable from other pods
 - ingress from the gateway pods (`envoy-external` or `envoy-internal`, namespace `network`) on the container port;
 - the pods it calls through Services (`kube-dns`, `postgres17` in `database`, `dragonfly`, other apps), because the replies come back as "new" traffic to the pod, or `fromEntities: cluster` on `32768`-`60999` for an app that calls many Services;
 - the specific in-cluster callers (Homepage widget, Home Assistant, Prometheus, ...);
-- for an app that does OIDC against `auth.f9.casa`, the gateway pods on any port (their replies come from the listener port).
+- for an app that does OIDC against `id.f9.casa`, the gateway pods on any port (their replies come from the listener port).
 
 For a public app or one that holds credentials, also add `egress` (see the network-policy bullet in `AGENTS.md`): `kube-dns` on 53 with the `dns` proxy rule, each in-cluster target (`toEndpoints`) **and the same target under `ingress`**, off-cluster addresses with `toCIDR`, internet hosts with `toFQDNs` on 443. Copy zipline's (no internet) or seerr's (named hosts).
 
@@ -319,7 +321,7 @@ flate test all --path ./kubernetes/apps                  # when tools and networ
 - **Forgetting `reloader.stakater.com/auto`**: without it, secret or config changes do not restart pods.
 - **`readOnlyRootFilesystem: true` without a tmpfs**: apps that write to `/tmp` crash; mount an `emptyDir`.
 - **Putting an admin tool on `envoy-external`**: default to `envoy-internal`.
-- **A public route with no login**: add the `ext-auth` component, or confirm the app does its own OIDC.
+- **A public route with no login**: add the `oidc` component, or confirm the app does its own OIDC.
 - **An egress rule with no matching ingress rule**: the connection opens and its reply is dropped, so it times out (Immich's SMTP relay, f9-homelab#2091).
 - **A network policy that omits the reply paths**: the app then fails intermittently (DNS) or cannot reach its database, and Hubble shows `Policy denied DROPPED` from `kube-dns` or the database pods.
 - **Guessing 1Password field names**: a wrong name renders an empty value silently.

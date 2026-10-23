@@ -31,11 +31,10 @@ spec:
               tag: 0.4.2@sha256:1a165c9b3831b8cf546c78231857896431c27a4465d2fcb16260c7d578bbee55
             env:
               # Talk to the NAS directly rather than through truenas.f9.casa:
-              # that hostname is proxied through envoy-external, and
-              # Authelia's access_control only bypasses `/websocket` there
-              # for the TrueNAS UI. This server dials `/api/current`
-              # (internal/config/config.go), which isn't bypassed and would
-              # otherwise get an Authelia challenge instead of a JSON-RPC
+              # that hostname is proxied through the gateway behind the Pocket
+              # ID login, which a client without a browser cannot complete.
+              # This server dials `/api/current` (internal/config/config.go),
+              # so it would get a login redirect instead of a JSON-RPC
               # response. nas.main.internal:443 is the same backend
               # network/envoy-gateway/config/externalservices.yaml already
               # points at for the same reason.

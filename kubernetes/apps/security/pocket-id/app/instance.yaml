@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidinstance_v1alpha1.json
 # Pocket ID at https://id.f9.casa (passkeys only), run by the operator in ../operator. It replaced Kanidm, which
-# held this name. Public on envoy-external, like Authelia, so apps on the external gateway can send people to the
+# held this name. Public on envoy-external, so apps on the external gateway can send people to the
 # login page. The data (SQLite) is on the `pocket-id` PVC that the kopiur backup component creates.
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDInstance

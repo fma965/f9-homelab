@@ -103,7 +103,7 @@ specs:
               - 169.254.0.0/16
               - 172.16.0.0/12
               - 192.168.0.0/16
-  # The external gateway: names under f9.casa (the OIDC login at auth.f9.casa, S3, public APIs) resolve to it
+  # The external gateway: names under f9.casa (the OIDC login at id.f9.casa, S3, public APIs) resolve to it
   # inside the cluster and its pods listen on 10443. The reply is allowed back in.
   - endpointSelector:
       matchLabels:
