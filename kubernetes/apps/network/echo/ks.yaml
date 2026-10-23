@@ -11,6 +11,46 @@ spec:
     - name: pocket-id
       namespace: security
   interval: 1h
+  # A trial of Remote-User style headers from Pocket ID, for apps that log people in from a header (Paperless): the
+  # JWT filter reads the ID token the OIDC filter keeps in a cookie and copies claims into request headers. Echo
+  # shows the headers it receives. The token cookie is plain text for this (the JWT filter cannot read an encrypted one).
+  # Matched by kind: Flux applies patches before it fills in ${APP}, so the policy's name is not yet `echo`.
+  patches:
+    - target:
+        kind: SecurityPolicy
+      patch: |-
+        - op: add
+          path: /spec/jwt
+          value:
+            providers:
+              - name: pocket-id
+                issuer: https://id.f9.casa
+                audiences:
+                  - echo
+                remoteJWKS:
+                  uri: https://id.f9.casa/.well-known/jwks.json
+                extractFrom:
+                  cookies:
+                    - echo-id-token
+                claimToHeaders:
+                  - claim: preferred_username
+                    header: Remote-User
+                  - claim: email
+                    header: Remote-Email
+                  - claim: name
+                    header: Remote-Name
+        - op: add
+          path: /spec/oidc/cookieNames
+          value:
+            idToken: echo-id-token
+        - op: add
+          path: /spec/oidc/disableTokenEncryption
+          value: true
+        - op: add
+          path: /spec/oidc/scopes
+          value:
+            - profile
+            - email
   path: ./kubernetes/apps/network/echo/app
   postBuild:
     substitute:
