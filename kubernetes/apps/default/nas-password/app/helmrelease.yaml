@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: ghcr.io/fma965/nas-password-reset
-              tag: 0.3.7@sha256:731595de61f89673840eee12110fca3f79d7e94c66ab10eaffcfe0f9dc1dfa8b
+              tag: 0.3.8@sha256:a919a92829c5a759400300918b21e5cd840ffc9da6d543eeb7931bdf1990c10c
             env:
               APP_NAME: Password Reset Procedure
               COOLDOWN_SECONDS: "600"
