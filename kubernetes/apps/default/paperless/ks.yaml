@@ -8,6 +8,7 @@ spec:
   components:
     - ../../../../components/kopiur/backup
     - ../../../../components/oidc
+    - ../../../../components/oidc-claims
     - ../../../../components/zeroscaler
   dependsOn:
     - name: pocket-id
