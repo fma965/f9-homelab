@@ -11,6 +11,8 @@
 # operator sets the client's logo URL; OIDC_ICON_DARK is its dark-mode variant (default: the same icon). With neither set the Pocket ID logo is used.
 # OIDC_REAUTH="true" makes Pocket ID ask for a passkey on every login to this client, even with a live Pocket ID session
 # (default false). The token's auth_time is then the time of that passkey check.
+# OIDC_LOGOUT_URLS is the list of addresses Pocket ID may send the browser back to after the gateway's /logout (a JSON list, default none). With none,
+# Pocket ID falls back to its own /logout page, which a "sign in again" link on the app would loop through.
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDOIDCClient
 metadata:
@@ -26,6 +28,7 @@ spec:
   logo:
     darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/${OIDC_ICON_DARK:=${OIDC_ICON:=pocket-id}}.webp
     logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/${OIDC_ICON:=pocket-id}.webp
+  logoutCallbackUrls: ${OIDC_LOGOUT_URLS:=[]}
   name: ${OIDC_TITLE:=${APP}}
   requiresReauthentication: ${OIDC_REAUTH:=false}
   secret:

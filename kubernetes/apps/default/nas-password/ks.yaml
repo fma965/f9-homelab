@@ -22,6 +22,7 @@ spec:
       OIDC_GROUP: home
       OIDC_HOST: reset.f9.casa
       OIDC_ICON: truenas
+      OIDC_LOGOUT_URLS: '["https://reset.f9.casa/"]'
       OIDC_REAUTH: "true"
       OIDC_TITLE: Reset Password
   prune: true
