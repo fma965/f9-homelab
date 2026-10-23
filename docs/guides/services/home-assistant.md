@@ -32,7 +32,7 @@ Home Assistant is the brain of the house. It connects the lights, heating, camer
 </p>
 
 2. When asked for the server address, enter `https://home.f9.casa`.
-3. Sign in.
+3. Sign in with the F9 login (a passkey).
 
 Using the app also lets the house know when you're home, which some automations use.
 

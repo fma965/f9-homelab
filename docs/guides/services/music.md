@@ -11,7 +11,7 @@ Music Assistant plays music on the speakers around the house. It can also play f
 
 ## Playing music
 
-1. Open the site and sign in with your house login (it uses your Home Assistant account).
+1. Open the site and sign in with the F9 login (it uses your Home Assistant account, which uses a passkey).
 2. Search for a song, album, artist or playlist.
 3. Choose the **speaker or room** to play it on.
 4. Press play. You can control volume and the queue from the same page.

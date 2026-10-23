@@ -8,7 +8,7 @@ Paperless is our digital filing cabinet. Letters, bills, manuals and warranties 
 
 ## Find a document
 
-1. Open the site and sign in.
+1. Open the site and confirm with your passkey on the F9 sign-in page. You are taken straight into Paperless as yourself.
 2. Type words from the document into the search box, such as a company name or "boiler warranty".
 3. Click a result to read it or download it.
 

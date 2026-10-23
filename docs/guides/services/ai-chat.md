@@ -14,7 +14,7 @@ Open WebUI is a ChatGPT-style assistant that runs on our own server, so your con
 
 ## Using it
 
-1. Open the site and choose to sign in with **Home**. This uses your house login.
+1. Open the site and choose to sign in with **Home**. This is the F9 login: confirm with your passkey.
 2. Pick a model from the drop-down at the top.
 3. Type a question and press enter.
 

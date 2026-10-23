@@ -1,6 +1,6 @@
 # Cameras
 
-**Address:** <https://cctv.f9.casa> (also <https://frigate.f9.casa>)
+**Address:** <https://cctv.f9.casa>
 
 **Works:** at home only, on the house Wi-Fi or plugged in at home.
 
@@ -11,7 +11,7 @@ Our cameras are managed by Frigate, which records when it sees people, cars or a
 
 ## Using it
 
-1. Open the site and sign in with your house login.
+1. Open the site and confirm with your passkey on the F9 sign-in page. You can watch live and recorded video; the settings are for Scott.
 2. **Live** shows the cameras now.
 3. **Review** (or **Events**) lists clips from the past few days. Choose one to watch it.
 

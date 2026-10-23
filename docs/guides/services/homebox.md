@@ -14,7 +14,7 @@ Homebox is a catalogue of what we own and where it lives: tools, cables, spare p
 
 ## Find something
 
-1. Open the site and sign in with your house login.
+1. Open the site and sign in with the F9 login (a passkey).
 2. Search by name, or browse by **Location** such as "Garage" or "Loft".
 3. Open an item to see where it is, its details and any attached manual or receipt.
 
