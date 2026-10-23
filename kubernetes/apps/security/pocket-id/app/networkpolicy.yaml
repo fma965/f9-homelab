@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Pocket ID (id.f9.casa). Ingress and egress (M15): only the external gateway (the login page and the OIDC
 # endpoints, 1411) and the operator (its management API) may connect in; the pod may reach the SMTP relay
-# (egress.cilium.io/smtp-relay, from the instance labels) and DNS, and nothing else (the version check and
-# analytics are off). Written from how the operator and Pocket ID work, not from a capture, as it is new.
+# (egress.cilium.io/smtp-relay, from the instance labels), the icon CDN (Pocket ID itself downloads a client's logo
+# from the URL the operator gives it) and DNS, and nothing else (the version check and analytics are off). Written from how the operator and Pocket ID work, not from a capture, as it is new.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -23,4 +23,13 @@ spec:
       toPorts:
         - ports:
             - port: "1411"
+              protocol: TCP
+  egress:
+    # Client logos: Pocket ID downloads each icon (webp) from jsDelivr (homarr-labs/dashboard-icons) when the operator
+    # sets a client's logo URL. Without this the update fails with `logo_download_failed` after about 12 seconds.
+    - toFQDNs:
+        - matchName: cdn.jsdelivr.net
+      toPorts:
+        - ports:
+            - port: "443"
               protocol: TCP

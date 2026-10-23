@@ -1,8 +1,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Pocket ID operator (M15). It holds an API key for Pocket ID and watches the cluster, so it may reach the API
-# server (the egress.cilium.io/kube-apiserver label, HelmRelease operator.labels), the Pocket ID pod on 1411
-# (its management API through the Service) and the icon CDN (each client's logo is downloaded by the operator and
-# uploaded to Pocket ID), and nothing else. Ingress is not limited here. Written from how the
+# server (the egress.cilium.io/kube-apiserver label, HelmRelease operator.labels) and the Pocket ID pod on 1411
+# (its management API through the Service), and nothing else. Ingress is not limited here. Written from how the
 # operator works, not from a capture, as it is new: check Hubble for `Policy denied` after the first start.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
@@ -20,11 +19,4 @@ spec:
       toPorts:
         - ports:
             - port: "1411"
-              protocol: TCP
-    # Client logos: the operator downloads each icon (webp) from jsDelivr (homarr-labs/dashboard-icons).
-    - toFQDNs:
-        - matchName: cdn.jsdelivr.net
-      toPorts:
-        - ports:
-            - port: "443"
               protocol: TCP
