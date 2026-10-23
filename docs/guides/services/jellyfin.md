@@ -8,7 +8,7 @@ Jellyfin is our own streaming service. It plays the films and TV shows stored on
 
 ## Watching
 
-1. Open the site and press the **F9 Authentication** button under the sign-in box. Confirm with your passkey. (On a TV or phone app, use [Quick Connect](#signing-in-on-the-apps) instead.)
+1. Open the site and press the **Home Authentication** button under the sign-in box. Confirm with your passkey. (On a TV or phone app, use [Quick Connect](#signing-in-on-the-apps) instead.)
 2. Pick a library such as **Movies** or **Shows**.
 3. Choose something and press play.
 
