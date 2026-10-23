@@ -7,17 +7,20 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur/backup
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
     - ../../../../components/zeroscaler
   dependsOn:
     - name: csi-driver-nfs
       namespace: kube-system
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/default/sabnzbd/app
   postBuild:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 1Gi
+      OIDC_GROUP: downloads
   prune: true
   sourceRef:
     kind: GitRepository

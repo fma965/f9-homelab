@@ -7,19 +7,23 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur/backup
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
     - ../../../../components/zeroscaler
   dependsOn:
     - name: csi-driver-nfs
       namespace: kube-system
     - name: multus-networks
       namespace: kube-system
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/default/qbittorrent/app
   postBuild:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 2Gi
+      OIDC_GROUP: downloads
+      OIDC_HOST: torrents.f9.casa
   prune: true
   sourceRef:
     kind: GitRepository

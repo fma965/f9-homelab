@@ -6,18 +6,21 @@ metadata:
   name: &app prowlarr
 spec:
   components:
-    - ../../../../components/ext-auth
+    - ../../../../components/oidc
     - ../../../../components/zeroscaler
   dependsOn:
     - name: csi-driver-nfs
       namespace: kube-system
     - name: cloudnative-pg
       namespace: database
+    - name: pocket-id
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/default/prowlarr/app
   postBuild:
     substitute:
       APP: *app
+      OIDC_GROUP: media
   prune: true
   sourceRef:
     kind: GitRepository
