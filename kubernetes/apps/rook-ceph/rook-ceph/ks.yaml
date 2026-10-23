@@ -21,8 +21,6 @@ kind: Kustomization
 metadata:
   name: rook-ceph-cluster
 spec:
-  components:
-    - ../../../../components/ext-auth
   dependsOn:
     - name: rook-ceph
   healthChecks:
@@ -41,10 +39,6 @@ spec:
       current: status.ceph.health in ['HEALTH_OK', 'HEALTH_WARN']
   interval: 1h
   path: ./kubernetes/apps/rook-ceph/rook-ceph/cluster
-  postBuild:
-    substitute:
-      APP: rook-ceph-dashboard
-      EXT_AUTH_TARGET: rook-ceph-dashboard
   prune: true
   sourceRef:
     kind: GitRepository
