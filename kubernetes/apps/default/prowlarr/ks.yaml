@@ -21,6 +21,7 @@ spec:
     substitute:
       APP: *app
       OIDC_GROUP: media
+      OIDC_TARGET: prowlarr-app
   prune: true
   sourceRef:
     kind: GitRepository

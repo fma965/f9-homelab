@@ -21,6 +21,7 @@ spec:
       APP: *app
       KOPIUR_CAPACITY: 1Gi
       OIDC_GROUP: downloads
+      OIDC_TARGET: sabnzbd-app
   prune: true
   sourceRef:
     kind: GitRepository
