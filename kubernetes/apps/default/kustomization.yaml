@@ -9,7 +9,6 @@ components:
 
 resources:
   - ./namespace.yaml
-  - ./authelia/ks.yaml
   - ./bambuddy/ks.yaml
   # - ./element/ks.yaml
   - ./esphome/ks.yaml
