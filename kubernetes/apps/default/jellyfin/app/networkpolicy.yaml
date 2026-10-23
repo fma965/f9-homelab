@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
-# Jellyfin (media server, public, LDAP login against LLDAP and the Pocket ID SSO plugin). Allow-list from the manifests and
+# Jellyfin (media server, public, Pocket ID SSO plugin and Quick Connect for the apps). Allow-list from the manifests and
 # the Cilium connection table on 15 Oct 2026 (M15). Probes come from the local node, which
-# Cilium always allows. Egress (M15): DNS, LLDAP and a list of named internet hosts only.
+# Cilium always allows. Egress (M15): DNS, the gateway (Pocket ID) and a list of named internet hosts only.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -72,26 +72,9 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: network
             gateway.envoyproxy.io/owning-gateway-name: envoy-internal
-    # Replies to the app's own connections, which go through Services (kube-dns, lldap).
-    # Cilium evaluates the reverse-translated reply as new traffic to this pod and drops it
-    # without these rules ("Policy denied DROPPED" in Hubble). The destination is the pod's
-    # ephemeral source port, so no port can be listed.
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: lldap
   egress:
-    # LLDAP, for the LDAP Authentication plugin (lldap.default.svc).
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: lldap
-      toPorts:
-        - ports:
-            - port: "389"
-              protocol: TCP
     # Internet hosts Jellyfin needs, by name (443 only). Seeded from deedee-ops/home-ops and
-    # checked against this install's plugins (Intro Skipper, LDAP Authentication, Trakt). If
+    # checked against this install's plugins (Intro Skipper, SSO Authentication, Trakt). If
     # a feature stops working (missing posters, a plugin that will not install, Trakt not
     # syncing), look for the denied name in Hubble and add it here. The media itself is an
     # NFS mount done by the node, so it needs no rule.

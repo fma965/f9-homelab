@@ -4,7 +4,8 @@
 # writes the Secret `jellyfin-oidc-credentials` (`client_id`, `client_secret`). The plugin has no declarative config:
 # once it is installed, post a provider named `pocket-id` to `/sso/OID/Add/pocket-id` with an API key, using
 # `oidEndpoint: https://id.f9.casa`, the two values from that Secret, and the scopes `openid profile email groups`.
-# LDAP login against LLDAP keeps working next to it. Native Jellyfin apps cannot do SSO; they use Quick Connect.
+# This is Jellyfin's only login (LLDAP and the LDAP plugin are gone). Native Jellyfin apps and Seerr cannot do SSO;
+# they sign in with Quick Connect.
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDOIDCClient
 metadata:
