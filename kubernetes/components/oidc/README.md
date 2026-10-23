@@ -16,6 +16,7 @@ postBuild:
         OIDC_TARGET: <route> # optional; the HTTPRoute to gate when its name is not <app>
         OIDC_TITLE: <Name> # optional; the name people see in Pocket ID (default <app>)
         OIDC_DESCRIPTION: <one line> # optional; shown under the name
+        OIDC_REFRESH: "false" # optional; end the session when the token expires instead of renewing it in the background (default true)
         OIDC_REAUTH: "true" # optional; Pocket ID asks for a passkey on every login to this app (default false)
         OIDC_ICON: <icon> # optional; a dashboard-icons name (default pocket-id); OIDC_ICON_DARK for a dark-mode variant
 ```

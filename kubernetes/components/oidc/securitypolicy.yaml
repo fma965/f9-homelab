@@ -19,7 +19,7 @@ spec:
       name: ${APP}-oidc-credentials
     redirectURL: https://${OIDC_HOST:=${APP}.f9.casa}/oauth2/callback
     logoutPath: /logout
-    refreshToken: true
+    refreshToken: ${OIDC_REFRESH:=true}
   targetRefs:
     - group: ${OIDC_GROUP_KIND:=gateway.networking.k8s.io}
       kind: ${OIDC_KIND:=HTTPRoute}

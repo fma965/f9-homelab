@@ -23,6 +23,7 @@ spec:
       OIDC_HOST: reset.f9.casa
       OIDC_ICON: truenas
       OIDC_REAUTH: "true"
+      OIDC_REFRESH: "false"
       OIDC_TITLE: Reset Password
   prune: true
   sourceRef:
