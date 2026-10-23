@@ -1,0 +1,16 @@
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: Backend
+metadata:
+  name: truenas
+spec:
+  endpoints:
+    - fqdn:
+        hostname: nas.main.internal
+        port: 443
+  tls:
+    # TrueNAS uses a self-signed cert (CN/SAN "localhost")
+    insecureSkipVerify: true
+    # nginx on TrueNAS can't do WebSocket upgrades over HTTP/2 (UI uses wss://.../api/current)
+    alpnProtocols:
+      - http/1.1

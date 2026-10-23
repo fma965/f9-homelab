@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tdarr-external
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8265
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: tdarr-external
+  labels:
+    kubernetes.io/service-name: tdarr-external
+addressType: FQDN
+endpoints:
+  - addresses:
+      - nas.main.internal
+ports:
+  - name: http
+    protocol: TCP
+    port: 8265

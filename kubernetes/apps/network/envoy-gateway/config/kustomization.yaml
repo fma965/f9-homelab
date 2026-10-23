@@ -2,5 +2,13 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+# One folder per site published through the gateway (the NAS and the services on it): backend.yaml (what it points at),
+# route.yaml (the HTTPRoute) and oidc.yaml (the Pocket ID login and its client), where it has them.
 resources:
-  - ./externalservices.yaml
+  - ./doco-cd
+  - ./frigate
+  - ./garage
+  - ./nanokvm
+  - ./tdarr
+  - ./truenas
+  - ./webtop

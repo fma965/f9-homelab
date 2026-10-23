@@ -36,7 +36,7 @@ spec:
               # This server dials `/api/current` (internal/config/config.go),
               # so it would get a login redirect instead of a JSON-RPC
               # response. nas.main.internal:443 is the same backend
-              # network/envoy-gateway/config/externalservices.yaml already
+              # network/envoy-gateway/config/truenas/backend.yaml already
               # points at for the same reason.
               TRUENAS_MCP_TARGET: nas.main.internal:443
               # TrueNAS ships a self-signed cert (CN/SAN "localhost").
