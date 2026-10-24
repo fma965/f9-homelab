@@ -11,6 +11,9 @@ spec:
     name: obico-ml-api
   values:
     defaultPodOptions:
+      labels:
+        # Fetches the frame URL Bambuddy sends (https://bambuddy.f9.casa/...) through the external gateway.
+        egress.cilium.io/gateway-external: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
