@@ -113,7 +113,7 @@ just bootstrap cluster
 
 A few workloads that need dedicated hardware, or that I want running independently of the cluster, run as Docker Compose stacks on my TrueNAS server. These are AI workloads (llama.cpp, Whisper, Immich machine learning), Frigate NVR, a Garage S3 backup target, Proxmox Backup Server, CUPS, a Brother scanner Scan-button service that feeds Paperless, and a few exporters.
 
-[Doco-CD](https://github.com/kimdre/doco-cd) watches the [docker](./docker/) folder and deploys the stacks listed in [.doco-cd.yaml](./.doco-cd.yaml) based on the state of this repository.
+[Doco-CD](https://github.com/kimdre/doco-cd) watches the [docker](./docker/) folder and deploys the stacks listed in [.doco-cd.yaml](./.doco-cd.yaml) based on the state of this repository. Doco-CD runs as a stack of its own ([docker/system/doco-cd](./docker/system/doco-cd/)) and updates itself when Renovate's image bump is merged.
 
 ---
 

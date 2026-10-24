@@ -93,3 +93,13 @@ external_secrets:
   FRIGATE_PRINTER_PASSWORD: op://kubernetes/frigate/3DPRINTER_PASSWORD
   FRIGATE_MQTT_USERNAME: op://kubernetes/mosquitto/MQTT_USERNAME
   FRIGATE_MQTT_PASSWORD: op://kubernetes/mosquitto/MQTT_PASSWORD
+---
+# Doco-CD deploys itself. The name must equal the Compose project that bootstrap.sh creates.
+name: doco-cd
+working_dir: docker/system/doco-cd
+reference: refs/heads/main
+webhook_filter: "^refs/heads/main$"
+timeout: 180
+environment:
+  # TODO: base URL of the 1Password Connect API reachable from the NAS (the value the TrueNAS app uses).
+  SECRET_PROVIDER_CONNECT_HOST: "REPLACE_WITH_CONNECT_URL"
