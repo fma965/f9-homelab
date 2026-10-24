@@ -56,12 +56,15 @@ spec:
         - cluster
     - toCIDR:
         - 10.10.30.0/24
-    # Frigate on the NAS: its go2rtc RTSP restream (8554) for the printer camera. Frigate publishes only
-    # 8971, 8554 and 8555 and the restream needs the RTSP credentials, so this opens one TCP port on one host.
+    # Frigate on the NAS: its go2rtc RTSP restream (8554) for the printer camera, and the snapshot API
+    # (8971, /api/printer_camera/latest.jpg). Frigate publishes only 8971, 8554 and 8555 and the restream
+    # needs the RTSP credentials, so this opens two TCP ports on one host.
     # Set the camera to RTSP over TCP: UDP would need RTP ports that are not allowed.
     - toCIDRSet:
         - cidrGroupRef: nas
       toPorts:
         - ports:
             - port: "8554"
+              protocol: TCP
+            - port: "8971"
               protocol: TCP
