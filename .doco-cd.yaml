@@ -101,5 +101,5 @@ reference: refs/heads/main
 webhook_filter: "^refs/heads/main$"
 timeout: 180
 environment:
-  # TODO: base URL of the 1Password Connect API reachable from the NAS (the value the TrueNAS app uses).
-  SECRET_PROVIDER_CONNECT_HOST: "REPLACE_WITH_CONNECT_URL"
+  # 1Password Connect API reachable from the NAS (a URL, not a secret).
+  SECRET_PROVIDER_CONNECT_HOST: "http://10.10.69.206"
