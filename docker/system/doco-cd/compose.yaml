@@ -1,0 +1,50 @@
+# Doco-CD deploys this stack too: bumping the pinned image below (Renovate opens the PR)
+# makes it update itself. Secrets are files under /mnt/apps/appdata/doco-cd/secrets (see README.md).
+services:
+  doco-cd:
+    # Pinned by tag and digest so an update is always a reviewed commit, never a moving tag.
+    image: ghcr.io/kimdre/doco-cd:0.129.0@sha256:79960a8eb7a294db6e5e5af47a702e83d494cc7abe9eecfaacb7c70a71eeb2cb
+    restart: unless-stopped
+    # Published host ports rule out the no-downtime `scale_out` strategy (two containers cannot
+    # share a port), so a self-update is a short restart with automatic rollback.
+    ports:
+      - "6584:6584" # webhook + health, behind https://doco-cd.f9.casa
+      - "9130:9130" # Prometheus metrics
+    environment:
+      TZ: "Europe/London"
+      HTTP_PORT: "6584"
+      METRICS_PORT: "9130"
+      SELF_UPDATE_ENABLED: "true"
+      SELF_UPDATE_STRATEGY: applier
+      POLL_CONFIG: |
+        - url: https://github.com/fma965/f9-homelab.git
+          reference: main
+          interval: 180
+      GIT_ACCESS_TOKEN_FILE: /run/secrets/git_access_token
+      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
+      SECRET_PROVIDER: 1password
+      # Set in this stack's entry in .doco-cd.yaml (a URL, not a secret).
+      SECRET_PROVIDER_CONNECT_HOST: ${SECRET_PROVIDER_CONNECT_HOST:?set SECRET_PROVIDER_CONNECT_HOST in .doco-cd.yaml}
+      SECRET_PROVIDER_CONNECT_TOKEN_FILE: /run/secrets/connect_token
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      # Same bind the TrueNAS app used, so the repository cache and journal carry over.
+      - "/mnt/apps/appdata/doco-cd:/data"
+    # Uses the image's built-in /healthcheck; a self-update is kept only once the new version reports healthy.
+    healthcheck:
+      interval: 10s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+    secrets:
+      - git_access_token
+      - webhook_secret
+      - connect_token
+
+secrets:
+  git_access_token:
+    file: /mnt/apps/appdata/doco-cd/secrets/git_access_token
+  webhook_secret:
+    file: /mnt/apps/appdata/doco-cd/secrets/webhook_secret
+  connect_token:
+    file: /mnt/apps/appdata/doco-cd/secrets/connect_token
