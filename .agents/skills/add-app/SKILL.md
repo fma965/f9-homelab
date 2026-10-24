@@ -204,8 +204,6 @@ Adjust `runAsUser`/`runAsGroup` (and capabilities) to what the image requires; d
 route:
     app:
         annotations:
-            gatus.home-operations.com/endpoint: |-
-                conditions: ["[STATUS] == any(200,401)"]
             gethomepage.dev/enabled: "true"
             gethomepage.dev/group: <Homepage group, as neighbours use>
             gethomepage.dev/name: <Display name>
@@ -221,6 +219,8 @@ route:
                   - name: *app
                     port: *port
 ```
+
+On `envoy-internal` leave out the `gatus.home-operations.com/endpoint` annotation: Gatus then checks that the hostname has no public DNS record, and a `conditions` override makes that check fail (`GatusEndpointExposed`). Only a route on `envoy-external` takes `gatus.home-operations.com/endpoint: |-` with `conditions: ["[STATUS] == any(200,401)"]`.
 
 The `*app` anchor needs `&app` on the HelmRelease `metadata.name` (as zipline does). For admin tools, state "(admin)" in the Homepage description as neighbours do.
 
