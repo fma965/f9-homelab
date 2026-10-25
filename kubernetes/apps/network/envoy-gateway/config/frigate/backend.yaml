@@ -18,7 +18,7 @@ metadata:
 addressType: FQDN
 endpoints:
   - addresses:
-      - nas.main.internal
+      - frigate.docker.internal
 ports:
   - name: http
     protocol: TCP
