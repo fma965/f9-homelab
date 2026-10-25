@@ -35,7 +35,7 @@
         icon: tdarr
         href: https://tdarr.f9.casa
         description: "Media transcoding (admin)"
-        siteMonitor: http://nas.main.internal:8265
+        siteMonitor: http://tdarr.docker.internal:8265
     - Frigate:
         icon: frigate
         href: https://cctv.f9.casa
