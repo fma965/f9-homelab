@@ -13,7 +13,7 @@ spec:
     extraVolumes:
       - name: repo
         nfs:
-          server: nas.main.internal
+          server: nas.homelab.internal
           path: /mnt/Boot/Kubernetes/Kopiur
     extraVolumeMounts:
       - name: repo

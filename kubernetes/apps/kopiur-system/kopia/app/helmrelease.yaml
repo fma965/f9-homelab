@@ -101,7 +101,7 @@ spec:
             subPath: repository.config
       repository:
         type: nfs
-        server: nas.main.internal
+        server: nas.homelab.internal
         path: /mnt/Boot/Kubernetes/Kopiur
         globalMounts:
           - path: /repository

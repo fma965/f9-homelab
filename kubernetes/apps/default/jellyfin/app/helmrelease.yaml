@@ -108,13 +108,13 @@ spec:
           - path: /config/metadata
       media:
         type: nfs
-        server: nas.main.internal
+        server: nas.homelab.internal
         path: /mnt/Media/Library
         globalMounts:
           - path: /media
       media2:
         type: nfs
-        server: nas.main.internal
+        server: nas.homelab.internal
         path: /mnt/Vault/Media
         globalMounts:
           - path: /media2

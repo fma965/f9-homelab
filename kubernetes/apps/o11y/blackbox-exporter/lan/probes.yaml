@@ -37,7 +37,7 @@ spec:
   targets:
     staticConfig:
       static:
-        - nas.main.internal:2049
+        - nas.homelab.internal:2049
   metricRelabelings:
     - targetLabel: service
       replacement: blackbox-exporter-lan

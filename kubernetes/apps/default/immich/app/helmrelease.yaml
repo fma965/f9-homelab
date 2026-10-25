@@ -166,7 +166,7 @@ spec:
           - path: /config/matplotlib
       library:
         type: nfs
-        server: nas.main.internal
+        server: nas.homelab.internal
         path: /mnt/Vault/Photos
         globalMounts:
           - path: /usr/src/app/upload
