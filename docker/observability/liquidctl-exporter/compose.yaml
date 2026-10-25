@@ -6,4 +6,3 @@ services:
       - "9530:9530"
     privileged: true
     restart: unless-stopped
-    network_mode: host
