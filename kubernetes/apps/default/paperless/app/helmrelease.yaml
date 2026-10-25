@@ -57,7 +57,7 @@ spec:
               # Configure AI suggestions (local llama.cpp, OpenAI-compatible API)
               PAPERLESS_AI_ENABLED: "true"
               PAPERLESS_AI_LLM_BACKEND: openai-like
-              PAPERLESS_AI_LLM_ENDPOINT: http://nas.main.internal:8080/v1
+              PAPERLESS_AI_LLM_ENDPOINT: http://llamacpp.docker.internal:8080/v1
               PAPERLESS_AI_LLM_MODEL: gemma-4-12b-ha
               PAPERLESS_AI_LLM_REQUEST_TIMEOUT: "300"
               # Embeddings for document chat / similar-document search run locally in the pod
