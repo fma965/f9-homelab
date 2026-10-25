@@ -61,17 +61,17 @@ Shared egress rules are `CiliumClusterwideNetworkPolicy` objects selected by a p
 
 Addresses that several policies share are `CiliumCIDRGroup` objects in `app/cidr-groups.yaml` (currently `nas`), referenced with `cidrGroupRef` under `toCIDRSet` or `fromCIDRSet`. A group is applied by this Kustomization, so a policy in another app that refers to it matches only once the group exists.
 
-| Profile            | Allows                                                                        | Defined in                                           |
-| ------------------ | ----------------------------------------------------------------------------- | ---------------------------------------------------- |
-| `kube-apiserver`   | the API server, 6443 (`host`, `kube-apiserver`, `remote-node`), and its reply | `app/egress-profiles.yaml`                           |
-| `nas`              | the NAS and its Docker containers (CIDR group `nas`), any port                | same                                                 |
-| `unifi`            | the UniFi controller `10.10.100.254:443`                                      | same                                                 |
-| `talos`            | the Talos API, 50000 on the nodes (`host`, `remote-node`), and its reply      | same                                                 |
-| `web`              | the public web, 80 and 443 (private ranges excluded)                          | same                                                 |
-| `internet`         | the public internet on any port (private ranges excluded)                     | same                                                 |
-| `gateway-external` | the external gateway, 10443, and its reply                                    | same                                                 |
-| `smtp-relay`       | the SMTP relay, 25, and its reply                                             | `network/smtp-relay/app/networkpolicy.yaml`          |
-| `postgres`         | the shared Postgres, 5432, and its reply                                      | `database/cloudnative-pg/cluster/networkpolicy.yaml` |
-| `dragonfly`        | the shared Dragonfly, 6379, and its reply                                     | `database/dragonfly/cluster/networkpolicy.yaml`      |
+| Profile            | Allows                                                                                                      | Defined in                                           |
+| ------------------ | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `kube-apiserver`   | the API server, 6443 (`host`, `kube-apiserver`, `remote-node`), and its reply                               | `app/egress-profiles.yaml`                           |
+| `nas`              | the NAS (Homelab address) and its Docker containers (CIDR group `nas`): the ports the cluster uses and ping | same                                                 |
+| `unifi`            | the UniFi controller `10.10.100.254:443`                                                                    | same                                                 |
+| `talos`            | the Talos API, 50000 on the nodes (`host`, `remote-node`), and its reply                                    | same                                                 |
+| `web`              | the public web, 80 and 443 (private ranges excluded)                                                        | same                                                 |
+| `internet`         | the public internet on any port (private ranges excluded)                                                   | same                                                 |
+| `gateway-external` | the external gateway, 10443, and its reply                                                                  | same                                                 |
+| `smtp-relay`       | the SMTP relay, 25, and its reply                                                                           | `network/smtp-relay/app/networkpolicy.yaml`          |
+| `postgres`         | the shared Postgres, 5432, and its reply                                                                    | `database/cloudnative-pg/cluster/networkpolicy.yaml` |
+| `dragonfly`        | the shared Dragonfly, 6379, and its reply                                                                   | `database/dragonfly/cluster/networkpolicy.yaml`      |
 
 Set the label in the app's HelmRelease: `defaultPodOptions.labels` for bjw-s app-template apps, the chart's own pod-label value (`podLabels` and the like) for others. After labelling, remove the matching stanza from the app's own policy (and its reply rule on the ingress side) and check Hubble for `Policy denied`. A pod with no policy and no labels can reach DNS and nothing else.

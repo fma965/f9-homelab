@@ -41,7 +41,11 @@ specs:
               - port: "32768"
                 endPort: 60999
                 protocol: TCP
-  # The NAS (any port).
+  # The NAS and its Docker containers: only the ports the cluster uses, plus ping (the blackbox probe).
+  # The union of what the pods with this label call: TrueNAS UI/API 443, NFS probe 2049, node-exporter 9100,
+  # UPS 3493, and the containers (Immich ML 3003, S3 3900, Garage UI 3909, Doco-CD 6584 and 9130, PBS 8007,
+  # llama 8080, Tdarr 8265, Frigate 8971 and 8554, liquidctl 9530, smartctl 9633, Webtop 3000, Wyoming
+  # 10200 and 10300). Check Hubble for `Policy denied DROPPED` when a new NAS service is added.
   - endpointSelector:
       matchLabels:
         egress.cilium.io/nas: "true"
@@ -51,6 +55,52 @@ specs:
     egress:
       - toCIDRSet:
           - cidrGroupRef: nas
+        toPorts:
+          - ports:
+              - port: "443"
+                protocol: TCP
+              - port: "2049"
+                protocol: TCP
+              - port: "3000"
+                protocol: TCP
+              - port: "3003"
+                protocol: TCP
+              - port: "3493"
+                protocol: TCP
+              - port: "3900"
+                protocol: TCP
+              - port: "3909"
+                protocol: TCP
+              - port: "6584"
+                protocol: TCP
+              - port: "8007"
+                protocol: TCP
+              - port: "8080"
+                protocol: TCP
+              - port: "8265"
+                protocol: TCP
+              - port: "8554"
+                protocol: TCP
+              - port: "8971"
+                protocol: TCP
+              - port: "9100"
+                protocol: TCP
+              - port: "9130"
+                protocol: TCP
+              - port: "9530"
+                protocol: TCP
+              - port: "9633"
+                protocol: TCP
+              - port: "10200"
+                protocol: TCP
+              - port: "10300"
+                protocol: TCP
+      - toCIDRSet:
+          - cidrGroupRef: nas
+        icmps:
+          - fields:
+              - type: 8
+                family: IPv4
   # The UniFi controller, as the cluster sees it.
   - endpointSelector:
       matchLabels:
@@ -64,6 +114,7 @@ specs:
         toPorts:
           - ports:
               - port: "443"
+                protocol: TCP
                 protocol: TCP
   # The public web (80 and 443). Private ranges are excluded, so the cluster and the home network stay closed.
   - endpointSelector:
@@ -86,6 +137,7 @@ specs:
               - port: "80"
                 protocol: TCP
               - port: "443"
+                protocol: TCP
                 protocol: TCP
   # The public internet on any port (private ranges excluded), for pods whose destinations cannot be listed.
   - endpointSelector:
