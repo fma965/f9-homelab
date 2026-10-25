@@ -37,7 +37,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - nas.main.internal:9130
+        - doco-cd.docker.internal:9130
   metricsPath: /metrics
   relabelings:
     - action: replace
