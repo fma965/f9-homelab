@@ -9,8 +9,6 @@ spec:
   dependsOn:
     - name: cloudnative-pg
       namespace: database
-    - name: csi-driver-nfs
-      namespace: kube-system
     - name: pocket-id
       namespace: security
   path: ./kubernetes/apps/default/zipline/app

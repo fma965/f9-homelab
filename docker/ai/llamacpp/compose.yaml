@@ -1,6 +1,11 @@
 services:
   llamacpp:
     container_name: llamacpp
+    hostname: llamacpp
+    mac_address: f2:f9:00:00:68:04
+    networks:
+      nasdocker:
+        ipv4_address: 10.10.68.4
     restart: unless-stopped
     deploy:
       resources:
@@ -19,8 +24,6 @@ services:
       # external_secrets) and interpolated in here by Compose itself -
       # not read from a .env file, which Doco-CD never writes to disk.
       LLAMA_API_KEY: ${LLAMA_API_KEY}
-    ports:
-      - 8080:8080
     image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:334ddc356f5ad08dbf7eb6c98d1739a72e15b5cf452d1aeeae740c6625eb1226
     volumes:
       - /mnt/apps/appdata/llamacpp/models:/models:ro
@@ -41,3 +44,7 @@ services:
       --cache-type-v q8_0
       --reasoning off
       --jinja
+
+networks:
+  nasdocker:
+    external: true

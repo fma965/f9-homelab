@@ -11,7 +11,7 @@ spec:
   targets:
     staticConfig:
       static:
-        - nas.main.internal
+        - nas.homelab.internal
         - zigbee-controller.not.internal
         - doorbell.not.internal
         - kvm.not.internal
@@ -37,7 +37,7 @@ spec:
   targets:
     staticConfig:
       static:
-        - nas.main.internal:2049
+        - nas.homelab.internal:2049
   metricRelabelings:
     - targetLabel: service
       replacement: blackbox-exporter-lan

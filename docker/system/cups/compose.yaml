@@ -3,6 +3,11 @@ services:
     build:
       context: .
     container_name: "cups"
+    hostname: cups
+    mac_address: f2:f9:00:00:68:0b
+    networks:
+      nasdocker:
+        ipv4_address: 10.10.68.11
     devices:
       - "/dev/ricoh_printer:/dev/ricoh_printer"
     environment:
@@ -10,12 +15,13 @@ services:
       # Resolved by Doco-CD from 1Password Connect (see .doco-cd.yaml's
       # external_secrets) and interpolated by Compose itself.
       ADMIN_PASSWORD: ${CUPS_ADMIN_PASSWORD}
-    network_mode: "bridge"
-    ports:
-      - "631:631/tcp"
     privileged: "true"
     restart: "unless-stopped"
     volumes:
       - "/mnt/apps/appdata/cups:/etc/cups"
       - "/var/run/dbus:/var/run/dbus"
       - "/dev/bus/usb:/dev/bus/usb"
+
+networks:
+  nasdocker:
+    external: true

@@ -1,10 +1,18 @@
 services:
   isponsorblocktv:
     container_name: "isponsorblocktv"
+    hostname: isponsorblocktv
+    mac_address: f2:f9:00:00:68:0a
+    networks:
+      nasdocker:
+        ipv4_address: 10.10.68.10
     environment:
       TZ: "Europe/London"
     image: "dmunozv04/isponsorblocktv:v2.11.0@sha256:d1e876636754fb2b54490feebe3af4a321f7f2a932a2d57b67b2a667eea40823"
-    network_mode: "host"
     restart: unless-stopped
     volumes:
       - "/mnt/apps/appdata/isponsorblocktv:/app/data"
+
+networks:
+  nasdocker:
+    external: true

@@ -10,4 +10,5 @@ metadata:
   name: nas
 spec:
   externalCIDRs:
-    - 10.10.10.3/32 # TrueNAS
+    - 10.10.100.10/32 # TrueNAS on the Homelab VLAN (NFS and, later, the API calls)
+    - 10.10.68.0/24 # NAS Docker containers on the macvlan network

@@ -47,4 +47,4 @@ Points at the cluster's Mosquitto (`10.10.69.203:1883`, anonymous auth) so the H
 
 ### Ports
 
-Only `8971` (authenticated UI/API) plus `8554`/`8555` (go2rtc RTSP/WebRTC restream) are published. Port `5000` is Frigate's internal unauthenticated API and is deliberately not exposed.
+Frigate has its own address on the NAS Docker network, so nothing is "published" any more: the firewall decides what reaches it. The ports in use are `8971` (authenticated UI/API) and `8554`/`8555` (go2rtc RTSP/WebRTC restream). Port `5000` is Frigate's internal unauthenticated API and must stay closed to everything except the container itself. Traffic between containers on the same network is not filtered by the firewall, so another container on that network can still reach it.

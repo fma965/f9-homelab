@@ -1,6 +1,11 @@
 services:
   frigate:
     container_name: frigate
+    hostname: frigate
+    mac_address: f2:f9:00:00:68:0c
+    networks:
+      nasdocker:
+        ipv4_address: 10.10.68.12
     image: ghcr.io/blakeblackshear/frigate:0.18.2@sha256:fd60f99ffd4eb6c42360ed4e14953e270586f239309ab3983e55b2e97ffac09a
     restart: unless-stopped
     shm_size: 256mb
@@ -37,12 +42,9 @@ services:
       SECRETS_ROTATED: "2026-10-14"
       FRIGATE_MQTT_USERNAME: ${FRIGATE_MQTT_USERNAME}
       FRIGATE_MQTT_PASSWORD: ${FRIGATE_MQTT_PASSWORD}
-    ports:
-      - 8971:8971 # authenticated UI/API - use this one
-      - 8554:8554 # go2rtc RTSP restream
-      - 8555:8555/tcp # go2rtc WebRTC
-      - 8555:8555/udp # go2rtc WebRTC
-      # Port 5000 (internal, unauthenticated) is intentionally not published.
+    # No `ports:` on a macvlan network: every listening port is reachable by whatever the firewall
+    # lets in. 8971 is the authenticated UI/API (use this one), 8554 the go2rtc RTSP restream and 8555
+    # go2rtc WebRTC. Port 5000 (internal, unauthenticated) must stay closed in the firewall.
     volumes:
       # frigate.db and logs; config.yml itself comes from git, below
       - /mnt/apps/appdata/frigate/config:/config
@@ -53,3 +55,7 @@ services:
         target: /tmp/cache
         tmpfs:
           size: 1000000000
+
+networks:
+  nasdocker:
+    external: true

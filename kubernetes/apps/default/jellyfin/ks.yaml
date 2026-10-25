@@ -10,8 +10,6 @@ spec:
     - ../../../../components/kopiur/backup
     - ../../../../components/zeroscaler
   dependsOn:
-    - name: csi-driver-nfs
-      namespace: kube-system
     - name: intel-gpu-resource-driver
       namespace: kube-system
     - name: pocket-id

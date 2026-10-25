@@ -2,6 +2,11 @@ services:
   webtop:
     image: lscr.io/linuxserver/webtop:debian-xfce@sha256:dd8218828958988f88b3e0d9ddd97a6337189662eeca57bfa49d78688f5a3695
     container_name: webtop
+    hostname: webtop
+    mac_address: f2:f9:00:00:68:07
+    networks:
+      nasdocker:
+        ipv4_address: 10.10.68.7
     security_opt:
       - seccomp:unconfined #optional
     environment:
@@ -15,8 +20,9 @@ services:
     volumes:
       - /mnt/apps/appdata/webtop/config:/config
       - ./resources:/custom-cont-init.d:ro
-    ports:
-      - 3000:3000
-      - 3001:3001
     shm_size: "1gb" #optional
     restart: unless-stopped
+
+networks:
+  nasdocker:
+    external: true

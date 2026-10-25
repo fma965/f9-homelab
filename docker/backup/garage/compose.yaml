@@ -2,25 +2,32 @@ services:
   garage:
     image: dxflrs/garage:v2.5.0@sha256:677e5b758e4425a325b811c425c026bf35a4bf42f7ddbaa773de3f4fd779a5a5
     container_name: garage
+    hostname: garage
+    mac_address: f2:f9:00:00:68:0f
+    networks:
+      nasdocker:
+        ipv4_address: 10.10.68.15
     volumes:
       - /mnt/apps/appdata/garage/garage.toml:/etc/garage.toml
       - /mnt/Flash/S3/meta:/var/lib/garage/meta
       - /mnt/Flash/S3/data:/var/lib/garage/data
     restart: unless-stopped
-    ports:
-      - 3900:3900
-      - 3901:3901
-      - 3902:3902
-      - 3903:3903
 
   webui:
     image: khairul169/garage-webui:latest@sha256:17c793551873155065bf9a022dabcde874de808a1f26e648d4b82e168806439c
     container_name: garage-webui
+    hostname: garage-webui
+    mac_address: f2:f9:00:00:68:10
+    networks:
+      nasdocker:
+        ipv4_address: 10.10.68.16
     restart: unless-stopped
     volumes:
       - /mnt/apps/appdata/garage/garage.toml:/etc/garage.toml:ro
-    ports:
-      - 3909:3909
     environment:
       API_BASE_URL: "http://garage:3903"
       S3_ENDPOINT_URL: "http://garage:3900"
+
+networks:
+  nasdocker:
+    external: true

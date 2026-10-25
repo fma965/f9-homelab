@@ -4,7 +4,12 @@ services:
     environment:
       TZ: "Europe/London"
     image: "ayufan/proxmox-backup-server:v4.2.0@sha256:01f685a010025233b649417a317cc175b27920cd64f0429abfdc46a0d8d2e88a"
-    network_mode: "host"
+    # Keeps the host's name so PBS's node name and certificate do not change (it ran on the host network).
+    hostname: nas
+    mac_address: f2:f9:00:00:68:0e
+    networks:
+      nasdocker:
+        ipv4_address: 10.10.68.14
     restart: unless-stopped
     deploy:
       resources:
@@ -17,3 +22,7 @@ services:
       - "/mnt/apps/appdata/pbs/etc:/etc/proxmox-backup"
       - "/mnt/apps/appdata/pbs/lib:/var/lib/proxmox-backup"
       - "/mnt/apps/appdata/pbs/logs:/var/log/proxmox-backup"
+
+networks:
+  nasdocker:
+    external: true

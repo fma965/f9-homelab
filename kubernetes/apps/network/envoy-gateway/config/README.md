@@ -4,7 +4,7 @@ Things that are not pods but are published through the Envoy gateways: the NAS a
 
 | File           | What it holds                                                                                                                                                                                                                                           |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `backend.yaml` | Where the site really is: a `Service` plus an `EndpointSlice` (address `nas.main.internal`, an FQDN), or an Envoy `Backend` (TrueNAS, which needs TLS settings)                                                                                         |
+| `backend.yaml` | Where the site really is: a `Service` plus an `EndpointSlice` (an address such as `nas.homelab.internal` or a container name under `docker.internal`, an FQDN), or an Envoy `Backend` (TrueNAS, which needs TLS settings)                               |
 | `route.yaml`   | The `HTTPRoute`: hostname, gateway (`envoy-internal` for admin tools) and the Homepage and Gatus annotations                                                                                                                                            |
 | `oidc.yaml`    | The Pocket ID login for the route: a `SecurityPolicy` and a `PocketIDOIDCClient` (written out here because there is no Flux Kustomization per site, so the `oidc` component does not apply). Sites with their own authentication or a webhook have none |
 
@@ -12,9 +12,10 @@ Things that are not pods but are published through the Envoy gateways: the NAS a
 | --------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `truenas` | `truenas.f9.casa`                           | The NAS web UI over TLS (self-signed certificate, HTTP/1.1 for its websocket)                                           |
 | `webtop`  | `remote.f9.casa`                            | Browser desktop on the NAS. Public on purpose; the Pocket ID login is its only gate                                     |
-| `nanokvm` | `kvm.f9.casa`                               | The device was offline on 23 Oct 2026                                                                                   |
+| `nanokvm` | `kvm.f9.casa`                               | Out-of-band console for the server (admin)                                                                              |
 | `doco-cd` | `doco-cd.f9.casa`                           | Webhook for Doco-CD; no login (a webhook secret protects it)                                                            |
 | `garage`  | `garage.f9.casa`, `s3.f9.casa` and wildcard | The web UI (login) and the S3 API (signed requests, no login)                                                           |
+| `pbs`     | `pbs.f9.casa`                               | Proxmox Backup Server web UI (admin, internal only; the remote backups use their own port forward)                      |
 | `tdarr`   | `tdarr.f9.casa`                             | Media transcoding                                                                                                       |
 | `frigate` | `frigate.f9.casa`, `cctv.f9.casa`           | One route and login each: `frigate` is the admin role, `cctv` the viewer role; the route sets Frigate's `Remote-Groups` |
 

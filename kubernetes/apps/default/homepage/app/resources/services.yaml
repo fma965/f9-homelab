@@ -15,12 +15,12 @@
         icon: truenas-scale
         href: https://truenas.f9.casa
         description: "File server and storage (admin)"
-        siteMonitor: https://nas.main.internal
+        siteMonitor: https://nas.homelab.internal
     - Webtop:
         icon: mdi-desktop-classic
         href: https://remote.f9.casa
         description: "Remote desktop in the browser (admin)"
-        siteMonitor: http://nas.main.internal:3000
+        siteMonitor: http://webtop.docker.internal:3000
     - NanoKVM:
         icon: mdi-remote-desktop
         href: https://kvm.f9.casa
@@ -30,17 +30,17 @@
         icon: garage
         href: https://garage.f9.casa
         description: "S3 file storage admin (admin)"
-        siteMonitor: http://nas.main.internal:3909
+        siteMonitor: http://garage-webui.docker.internal:3909
     - Tdarr:
         icon: tdarr
         href: https://tdarr.f9.casa
         description: "Media transcoding (admin)"
-        siteMonitor: http://nas.main.internal:8265
+        siteMonitor: http://tdarr.docker.internal:8265
     - Frigate:
         icon: frigate
         href: https://cctv.f9.casa
         description: "Security cameras: live view and recordings"
-        siteMonitor: http://nas.main.internal:8971
+        siteMonitor: http://frigate.docker.internal:8971
 
 - Calendar:
     - Calendar:

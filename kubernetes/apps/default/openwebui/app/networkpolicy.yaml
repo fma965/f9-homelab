@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Open WebUI (AI chat, public, OIDC login). Allow-list from the manifests and the Cilium
 # connection table on 15 Oct 2026 (M15). Probes come from the local node, which Cilium always
-# allows. Egress (15 Oct 2026): DNS, the llama server on the NAS, the gateway (OIDC) and the public internet on 80/443.
+# allows. Egress (15 Oct 2026): DNS, the llama server on the NAS Docker network, the gateway (OIDC) and the public internet on 80/443.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
