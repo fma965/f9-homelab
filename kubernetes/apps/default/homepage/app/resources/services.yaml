@@ -30,7 +30,7 @@
         icon: garage
         href: https://garage.f9.casa
         description: "S3 file storage admin (admin)"
-        siteMonitor: http://nas.main.internal:3909
+        siteMonitor: http://garage-webui.docker.internal:3909
     - Tdarr:
         icon: tdarr
         href: https://tdarr.f9.casa

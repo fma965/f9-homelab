@@ -34,5 +34,5 @@ spec:
     - "community.f9.casa" # https://meta.discourse.org/t/s3-not-aws-backups-stopped-working-presumably-since-an-update/382582
   rules:
     - backendRefs:
-        - name: garage-external
+        - name: garage-s3-external
           port: 3900
