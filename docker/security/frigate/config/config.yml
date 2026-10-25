@@ -77,27 +77,27 @@ go2rtc:
     doorbell_sub:
       - rtsp://{FRIGATE_DOORBELL_USER}:{FRIGATE_DOORBELL_PASSWORD}@{FRIGATE_DOORBELL_HOST}:8554/ch3
     front_camera:
-      - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel0_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_01_main
+      # Opus copy of the AAC audio, for WebRTC in the browser
+      - ffmpeg:front_camera#audio=opus
 
     front_camera_sub:
-      - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_01_sub
 
     back_camera:
-      - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel1_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_02_main
+      # Opus copy of the AAC audio, for WebRTC in the browser
+      - ffmpeg:back_camera#audio=opus
 
     back_camera_sub:
-      - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel1_ext.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_02_sub
 
     side_camera:
-      - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel2_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_main
+      # Opus copy of the AAC audio, for WebRTC in the browser
+      - ffmpeg:side_camera#audio=opus
 
     side_camera_sub:
-      - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel2_ext.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_sub
 
     garage_camera:
