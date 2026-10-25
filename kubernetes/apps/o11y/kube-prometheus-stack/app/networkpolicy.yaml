@@ -23,7 +23,7 @@ spec:
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Prometheus. Egress only (M15, 15 Oct 2026): it scrapes the cluster (pods, nodes, the API server) and
-# the NAS exporters (node 9100, smartctl 9633, Doco-CD 9130, liquidctl 9530 on 10.10.10.3), and calls
+# the NAS exporters (node 9100, smartctl 9633, Doco-CD 9130, liquidctl 9530 on the NAS and its Docker network), and calls
 # Alertmanager. Nothing else; in particular nothing on the internet. Allow-list from Hubble and the
 # ScrapeConfigs on 15 Oct 2026. Ingress is not limited here.
 apiVersion: cilium.io/v2

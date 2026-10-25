@@ -22,7 +22,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - nas.main.internal:9633
+        - smartctl-exporter.docker.internal:9633
   metricsPath: /metrics
   relabelings:
     - action: replace
