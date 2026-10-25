@@ -1,6 +1,5 @@
 # To change settings using the UI first redeploy the docker container with RW config permission
 # change ./config/config.yml:/config/config.yml:ro to ./config/config.yml:/config/config.yml:rw
-
 mqtt:
   enabled: true
   host: 10.10.69.203
@@ -74,33 +73,52 @@ go2rtc:
     password: "{FRIGATE_RTSP_PASSWORD}"
   streams:
     doorbell:
-      - rtsp://{FRIGATE_DOORBELL_USER}:{FRIGATE_DOORBELL_PASSWORD}@{FRIGATE_DOORBELL_HOST}:8554/ch1
+      - rtsp://{FRIGATE_DOORBELL_USER}:{FRIGATE_DOORBELL_PASSWORD}@{FRIGATE_DOORBELL_HOST}:8554/ch1#audio=aac
     doorbell_sub:
       - rtsp://{FRIGATE_DOORBELL_USER}:{FRIGATE_DOORBELL_PASSWORD}@{FRIGATE_DOORBELL_HOST}:8554/ch3
+    # front_camera:
+    # # Primary Reolink HTTP FLV stream (provides dual audio: native copy + transcoded Opus for browser WebRTC)
+    # - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel0_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
+    # # Secondary native RTSP stream to preserve two-way talk backchannel
+    # - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_01_main
+
     front_camera:
-      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_01_main
-    front_camera_sub:
+      - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel0_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_01_sub
+
+    front_camera_sub:
+      - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}
+      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_01_sub
+
     back_camera:
-      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_02_main
-    back_camera_sub:
+      - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel1_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_02_sub
+
+    back_camera_sub:
+      - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel1_ext.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}
+      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_02_sub
+
     side_camera:
-      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_main
-    side_camera_sub:
+      - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel2_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
       - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_sub
+
+    side_camera_sub:
+      - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel2_ext.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}
+      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_sub
+
     garage_camera:
-      - rtsp://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream1
+      - rtsp://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream1#audio=aac
     garage_camera_sub:
       - rtsp://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream2
     printer_camera:
-      - rtsp://{FRIGATE_PRINTER_USER}:{FRIGATE_PRINTER_PASSWORD}@{FRIGATE_PRINTER_HOST}/stream1
+      - rtsp://{FRIGATE_PRINTER_USER}:{FRIGATE_PRINTER_PASSWORD}@{FRIGATE_PRINTER_HOST}/stream1#audio=aac
     printer_camera_sub:
       - rtsp://{FRIGATE_PRINTER_USER}:{FRIGATE_PRINTER_PASSWORD}@{FRIGATE_PRINTER_HOST}/stream2
 
   webrtc:
     candidates:
       - stun:8555
+      - 10.10.68.12:8555
       # Add the NAS's LAN IP here (e.g. 10.10.x.x:8555) for reliable
       # two-way talk / low-latency live view instead of relying on STUN.
 
@@ -122,11 +140,11 @@ cameras:
   front_camera:
     ffmpeg:
       inputs:
-        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/front_camera
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/front_camera?video=copy&audio=aac
           input_args: preset-rtsp-restream
           roles:
             - record
-        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/front_camera_sub
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/front_camera_sub?video=copy
           input_args: preset-rtsp-restream
           roles:
             - detect
@@ -140,11 +158,11 @@ cameras:
   back_camera:
     ffmpeg:
       inputs:
-        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/back_camera
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/back_camera?video=copy&audio=aac
           input_args: preset-rtsp-restream
           roles:
             - record
-        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/back_camera_sub
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/back_camera_sub?video=copy
           input_args: preset-rtsp-restream
           roles:
             - detect
@@ -162,7 +180,7 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - record
-        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/side_camera_sub
+        - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/side_camera_sub?video=copy
           input_args: preset-rtsp-restream
           roles:
             - detect
