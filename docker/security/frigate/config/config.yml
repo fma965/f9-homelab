@@ -100,8 +100,8 @@ go2rtc:
     garage_camera:
       # Main RTSP stream with AAC audio for live view and recording
       - rtsp://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream1#audio=aac
-      # Tapo native protocol for two-way audio backchannel support
-      - tapo://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}
+      # Tapo native protocol for two-way audio backchannel support (the TP-Link cloud password, not the camera account)
+      - tapo://{FRIGATE_TAPO_PASSWORD}@{FRIGATE_GARAGE_HOST}
 
     garage_camera_sub:
       - rtsp://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream2
@@ -109,8 +109,8 @@ go2rtc:
     printer_camera:
       # Main RTSP stream with AAC audio for live view and recording
       - rtsp://{FRIGATE_PRINTER_USER}:{FRIGATE_PRINTER_PASSWORD}@{FRIGATE_PRINTER_HOST}/stream1#audio=aac
-      # Tapo native protocol for two-way audio backchannel support
-      - tapo://{FRIGATE_PRINTER_USER}:{FRIGATE_PRINTER_PASSWORD}@{FRIGATE_PRINTER_HOST}
+      # Tapo native protocol for two-way audio backchannel support (the TP-Link cloud password, not the camera account)
+      - tapo://{FRIGATE_TAPO_PASSWORD}@{FRIGATE_PRINTER_HOST}
 
     printer_camera_sub:
       - rtsp://{FRIGATE_PRINTER_USER}:{FRIGATE_PRINTER_PASSWORD}@{FRIGATE_PRINTER_HOST}/stream2
@@ -196,6 +196,12 @@ cameras:
       enabled: true
       motion:
         days: 14
+    # PTZ over ONVIF (Tapo listens on 2020; needs the camera account and ONVIF/third-party compatibility on)
+    onvif:
+      host: "{FRIGATE_GARAGE_HOST}"
+      port: 2020
+      user: "{FRIGATE_GARAGE_USER}"
+      password: "{FRIGATE_GARAGE_PASSWORD}"
     ffmpeg:
       inputs:
         - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/garage_camera
