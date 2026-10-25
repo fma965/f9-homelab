@@ -21,7 +21,7 @@ spec:
               tag: v0.12.3@sha256:a537bbe1e6b428820f52ed4a029d7fff97062e24d5cf32c365fba36fd0542def
             env:
               WEBUI_URL: https://ai.f9.casa
-              OPENAI_API_BASE_URL: "http://nas.main.internal:8080/v1"
+              OPENAI_API_BASE_URL: "http://llamacpp.docker.internal:8080/v1"
               OPENAI_API_CONFIGS: '{"0": {"enable": true, "tags": [], "prefix_id": "", "model_ids": [], "connection_type": "external", "auth_type": "bearer", "provider": "llama.cpp"}}'
               OAUTH_PROVIDER_NAME: "Home"
               # Sign-in through Pocket ID (id.f9.casa). Its groups claim carries the group names (`admins`, `openwebui`).
