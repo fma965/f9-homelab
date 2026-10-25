@@ -78,6 +78,7 @@ go2rtc:
       - rtsp://{FRIGATE_DOORBELL_USER}:{FRIGATE_DOORBELL_PASSWORD}@{FRIGATE_DOORBELL_HOST}:8554/ch3
     front_camera:
       - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel0_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
+      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_01_main
 
     front_camera_sub:
       - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}
@@ -85,6 +86,7 @@ go2rtc:
 
     back_camera:
       - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel1_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
+      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_02_main
 
     back_camera_sub:
       - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel1_ext.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}
@@ -92,6 +94,7 @@ go2rtc:
 
     side_camera:
       - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel2_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
+      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_main
 
     side_camera_sub:
       - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel2_ext.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}
