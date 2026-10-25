@@ -53,7 +53,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - nas.main.internal:9530
+        - liquidctl-exporter.docker.internal:9530
   metricsPath: /metrics
   relabelings:
     - action: replace
