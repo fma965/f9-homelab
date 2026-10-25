@@ -6,7 +6,7 @@ services:
     mac_address: f2:f9:00:00:68:01
     networks:
       nasdocker:
-        ipv4_address: 10.10.68.129
+        ipv4_address: 10.10.68.1
     volumes:
       - "/mnt/apps/appdata/piper/data:/data"
     command: --voice en_GB-cori-high
@@ -18,7 +18,7 @@ services:
     mac_address: f2:f9:00:00:68:02
     networks:
       nasdocker:
-        ipv4_address: 10.10.68.130
+        ipv4_address: 10.10.68.2
     volumes:
       - "/mnt/apps/appdata/whisper/data:/data"
     command: "--model Systran/faster-whisper-medium --language en"
