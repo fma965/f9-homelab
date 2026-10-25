@@ -46,7 +46,7 @@ spec:
     - fromEntities:
         - kube-apiserver
   # Egress: Homepage holds API keys for most of the apps it shows, so it may reach the cluster,
-  # the NAS and UniFi, and nothing on the internet but the search suggestions.
+  # the NAS, UniFi and the NanoKVM, and nothing on the internet but the search suggestions.
   # Access to the NAS and UniFi (egress.cilium.io/nas, /unifi) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
     # Widgets, site monitors and service discovery: about a dozen Services that change as apps are
@@ -54,6 +54,13 @@ spec:
     # pgAdmin), plus the Kubernetes widget's API server calls. Replies are already allowed in above.
     - toEntities:
         - cluster
+    # The NanoKVM's site monitor (`kvm.not.internal`): the device's web UI on the NoT network.
+    - toCIDR:
+        - 10.10.30.2/32
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
     # The search bar's suggestions (`showSearchSuggestions` with the Google provider) are fetched by
     # the server.
     - toFQDNs:
