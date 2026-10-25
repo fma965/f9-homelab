@@ -151,6 +151,10 @@ cameras:
             - detect
 
   garage_camera:
+    record:
+      enabled: true
+      motion:
+        days: 14
     ffmpeg:
       inputs:
         - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/garage_camera
@@ -163,6 +167,10 @@ cameras:
             - detect
 
   printer_camera:
+    record:
+      enabled: true
+      motion:
+        days: 14
     ffmpeg:
       inputs:
         - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/printer_camera
