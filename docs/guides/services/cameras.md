@@ -2,10 +2,10 @@
 
 **Address:** <https://cctv.f9.casa>
 
-**Works:** at home only, on the house Wi-Fi or plugged in at home.
+**Works:** anywhere, with your passkey.
 
 !!! info "Away from home"
-    This site does not open on mobile data or other Wi-Fi. To check the cameras while you are out, use the **Home Assistant** app instead: it can show them too.
+    Live view can be slower or less smooth away from home. The **Home Assistant** app can show the cameras too.
 
 Our cameras are managed by Frigate, which records when it sees people, cars or animals and keeps the clips.
 

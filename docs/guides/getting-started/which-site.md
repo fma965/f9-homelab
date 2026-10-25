@@ -15,7 +15,7 @@ The **Works** column says where each one opens: **Anywhere** means at home or aw
 | Zipline | <https://i.f9.casa> | Share files and images by link | Anywhere | F9 login |
 | Paperless | <https://docs.f9.casa> | Scanned documents | Anywhere | F9 login |
 | Home Assistant | <https://home.f9.casa> | Smart home | Anywhere | F9 login |
-| Cameras (Frigate) | <https://cctv.f9.casa> | Live view and recorded clips | Home only | F9 login |
+| Cameras (Frigate) | <https://cctv.f9.casa> | Live view and recorded clips | Anywhere | F9 login |
 | Homebox | <https://inventory.f9.casa> | What we own and where it is | Home only | F9 login |
 | Bambuddy | <https://bambuddy.f9.casa> | 3D printer control | Anywhere | F9 login |
 | Open WebUI | <https://ai.f9.casa> | AI chat | Anywhere | F9 login |
