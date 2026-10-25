@@ -76,15 +76,8 @@ go2rtc:
       - rtsp://{FRIGATE_DOORBELL_USER}:{FRIGATE_DOORBELL_PASSWORD}@{FRIGATE_DOORBELL_HOST}:8554/ch1#audio=aac
     doorbell_sub:
       - rtsp://{FRIGATE_DOORBELL_USER}:{FRIGATE_DOORBELL_PASSWORD}@{FRIGATE_DOORBELL_HOST}:8554/ch3
-    # front_camera:
-    # # Primary Reolink HTTP FLV stream (provides dual audio: native copy + transcoded Opus for browser WebRTC)
-    # - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel0_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
-    # # Secondary native RTSP stream to preserve two-way talk backchannel
-    # - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_01_main
-
     front_camera:
       - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel0_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
-      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_01_main
 
     front_camera_sub:
       - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}
@@ -92,7 +85,6 @@ go2rtc:
 
     back_camera:
       - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel1_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
-      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_02_main
 
     back_camera_sub:
       - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel1_ext.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}
@@ -100,7 +92,6 @@ go2rtc:
 
     side_camera:
       - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel2_main.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy#audio=opus
-      - rtsp://{FRIGATE_REOLINK_USER}:{FRIGATE_REOLINK_PASSWORD}@{FRIGATE_REOLINK_HOST}/Preview_03_main
 
     side_camera_sub:
       - ffmpeg:http://{FRIGATE_REOLINK_HOST}/flv?port=1935&app=bcs&stream=channel2_ext.bcs&user={FRIGATE_REOLINK_USER}&password={FRIGATE_REOLINK_PASSWORD}
@@ -109,8 +100,8 @@ go2rtc:
     garage_camera:
       # Main RTSP stream with AAC audio for live view and recording
       - rtsp://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream1#audio=aac
-      # Tapo native protocol for two-way audio backchannel support
-      - tapo://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}
+      # Tapo native protocol for two-way audio backchannel support (the TP-Link cloud password, not the camera account)
+      - tapo://{FRIGATE_TAPO_PASSWORD}@{FRIGATE_GARAGE_HOST}
 
     garage_camera_sub:
       - rtsp://{FRIGATE_GARAGE_USER}:{FRIGATE_GARAGE_PASSWORD}@{FRIGATE_GARAGE_HOST}/stream2
@@ -118,8 +109,8 @@ go2rtc:
     printer_camera:
       # Main RTSP stream with AAC audio for live view and recording
       - rtsp://{FRIGATE_PRINTER_USER}:{FRIGATE_PRINTER_PASSWORD}@{FRIGATE_PRINTER_HOST}/stream1#audio=aac
-      # Tapo native protocol for two-way audio backchannel support
-      - tapo://{FRIGATE_PRINTER_USER}:{FRIGATE_PRINTER_PASSWORD}@{FRIGATE_PRINTER_HOST}
+      # Tapo native protocol for two-way audio backchannel support (the TP-Link cloud password, not the camera account)
+      - tapo://{FRIGATE_TAPO_PASSWORD}@{FRIGATE_PRINTER_HOST}
 
     printer_camera_sub:
       - rtsp://{FRIGATE_PRINTER_USER}:{FRIGATE_PRINTER_PASSWORD}@{FRIGATE_PRINTER_HOST}/stream2
@@ -205,6 +196,12 @@ cameras:
       enabled: true
       motion:
         days: 14
+    # PTZ over ONVIF (Tapo listens on 2020; needs the camera account and ONVIF/third-party compatibility on)
+    onvif:
+      host: "{FRIGATE_GARAGE_HOST}"
+      port: 2020
+      user: "{FRIGATE_GARAGE_USER}"
+      password: "{FRIGATE_GARAGE_PASSWORD}"
     ffmpeg:
       inputs:
         - path: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@127.0.0.1:8554/garage_camera
