@@ -8,9 +8,6 @@ spec:
   components:
     - ../../../../components/kopiur/backup
     - ../../../../components/zeroscaler
-  dependsOn:
-    - name: csi-driver-nfs
-      namespace: kube-system
   interval: 1h
   path: ./kubernetes/apps/default/music-assistant/app
   postBuild:

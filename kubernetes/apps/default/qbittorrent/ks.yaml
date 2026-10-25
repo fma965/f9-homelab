@@ -10,8 +10,6 @@ spec:
     - ../../../../components/oidc
     - ../../../../components/zeroscaler
   dependsOn:
-    - name: csi-driver-nfs
-      namespace: kube-system
     - name: multus-networks
       namespace: kube-system
     - name: pocket-id

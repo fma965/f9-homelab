@@ -9,8 +9,6 @@ spec:
     - ../../../../components/gpu
     - ../../../../components/zeroscaler
   dependsOn:
-    - name: csi-driver-nfs
-      namespace: kube-system
     - name: cloudnative-pg
       namespace: database
     - name: intel-gpu-resource-driver
