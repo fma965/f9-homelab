@@ -4,7 +4,7 @@ Things that are not pods but are published through the Envoy gateways: the NAS a
 
 | File           | What it holds                                                                                                                                                                                                                                           |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `backend.yaml` | Where the site really is: a `Service` plus an `EndpointSlice` (address `nas.main.internal`, an FQDN), or an Envoy `Backend` (TrueNAS, which needs TLS settings)                                                                                         |
+| `backend.yaml` | Where the site really is: a `Service` plus an `EndpointSlice` (an address such as `nas.homelab.internal` or a container name under `docker.internal`, an FQDN), or an Envoy `Backend` (TrueNAS, which needs TLS settings)                               |
 | `route.yaml`   | The `HTTPRoute`: hostname, gateway (`envoy-internal` for admin tools) and the Homepage and Gatus annotations                                                                                                                                            |
 | `oidc.yaml`    | The Pocket ID login for the route: a `SecurityPolicy` and a `PocketIDOIDCClient` (written out here because there is no Flux Kustomization per site, so the `oidc` component does not apply). Sites with their own authentication or a webhook have none |
 

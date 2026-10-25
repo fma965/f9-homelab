@@ -35,10 +35,10 @@ spec:
               # ID login, which a client without a browser cannot complete.
               # This server dials `/api/current` (internal/config/config.go),
               # so it would get a login redirect instead of a JSON-RPC
-              # response. nas.main.internal:443 is the same backend
+              # response. nas.homelab.internal:443 is the same backend
               # network/envoy-gateway/config/truenas/backend.yaml already
               # points at for the same reason.
-              TRUENAS_MCP_TARGET: nas.main.internal:443
+              TRUENAS_MCP_TARGET: nas.homelab.internal:443
               # TrueNAS ships a self-signed cert (CN/SAN "localhost").
               TRUENAS_MCP_TARGET_INSECURE: "true"
               # Streamable-HTTP listener. TLS is terminated at the gateway
