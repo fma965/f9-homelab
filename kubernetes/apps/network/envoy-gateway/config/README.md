@@ -12,7 +12,7 @@ Things that are not pods but are published through the Envoy gateways: the NAS a
 | --------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `truenas` | `truenas.f9.casa`                           | The NAS web UI over TLS (self-signed certificate, HTTP/1.1 for its websocket)                                           |
 | `webtop`  | `remote.f9.casa`                            | Browser desktop on the NAS. Public on purpose; the Pocket ID login is its only gate                                     |
-| `nanokvm` | `kvm.f9.casa`                               | The device was offline on 23 Oct 2026                                                                                   |
+| `nanokvm` | `kvm.f9.casa`                               | Out-of-band console for the server (admin)                                                                              |
 | `doco-cd` | `doco-cd.f9.casa`                           | Webhook for Doco-CD; no login (a webhook secret protects it)                                                            |
 | `garage`  | `garage.f9.casa`, `s3.f9.casa` and wildcard | The web UI (login) and the S3 API (signed requests, no login)                                                           |
 | `tdarr`   | `tdarr.f9.casa`                             | Media transcoding                                                                                                       |
