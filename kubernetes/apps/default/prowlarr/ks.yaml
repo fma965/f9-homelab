@@ -9,8 +9,6 @@ spec:
     - ../../../../components/oidc
     - ../../../../components/zeroscaler
   dependsOn:
-    - name: csi-driver-nfs
-      namespace: kube-system
     - name: cloudnative-pg
       namespace: database
     - name: pocket-id
