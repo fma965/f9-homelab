@@ -238,7 +238,7 @@ persistence:
             - path: /tmp
     media: # files on the NAS (also add components/zeroscaler and the csi-driver-nfs dependency)
         type: nfs
-        server: nas.main.internal
+        server: nas.homelab.internal
         path: /mnt/<pool>/<dataset>
         globalMounts:
             - path: /media

@@ -5,17 +5,17 @@ description: Use when deploying or changing a stack on the NAS Docker host — C
 
 # Add an App to the NAS Docker Host
 
-Stacks live in `docker/<group>/<app>/compose.yaml` and are deployed GitOps-style by [Doco-CD](https://github.com/kimdre/doco-cd) from the entries in `.doco-cd.yaml` at the repository root. Doco-CD runs on the NAS (TrueNAS, `nas.main.internal`), follows `main`, polls on a short interval and is also triggered by webhook. **Removing or renaming a stack directory removes the running stack.** Mirror an existing stack rather than inventing structure:
+Stacks live in `docker/<group>/<app>/compose.yaml` and are deployed GitOps-style by [Doco-CD](https://github.com/kimdre/doco-cd) from the entries in `.doco-cd.yaml` at the repository root. Doco-CD runs on the NAS (TrueNAS, `nas.homelab.internal`), follows `main`, polls on a short interval and is also triggered by webhook. **Removing or renaming a stack directory removes the running stack.** Mirror an existing stack rather than inventing structure:
 
-| Group           | Reference stacks                                                      |
-| --------------- | --------------------------------------------------------------------- |
-| `ai`            | `whisper` (published ports, bind-mounted data), `llamacpp` (a secret) |
-| `management`    | `webtop` (web UI, GPU device, config bind mount)                      |
-| `media`         | `tdarr`                                                               |
-| `observability` | `node-exporter`, `smartctl-exporter`, `liquidctl-exporter`            |
-| `security`      | `frigate` (config directory, README)                                  |
-| `system`        | `cups`, `scanner` (locally built images)                              |
-| `backup`        | `garage`                                                              |
+| Group           | Reference stacks                                                          |
+| --------------- | ------------------------------------------------------------------------- |
+| `ai`            | `whisper` (own network address, bind-mounted data), `llamacpp` (a secret) |
+| `management`    | `webtop` (web UI, GPU device, config bind mount)                          |
+| `media`         | `tdarr`                                                                   |
+| `observability` | `node-exporter`, `smartctl-exporter`, `liquidctl-exporter`                |
+| `security`      | `frigate` (config directory, README)                                      |
+| `system`        | `cups`, `scanner` (locally built images)                                  |
+| `backup`        | `garage`                                                                  |
 
 ## Steps
 
@@ -41,9 +41,9 @@ Stacks live in `docker/<group>/<app>/compose.yaml` and are deployed GitOps-style
 4. **Secrets**: add `VAR_NAME: op://kubernetes/<item>/<field>` under an `external_secrets:` key in that stack's `.doco-cd.yaml` block, and reference it as `${VAR_NAME}` in the Compose file. Use the item's **real field names** (ask the user; never guess). A `${VAR}` that is not registered silently resolves empty.
 
 5. **Expose it** (only if it serves HTTP). Stacks on the NAS are reached through the cluster's Envoy gateway, not directly:
-    - Add a folder for the site under `kubernetes/apps/network/envoy-gateway/config/<site>/` (list it in that folder's `kustomization.yaml`), copying an existing one (for example `tdarr`): `backend.yaml` with a `Service` and an `EndpointSlice` with `addressType: FQDN` and the address `nas.main.internal`, `route.yaml` with an `HTTPRoute` with hostname `<app>.f9.casa`, and `oidc.yaml` with a Pocket ID `PocketIDOIDCClient` and `SecurityPolicy`. See the README there. Admin tools use `envoy-internal`; only use `envoy-external` when it must be public.
+    - Add a folder for the site under `kubernetes/apps/network/envoy-gateway/config/<site>/` (list it in that folder's `kustomization.yaml`), copying an existing one (for example `tdarr`): `backend.yaml` with a `Service` and an `EndpointSlice` with `addressType: FQDN` and the address `<app>.docker.internal` (the container name on the NAS Docker network; ask the owner for the DNS record), `route.yaml` with an `HTTPRoute` with hostname `<app>.f9.casa`, and `oidc.yaml` with a Pocket ID `PocketIDOIDCClient` and `SecurityPolicy`. See the README there. Admin tools use `envoy-internal`; only use `envoy-external` when it must be public.
     - A port the cluster must reach has to be allowed by the UniFi firewall for cluster-to-NAS traffic, and web UIs published on the NAS may be limited to the cluster nodes on the host. Those rules are documented in the private repository; ask the owner or check there before publishing a new port.
-    - Only publish `ports:` for what must be reachable. Do not publish web UIs to the whole LAN by accident.
+    - Every stack joins the external `nasdocker` network (macvlan, its own VLAN): set `hostname:`, a `mac_address:` and an `ipv4_address:` under `networks: nasdocker:` and declare `networks: nasdocker: external: true` at the bottom; copy `whisper`. Do not use `ports:` (ignored on this network) or `network_mode: host`. The next free address and MAC come from the private IP plan; ask the owner, and the owner creates the `<app>.docker.internal` DNS record and the UniFi alias. Everything the container listens on is then reachable by whatever the firewall allows, so check what listens; callers use `<app>.docker.internal:<real port>`.
     - Add a Gatus endpoint and Homepage tile the way the neighbouring entries do.
 
 6. **Verify**: `docker compose -f docker/<group>/<app>/compose.yaml config --quiet` (unset `${VAR}` warnings are expected). Show the user the files before committing. Commit style: `feat(<app>): deploy to the NAS`. After merge Doco-CD deploys within a few minutes; check its container logs on the NAS (`docker logs doco-cd`) and the stack's health. Do not run anything on the NAS unless the user asks. A new or changed stack is a major change: also update the private technical docs (docker host page and inventory, the firewall or exposure notes if a port changed) and the risk-register change log, as `AGENTS.md` requires.
