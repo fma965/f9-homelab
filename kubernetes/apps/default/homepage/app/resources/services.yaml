@@ -40,7 +40,7 @@
         icon: frigate
         href: https://cctv.f9.casa
         description: "Security cameras: live view and recordings"
-        siteMonitor: http://nas.main.internal:8971
+        siteMonitor: http://frigate.docker.internal:8971
 
 - Calendar:
     - Calendar:
