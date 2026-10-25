@@ -3,10 +3,10 @@ services:
     container_name: piper
     image: rhasspy/wyoming-piper:latest@sha256:7d39aafac409c2b6b09d999ed04d84c311d632e558b35baa60fad6aac722af7a
     hostname: piper
-    mac_address: f2:f9:00:00:00:01
+    mac_address: f2:f9:00:00:68:01
     networks:
-      homelab:
-        ipv4_address: 10.10.100.129
+      nasdocker:
+        ipv4_address: 10.10.68.129
     volumes:
       - "/mnt/apps/appdata/piper/data:/data"
     command: --voice en_GB-cori-high
@@ -15,14 +15,14 @@ services:
     container_name: whisper
     image: rhasspy/wyoming-whisper:latest@sha256:ba6fcb6056ebe237d15a325381763a80af2fc8fcedaa04f6a714a7375eb20d80
     hostname: whisper
-    mac_address: f2:f9:00:00:00:02
+    mac_address: f2:f9:00:00:68:02
     networks:
-      homelab:
-        ipv4_address: 10.10.100.130
+      nasdocker:
+        ipv4_address: 10.10.68.130
     volumes:
       - "/mnt/apps/appdata/whisper/data:/data"
     command: "--model Systran/faster-whisper-medium --language en"
 
 networks:
-  homelab:
+  nasdocker:
     external: true
