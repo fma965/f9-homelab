@@ -3,7 +3,7 @@
 # Envoy gateway proxies (envoy-external, envoy-internal): the public edge. Egress only (M15,
 # 15 Oct 2026): they may reach the cluster (every route backend, the CrowdSec bouncer, the Envoy
 # controller on 18000, DNS) and the NAS (the routes that point at it: TrueNAS, Garage, Frigate,
-# Tdarr, Webtop, Doco-CD), and nothing on the internet. Ingress is not limited here. Allow-list
+# Tdarr, Webtop, Doco-CD), the NanoKVM, and nothing on the internet. Ingress is not limited here. Allow-list
 # from the routes, the Backend / Service endpoints and Hubble on 15 Oct 2026.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
@@ -20,3 +20,10 @@ spec:
     # server). This also covers kube-dns.
     - toEntities:
         - cluster
+    # The NanoKVM route (nanokvm in envoy-gateway/config): the device's web UI on the NoT network.
+    - toCIDR:
+        - 10.10.30.2/32
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
