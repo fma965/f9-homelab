@@ -124,7 +124,7 @@ spec:
             {
               "ffmpeg": { "accel": "vaapi" },
               "library": { "watch": { "enabled": true } },
-              "machineLearning": { "urls": ["http://nas.main.internal:3003"] },
+              "machineLearning": { "urls": ["http://immich-machine-learning.docker.internal:3003"] },
               "notifications": {
                 "smtp": {
                   "enabled": true,
