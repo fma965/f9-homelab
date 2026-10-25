@@ -1,0 +1,16 @@
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: Backend
+metadata:
+  name: pbs
+spec:
+  endpoints:
+    - fqdn:
+        hostname: pbs.docker.internal
+        port: 8007
+  tls:
+    # Proxmox Backup Server serves HTTPS with its own self-signed certificate
+    insecureSkipVerify: true
+    # The web console and task logs use WebSockets; keep to HTTP/1.1 like the TrueNAS backend
+    alpnProtocols:
+      - http/1.1

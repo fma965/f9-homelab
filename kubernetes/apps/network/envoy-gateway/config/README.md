@@ -15,6 +15,7 @@ Things that are not pods but are published through the Envoy gateways: the NAS a
 | `nanokvm` | `kvm.f9.casa`                               | Out-of-band console for the server (admin)                                                                              |
 | `doco-cd` | `doco-cd.f9.casa`                           | Webhook for Doco-CD; no login (a webhook secret protects it)                                                            |
 | `garage`  | `garage.f9.casa`, `s3.f9.casa` and wildcard | The web UI (login) and the S3 API (signed requests, no login)                                                           |
+| `pbs`     | `pbs.f9.casa`                               | Proxmox Backup Server web UI (admin, internal only; the remote backups use their own port forward)                      |
 | `tdarr`   | `tdarr.f9.casa`                             | Media transcoding                                                                                                       |
 | `frigate` | `frigate.f9.casa`, `cctv.f9.casa`           | One route and login each: `frigate` is the admin role, `cctv` the viewer role; the route sets Frigate's `Remote-Groups` |
 

@@ -9,6 +9,7 @@ resources:
   - ./frigate
   - ./garage
   - ./nanokvm
+  - ./pbs
   - ./tdarr
   - ./truenas
   - ./webtop
