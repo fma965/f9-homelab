@@ -5,6 +5,11 @@ services:
     build:
       context: .
     container_name: "scanbutton"
+    hostname: scanbutton
+    mac_address: f2:f9:00:00:68:08
+    networks:
+      nasdocker:
+        ipv4_address: 10.10.68.8
     entrypoint: ["/opt/brother/scanner/brscan-skey/brscan-skey", "-f"]
     environment:
       TZ: "Europe/London"
@@ -14,3 +19,7 @@ services:
     volumes:
       - "/dev/bus/usb:/dev/bus/usb"
       - "/mnt/Vault/Documents/incoming:/output"
+
+networks:
+  nasdocker:
+    external: true
