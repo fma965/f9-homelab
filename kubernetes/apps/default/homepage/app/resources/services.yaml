@@ -20,7 +20,7 @@
         icon: mdi-desktop-classic
         href: https://remote.f9.casa
         description: "Remote desktop in the browser (admin)"
-        siteMonitor: http://nas.main.internal:3000
+        siteMonitor: http://webtop.docker.internal:3000
     - NanoKVM:
         icon: mdi-remote-desktop
         href: https://kvm.f9.casa
