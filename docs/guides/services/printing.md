@@ -5,7 +5,7 @@
 We have one black-and-white laser printer (a **Ricoh SP 211**). It sits in the **Comms Cupboard**, next to the scanner and the 3D printer, and is shared over the network, so you can print from your phone or computer without plugging anything in.
 
 !!! info "Printer address"
-    `http://nas.main.internal:631/printers/RICOH_SP_211_GDI`
+    `http://cups.docker.internal:631/printers/RICOH_SP_211_GDI`
 
     (Apps that ask for an IPP address can use the same thing starting with `ipp://` instead of `http://`.)
 
@@ -33,7 +33,7 @@ Tap **Share, Print**, then **Select Printer**. If the printer isn't listed, ask 
 3. Choose **Select a shared printer by name** and paste in:
 
     ```text
-    http://nas.main.internal:631/printers/RICOH_SP_211_GDI
+    http://cups.docker.internal:631/printers/RICOH_SP_211_GDI
     ```
 
 4. Click **Next**. If Windows asks for a driver, choose **Microsoft IPP Class Driver** (or **Generic / Text Only** if that's not offered), then click **Next** and **Finish**.
@@ -41,7 +41,7 @@ Tap **Share, Print**, then **Select Printer**. If the printer isn't listed, ask 
 
 ## From a Mac
 
-Open **System Settings, Printers & Scanners, Add Printer**, then the **IP** tab. Set the protocol to **IPP**, the address to `nas.main.internal:631`, the queue to `printers/RICOH_SP_211_GDI`, and click **Add**.
+Open **System Settings, Printers & Scanners, Add Printer**, then the **IP** tab. Set the protocol to **IPP**, the address to `cups.docker.internal:631`, the queue to `printers/RICOH_SP_211_GDI`, and click **Add**.
 
 ## Tips
 
