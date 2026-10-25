@@ -15,7 +15,7 @@
         icon: truenas-scale
         href: https://truenas.f9.casa
         description: "File server and storage (admin)"
-        siteMonitor: https://nas.main.internal
+        siteMonitor: https://nas.homelab.internal
     - Webtop:
         icon: mdi-desktop-classic
         href: https://remote.f9.casa
