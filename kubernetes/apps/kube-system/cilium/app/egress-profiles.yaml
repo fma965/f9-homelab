@@ -115,7 +115,6 @@ specs:
           - ports:
               - port: "443"
                 protocol: TCP
-                protocol: TCP
   # The public web (80 and 443). Private ranges are excluded, so the cluster and the home network stay closed.
   - endpointSelector:
       matchLabels:
@@ -137,7 +136,6 @@ specs:
               - port: "80"
                 protocol: TCP
               - port: "443"
-                protocol: TCP
                 protocol: TCP
   # The public internet on any port (private ranges excluded), for pods whose destinations cannot be listed.
   - endpointSelector:
