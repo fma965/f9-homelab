@@ -141,7 +141,7 @@ spec:
 
       media:
         type: nfs
-        server: nas.main.internal
+        server: nas.homelab.internal
         path: /mnt/Media/Library/Downloads
         globalMounts:
           - path: /downloads

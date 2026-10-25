@@ -63,7 +63,7 @@ spec:
             readOnly: true
       backup:
         type: nfs
-        server: nas.main.internal
+        server: nas.homelab.internal
         path: /mnt/Boot/Kubernetes/unifi-backup
         globalMounts:
           - path: /backup

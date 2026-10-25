@@ -74,5 +74,5 @@ spec:
     persistence:
       backup:
         type: nfs
-        server: nas.main.internal
+        server: nas.homelab.internal
         path: /mnt/Boot/Kubernetes/postgres

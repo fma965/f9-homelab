@@ -12,7 +12,7 @@ spec:
       path: /repo
       volume:
         nfs:
-          server: nas.main.internal
+          server: nas.homelab.internal
           path: /mnt/Boot/Kubernetes/Kopiur
   encryption:
     passwordSecretRef:

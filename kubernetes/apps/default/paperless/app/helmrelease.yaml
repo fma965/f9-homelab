@@ -120,7 +120,7 @@ spec:
               - path: /data/local
       nas:
         type: nfs
-        server: nas.main.internal
+        server: nas.homelab.internal
         path: /mnt/Vault/Documents
         advancedMounts:
           paperless:
