@@ -64,7 +64,7 @@ Addresses that several policies share are `CiliumCIDRGroup` objects in `app/cidr
 | Profile            | Allows                                                                        | Defined in                                           |
 | ------------------ | ----------------------------------------------------------------------------- | ---------------------------------------------------- |
 | `kube-apiserver`   | the API server, 6443 (`host`, `kube-apiserver`, `remote-node`), and its reply | `app/egress-profiles.yaml`                           |
-| `nas`              | the NAS (CIDR group `nas`), any port                                          | same                                                 |
+| `nas`              | the NAS and its Docker containers (CIDR group `nas`), any port                | same                                                 |
 | `unifi`            | the UniFi controller `10.10.100.254:443`                                      | same                                                 |
 | `talos`            | the Talos API, 50000 on the nodes (`host`, `remote-node`), and its reply      | same                                                 |
 | `web`              | the public web, 80 and 443 (private ranges excluded)                          | same                                                 |
