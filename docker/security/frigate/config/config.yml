@@ -1,3 +1,6 @@
+# To change settings using the UI first redeploy the docker container with RW config permission
+# change ./config/config.yml:/config/config.yml:ro to ./config/config.yml:/config/config.yml:rw
+
 mqtt:
   enabled: true
   host: 10.10.69.203
@@ -247,3 +250,5 @@ lpr:
 review:
   genai:
     enabled: true
+telemetry:
+  version_check: false
