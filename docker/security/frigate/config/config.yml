@@ -276,3 +276,20 @@ review:
     enabled: true
 telemetry:
   version_check: false
+camera_groups:
+  Outside:
+    order: 1
+    icon: LuTrees
+    cameras:
+      - doorbell
+      - front_camera
+      - back_camera
+      - side_camera
+  3d_Printer:
+    order: 2
+    icon: LuPrinter
+    cameras: printer_camera
+  Garage:
+    order: 3
+    icon: LuCarFront
+    cameras: garage_camera
