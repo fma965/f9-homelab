@@ -114,6 +114,8 @@ cameras:
           roles:
             - detect
 
+    motion:
+      mask: {}
   front_camera:
     ffmpeg:
       inputs:
@@ -126,6 +128,12 @@ cameras:
           roles:
             - detect
 
+    objects:
+      mask:
+        object_mask_1:
+          friendly_name: Object Mask 1
+          enabled: true
+          coordinates: 0.077,0.985,0.054,0.705,0.058,0.501,0.077,0.282,0.096,0.181,0.194,0.131,0.428,0.135,0.451,0.173,0.573,0.158,0.999,0.676,0.999,0.008,0,0.004,0.001,0.996
   back_camera:
     ffmpeg:
       inputs:
@@ -138,6 +146,12 @@ cameras:
           roles:
             - detect
 
+    objects:
+      mask:
+        object_mask_1:
+          friendly_name: Object Mask 1
+          enabled: true
+          coordinates: 1,0.328,1,0,0.809,0
   side_camera:
     ffmpeg:
       inputs:
@@ -150,6 +164,12 @@ cameras:
           roles:
             - detect
 
+    objects:
+      mask:
+        object_mask_1:
+          friendly_name: Object Mask 1
+          enabled: true
+          coordinates: 0.043,0.728,0.073,0.137,0.079,0,0,0,0,0.743
   garage_camera:
     record:
       enabled: true
@@ -224,3 +244,6 @@ face_recognition:
   enabled: true
 lpr:
   enabled: true
+review:
+  genai:
+    enabled: true
