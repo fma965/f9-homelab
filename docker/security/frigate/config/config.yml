@@ -140,6 +140,12 @@ cameras:
 
     motion:
       mask: {}
+    objects:
+      mask:
+        object_mask_1:
+          friendly_name: Object Mask 1
+          enabled: true
+          coordinates: 0.787,0.546,0.474,0.495,0,0.535,0,0.337,0,0,0.24,0,0.465,0,1,0,1,1,0.737,1,0.768,0.811
   front_camera:
     ffmpeg:
       inputs:
@@ -179,15 +185,15 @@ cameras:
         object_mask_2:
           friendly_name: Object Mask 2
           enabled: true
-          coordinates: 0.236,0.099,0.245,0.145,0.273,0.206,0.29,0.444,0.311,0.442,0.291,0.223,0.298,0.069
+          coordinates: 0.218,0.112,0.232,0.174,0.254,0.238,0.271,0.489,0.327,0.47,0.302,0.217,0.298,0.069
         object_mask_3:
           friendly_name: Object Mask 3
           enabled: true
-          coordinates: 0.222,0.775,0.245,0.796,0.274,0.918,0.302,1,0.275,1,0.207,0.867,0.168,0.842
+          coordinates: 0.229,0.767,0.245,0.796,0.274,0.918,0.302,1,0.265,1,0.206,0.918,0.151,0.871
         object_mask_4:
           friendly_name: Object Mask 4
           enabled: true
-          coordinates: 0.028,0.192,0.084,0.417,0.053,0.451
+          coordinates: 0,0.206,0.053,0.177,0.084,0.417,0,0.577
   side_camera:
     ffmpeg:
       inputs:
