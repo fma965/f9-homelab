@@ -19,13 +19,17 @@ detectors:
     type: openvino
     device: CPU
 
+# YOLOv9-t exported to ONNX at 320 (see README: the file is built once and placed
+# in /config/model_cache on the NAS, it is not in this repository). Replaces
+# ssdlite_mobilenet_v2, which flickered and merged parked cars at night.
 model:
-  width: 300
-  height: 300
-  input_tensor: nhwc
-  input_pixel_format: bgr
-  path: /openvino-model/ssdlite_mobilenet_v2.xml
-  labelmap_path: /openvino-model/coco_91cl_bkgr.txt
+  model_type: yolo-generic
+  width: 320
+  height: 320
+  input_tensor: nchw
+  input_dtype: float
+  path: /config/model_cache/yolov9-t-320.onnx
+  labelmap_path: /labelmap/coco-80.txt
 
 # AMD Vega iGPU (Ryzen 5500GT) for decode only - see compose.yaml. Detection
 # stays on CPU above; the RTX 3060 is left alone for tdarr/llamacpp/immich.
@@ -157,6 +161,11 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - detect
+
+    detect:
+      # Keep a car alive through a few seconds of low-confidence frames at night
+      # instead of ending it and starting a new one (default is 5x the fps).
+      max_disappeared: 150
 
     objects:
       mask:
