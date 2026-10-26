@@ -33,7 +33,16 @@ Retention is set to 30 days for motion-triggered recording (`record.motion.days`
 ### Hardware acceleration
 
 - **Decode**: VAAPI via the Ryzen 5500GT's integrated Radeon graphics (`/dev/dri`, `LIBVA_DRIVER_NAME=radeonsi`). Deliberately not using the RTX 3060 for this - it's already shared by tdarr (NVENC), llamacpp and immich-machine-learning with little VRAM to spare, and the iGPU is otherwise idle.
-- **Detection**: CPU, via Frigate's bundled OpenVINO model (`ssdlite_mobilenet_v2`). The Vega iGPU isn't a supported OpenVINO/ROCm detector target, and CPU detection was already proven sufficient for this in the old cluster config.
+- **Detection**: CPU, via the OpenVINO detector running YOLOv9-t at 320x320 (`model_type: yolo-generic`). The Vega iGPU isn't a supported OpenVINO/ROCm detector target, and the RTX 3060 is left alone for the same reason as decode above. The bundled `ssdlite_mobilenet_v2` was replaced because it flickered between car, no car and two cars on the night footage.
+
+    The model file is not in git. Build it once and put it on the NAS **before** the commit that references it deploys, or Frigate will not start. Build `yolov9-t-320.onnx` with the YOLOv9 export `docker build` command in Frigate's object detector docs (<https://docs.frigate.video/configuration/object_detectors/>, YOLOv9 section) using `MODEL_SIZE=t` and `IMG_SIZE=320`, then copy it over:
+
+    ```bash
+    sudo mkdir -p /mnt/apps/appdata/frigate/config/model_cache
+    sudo cp yolov9-t-320.onnx /mnt/apps/appdata/frigate/config/model_cache/
+    ```
+
+    To roll back, restore the previous `model:` block (the `ssdlite_mobilenet_v2` one bundled in the image: `width: 300`, `height: 300`, `input_tensor: nhwc`, `input_pixel_format: bgr`, `path: /openvino-model/ssdlite_mobilenet_v2.xml`, `labelmap_path: /openvino-model/coco_91cl_bkgr.txt`).
 
 ### Doorbell (Aqara G410)
 
