@@ -19,7 +19,7 @@ detectors:
     type: openvino
     device: CPU
 
-# YOLOv9-t exported to ONNX at 320 (see README: the file is built once and placed
+# YOLOv9-s exported to ONNX at 320 (see README: the file is built once and placed
 # in /config/model_cache on the NAS, it is not in this repository). Replaces
 # ssdlite_mobilenet_v2, which flickered and merged parked cars at night.
 model:
@@ -28,7 +28,7 @@ model:
   height: 320
   input_tensor: nchw
   input_dtype: float
-  path: /config/model_cache/yolov9-t-320.onnx
+  path: /config/model_cache/yolov9-s-320.onnx
   labelmap_path: /labelmap/coco-80.txt
 
 # AMD Vega iGPU (Ryzen 5500GT) for decode only - see compose.yaml. Detection
@@ -172,7 +172,7 @@ cameras:
         object_mask_1:
           friendly_name: Object Mask 1
           enabled: true
-          coordinates: 0.077,0.985,0.054,0.705,0.058,0.501,0.077,0.282,0.096,0.181,0.194,0.131,0.428,0.135,0.451,0.173,0.573,0.158,0.999,0.676,0.999,0.008,0,0.004,0.001,0.996
+          coordinates: 0.073,1,0.054,0.705,0.058,0.501,0.077,0.282,0.096,0.181,0.205,0.125,0.213,0.358,0.244,0.571,0.45,0.493,0.456,0.171,0.573,0.158,1,0.687,0.999,0.008,0,0.004,0.001,0.996
   back_camera:
     ffmpeg:
       inputs:
