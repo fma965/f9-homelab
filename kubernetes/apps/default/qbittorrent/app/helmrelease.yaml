@@ -51,9 +51,6 @@ spec:
               UMASK: "022"
               QBT_WEBUI_PORT: &port 80
               QBT_TORRENTING_PORT: &torrentPort 51413
-              # VueTorrent, cloned into /addons by the init container. qBittorrent serves it from <root>/public.
-              QBT_Preferences__WebUI__AlternativeUIEnabled: "true"
-              QBT_Preferences__WebUI__RootFolder: /addons/VueTorrent
               #PUSHOVER_ENABLED: true
               TZ: Europe/London
             probes:
