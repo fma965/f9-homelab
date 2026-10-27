@@ -18,7 +18,7 @@ spec:
           backend:
             image:
               repository: directus/directus
-              tag: 12.5.1@sha256:ef6fc027605ea659a972356e0c35fd7f88b02118b0b3a322dafbec3cc709fdab
+              tag: 12.6.0@sha256:5a475c31cf547da604b3ef1bd85097145825ca6aab8841dc784bb08eaa21681b
             env:
               # Sign-in through Pocket ID (id.f9.casa). The provider keeps the name `authentik` and users are matched
               # by email, so existing accounts carry over. These override the old Authelia values in the secret.
