@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+# The Pocket ID client for Radarr's own OIDC login. The operator writes the Secret `radarr-oidc-credentials`
+# (`client_secret`, which the HelmRelease reads). The callback paths are ASP.NET's defaults. Radarr then lets in
+# only the one user named in RADARR__AUTH__OIDCUSERIDENTIFIER, whatever the group.
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: radarr
+spec:
+  allowedUserGroups:
+    - groupName: admins
+  callbackUrls:
+    - https://radarr.f9.casa/signin-oidc
+  clientID: radarr
+  description: Movie downloads
+  launchUrl: https://radarr.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/radarr.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/radarr.webp
+  logoutCallbackUrls:
+    - https://radarr.f9.casa/signout-callback-oidc
+  name: Radarr
+  pkceEnabled: true
+  skipConsent: true
