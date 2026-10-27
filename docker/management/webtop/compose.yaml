@@ -1,6 +1,6 @@
 services:
   webtop:
-    image: lscr.io/linuxserver/webtop:debian-xfce@sha256:dd8218828958988f88b3e0d9ddd97a6337189662eeca57bfa49d78688f5a3695
+    image: lscr.io/linuxserver/webtop:debian-xfce@sha256:2de7b2cb2f9e55fde54e07a83ffeb4f09cac846f1219896dd3d44de7d0aa9731
     container_name: webtop
     hostname: webtop
     mac_address: f2:f9:00:00:68:07
