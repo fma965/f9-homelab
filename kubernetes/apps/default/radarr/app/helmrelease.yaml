@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app radarr
+  name: radarr
 spec:
   interval: 1h
   chartRef:
@@ -31,12 +31,24 @@ spec:
               TZ: Europe/London
               RADARR__APP__INSTANCENAME: radarr
               RADARR__APP__THEME: dark
-              RADARR__AUTH__METHOD: External
-              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              # Radarr signs people in itself with Pocket ID (id.f9.casa); the route has no gateway login in front. It lets
+              # exactly one identity in: the `sub` of the owner's Pocket ID user (RADARR__AUTH__OIDCUSERIDENTIFIER, from
+              # the secret). Callers of /api (Prowlarr, Seerr, Recyclarr, Homepage) still use the API key.
+              RADARR__AUTH__METHOD: Oidc
+              RADARR__AUTH__OIDCAUTHORITY: https://id.f9.casa
+              RADARR__AUTH__OIDCCLIENTID: radarr
+              RADARR__AUTH__OIDCCLIENTSECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: radarr-oidc-credentials
+                    key: client_secret
+              RADARR__AUTH__REQUIRED: Enabled
               RADARR__LOG__CONSOLEFORMAT: Clef
               RADARR__LOG__DBENABLED: "False"
               RADARR__LOG__LEVEL: info
               RADARR__SERVER__PORT: &port 80
+              # Trust the gateway's X-Forwarded-Proto, so the callback URL Radarr builds is https (the pod network).
+              RADARR__SERVER__TRUSTEDNETWORKS: 10.42.0.0/16
               RADARR__UPDATE__BRANCH: develop
             envFrom: *envFrom
             probes:
@@ -62,6 +74,9 @@ spec:
               limits:
                 memory: 1Gi
     defaultPodOptions:
+      labels:
+        # The OIDC discovery and token calls go to id.f9.casa, which resolves to the external gateway in the cluster.
+        egress.cilium.io/gateway-external: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
@@ -85,30 +100,11 @@ spec:
           gethomepage.dev/widget.type: radarr
           gethomepage.dev/widget.url: http://radarr.default
           gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_RADARR_KEY}}` }}"
-        hostnames: ["{{ .Release.Name }}.f9.casa"]
+        hostnames:
+          - "{{ .Release.Name }}.f9.casa"
         parentRefs:
           - name: envoy-internal
             namespace: network
-        rules:
-          - backendRefs:
-              - name: *app
-                port: *port
-
-      # The API (key-authenticated by the app, used by phone apps and scripts) stays outside the Pocket ID login: the
-      # longer /api match wins over the app route, which is gated by the oidc component.
-      api:
-        hostnames: ["{{ .Release.Name }}.f9.casa"]
-        parentRefs:
-          - name: envoy-internal
-            namespace: network
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /api
-            backendRefs:
-              - name: *app
-                port: *port
 
     persistence:
       config:
