@@ -17,10 +17,12 @@ spec:
     # are Services in the cluster and change as the stack does.
     - toEntities:
         - cluster
-    # Metadata and artwork (TheTVDB, Skyhook, TheXEM, the Servarr metadata API) and Discord for
-    # notifications.
+    # Metadata and artwork (TheTVDB, Skyhook, TheXEM, the Servarr metadata API), Discord for
+    # notifications and the NZB download link NZBgeek (through Prowlarr) redirects to: Prowlarr
+    # answers a grab with a 301 to api.nzbgeek.info and Sonarr fetches the NZB from there itself.
     - toFQDNs:
         - matchName: api.althub.co.za
+        - matchName: api.nzbgeek.info
         - matchName: artworks.thetvdb.com
         - matchName: discord.com
         - matchName: services.sonarr.tv
