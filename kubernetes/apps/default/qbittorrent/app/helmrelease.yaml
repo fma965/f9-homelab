@@ -23,6 +23,25 @@ spec:
                 "mac": "f2:f9:00:00:90:06",
                 "ips": ["10.10.90.10/24"]
               }]
+        initContainers:
+          # Clone VueTorrent before qBittorrent starts: /addons is scratch storage, empty on every pod start, and
+          # qBittorrent switches the alternative WebUI off at boot when its folder is missing.
+          vuetorrent:
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.8.0@sha256:a20644562fba94773e594885cb001aadb5a3172175f13ac1215e5b2033c9200e
+            args:
+              # /addons is owned by root (the volume root) while git-sync runs as 1000, so git refuses it as "dubious ownership".
+              - --git-config-add=safe.directory:/addons
+              - --repo=https://github.com/WDaan/VueTorrent
+              - --ref=latest-release
+              - --one-time
+              - --root=/addons
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 32Mi
         containers:
           app:
             image:
@@ -32,6 +51,9 @@ spec:
               UMASK: "022"
               QBT_WEBUI_PORT: &port 80
               QBT_TORRENTING_PORT: &torrentPort 51413
+              # VueTorrent, cloned into /addons by the init container. qBittorrent serves it from <root>/public.
+              QBT_Preferences__WebUI__AlternativeUIEnabled: "true"
+              QBT_Preferences__WebUI__RootFolder: /addons/VueTorrent
               #PUSHOVER_ENABLED: true
               TZ: Europe/London
             probes:
@@ -53,25 +75,6 @@ spec:
                 cpu: 10m
               limits:
                 memory: 2Gi
-          vuetorrent:
-            dependsOn: app
-            image:
-              repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.8.0@sha256:a20644562fba94773e594885cb001aadb5a3172175f13ac1215e5b2033c9200e
-            args:
-              # /addons is owned by root (the volume root) while git-sync runs as 1000, so git refuses it as "dubious ownership".
-              - --git-config-add=safe.directory:/addons
-              - --repo=https://github.com/WDaan/VueTorrent
-              - --ref=latest-release
-              - --period=86400s
-              - --init-period=10s
-              - --init-max-failures=-1
-              - --root=/addons
-            resources:
-              requests:
-                cpu: 10m
-              limits:
-                memory: 32Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
