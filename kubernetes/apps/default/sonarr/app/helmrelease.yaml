@@ -120,6 +120,12 @@ spec:
         path: "/mnt/Media/Library/TV Shows"
         globalMounts:
           - path: /tv
+      media2:
+        type: nfs
+        server: nas.homelab.internal
+        path: "/mnt/Vault/Media/TV Shows"
+        globalMounts:
+          - path: /tv2
       downloads:
         type: nfs
         server: nas.homelab.internal
