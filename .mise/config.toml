@@ -14,7 +14,7 @@ disable_tools = ["1password-cli"]
 [tools]
 "1password-cli" = "2.35.0"
 actionlint = "1.7.12"
-cloudflared = "2026.10.4"
+cloudflared = "2026.10.5"
 crane = "0.22.1"
 flux2 = "2.10.0"
 gh = "2.103.3"
