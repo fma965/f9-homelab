@@ -47,6 +47,14 @@ objects:
     - bicycle
     - dog
     - cat
+  # Cuts person false positives (shadows, plants, headlights) that the object masks
+  # can't, because they sit where a real person could walk. Applies to every camera;
+  # the detect streams are low resolution, so keep min_area small.
+  filters:
+    person:
+      min_area: 1000
+      min_score: 0.6
+      threshold: 0.75
 
 record:
   enabled: true
