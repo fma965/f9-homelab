@@ -58,6 +58,8 @@ spec:
     # Where people land after signing in at id.f9.casa itself: the apps page, with a tile for every app they may open.
     # A sign-in that starts from an app still returns to that app.
     homePageUrl: /settings/apps
+    # Minutes a sign-in lasts (30 days). The gateway's OIDC filter refreshes its token while this session lives.
+    sessionDuration: 43200
   userManagement:
     allowUserSignups: disabled
   versionCheckDisabled: true
