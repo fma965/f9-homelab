@@ -20,7 +20,6 @@ spec:
             args:
               - --storage-path=/data
               - --primary-interface=net1
-              - --log-level=debug
             env:
               TZ: Europe/London
               THREAD_REST_PROBE_PORT: "8080" # SLZB OTBR REST API, for Thread topology
