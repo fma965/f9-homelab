@@ -211,18 +211,10 @@ cameras:
           friendly_name: Object Mask 1
           enabled: true
           coordinates: 1,0.328,1,0,0.809,0
-        object_mask_2:
-          friendly_name: Object Mask 2
-          enabled: true
-          coordinates: 0.218,0.112,0.232,0.174,0.254,0.238,0.271,0.489,0.327,0.47,0.302,0.217,0.298,0.069
-        object_mask_3:
-          friendly_name: Object Mask 3
-          enabled: true
-          coordinates: 0.229,0.767,0.245,0.796,0.274,0.918,0.302,1,0.265,1,0.206,0.918,0.151,0.871
         object_mask_4:
           friendly_name: Object Mask 4
           enabled: true
-          coordinates: 0,0.206,0.053,0.177,0.084,0.417,0,0.577
+          coordinates: 0,0.206,0.283,0.071,0.331,0.34,0.353,0.638,0.297,0.66,0.287,1,0,1,0,0.577
     motion:
       mask:
         motion_mask_1:
