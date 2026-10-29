@@ -24,7 +24,9 @@ spec:
           - name: alertname
             value: Watchdog
             matchType: =
+      # A critical alert repeats hourly so one missed push does not hide an outage for 12 hours.
       - receiver: pushover
+        repeatInterval: 1h
         matchers:
           - name: severity
             value: critical
