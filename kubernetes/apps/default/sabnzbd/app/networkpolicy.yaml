@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # SABnzbd (Usenet downloader). Egress only (M15, 15 Oct 2026): it holds the Usenet account logins, so
-# it may reach DNS, the six news servers it is configured with (all on 119) and its update check.
+# it may reach DNS, the seven news servers it is configured with (119, plus SSL on 563 and 443) and its update check.
 # Taken from /config/sabnzbd.ini (host and port lines only). Ingress is not limited here.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
@@ -19,9 +19,14 @@ spec:
         - matchName: news.frugalusenet.com
         - matchName: bonus.frugalusenet.com
         - matchName: eunews.blocknews.net
+        - matchName: news.tweaknews.eu
       toPorts:
         - ports:
             - port: "119"
+              protocol: TCP
+            - port: "563"
+              protocol: TCP
+            - port: "443"
               protocol: TCP
     # The release check.
     - toFQDNs:
