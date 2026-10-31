@@ -19,6 +19,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      OIDC_DESCRIPTION: LLM gateway admin UI
+      OIDC_TITLE: LiteLLM
   prune: true
   sourceRef:
     kind: GitRepository
