@@ -12,7 +12,11 @@ spec:
   mcpServers:
     - flux
     - grafana
+    - home_assistant
     - kubernetes
+    - paperless
+    - truenas
+    - unifi_network
     - victoria_logs
   models:
     - gemma-4-12b-ha

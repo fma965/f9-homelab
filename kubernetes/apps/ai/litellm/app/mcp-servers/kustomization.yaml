@@ -5,7 +5,11 @@ kind: Kustomization
 resources:
   - ./flux/
   - ./grafana/
+  - ./home-assistant/
   - ./kubernetes/
+  - ./paperless/
   - ./rbac.yaml
   - ./spike.yaml
+  - ./truenas/
+  - ./unifi-network/
   - ./victoria-logs/

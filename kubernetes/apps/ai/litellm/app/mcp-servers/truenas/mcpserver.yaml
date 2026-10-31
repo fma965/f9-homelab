@@ -1,0 +1,62 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmcpserver_v1alpha1.json
+# TrueNAS MCP behind LiteLLM. WRITES ARE ENABLED (TRUENAS_MCP_ENABLE_WRITES), as on the public instance, so what
+# this key can do on the NAS is what a caller of LiteLLM with access to this server can do. The server demands the
+# key on every request (401 otherwise); LiteLLM sends it as a bearer token. The network policy lets only LiteLLM call
+# it.
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMMCPServer
+metadata:
+  name: truenas-mcp
+spec:
+  alias: truenas
+  authTokenRef:
+    key: TRUENAS_API_KEY
+    name: truenas-mcp-secret
+  authType: bearer_token
+  proxyRef: litellm
+  transport: http
+  workload:
+    automountServiceAccountToken: false
+    env:
+      - name: TRUENAS_MCP_ALLOW_PLAINTEXT
+        value: "true"
+      - name: TRUENAS_MCP_ENABLE_WRITES
+        value: "true"
+      - name: TRUENAS_MCP_LISTEN
+        value: :8080
+      - name: TRUENAS_MCP_TARGET
+        value: nas.homelab.internal:443
+      - name: TRUENAS_MCP_TARGET_INSECURE
+        value: "true"
+    image: ghcr.io/cedricziel/truenas-mcp:0.4.2@sha256:1a165c9b3831b8cf546c78231857896431c27a4465d2fcb16260c7d578bbee55
+    path: /mcp
+    # The NAS (egress.cilium.io, M15).
+    podLabels:
+      egress.cilium.io/nas: "true"
+    podSecurityContext:
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
+      seccompProfile:
+        type: RuntimeDefault
+    port: 8080
+    replicas: 1
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        memory: 128Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: true
+    volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+    volumes:
+      - name: tmp
+        emptyDir: {}
