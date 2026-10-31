@@ -19,10 +19,10 @@ spec:
       - --read-only=true
     automountServiceAccountToken: true
     env:
+      # Where the Flux controllers and the FluxInstance live. The chart sets this to the pod's own namespace, which
+      # is right when it is deployed next to Flux, but this pod runs in ai.
       - name: RUNTIME_NAMESPACE
-        valueFrom:
-          fieldRef:
-            fieldPath: metadata.namespace
+        value: flux-system
     image: ghcr.io/controlplaneio-fluxcd/flux-operator-mcp:v0.62.1@sha256:0b4181bc9ada80eedf3e9df3355153abc9c3e6d8b913bddebe0b12908309bff6
     path: /mcp
     # The API server (egress.cilium.io, M15).
