@@ -21,8 +21,11 @@ spec:
               tag: v0.12.5@sha256:03443b8de6b617da9d900edd09b4bf1cb0ddbfdcba6afb42c548336a0b821ded
             env:
               WEBUI_URL: https://ai.f9.casa
-              OPENAI_API_BASE_URL: "http://llamacpp.docker.internal:8080/v1"
-              OPENAI_API_CONFIGS: '{"0": {"enable": true, "tags": [], "prefix_id": "", "model_ids": [], "connection_type": "external", "auth_type": "bearer", "provider": "llama.cpp"}}'
+              # The LiteLLM gateway (ai namespace); chat goes through it, with the key in the Secret openwebui-litellm. Open
+              # WebUI keeps its connection in its database once it has started, so these only apply to a fresh database
+              # (the key is then set in Admin Settings > Connections).
+              OPENAI_API_BASE_URL: "http://litellm.ai.svc.cluster.local:4000/v1"
+              OPENAI_API_CONFIGS: '{"0": {"enable": true, "tags": [], "prefix_id": "", "model_ids": [], "connection_type": "external", "auth_type": "bearer"}}'
               OAUTH_PROVIDER_NAME: "Home"
               # Sign-in through Pocket ID (id.f9.casa). Its groups claim carries the group names (`admins`, `openwebui`).
               OAUTH_CLIENT_ID:
@@ -62,7 +65,6 @@ spec:
     defaultPodOptions:
       labels:
         egress.cilium.io/gateway-external: "true"
-        egress.cilium.io/nas: "true"
         egress.cilium.io/web: "true"
 
     service:
