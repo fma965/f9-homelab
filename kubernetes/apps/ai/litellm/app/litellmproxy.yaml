@@ -5,6 +5,12 @@ kind: LiteLLMProxy
 metadata:
   name: litellm
 spec:
+  # How the operator authenticates to the proxy's admin API for the database-backed resources
+  # (LiteLLMTeam, LiteLLMVirtualKey). The endpoint defaults to the Service, http://litellm.ai.svc:4000.
+  apiAccess:
+    masterKeyRef:
+      name: litellm-secret
+      key: LITELLM_MASTER_KEY
   env:
     # With SSO configured, LiteLLM stops redirecting to the sign-in on its own; this brings that back.
     - name: AUTO_REDIRECT_UI_LOGIN_TO_SSO
