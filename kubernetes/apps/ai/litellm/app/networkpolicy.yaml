@@ -52,3 +52,12 @@ spec:
         - ports:
             - port: "4000"
               protocol: TCP
+    # Home Assistant (default namespace): the Local LLM Server and LLM Vision integrations, with their virtual keys.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: home-assistant
+      toPorts:
+        - ports:
+            - port: "4000"
+              protocol: TCP
