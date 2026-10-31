@@ -6,7 +6,10 @@ services:
     networks:
       nasdocker:
         ipv4_address: 10.10.68.12
-    image: ghcr.io/blakeblackshear/frigate:0.18.2@sha256:fd60f99ffd4eb6c42360ed4e14953e270586f239309ab3983e55b2e97ffac09a
+    # Community fork (garymathews/frigate) of Frigate 0.18 on ROCm 7.2.4 with MIGraphX built for
+    # gfx900 and the gfx900 rocBLAS kernels from ROCm 6.3.4 copied in. Upstream's -rocm image has
+    # no Vega kernels, so its detector aborts in rocBLAS ("Illegal seek for GPU arch : gfx900").
+    image: ghcr.io/garymathews/frigate:7836243-rocm-7.2.4@sha256:cddd86be91e69d9520a039131b469674bdff98077a9bb08497d4440408a70077
     restart: unless-stopped
     shm_size: 256mb
     ulimits:
@@ -14,13 +17,19 @@ services:
         soft: 65535
         hard: 65535
     devices:
-      # AMD Vega iGPU on the Ryzen 5500GT, for VAAPI-accelerated decode only.
-      # Detection stays on CPU (openvino/CPU) - Vega isn't a supported ROCm
-      # target, and the RTX 3060 is already shared thin by tdarr/llamacpp/immich.
+      # AMD Vega iGPU on the Ryzen 5500GT: VAAPI decode (/dev/dri) and ROCm
+      # object detection (/dev/kfd). The RTX 3060 is already shared thin by
+      # tdarr/llamacpp/immich, so it is left alone.
       - /dev/dri:/dev/dri
+      - /dev/kfd:/dev/kfd
     environment:
       TZ: "Europe/London"
       LIBVA_DRIVER_NAME: "radeonsi"
+      # The Vega 7 iGPU is gfx90c, which ROCm does not officially support; it runs
+      # as gfx900, the target the fork above ships kernels for.
+      HSA_OVERRIDE_GFX_VERSION: "9.0.0"
+      # From the fork's example config for Vega APUs.
+      HSA_ENABLE_SDMA: "0"
       # Resolved by Doco-CD from 1Password Connect (see .doco-cd.yaml's
       # external_secrets) and interpolated in here by Compose itself -
       # not read from a .env file, which Doco-CD never writes to disk.
