@@ -1,0 +1,60 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmcpserver_v1alpha1.json
+# Grafana MCP behind LiteLLM, read-only (--disable-write). The operator runs the pod and a Service named
+# grafana-mcp on 8000 (ai namespace); LiteLLM calls it with the bearer token below. Same image and arguments as the
+# public instance in the mcp namespace, which stays until the cut-over.
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMMCPServer
+metadata:
+  name: grafana-mcp
+spec:
+  alias: grafana
+  authTokenRef:
+    key: MCP_GRAFANA_SERVER_TOKEN
+    name: grafana-mcp-secret
+  authType: bearer_token
+  proxyRef: litellm
+  transport: http
+  workload:
+    args:
+      - --transport=streamable-http
+      - --address=0.0.0.0:8000
+      - --disable-write
+      - "--allowed-hosts=grafana-mcp,grafana-mcp:8000,grafana-mcp.ai.svc.cluster.local,grafana-mcp.ai.svc.cluster.local:8000,localhost,localhost:8000,127.0.0.1,127.0.0.1:8000"
+    automountServiceAccountToken: false
+    env:
+      - name: GRAFANA_URL
+        value: http://grafana-service.o11y.svc.cluster.local:3000
+      - name: HOME
+        value: /tmp
+    envFrom:
+      - secretRef:
+          name: grafana-mcp-secret
+    image: docker.io/grafana/mcp-grafana:2.1.1@sha256:71a3f4e6f412d253611314233df709ec2571fb50e39742d23fa2940f670646dc
+    path: /mcp
+    podSecurityContext:
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    port: 8000
+    replicas: 1
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        memory: 256Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: true
+    volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+    volumes:
+      - name: tmp
+        emptyDir: {}
