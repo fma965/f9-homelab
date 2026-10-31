@@ -312,8 +312,11 @@ proxy:
   default_role: viewer
 detect:
   enabled: true
+# Enrichment models stay on CPU: with device AUTO the -rocm image loads them on
+# MIGraphX, and the LPR model segfaults there (embeddings process dies, Frigate exits).
 semantic_search:
   enabled: true
+  device: CPU
 genai:
   newKey:
     api_key: "{FRIGATE_OPENWEBUI_API_KEY}"
@@ -325,8 +328,10 @@ genai:
     model: gemma-4-12b-ha
 face_recognition:
   enabled: true
+  device: CPU
 lpr:
   enabled: true
+  device: CPU
 review:
   genai:
     enabled: true
