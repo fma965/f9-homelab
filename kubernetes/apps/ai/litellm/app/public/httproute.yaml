@@ -1,0 +1,50 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/httproute_v1.json
+# The public door for claude.ai's connectors: mcp.f9.casa on the external gateway, passing ONLY the MCP paths to
+# LiteLLM. Everything else on this name (the admin UI, /v1, /key, ...) matches no rule and gets a 404 from the gateway,
+# and the admin UI stays on the internal-only litellm.f9.casa (the route the operator creates). `/mcp` is the
+# aggregated endpoint; `/<alias>/mcp` is one server, so a connector can be added per server. The key's team decides
+# which servers a caller actually sees. Access is limited to Anthropic's addresses (securitypolicy.yaml) and then to a
+# valid LiteLLM key.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: litellm-mcp
+  annotations:
+    gatus.home-operations.com/endpoint: |-
+      conditions: ["[STATUS] == any(200,401,403,404,406)"]
+spec:
+  hostnames:
+    - mcp.f9.casa
+  parentRefs:
+    - name: envoy-external
+      namespace: network
+  rules:
+    - backendRefs:
+        - name: litellm
+          port: 4000
+      matches:
+        - path:
+            type: PathPrefix
+            value: /mcp
+        - path:
+            type: PathPrefix
+            value: /flux/mcp
+        - path:
+            type: PathPrefix
+            value: /grafana/mcp
+        - path:
+            type: PathPrefix
+            value: /kubernetes/mcp
+        - path:
+            type: PathPrefix
+            value: /paperless/mcp
+        - path:
+            type: PathPrefix
+            value: /truenas/mcp
+        - path:
+            type: PathPrefix
+            value: /unifi_network/mcp
+        - path:
+            type: PathPrefix
+            value: /victoria_logs/mcp
