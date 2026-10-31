@@ -6,8 +6,7 @@ services:
     networks:
       nasdocker:
         ipv4_address: 10.10.68.12
-    # The -rocm variant adds the ROCm/ONNX Runtime GPU stack. Renovate adds the @sha256 digest.
-    image: ghcr.io/blakeblackshear/frigate:0.18.2-rocm
+    image: ghcr.io/blakeblackshear/frigate:0.18.2@sha256:fd60f99ffd4eb6c42360ed4e14953e270586f239309ab3983e55b2e97ffac09a
     restart: unless-stopped
     shm_size: 256mb
     ulimits:
@@ -15,18 +14,13 @@ services:
         soft: 65535
         hard: 65535
     devices:
-      # AMD Vega iGPU on the Ryzen 5500GT: VAAPI decode (/dev/dri) and ROCm
-      # object detection (/dev/kfd). The RTX 3060 is already shared thin by
-      # tdarr/llamacpp/immich, so it is left alone.
+      # AMD Vega iGPU on the Ryzen 5500GT, for VAAPI-accelerated decode only.
+      # Detection stays on CPU (openvino/CPU) - Vega isn't a supported ROCm
+      # target, and the RTX 3060 is already shared thin by tdarr/llamacpp/immich.
       - /dev/dri:/dev/dri
-      - /dev/kfd:/dev/kfd
     environment:
       TZ: "Europe/London"
       LIBVA_DRIVER_NAME: "radeonsi"
-      # The Vega 7 iGPU is gfx90c, which ROCm does not officially support. The
-      # -rocm image already maps gfx90c to 9.0.0; it is set here so the
-      # override is explicit and does not depend on that mapping.
-      HSA_OVERRIDE_GFX_VERSION: "9.0.0"
       # Resolved by Doco-CD from 1Password Connect (see .doco-cd.yaml's
       # external_secrets) and interpolated in here by Compose itself -
       # not read from a .env file, which Doco-CD never writes to disk.
