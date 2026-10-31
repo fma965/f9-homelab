@@ -13,3 +13,12 @@ spec:
     # The operator only talks to the API server (egress.cilium.io, M15).
     podLabels:
       egress.cilium.io/kube-apiserver: "true"
+    # The chart default limit (128Mi) is too small: 0.0.26 sat at about 101Mi when idle and was OOM-killed at
+    # start-up on 31 Oct 2026. While it is down its admission webhook has no endpoint and Flux cannot apply any
+    # LiteLLM resource.
+    resources:
+      requests:
+        cpu: 10m
+        memory: 128Mi
+      limits:
+        memory: 512Mi
