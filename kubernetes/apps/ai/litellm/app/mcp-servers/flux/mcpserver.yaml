@@ -1,0 +1,57 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmcpserver_v1alpha1.json
+# Flux Operator MCP behind LiteLLM, same version as the Flux Operator itself. Read-only twice over: --read-only turns
+# off the mutating tools, and the service account cannot write (rbac.yaml). It has no inbound authentication, so the
+# network policy lets only LiteLLM call it.
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMMCPServer
+metadata:
+  name: flux-mcp
+spec:
+  alias: flux
+  proxyRef: litellm
+  transport: http
+  workload:
+    args:
+      - serve
+      - --transport=http
+      - --port=9090
+      - --read-only=true
+    automountServiceAccountToken: true
+    env:
+      - name: RUNTIME_NAMESPACE
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.namespace
+    image: ghcr.io/controlplaneio-fluxcd/flux-operator-mcp:v0.62.1@sha256:0b4181bc9ada80eedf3e9df3355153abc9c3e6d8b913bddebe0b12908309bff6
+    path: /mcp
+    # The API server (egress.cilium.io, M15).
+    podLabels:
+      egress.cilium.io/kube-apiserver: "true"
+    podSecurityContext:
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
+      seccompProfile:
+        type: RuntimeDefault
+    port: 9090
+    replicas: 1
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        memory: 256Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: true
+    serviceAccountName: flux-mcp
+    volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+    volumes:
+      - name: tmp
+        emptyDir: {}

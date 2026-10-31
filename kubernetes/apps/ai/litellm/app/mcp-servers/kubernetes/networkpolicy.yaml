@@ -1,0 +1,54 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Kubernetes MCP behind LiteLLM. Written from the manifests (M15); check Hubble for `Policy denied DROPPED` after it
+# lands. Two policies, one per pod:
+# 1. the MCP pod takes calls only from LiteLLM; its only egress is the API server, from the `kube-apiserver` label
+#    on the pod (that profile also lets the API server's replies back in);
+# 2. the LiteLLM pod may call the MCP pod, and its reply is evaluated as new traffic to LiteLLM (a Service call
+#    under an ingress policy), so the MCP pod is let back in with no port.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kubernetes-mcp
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/component: mcp-server
+      app.kubernetes.io/name: kubernetes-mcp
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/instance: litellm
+            app.kubernetes.io/name: litellm
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: litellm-kubernetes-mcp
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: litellm
+      app.kubernetes.io/name: litellm
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/component: mcp-server
+            app.kubernetes.io/name: kubernetes-mcp
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/component: mcp-server
+            app.kubernetes.io/name: kubernetes-mcp
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP

@@ -10,7 +10,10 @@ metadata:
 spec:
   alias: mcp-spike
   mcpServers:
+    - flux
     - grafana
+    - kubernetes
+    - victoria_logs
   models:
     - gemma-4-12b-ha
   proxyRef: litellm

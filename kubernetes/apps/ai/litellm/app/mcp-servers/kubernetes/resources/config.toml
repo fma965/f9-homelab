@@ -1,0 +1,6 @@
+port = "8080"
+read_only = true
+
+[[denied_resources]]
+version = "v1"
+kind = "Secret"
