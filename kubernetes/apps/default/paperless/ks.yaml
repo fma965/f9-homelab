@@ -11,6 +11,8 @@ spec:
     - ../../../../components/oidc-claims
     - ../../../../components/zeroscaler
   dependsOn:
+    - name: litellm # the team and virtual key are created on the LiteLLM proxy
+      namespace: ai
     - name: pocket-id
       namespace: security
   interval: 1h
