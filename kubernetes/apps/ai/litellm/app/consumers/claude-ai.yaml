@@ -1,18 +1,18 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmteam_v1alpha1.json
-# TEMPORARY: a team and key only for measuring the MCP gateway (Phase C test gate: the ToolHive aggregator, #1843,
-# was reverted for partial tool lists and 5-120 s latency). Delete this file and the `./spike.yaml` entry once the
-# measurement is done. The key goes into the Secret `mcp-spike-litellm` in this namespace.
+# What claude.ai's connectors may use through the public door (public/). Home Assistant is deliberately NOT listed: its
+# MCP server exists behind LiteLLM but nothing is granted it. The key is in the Secret claude-ai-litellm (key `key`) in
+# this namespace; it is entered in each connector as a request header, `x-litellm-api-key: <key>` (LiteLLM also accepts
+# `Authorization: Bearer <key>`).
 apiVersion: litellm.home-operations.com/v1alpha1
 kind: LiteLLMTeam
 metadata:
-  name: mcp-spike
+  name: claude-ai
 spec:
-  alias: mcp-spike
+  alias: claude-ai
   mcpServers:
     - flux
     - grafana
-    - home_assistant
     - kubernetes
     - paperless
     - truenas
@@ -26,11 +26,11 @@ spec:
 apiVersion: litellm.home-operations.com/v1alpha1
 kind: LiteLLMVirtualKey
 metadata:
-  name: mcp-spike
+  name: claude-ai
 spec:
-  keyAlias: mcp-spike
+  keyAlias: claude-ai
   models:
     - gemma-4-12b-ha
   proxyRef: litellm
-  secretName: mcp-spike-litellm
-  teamID: mcp-spike
+  secretName: claude-ai-litellm
+  teamID: claude-ai

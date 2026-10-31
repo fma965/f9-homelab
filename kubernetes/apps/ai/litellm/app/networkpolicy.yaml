@@ -24,6 +24,15 @@ spec:
         - ports:
             - port: "4000"
               protocol: TCP
+    # The public MCP door (public/): the external gateway, whose route passes only the MCP paths.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "4000"
+              protocol: TCP
     # The operator creates teams and virtual keys through the admin API (spec.apiAccess) at the Service.
     - fromEndpoints:
         - matchLabels:

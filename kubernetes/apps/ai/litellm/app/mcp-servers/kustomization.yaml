@@ -9,7 +9,6 @@ resources:
   - ./kubernetes/
   - ./paperless/
   - ./rbac.yaml
-  - ./spike.yaml
   - ./truenas/
   - ./unifi-network/
   - ./victoria-logs/

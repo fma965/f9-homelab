@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+# Only Anthropic's outbound addresses may reach mcp.f9.casa; every other caller gets a 403 before LiteLLM sees it.
+# 160.79.104.0/21 is the range Anthropic publishes for the requests it makes to customers' MCP servers
+# (https://platform.claude.com/docs/en/api/ip-addresses, "Outbound IP addresses", IPv4 only; it says they will not
+# change without notice, and the older 34.162.x addresses are phased out). NOTE: that range is shared by everyone who
+# uses Claude connectors, not just this account, so this filters out scanners but does not identify the caller: the
+# LiteLLM key (claude-ai team) is the credential. The caller address is the one the gateway works out behind the
+# Cloudflare tunnel (ClientTrafficPolicy `envoy`). StrategicMerge keeps the gateway-wide CrowdSec policy in force,
+# as on the other public MCP routes.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: litellm-mcp
+spec:
+  authorization:
+    defaultAction: Deny
+    rules:
+      - action: Allow
+        name: anthropic-outbound
+        principal:
+          clientCIDRs:
+            - 160.79.104.0/21
+  mergeType: StrategicMerge
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: litellm-mcp
