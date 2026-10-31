@@ -8,6 +8,19 @@ metadata:
   name: openwebui
 spec:
   alias: openwebui
+  # All eight MCP servers, by the owner's decision. Open WebUI's connections to them are added in its admin UI
+  # (Integrations > External Tool Servers), one per server, with this key as the bearer token. Home Assistant is
+  # read-write (it can operate locks), TrueNAS has writes on, and UniFi asks for confirmation before writes; limit who
+  # sees those connections in Open WebUI.
+  mcpServers:
+    - flux
+    - grafana
+    - home_assistant
+    - kubernetes
+    - paperless
+    - truenas
+    - unifi_network
+    - victoria_logs
   models:
     - gemma-4-12b-ha
   proxyNamespace: ai
