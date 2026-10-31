@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
-# Postgres accepts connections only from the namespaces that run clients (default, webdev), from the
+# Postgres accepts connections only from the namespaces that run clients (ai, default, webdev), from the
 # database namespace itself (replication, operator, backups, pgAdmin) and metrics from Prometheus.
 # Probes come from the local node, which Cilium always allows. Allow-list taken from the Cilium
 # connection table on 13 Oct 2026 (M15). Egress (15 Oct 2026): the instances may reach only each other,
@@ -18,7 +18,7 @@ spec:
         - matchExpressions:
             - key: io.kubernetes.pod.namespace
               operator: In
-              values: [default, webdev]
+              values: [ai, default, webdev]
       toPorts:
         - ports:
             - port: "5432"
