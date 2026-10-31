@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmteam_v1alpha1.json
+# Paperless AI's team and key on the LiteLLM gateway (ai namespace). The operator creates both through the proxy's
+# admin API and writes the key into the Secret `paperless-litellm` (key `key`) in this namespace.
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMTeam
+metadata:
+  name: paperless
+spec:
+  alias: paperless
+  models:
+    - gemma-4-12b-ha
+  proxyNamespace: ai
+  proxyRef: litellm
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmvirtualkey_v1alpha1.json
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMVirtualKey
+metadata:
+  name: paperless
+spec:
+  keyAlias: paperless
+  models:
+    - gemma-4-12b-ha
+  proxyNamespace: ai
+  proxyRef: litellm
+  secretName: paperless-litellm
+  teamID: paperless
