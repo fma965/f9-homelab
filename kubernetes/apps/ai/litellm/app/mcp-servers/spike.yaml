@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmteam_v1alpha1.json
+# TEMPORARY: a team and key only for measuring the MCP gateway (Phase C test gate: the ToolHive aggregator, #1843,
+# was reverted for partial tool lists and 5-120 s latency). Delete this file and the `./spike.yaml` entry once the
+# measurement is done. The key goes into the Secret `mcp-spike-litellm` in this namespace.
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMTeam
+metadata:
+  name: mcp-spike
+spec:
+  alias: mcp-spike
+  mcpServers:
+    - grafana
+  models:
+    - gemma-4-12b-ha
+  proxyRef: litellm
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmvirtualkey_v1alpha1.json
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMVirtualKey
+metadata:
+  name: mcp-spike
+spec:
+  keyAlias: mcp-spike
+  models:
+    - gemma-4-12b-ha
+  proxyRef: litellm
+  secretName: mcp-spike-litellm
+  teamID: mcp-spike

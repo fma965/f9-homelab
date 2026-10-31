@@ -6,6 +6,7 @@ resources:
   - ./externalsecret.yaml
   - ./init-db.yaml
   - ./litellmproxy.yaml
+  - ./mcp-servers/
   - ./models/
   - ./networkpolicy.yaml
   - ./oidcclient.yaml
