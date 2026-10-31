@@ -14,12 +14,10 @@ logger:
 database:
   path: /config/frigate.db
 
-# The -rocm image runs ONNX models on the AMD iGPU (see compose.yaml and README).
-# To roll back to CPU, restore `type: openvino` / `device: CPU` here and the
-# non-rocm image in compose.yaml.
 detectors:
-  onnx:
-    type: onnx
+  ov:
+    type: openvino
+    device: CPU
 
 # YOLOv9-s exported to ONNX at 320 (see README: the file is built once and placed
 # in /config/model_cache on the NAS, it is not in this repository). Replaces
@@ -33,8 +31,8 @@ model:
   path: /config/model_cache/yolov9-s-320.onnx
   labelmap_path: /labelmap/coco-80.txt
 
-# AMD Vega iGPU (Ryzen 5500GT) for decode here and detection above - see
-# compose.yaml. The RTX 3060 is left alone for tdarr/llamacpp/immich.
+# AMD Vega iGPU (Ryzen 5500GT) for decode only - see compose.yaml. Detection
+# stays on CPU above; the RTX 3060 is left alone for tdarr/llamacpp/immich.
 ffmpeg:
   hwaccel_args: preset-vaapi
 
