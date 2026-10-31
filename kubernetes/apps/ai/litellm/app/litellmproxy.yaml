@@ -11,6 +11,10 @@ spec:
         secretKeyRef:
           name: litellm-secret
           key: DATABASE_URL
+    # Use the model price list bundled in the image. Otherwise it is fetched from raw.githubusercontent.com
+    # at start-up (3 retries, then the bundled copy), which the egress policy blocks.
+    - name: LITELLM_LOCAL_MODEL_COST_MAP
+      value: "True"
     - name: LITELLM_LOG
       value: INFO
     - name: LITELLM_MASTER_KEY
