@@ -1,0 +1,52 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmcpserver_v1alpha1.json
+# Paperless MCP behind LiteLLM (baruchiro/paperless-mcp). The server demands a Paperless API token on every request
+# (401 otherwise) and uses it for its own Paperless calls, so LiteLLM sends it as a bearer token. The network policy lets
+# only LiteLLM call this pod; Paperless is called at paperless.default.svc:8000 and its own policy admits this pod.
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMMCPServer
+metadata:
+  name: paperless-mcp
+spec:
+  alias: paperless
+  authTokenRef:
+    key: PAPERLESS_API_TOKEN
+    name: paperless-mcp-secret
+  authType: bearer_token
+  proxyRef: litellm
+  transport: http
+  workload:
+    automountServiceAccountToken: false
+    env:
+      - name: PAPERLESS_URL
+        value: http://paperless.default.svc.cluster.local:8000
+      - name: TZ
+        value: Europe/London
+    image: ghcr.io/baruchiro/paperless-mcp:2.2.1@sha256:7a793eeeb2ef9ea43175bf6b43b2179cc7c5b7e5484b6aecea8984a61d1ffe2d
+    path: /mcp
+    podSecurityContext:
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    port: 3000
+    replicas: 1
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        memory: 256Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: true
+    volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+    volumes:
+      - name: tmp
+        emptyDir: {}

@@ -38,6 +38,9 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: o11y
             app.kubernetes.io/name: gatus
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/name: home-assistant-mcp
       toPorts:
         - ports:
             - port: "8123"

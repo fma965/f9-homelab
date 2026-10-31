@@ -1,0 +1,51 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# TrueNAS MCP behind LiteLLM. Written from the manifests (M15); check Hubble for `Policy denied DROPPED` after it
+# lands. Two policies, one per pod: the MCP pod takes calls only from LiteLLM (its egress to the NAS comes from the
+# `nas` label on the pod), and the LiteLLM pod may call the MCP pod, with the reply path back in.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: truenas-mcp
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/component: mcp-server
+      app.kubernetes.io/name: truenas-mcp
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/instance: litellm
+            app.kubernetes.io/name: litellm
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: litellm-truenas-mcp
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: litellm
+      app.kubernetes.io/name: litellm
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/component: mcp-server
+            app.kubernetes.io/name: truenas-mcp
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/component: mcp-server
+            app.kubernetes.io/name: truenas-mcp
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP

@@ -1,0 +1,65 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Home Assistant MCP behind LiteLLM. Written from the manifests (M15); check Hubble for `Policy denied DROPPED` after
+# it lands. Two policies, one per pod: the MCP pod takes calls only from LiteLLM and calls only Home Assistant (8123),
+# and the LiteLLM pod may call the MCP pod, with the reply path back in. Home Assistant's own policy admits this pod.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: home-assistant-mcp
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/component: mcp-server
+      app.kubernetes.io/name: home-assistant-mcp
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/instance: litellm
+            app.kubernetes.io/name: litellm
+      toPorts:
+        - ports:
+            - port: "8086"
+              protocol: TCP
+    # Home Assistant is called through its Service, so its reply comes back as new traffic to this pod.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: home-assistant
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: home-assistant
+      toPorts:
+        - ports:
+            - port: "8123"
+              protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: litellm-home-assistant-mcp
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: litellm
+      app.kubernetes.io/name: litellm
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/component: mcp-server
+            app.kubernetes.io/name: home-assistant-mcp
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/component: mcp-server
+            app.kubernetes.io/name: home-assistant-mcp
+      toPorts:
+        - ports:
+            - port: "8086"
+              protocol: TCP

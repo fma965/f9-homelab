@@ -38,6 +38,15 @@ spec:
         - ports:
             - port: "8000"
               protocol: TCP
+    # The Paperless MCP behind LiteLLM (ai namespace), with the owner's Paperless API token.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/name: paperless-mcp
+      toPorts:
+        - ports:
+            - port: "8000"
+              protocol: TCP
     # Access to the NAS (egress.cilium.io/nas) comes from the profile label(s) on the pod, set in the HelmRelease.
     # AI suggestions call LiteLLM through its Service, so LiteLLM's replies come back as new traffic to this pod
     # (from the LiteLLM pod to this pod's ephemeral port). No port can be listed.
