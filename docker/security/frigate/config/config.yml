@@ -319,8 +319,8 @@ semantic_search:
   device: CPU
 genai:
   newKey:
-    api_key: "{FRIGATE_OPENWEBUI_API_KEY}"
-    base_url: https://ai.f9.casa/api
+    api_key: "{FRIGATE_LITELLM_API_KEY}"
+    base_url: https://litellm.f9.casa/v1
     provider: openai
     roles:
       - descriptions
