@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmodel_v1alpha1.json
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: llamacpp-gemma-4-12b-ha
+spec:
+  # The llama.cpp server on the NAS (docker/ai/llamacpp: --alias gemma-4-12b-ha, --ctx-size 131072,
+  # --parallel 1, --mmproj loaded). Its OpenAI-compatible API is also what Open WebUI uses.
+  info:
+    maxInputTokens: 131072
+    mode: chat
+    supportsVision: true
+  modelName: gemma-4-12b-ha
+  params:
+    apiBase: http://llamacpp.docker.internal:8080/v1
+    apiKeyRef:
+      name: litellm-secret
+      key: LLAMACPP_API_KEY
+    model: openai/gemma-4-12b-ha
+  proxyRef: litellm

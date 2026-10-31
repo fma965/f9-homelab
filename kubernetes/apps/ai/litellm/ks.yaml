@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app litellm
+spec:
+  components:
+    - ../../../../components/oidc # the admin UI has no Pocket ID login of its own
+  dependsOn:
+    - name: cloudnative-pg # shared Postgres, database created by the init-db Job
+      namespace: database
+    - name: litellm-operator # provides the LiteLLM CRDs
+      namespace: ai
+    - name: pocket-id # the oidc component creates a PocketIDOIDCClient
+      namespace: security
+  interval: 1h
+  path: ./kubernetes/apps/ai/litellm/app
+  postBuild:
+    substitute:
+      APP: *app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: ai
+  wait: false
