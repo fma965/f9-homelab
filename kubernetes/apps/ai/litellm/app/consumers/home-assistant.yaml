@@ -1,10 +1,10 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmteam_v1alpha1.json
-# Home Assistant's team and keys on the LiteLLM gateway. They live here, not in the home-assistant folder, because
-# Home Assistant does not read a Secret: its two LLM integrations are configured in its UI, where the keys are pasted
-# (Settings > Devices & services > the entry > Reconfigure). One key per integration, so the usage of each shows
-# separately in LiteLLM. The keys are in the Secrets ha-conversation-litellm and ha-llmvision-litellm (key `key`) in
-# this namespace.
+# Home Assistant's team and key on the LiteLLM gateway. They live here, not in the home-assistant folder, because
+# Home Assistant does not read a Secret: its "Local LLM Server" integration is configured in its UI, where the key is
+# pasted (Settings > Devices & services > the entry > Reconfigure). The key is in the Secret ha-conversation-litellm
+# (key `key`) in this namespace. The "LLM Vision" integration has no key: nothing in Home Assistant uses it (no
+# automation, script, scene or helper references llmvision or its image_analyzer action; Frigate does the image AI).
 apiVersion: litellm.home-operations.com/v1alpha1
 kind: LiteLLMTeam
 metadata:
@@ -27,18 +27,4 @@ spec:
     - gemma-4-12b-ha
   proxyRef: litellm
   secretName: ha-conversation-litellm
-  teamID: home-assistant
----
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmvirtualkey_v1alpha1.json
-# The "LLM Vision" integration (llmvision) with its custom OpenAI-compatible provider: image analysis.
-apiVersion: litellm.home-operations.com/v1alpha1
-kind: LiteLLMVirtualKey
-metadata:
-  name: ha-llmvision
-spec:
-  keyAlias: ha-llmvision
-  models:
-    - gemma-4-12b-ha
-  proxyRef: litellm
-  secretName: ha-llmvision-litellm
   teamID: home-assistant
