@@ -7,6 +7,11 @@ kind: PocketIDUserGroup
 metadata:
   name: admins
 spec:
+  # LiteLLM reads its role from this claim (GENERIC_USER_ROLE_ATTRIBUTE). It is added to the tokens of every
+  # client, so every member of `admins` is a LiteLLM proxy admin; the other apps ignore it.
+  customClaims:
+    - key: litellm_role
+      value: proxy_admin
   friendlyName: Admins
   users:
     userRefs:

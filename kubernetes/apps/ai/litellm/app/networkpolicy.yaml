@@ -1,10 +1,10 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
-# LiteLLM (LLM gateway, admin UI behind the gateway's Pocket ID login). Allow-list written from the
+# LiteLLM (LLM gateway, admin UI signs in with Pocket ID itself). Allow-list written from the
 # manifests, not yet from the Cilium connection table (M15): check Hubble for `Policy denied DROPPED`
 # after it lands. Probes come from the local node, which Cilium always allows.
-# Egress (M15): DNS, then the `postgres` and `nas` profiles (labels on the proxy pod) for the database
-# and the llama.cpp server; nothing else. A new in-cluster caller (Open WebUI, Frigate, Home Assistant)
+# Egress (M15): DNS, then the `gateway-external` (the Pocket ID sign-in at id.f9.casa), `postgres` and `nas`
+# profiles (labels on the proxy pod); nothing else. A new in-cluster caller (Open WebUI, Frigate, Home Assistant)
 # needs its own ingress rule here before it can use the API.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
