@@ -6,6 +6,9 @@ metadata:
   name: litellm
 spec:
   env:
+    # With SSO configured, LiteLLM stops redirecting to the sign-in on its own; this brings that back.
+    - name: AUTO_REDIRECT_UI_LOGIN_TO_SSO
+      value: "true"
     - name: DATABASE_URL
       valueFrom:
         secretKeyRef:
@@ -41,10 +44,20 @@ spec:
       value: litellm_role
     - name: GENERIC_USERINFO_ENDPOINT
       value: https://id.f9.casa/api/oidc/userinfo
-    # Use the model price list bundled in the image. Otherwise it is fetched from raw.githubusercontent.com
-    # at start-up (3 retries, then the bundled copy), which the egress policy blocks.
+    # Use the copies bundled in the image. Otherwise LiteLLM fetches the Anthropic beta headers, the auto-router
+    # presets, the blog feed shown in the UI, the model price list and the policy templates from the internet
+    # (raw.githubusercontent.com, docs.litellm.ai), which the egress policy blocks; each falls back to the
+    # bundled copy after retries.
+    - name: LITELLM_LOCAL_ANTHROPIC_BETA_HEADERS
+      value: "True"
+    - name: LITELLM_LOCAL_AUTOROUTER_PRESETS
+      value: "True"
+    - name: LITELLM_LOCAL_BLOG_POSTS
+      value: "true"
     - name: LITELLM_LOCAL_MODEL_COST_MAP
       value: "True"
+    - name: LITELLM_LOCAL_POLICY_TEMPLATES
+      value: "true"
     - name: LITELLM_LOG
       value: INFO
     - name: LITELLM_MASTER_KEY
