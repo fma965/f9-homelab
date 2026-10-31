@@ -24,3 +24,13 @@ spec:
         - ports:
             - port: "4000"
               protocol: TCP
+    # The operator creates teams and virtual keys through the admin API (spec.apiAccess) at the Service.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/instance: litellm-operator
+            app.kubernetes.io/name: litellm-operator
+      toPorts:
+        - ports:
+            - port: "4000"
+              protocol: TCP

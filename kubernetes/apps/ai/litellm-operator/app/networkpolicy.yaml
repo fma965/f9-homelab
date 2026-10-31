@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# LiteLLM operator. Egress only, so ingress stays open: the API server calls its admission webhook (9443) and
+# probes come from the local node. Egress (M15): DNS and the API server come from the cluster-wide policy and the
+# `kube-apiserver` label on the pod; this adds the proxy's admin API, which the operator calls at the litellm
+# Service to create teams and virtual keys (LiteLLMProxy spec.apiAccess). The proxy's reply comes back on the
+# same connection, and the operator has no ingress policy to drop it.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: litellm-operator
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: litellm-operator
+      app.kubernetes.io/name: litellm-operator
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/instance: litellm
+            app.kubernetes.io/name: litellm
+      toPorts:
+        - ports:
+            - port: "4000"
+              protocol: TCP
