@@ -2,7 +2,8 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Open WebUI (AI chat, public, OIDC login). Allow-list from the manifests and the Cilium
 # connection table on 15 Oct 2026 (M15). Probes come from the local node, which Cilium always
-# allows. Egress (15 Oct 2026): DNS, the llama server on the NAS Docker network, the gateway (OIDC) and the public internet on 80/443.
+# allows. Egress (15 Oct 2026): DNS, the llama server on the NAS Docker network, the gateway (OIDC) and the public internet on 80/443;
+# plus the LiteLLM gateway on 4000, which replaces the direct llama server once Open WebUI's connection is switched.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -30,3 +31,20 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: network
             gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+    # Open WebUI calls LiteLLM through its Service, so LiteLLM's replies come back as new traffic to this pod
+    # (from the LiteLLM pod to this pod's ephemeral port). No port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/instance: litellm
+            app.kubernetes.io/name: litellm
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/instance: litellm
+            app.kubernetes.io/name: litellm
+      toPorts:
+        - ports:
+            - port: "4000"
+              protocol: TCP

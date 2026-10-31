@@ -34,3 +34,12 @@ spec:
         - ports:
             - port: "4000"
               protocol: TCP
+    # Open WebUI (default namespace): chat completions with its virtual key.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: openwebui
+      toPorts:
+        - ports:
+            - port: "4000"
+              protocol: TCP
