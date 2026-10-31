@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmteam_v1alpha1.json
+# Home Assistant's team and key on the LiteLLM gateway. They live here, not in the home-assistant folder, because
+# Home Assistant does not read a Secret: its "Local LLM Server" integration is configured in its UI, where the key is
+# pasted (Settings > Devices & services > the entry > Reconfigure). The key is in the Secret ha-conversation-litellm
+# (key `key`) in this namespace. The "LLM Vision" integration has no key: nothing in Home Assistant uses it (no
+# automation, script, scene or helper references llmvision or its image_analyzer action; Frigate does the image AI).
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMTeam
+metadata:
+  name: home-assistant
+spec:
+  alias: home-assistant
+  models:
+    - gemma-4-12b-ha
+  proxyRef: litellm
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmvirtualkey_v1alpha1.json
+# The "Local LLM Server" integration (local_openai): the voice and chat conversation agent.
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMVirtualKey
+metadata:
+  name: ha-conversation
+spec:
+  keyAlias: ha-conversation
+  models:
+    - gemma-4-12b-ha
+  proxyRef: litellm
+  secretName: ha-conversation-litellm
+  teamID: home-assistant
