@@ -1,0 +1,53 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmcpserver_v1alpha1.json
+# VictoriaLogs MCP behind LiteLLM. Read-only by design: the server only exposes query, exploration and stats APIs of
+# VictoriaLogs (victoria-logs.o11y.svc:9428). It has no inbound authentication, so the network policy lets only
+# LiteLLM call it. The image runs as the user name `mcp`, which Kubernetes cannot check is non-root, hence the
+# numeric user below.
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMMCPServer
+metadata:
+  name: victoria-logs-mcp
+spec:
+  alias: victoria_logs
+  proxyRef: litellm
+  transport: http
+  workload:
+    automountServiceAccountToken: false
+    env:
+      - name: MCP_HEARTBEAT_INTERVAL
+        value: 30s
+      - name: MCP_LISTEN_ADDR
+        value: 0.0.0.0:8080
+      - name: MCP_SERVER_MODE
+        value: http
+      - name: VL_INSTANCE_ENTRYPOINT
+        value: http://victoria-logs.o11y.svc.cluster.local:9428
+    image: ghcr.io/victoriametrics/mcp-victorialogs:v1.9.0@sha256:753bb4fbe402ca1a782842f44636830f9895736f11d7fe783b924f8a0daf083d
+    path: /mcp
+    podSecurityContext:
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
+      seccompProfile:
+        type: RuntimeDefault
+    port: 8080
+    replicas: 1
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        memory: 128Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: true
+    volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+    volumes:
+      - name: tmp
+        emptyDir: {}

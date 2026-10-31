@@ -1,0 +1,37 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/v1/serviceaccount.json
+# Read-only: the built-in `view` role (no Secrets; it covers the Flux resources) plus mcp-readonly-cluster
+# (../rbac.yaml). The upstream chart's own RBAC option is cluster-admin, which is why this is written by hand
+# (closed PR #1835). The server's --read-only flag is a second guard, not the only one.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: flux-mcp
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/rbac.authorization.k8s.io/clusterrolebinding_v1.json
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: flux-mcp-view
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+subjects:
+  - kind: ServiceAccount
+    name: flux-mcp
+    namespace: ai
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/rbac.authorization.k8s.io/clusterrolebinding_v1.json
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: flux-mcp-readonly-cluster
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: mcp-readonly-cluster
+subjects:
+  - kind: ServiceAccount
+    name: flux-mcp
+    namespace: ai

@@ -1,0 +1,56 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmcpserver_v1alpha1.json
+# Kubernetes MCP behind LiteLLM (containers/kubernetes-mcp-server), read-only: the server refuses every mutating tool
+# (read_only) and denies Secrets (resources/config.toml), and its service account cannot write or read Secrets
+# either (rbac.yaml). It has no inbound authentication, so the network policy lets only LiteLLM call it.
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMMCPServer
+metadata:
+  name: kubernetes-mcp
+spec:
+  alias: kubernetes
+  proxyRef: litellm
+  transport: http
+  workload:
+    args:
+      - --config
+      - /etc/kubernetes-mcp-server/config.toml
+    automountServiceAccountToken: true
+    image: quay.io/containers/kubernetes_mcp_server:v0.1.1@sha256:d616331a99184d42f7471eac5ae257192e7065bb684ad115cc95c2e76cfbc2d1
+    path: /mcp
+    # The API server (egress.cilium.io, M15).
+    podLabels:
+      egress.cilium.io/kube-apiserver: "true"
+    podSecurityContext:
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
+      seccompProfile:
+        type: RuntimeDefault
+    port: 8080
+    replicas: 1
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        memory: 256Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: true
+    serviceAccountName: kubernetes-mcp
+    volumeMounts:
+      - name: config
+        mountPath: /etc/kubernetes-mcp-server
+        readOnly: true
+      - name: tmp
+        mountPath: /tmp
+    volumes:
+      - name: config
+        configMap:
+          name: kubernetes-mcp-config
+      - name: tmp
+        emptyDir: {}
