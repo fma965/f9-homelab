@@ -1,0 +1,83 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmproxy_v1alpha1.json
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMProxy
+metadata:
+  name: litellm
+spec:
+  env:
+    - name: DATABASE_URL
+      valueFrom:
+        secretKeyRef:
+          name: litellm-secret
+          key: DATABASE_URL
+    - name: LITELLM_LOG
+      value: INFO
+    - name: LITELLM_MASTER_KEY
+      valueFrom:
+        secretKeyRef:
+          name: litellm-secret
+          key: LITELLM_MASTER_KEY
+    - name: LITELLM_MODE
+      value: PRODUCTION
+    # Encrypts provider credentials stored in the database. Must never change once the database holds data.
+    - name: LITELLM_SALT_KEY
+      valueFrom:
+        secretKeyRef:
+          name: litellm-secret
+          key: LITELLM_SALT_KEY
+    - name: PROXY_BASE_URL
+      value: https://litellm.f9.casa
+  generalSettings:
+    # Models come from LiteLLMModel resources (git), not from the database.
+    store_model_in_db: false
+  image: ghcr.io/berriai/litellm:v1.106.6@sha256:37e2dafb088a7723beb998590682957386dfc83ffea1848486f8e0e5cfac0b06
+  litellmSettings:
+    drop_params: true
+    num_retries: 2
+    request_timeout: 600
+  # The first start runs the database migrations, which took about 35 s on an empty database; the
+  # operator's default liveness window (about 40 s) is too tight for that.
+  livenessProbe:
+    failureThreshold: 6
+    httpGet:
+      path: /health/liveliness
+      port: 4000
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 5
+  # Egress profiles (M15): Postgres, and the NAS for the llama.cpp server.
+  podLabels:
+    egress.cilium.io/nas: "true"
+    egress.cilium.io/postgres: "true"
+  podSecurityContext:
+    runAsGroup: 1000
+    runAsNonRoot: true
+    runAsUser: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      memory: 2Gi
+  route:
+    hostnames:
+      - litellm.f9.casa
+    parentRefs:
+      - name: envoy-internal
+        namespace: network
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: true
+  volumeMounts:
+    - name: tmp
+      mountPath: /tmp
+  volumes:
+    - name: tmp
+      emptyDir: {}
