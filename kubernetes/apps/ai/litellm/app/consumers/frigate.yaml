@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmteam_v1alpha1.json
+# Frigate's team and key on the LiteLLM gateway, for its GenAI summaries and chat. Frigate runs on the NAS (a Docker
+# container, outside the cluster) and reads its secrets from 1Password through Doco-CD, so the key is copied from the
+# Secret frigate-litellm (key `key`, in this namespace) into the 1Password item `frigate`, field LITELLM_API_KEY. It
+# calls LiteLLM at https://litellm.f9.casa, through the internal gateway.
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMTeam
+metadata:
+  name: frigate
+spec:
+  alias: frigate
+  models:
+    - gemma-4-12b-ha
+  proxyRef: litellm
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmvirtualkey_v1alpha1.json
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMVirtualKey
+metadata:
+  name: frigate
+spec:
+  keyAlias: frigate
+  models:
+    - gemma-4-12b-ha
+  proxyRef: litellm
+  secretName: frigate-litellm
+  teamID: frigate
