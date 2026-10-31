@@ -11,6 +11,36 @@ spec:
         secretKeyRef:
           name: litellm-secret
           key: DATABASE_URL
+    # Admin UI sign-in through Pocket ID (generic OIDC; free for up to 5 users). The role claim is a custom
+    # claim on the `admins` group (litellm_role: proxy_admin).
+    - name: GENERIC_AUTHORIZATION_ENDPOINT
+      value: https://id.f9.casa/authorize
+    - name: GENERIC_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: litellm-oidc-credentials
+          key: client_id
+    - name: GENERIC_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: litellm-oidc-credentials
+          key: client_secret
+    - name: GENERIC_CLIENT_USE_PKCE
+      value: "true"
+    - name: GENERIC_SCOPE
+      value: openid profile email
+    - name: GENERIC_TOKEN_ENDPOINT
+      value: https://id.f9.casa/api/oidc/token
+    - name: GENERIC_USER_DISPLAY_NAME_ATTRIBUTE
+      value: name
+    - name: GENERIC_USER_EMAIL_ATTRIBUTE
+      value: email
+    - name: GENERIC_USER_ID_ATTRIBUTE
+      value: sub
+    - name: GENERIC_USER_ROLE_ATTRIBUTE
+      value: litellm_role
+    - name: GENERIC_USERINFO_ENDPOINT
+      value: https://id.f9.casa/api/oidc/userinfo
     # Use the model price list bundled in the image. Otherwise it is fetched from raw.githubusercontent.com
     # at start-up (3 retries, then the bundled copy), which the egress policy blocks.
     - name: LITELLM_LOCAL_MODEL_COST_MAP
@@ -33,6 +63,9 @@ spec:
     - name: PROXY_BASE_URL
       value: https://litellm.f9.casa
   generalSettings:
+    # SSO is the only Admin UI sign-in: the master key no longer works as the UI password, but still
+    # authenticates API calls.
+    disable_env_credential_login: true
     # Models come from LiteLLMModel resources (git), not from the database.
     store_model_in_db: false
   image: ghcr.io/berriai/litellm:v1.106.6@sha256:37e2dafb088a7723beb998590682957386dfc83ffea1848486f8e0e5cfac0b06
@@ -50,8 +83,9 @@ spec:
     initialDelaySeconds: 60
     periodSeconds: 10
     timeoutSeconds: 5
-  # Egress profiles (M15): Postgres, and the NAS for the llama.cpp server.
+  # Egress profiles (M15): the gateway (id.f9.casa for the sign-in), the NAS for the llama.cpp server, and Postgres.
   podLabels:
+    egress.cilium.io/gateway-external: "true"
     egress.cilium.io/nas: "true"
     egress.cilium.io/postgres: "true"
   podSecurityContext:

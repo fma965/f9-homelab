@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+# LiteLLM signs people in itself (generic OIDC, see litellmproxy.yaml): the operator creates the client in
+# Pocket ID and writes litellm-oidc-credentials (client_id, client_secret) next to it. Only `admins` get a
+# token; the group's `litellm_role` claim (groups.yaml in security/pocket-id) is the role LiteLLM gives them.
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: litellm
+spec:
+  allowedUserGroups:
+    - groupName: admins
+  callbackUrls:
+    - https://litellm.f9.casa/sso/callback
+  clientID: litellm
+  description: LLM gateway
+  launchUrl: https://litellm.f9.casa/
+  name: LiteLLM
+  skipConsent: true

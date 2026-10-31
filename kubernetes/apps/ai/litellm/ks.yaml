@@ -3,24 +3,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app litellm
+  name: litellm
 spec:
-  components:
-    - ../../../../components/oidc # the admin UI has no Pocket ID login of its own
   dependsOn:
     - name: cloudnative-pg # shared Postgres, database created by the init-db Job
       namespace: database
     - name: litellm-operator # provides the LiteLLM CRDs
       namespace: ai
-    - name: pocket-id # the oidc component creates a PocketIDOIDCClient
+    - name: pocket-id # the PocketIDOIDCClient in oidcclient.yaml
       namespace: security
   interval: 1h
   path: ./kubernetes/apps/ai/litellm/app
-  postBuild:
-    substitute:
-      APP: *app
-      OIDC_DESCRIPTION: LLM gateway admin UI
-      OIDC_TITLE: LiteLLM
   prune: true
   sourceRef:
     kind: GitRepository
