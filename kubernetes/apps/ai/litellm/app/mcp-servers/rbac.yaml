@@ -40,3 +40,8 @@ rules:
   - apiGroups: [external-secrets.io]
     resources: [clusterexternalsecrets, externalsecrets]
     verbs: [get, list, watch]
+  # `view` aggregates only resourcesets and resourcesetinputproviders from this group; the FluxInstance and its report
+  # are what the Flux MCP's get_flux_instance reads.
+  - apiGroups: [fluxcd.controlplane.io]
+    resources: [fluxinstances, fluxreports]
+    verbs: [get, list, watch]
