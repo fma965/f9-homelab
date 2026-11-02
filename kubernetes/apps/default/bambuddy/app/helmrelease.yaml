@@ -40,7 +40,7 @@ spec:
           app:
             image:
               repository: ghcr.io/maziggy/bambuddy
-              tag: daily@sha256:588c0b0c008c66226978cd61e3c99a892e90dda091cbd0972c978dde506ba9bf 
+              tag: daily@sha256:c9d90f15aa19441ea0c6ec2a03632588e9de727a7b4eafeac242a3a209f83946 
             env:
               PORT: &port 8000
               TZ: Europe/London
