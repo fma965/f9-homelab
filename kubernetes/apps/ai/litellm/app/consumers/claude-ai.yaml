@@ -1,8 +1,8 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmteam_v1alpha1.json
-# What claude.ai's connectors may use through the public door (public/). Home Assistant is deliberately NOT listed: its
-# MCP server exists behind LiteLLM but nothing is granted it. The key is in the Secret claude-ai-litellm (key `key`) in
-# this namespace; it is entered in each connector as a request header, `x-litellm-api-key: <key>` (LiteLLM also accepts
+# What claude.ai's connectors may use through the public door (public/). Home Assistant's server is read-write (it can
+# operate locks), TrueNAS has writes on, and UniFi asks for confirmation before writes. The key is in the Secret
+# claude-ai-litellm (key `key`) in this namespace; it is entered in each connector as a request header, `x-litellm-api-key: <key>` (LiteLLM also accepts
 # `Authorization: Bearer <key>`).
 apiVersion: litellm.home-operations.com/v1alpha1
 kind: LiteLLMTeam
@@ -13,6 +13,7 @@ spec:
   mcpServers:
     - flux
     - grafana
+    - home_assistant
     - kubernetes
     - paperless
     - truenas
