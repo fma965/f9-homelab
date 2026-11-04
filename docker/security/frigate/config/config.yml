@@ -242,6 +242,10 @@ cameras:
           friendly_name: Object Mask 1
           enabled: true
           coordinates: 0.043,0.728,0.073,0.137,0.079,0,0,0,0,0.743
+        object_mask_2:
+          friendly_name: Object Mask 2
+          enabled: true
+          coordinates: 0.858,0.298,0.907,0.66,1,0.696,1,0,0.816,0
   garage_camera:
     record:
       enabled: true
