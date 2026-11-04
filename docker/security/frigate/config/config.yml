@@ -192,6 +192,12 @@ cameras:
       # instead of ending it and starting a new one (default is 5x the fps).
       max_disappeared: 50
 
+    # Clean snapshots for the vehicle notification (image.front_camera_car in Home
+    # Assistant is the latest snapshot Frigate publishes). Only this camera: the
+    # others keep the box so Explore still shows which object triggered an event.
+    snapshots:
+      bounding_box: false
+
     objects:
       mask:
         object_mask_1:
