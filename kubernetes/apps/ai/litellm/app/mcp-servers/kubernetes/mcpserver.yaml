@@ -16,7 +16,7 @@ spec:
       - --config
       - /etc/kubernetes-mcp-server/config.toml
     automountServiceAccountToken: true
-    image: quay.io/containers/kubernetes_mcp_server:v0.1.2@sha256:e3bf21b5488aedb02d1e686de162785a82fa99a6ada12388aef157c2fdd5dc68
+    image: quay.io/containers/kubernetes_mcp_server:v0.1.2@sha256:c289505b06079d7f265a6fef977ce1abbfbbb4271772db17db5b58edbf44c255
     path: /mcp
     # The API server (egress.cilium.io, M15).
     podLabels:
