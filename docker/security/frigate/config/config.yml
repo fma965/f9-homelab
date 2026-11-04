@@ -190,7 +190,7 @@ cameras:
     detect:
       # Keep a car alive through a few seconds of low-confidence frames at night
       # instead of ending it and starting a new one (default is 5x the fps).
-      max_disappeared: 150
+      max_disappeared: 50
 
     objects:
       mask:
