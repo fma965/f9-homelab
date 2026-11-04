@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmcpserver_v1alpha1.json
-# Home Assistant MCP behind LiteLLM, READ-WRITE as on the public instance: it can call services, including locks.
+# Home Assistant MCP behind LiteLLM, READ-WRITE: it can call services, including locks.
 # The public instance guards itself with a secret URL path; here the path is a plain /mcp because the network policy
 # lets only LiteLLM call this pod. Home Assistant is called at home-assistant-app.default.svc:8123, and its own policy
 # has to admit this pod (kubernetes/apps/default/home-assistant/app/networkpolicy.yaml).

@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmcpserver_v1alpha1.json
-# TrueNAS MCP behind LiteLLM. WRITES ARE ENABLED (TRUENAS_MCP_ENABLE_WRITES), as on the public instance, so what
+# TrueNAS MCP behind LiteLLM. WRITES ARE ENABLED (TRUENAS_MCP_ENABLE_WRITES), so what
 # this key can do on the NAS is what a caller of LiteLLM with access to this server can do. The server demands the
 # key on every request (401 otherwise); LiteLLM sends it as a bearer token. The network policy lets only LiteLLM call
 # it.

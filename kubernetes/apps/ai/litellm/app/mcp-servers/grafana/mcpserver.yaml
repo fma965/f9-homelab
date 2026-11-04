@@ -1,8 +1,7 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmcpserver_v1alpha1.json
 # Grafana MCP behind LiteLLM, read-only (--disable-write). The operator runs the pod and a Service named
-# grafana-mcp on 8000 (ai namespace); LiteLLM calls it with the bearer token below. Same image and arguments as the
-# public instance in the mcp namespace, which stays until the cut-over.
+# grafana-mcp on 8000 (ai namespace); LiteLLM calls it with the bearer token below.
 apiVersion: litellm.home-operations.com/v1alpha1
 kind: LiteLLMMCPServer
 metadata:
