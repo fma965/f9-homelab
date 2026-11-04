@@ -1,8 +1,7 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmcpserver_v1alpha1.json
 # UniFi Network MCP behind LiteLLM. Write actions still ask for confirmation (UNIFI_TOOL_PERMISSION_MODE=confirm).
-# It has no inbound authentication, so the network policy lets only LiteLLM call it. Same image and settings as the
-# public instance in the mcp namespace, which stays until the cut-over.
+# It has no inbound authentication, so the network policy lets only LiteLLM call it.
 apiVersion: litellm.home-operations.com/v1alpha1
 kind: LiteLLMMCPServer
 metadata:

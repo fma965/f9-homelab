@@ -23,12 +23,9 @@ spec:
               protocol: TCP
             - port: "12321"
               protocol: TCP
-    # In-cluster callers of the Home Assistant API: the ha-mcp server, Homepage's widget, Bambuddy
+    # In-cluster callers of the Home Assistant API: the Home Assistant MCP server behind LiteLLM, Homepage's widget, Bambuddy
     # (printer integration) and Gatus (its probe). All use home-assistant-app:8123.
     - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: mcp
-            app.kubernetes.io/name: ha-mcp
         - matchLabels:
             io.kubernetes.pod.namespace: default
             app.kubernetes.io/name: homepage
