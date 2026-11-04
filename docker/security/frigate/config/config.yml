@@ -57,8 +57,17 @@ objects:
       min_area: 1000
       min_score: 0.6
       threshold: 0.75
+    # Vehicles are large, so a small box is a false positive (a shadow, a bin, a
+    # distant road car). Raise min_area if distant passing cars still trigger,
+    # lower it if real ones get missed.
     car:
+      min_area: 3000
       min_score: 0.8
+      threshold: 0.85
+    motorcycle:
+      min_area: 2000
+      min_score: 0.7
+      threshold: 0.8
 
 record:
   enabled: true
@@ -165,7 +174,7 @@ cameras:
         object_mask_1:
           friendly_name: Object Mask 1
           enabled: true
-          coordinates: 0.787,0.59,0.629,0.555,0.562,0.611,0.457,0.578,0.432,0.553,0.152,0.585,0.142,0.494,0.173,0.151,0.259,0.165,0.367,0.056,0.441,0,0.758,0,0.783,0.138,0.798,0.453,0.816,0.472
+          coordinates: 0.787,0.64,0.629,0.6,0.562,0.65,0.457,0.62,0.432,0.595,0.152,0.62,0.142,0.494,0.173,0.151,0.259,0.165,0.367,0.056,0.441,0,0.758,0,0.783,0.138,0.798,0.453,0.816,0.472
   front_camera:
     ffmpeg:
       inputs:
