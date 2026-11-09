@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
-# ImmichFrame (photo slideshow, home network only, no login). Egress: DNS and the Immich server.
+# ImmichFrame (photo slideshow, home network only, no login). Egress: DNS, the Immich server and Google Calendar.
 # Probes come from the local node, which Cilium always allows.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
@@ -34,4 +34,12 @@ spec:
       toPorts:
         - ports:
             - port: "2283"
+              protocol: TCP
+    # Google Calendar (the webcalendar .ics feed in the ExternalSecret), by name on 443 only. If the calendar
+    # stops loading, look for a denied name in Hubble (a redirect to another Google host would need adding).
+    - toFQDNs:
+        - matchName: calendar.google.com
+      toPorts:
+        - ports:
+            - port: "443"
               protocol: TCP
