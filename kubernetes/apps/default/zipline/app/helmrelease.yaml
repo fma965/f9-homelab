@@ -63,7 +63,6 @@ spec:
               FILES_DEFAULT_FORMAT: "date"
               FILES_DISABLED_EXTENSIONS: "ps1,pdf,bat,exe,sh,fish"
               FILES_DEFAULT_DATE_FORMAT: "YYYY-MM-DD_HH-mm-ss"
-              FILES_DEFAULT_EXPIRATION: ""
               FILES_REMOVE_GPS_METADATA: true
               DATASOURCE_LOCAL_DIRECTORY: "/uploads"
               # URLs
