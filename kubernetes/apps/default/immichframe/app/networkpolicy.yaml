@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# ImmichFrame (photo slideshow, home network only, no login). Egress: DNS and the Immich server.
+# Probes come from the local node, which Cilium always allows.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: immichframe
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: immichframe
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # Replies to the app's own connection to the Immich Service. Cilium evaluates the reverse-translated
+    # reply as new traffic to this pod and drops it without this rule; the destination is the pod's
+    # ephemeral source port, so no port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: immich
+  egress:
+    # The Immich server, configured as http://immich.default.svc.cluster.local:2283.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: immich
+      toPorts:
+        - ports:
+            - port: "2283"
+              protocol: TCP
