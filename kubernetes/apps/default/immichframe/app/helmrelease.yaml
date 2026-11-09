@@ -1,0 +1,75 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: immichframe
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: immichframe
+  values:
+    controllers:
+      immichframe:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/immichframe/immichframe
+              tag: v1.0.39.0@sha256:b4bd2ac6ec75c0117a24bd627dc0b449d485ac87ec3a410c73d5db05a4bbfcaf
+            env:
+              TZ: Europe/London
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 512Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: &port 8080
+    route:
+      app:
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media Service
+          gethomepage.dev/name: ImmichFrame
+          gethomepage.dev/description: "Photo frame slideshow from Immich (home network only, no login)"
+          gethomepage.dev/icon: immich
+        hostnames:
+          - "{{ .Release.Name }}.f9.casa"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    persistence:
+      # ImmichFrame keeps its settings in a SQLite database under /app/Config and imports Settings.yml on first
+      # start; an emptyDir makes every start a first start, so Settings.yml (from the ExternalSecret) rules.
+      config:
+        type: emptyDir
+        globalMounts:
+          - path: /app/Config
+      settings:
+        type: secret
+        name: "{{ .Release.Name }}-secret"
+        globalMounts:
+          - path: /app/Config/Settings.yml
+            subPath: Settings.yml
+            readOnly: true
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
