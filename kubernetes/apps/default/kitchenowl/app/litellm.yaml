@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmteam_v1alpha1.json
+# KitchenOwl's team and key on the LiteLLM gateway (ai namespace), for ingredient detection on imported recipes and the
+# AI recipe generator. The operator creates both through the proxy's admin API and writes the key into the Secret
+# `kitchenowl-litellm` (key `key`) in this namespace.
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMTeam
+metadata:
+  name: kitchenowl
+spec:
+  alias: kitchenowl
+  models:
+    - gemma-4-12b-ha
+  proxyNamespace: ai
+  proxyRef: litellm
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmvirtualkey_v1alpha1.json
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMVirtualKey
+metadata:
+  name: kitchenowl
+spec:
+  keyAlias: kitchenowl
+  models:
+    - gemma-4-12b-ha
+  proxyNamespace: ai
+  proxyRef: litellm
+  secretName: kitchenowl-litellm
+  teamID: kitchenowl
