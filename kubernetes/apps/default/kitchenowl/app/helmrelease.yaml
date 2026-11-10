@@ -22,7 +22,10 @@ spec:
             env:
               TZ: Europe/London
               FRONT_URL: https://{{ .Release.Name }}.f9.casa
-              # Sign-in through Pocket ID (id.f9.casa). Password login stays on until OIDC is confirmed working.
+              # Sign-in through Pocket ID (id.f9.casa) only: password login is off, and with it open registration.
+              # Onboarding is off too, so nobody can create the first account on an empty database.
+              DISABLE_USERNAME_PASSWORD_LOGIN: "true"
+              DISABLE_ONBOARDING: "true"
               OIDC_ISSUER: https://id.f9.casa
               OIDC_CLIENT_ID:
                 valueFrom:
