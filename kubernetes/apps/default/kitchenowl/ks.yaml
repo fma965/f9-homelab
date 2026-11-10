@@ -8,6 +8,10 @@ spec:
   components:
     - ../../../../components/kopiur/backup
   dependsOn:
+    - name: litellm # the team and virtual key are created on the LiteLLM proxy
+      namespace: ai
+    - name: pocket-id # the OIDC client is created in Pocket ID
+      namespace: security
     - name: rook-ceph-cluster
       namespace: rook-ceph
   interval: 1h

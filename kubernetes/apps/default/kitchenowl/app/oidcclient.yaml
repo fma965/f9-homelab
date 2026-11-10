@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+# The Pocket ID client for KitchenOwl's own OIDC sign-in (kitchenowl.f9.casa). The operator writes the Secret
+# `kitchenowl-oidc-credentials` (`client_id`, `client_secret`), which the HelmRelease reads. KitchenOwl does the
+# login itself, so the gateway `oidc` component is not used (it would block the mobile app). The second callback is
+# the mobile app's redirect.
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: kitchenowl
+spec:
+  allowedUserGroups:
+    - groupName: admins
+    - groupName: home
+  callbackUrls:
+    - https://kitchenowl.f9.casa/signin/redirect
+    - kitchenowl:/signin/redirect
+  clientID: kitchenowl
+  description: Shared grocery lists and recipes
+  launchUrl: https://kitchenowl.f9.casa/
+  logo:
+    darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/kitchenowl.webp
+    logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/kitchenowl.webp
+  name: KitchenOwl
+  pkceEnabled: true
+  skipConsent: true

@@ -22,6 +22,27 @@ spec:
             env:
               TZ: Europe/London
               FRONT_URL: https://{{ .Release.Name }}.f9.casa
+              # Sign-in through Pocket ID (id.f9.casa). Password login stays on until OIDC is confirmed working.
+              OIDC_ISSUER: https://id.f9.casa
+              OIDC_CLIENT_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: kitchenowl-oidc-credentials
+                    key: client_id
+              OIDC_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: kitchenowl-oidc-credentials
+                    key: client_secret
+              # The LiteLLM gateway (ai namespace) through its OpenAI-compatible API, with the virtual key in the
+              # Secret kitchenowl-litellm. Ingredient detection on imported recipes and the AI recipe generator.
+              LLM_MODEL: openai/gemma-4-12b-ha
+              LLM_API_URL: http://litellm.ai.svc.cluster.local:4000/v1
+              OPENAI_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: kitchenowl-litellm
+                    key: key
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
@@ -47,6 +68,8 @@ spec:
                 memory: 512Mi
     defaultPodOptions:
       labels:
+        # The Pocket ID sign-in at id.f9.casa goes through the external gateway.
+        egress.cilium.io/gateway-external: "true"
         # Recipe import fetches the recipe's web page.
         egress.cilium.io/web: "true"
       securityContext:
