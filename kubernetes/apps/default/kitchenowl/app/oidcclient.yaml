@@ -3,7 +3,8 @@
 # The Pocket ID client for KitchenOwl's own OIDC sign-in (kitchenowl.f9.casa). The operator writes the Secret
 # `kitchenowl-oidc-credentials` (`client_id`, `client_secret`), which the HelmRelease reads. KitchenOwl does the
 # login itself, so the gateway `oidc` component is not used (it would block the mobile app). The second callback is
-# the mobile app's redirect.
+# the mobile app's redirect. PKCE is off because KitchenOwl does not send a code challenge, and Pocket ID then refuses
+# the login (`This client requires PKCE, but the 'code_challenge' parameter is missing`).
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDOIDCClient
 metadata:
@@ -22,5 +23,5 @@ spec:
     darkLogoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/kitchenowl.webp
     logoUrl: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/kitchenowl.webp
   name: KitchenOwl
-  pkceEnabled: true
+  pkceEnabled: false
   skipConsent: true
