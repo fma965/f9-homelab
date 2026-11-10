@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
-# KitchenOwl (grocery lists, internal gateway only, own login through Pocket ID). Ingress: the internal gateway on the
-# container port. Egress: DNS (cluster-wide), the `gateway-external` (Pocket ID sign-in) and `web` (recipe import)
+# KitchenOwl (grocery lists, internal gateway only, own login through Pocket ID). Ingress: the internal gateway and
+# Home Assistant (integration) on the container port. Egress: DNS (cluster-wide), the `gateway-external` (Pocket ID sign-in) and `web` (recipe import)
 # profile labels, and the LiteLLM proxy on 4000. Allow-list written from the manifests, not yet from the Cilium
 # connection table (M15): check Hubble for `Policy denied DROPPED` after it lands. Probes come from the local node,
 # which Cilium always allows.
@@ -17,6 +17,16 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: network
             gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # Home Assistant's KitchenOwl integration calls the API through the kitchenowl Service. Its replies are
+    # established traffic, and Home Assistant already accepts the ephemeral range from the cluster.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: home-assistant
       toPorts:
         - ports:
             - port: "8080"
