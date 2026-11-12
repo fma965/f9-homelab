@@ -20,6 +20,7 @@ spec:
         - matchName: bonus.frugalusenet.com
         - matchName: eunews.blocknews.net
         - matchName: news.tweaknews.eu
+        - matchName: api.nzbgeek.info
       toPorts:
         - ports:
             - port: "563"
