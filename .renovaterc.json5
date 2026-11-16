@@ -16,7 +16,33 @@
     additionalBranchPrefix: "{{manager}}-",
   },
   packageRules: [
-    // Auto-merge rules
+    // Auto-merge rules. Later rules win: the broad patch rule comes first and the critical-component
+    // exclusion comes last, so nothing below can re-enable a package it lists.
+    {
+      description: "Auto-merge container and chart patch updates after a soak period",
+      matchDatasources: ["docker", "helm"],
+      matchUpdateTypes: ["patch"],
+      automerge: true,
+      automergeType: "pr",
+      minimumReleaseAge: "3 days",
+      ignoreTests: false,
+    },
+    {
+      description: "Auto-merge minor updates of low-risk leaf apps after a soak period",
+      matchDatasources: ["docker", "helm"],
+      matchUpdateTypes: ["minor"],
+      matchPackageNames: [
+        "/home-operations\\/(prowlarr|radarr|sonarr|lidarr|readarr|sabnzbd|qbittorrent)/",
+        "/seerr/",
+        "/gethomepage\\/homepage/",
+        "/haveagitgat\\/tdarr/",
+        "/music-assistant\\/server/",
+      ],
+      automerge: true,
+      automergeType: "pr",
+      minimumReleaseAge: "3 days",
+      ignoreTests: false,
+    },
     {
       description: "Auto-merge trusted OCI digests",
       matchDatasources: ["docker"],
@@ -46,6 +72,16 @@
       ignoreTests: false,
     },
     {
+      description: "Auto-merge trusted GitHub Actions",
+      matchManagers: ["github-actions"],
+      matchPackageNames: ["/^actions\\//"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      automerge: true,
+      automergeType: "pr",
+      minimumReleaseAge: "1 minute",
+      ignoreTests: false,
+    },
+    {
       description: "Auto-merge Grafana dashboards",
       matchDatasources: ["custom.grafana-dashboards"],
       matchUpdateTypes: ["major"],
@@ -60,6 +96,41 @@
       automerge: true,
       automergeType: "pr",
       ignoreTests: false,
+    },
+    {
+      // Last of the auto-merge rules on purpose: later rules win, so this also beats the trusted-digest rule
+      // above (a digest-only bump of a home-operations image such as kopiur or vchord must not merge itself).
+      // Limited to container and chart updates so GitHub Actions rules still apply.
+      description: "Never auto-merge cluster-critical components (DNS, CNI, storage, backups, databases, secrets, ingress, auth, GitOps, Talos)",
+      matchDatasources: ["docker", "helm"],
+      matchPackageNames: [
+        "/siderolabs/",
+        "/kube-(apiserver|controller-manager|proxy|scheduler)/",
+        "/kubelet/",
+        "/coredns/",
+        "/cilium/",
+        "/rook-ceph/",
+        "/ceph/",
+        "/cloudnative-pg/",
+        "/postgres/",
+        "/kopiur/",
+        "/doco-cd/",
+        "/envoy/",
+        "/external-secrets/",
+        "/external-dns/",
+        "/cert-manager/",
+        "/onepassword/",
+        "/flux/",
+        "/pocket-id/",
+        "/etcd/",
+        "/tuppr/",
+        "/dragonfly/",
+        "/openebs/",
+        "/multus/",
+        "/vchord/",
+        "/plugin-barman-cloud/",
+      ],
+      automerge: false,
     },
     // Grouping rules
     {
