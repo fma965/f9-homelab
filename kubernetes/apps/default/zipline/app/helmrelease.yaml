@@ -20,7 +20,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 18.6.0@sha256:87627baaddb0cabed4ebe033e75038e5c7b6b081c18e86514c99067179a90719
+              tag: 18.7.0@sha256:6d4cfa4b8d343eb6fa0de8dd9ec416a2007f346bb631fc8e246e1f39eee6c4aa
             envFrom: &envFrom
               - secretRef:
                   name: zipline-secret
@@ -28,7 +28,7 @@ spec:
           app:
             image:
               repository: ghcr.io/diced/zipline
-              tag: 4.8.2@sha256:cb3769f50a5887e38d678ab466656bd2a56f3ce96bc8a4d0788cc479d19c05c9
+              tag: 4.8.3@sha256:b51581d2834066a67050c08a7e54d5501f84082ac6f7a14a25a6df517a62765a
             env:
               TZ: Europe/London
               # Core config
@@ -63,7 +63,6 @@ spec:
               FILES_DEFAULT_FORMAT: "date"
               FILES_DISABLED_EXTENSIONS: "ps1,pdf,bat,exe,sh,fish"
               FILES_DEFAULT_DATE_FORMAT: "YYYY-MM-DD_HH-mm-ss"
-              FILES_DEFAULT_EXPIRATION: ""
               FILES_REMOVE_GPS_METADATA: true
               DATASOURCE_LOCAL_DIRECTORY: "/uploads"
               # URLs

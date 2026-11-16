@@ -52,6 +52,15 @@ spec:
         - ports:
             - port: "4000"
               protocol: TCP
+    # KitchenOwl (default namespace): ingredient detection and recipe generation with its virtual key.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: kitchenowl
+      toPorts:
+        - ports:
+            - port: "4000"
+              protocol: TCP
     # Paperless (default namespace): AI suggestions with its virtual key.
     - fromEndpoints:
         - matchLabels:

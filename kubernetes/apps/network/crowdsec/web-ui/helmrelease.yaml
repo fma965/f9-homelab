@@ -48,7 +48,7 @@ spec:
           app:
             image:
               repository: ghcr.io/theduffman85/crowdsec-web-ui
-              tag: 2026.11.5@sha256:8bb448c5c9d9991750dd9e967f3c079782a0bfe8ad1737b87a981ecc1f944a5b
+              tag: 2026.11.11@sha256:b2c4e13d1a36ab306db090d58efb54ab347ea5616c81badcb5bd8055e5dc4c2c
             env:
               # No login of its own: the Pocket ID login (oidc component) is in front, and only the `admins` group gets through.
               CONFIG_AUTH_ENABLED: "false"

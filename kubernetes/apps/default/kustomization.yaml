@@ -19,8 +19,10 @@ resources:
   - ./homebox/ks.yaml
   - ./homepage/ks.yaml
   - ./immich/ks.yaml
+  - ./immichframe/ks.yaml
   - ./it-tools/ks.yaml
   - ./jellyfin/ks.yaml
+  - ./kitchenowl/ks.yaml
   # - ./lidarr/ks.yaml
   - ./matter-server/ks.yaml
   - ./mosquitto/ks.yaml

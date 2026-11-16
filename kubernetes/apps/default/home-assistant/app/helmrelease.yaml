@@ -39,7 +39,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 18.6.0@sha256:87627baaddb0cabed4ebe033e75038e5c7b6b081c18e86514c99067179a90719
+              tag: 18.7.0@sha256:6d4cfa4b8d343eb6fa0de8dd9ec416a2007f346bb631fc8e246e1f39eee6c4aa
             envFrom:
               - secretRef:
                   name: home-assistant-secret
@@ -54,7 +54,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/home-assistant
-              tag: 2026.11.0@sha256:7c1ab60a4bb4cc1f34c314bc209d72d7b7336f0da38d4a69064935d01bba1ba6
+              tag: 2026.11.1@sha256:c129b1e4190273254d93d413fe2a083233c9202d84cb08f84dddb01861df432e
             env:
               # The Pocket ID client for auth_oidc, read through `!env_var` in /config/secrets.yaml. The discovery URL
               # (https://id.f9.casa/.well-known/openid-configuration) and roles are in /config/configuration.yaml.
@@ -108,7 +108,7 @@ spec:
           matter-hub:
             image:
               repository: ghcr.io/riddix/home-assistant-matter-hub
-              tag: 2.0.59@sha256:ef997a84c088ac89e57f9cde0fb6fd18447da0a3c8cc9466c4232ba5a15bd9d7
+              tag: 2.0.60@sha256:6f869bb3ec0b53fef50a29a330a681b19d1590bb56db09d74c3bc2d8bc74a0c3
             env:
               HAMH_STORAGE_LOCATION: /config/matter-hub
               HAMH_HOME_ASSISTANT_URL: http://localhost:8123/
