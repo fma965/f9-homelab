@@ -1,10 +1,9 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/postgresql.cnpg.io/cluster_v1.json
 # Home Assistant's own Postgres 18 cluster. Its recorder was about 95% of the data on postgres17, so it
-# has its own volume, WAL and backup path. Home Assistant uses it since the cutover (f9-homelab#2718).
-# The bootstrap below is the one-time import from the shared postgres17 and only runs when the cluster
-# is created. Do not recreate this cluster while postgres17 still exists: it would re-import the older
-# data and drop everything recorded since. Recover from the barman backups instead.
+# has its own volume, WAL and backup path. Home Assistant has used it since the cutover (f9-homelab#2718).
+# Backups and WAL archiving go through the Barman Cloud plugin. The one-time import from postgres17 has
+# been replaced by a recovery stanza (below) so that a recreated cluster restores from the backups.
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -51,24 +50,18 @@ spec:
       parameters:
         barmanObjectName: hass-postgres
         serverName: hass-postgres-001
+  # Permanent disaster-recovery stanza. bootstrap and externalClusters are read ONLY when the Cluster is first
+  # created, so this is inert for the whole life of a running cluster. A recreated cluster recovers from the
+  # latest plugin backup (to recreate it, delete the Cluster and its PVCs; a leftover PVC would be reused).
   bootstrap:
-    initdb:
+    recovery:
+      source: hass-postgres
       database: hass
       owner: hass
-      secret:
-        name: hass-postgres-credentials
-      import:
-        type: microservice
-        databases:
-          - hass
-        source:
-          externalCluster: postgres17
   externalClusters:
-    - name: postgres17
-      connectionParameters:
-        host: postgres-rw.database.svc.cluster.local
-        user: postgres
-        dbname: postgres
-      password:
-        name: cloudnative-pg-secret
-        key: password
+    - name: hass-postgres
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: hass-postgres
+          serverName: hass-postgres-001
