@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # CloudNativePG operator. Egress only (M15, 15 Oct 2026): it holds broad cluster RBAC, so it may
-# reach DNS, the API server and the Postgres instances it manages, and nothing else. Ingress is not
+# reach DNS, the API server and the Postgres instances it manages (postgres17 and hass-postgres), and nothing else. Ingress is not
 # limited here: the API server calls its admission webhook (9443) and Prometheus scrapes it.
 # Allow-list from the Cilium connection table on 15 Oct 2026.
 apiVersion: cilium.io/v2
@@ -19,7 +19,10 @@ spec:
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: database
-            cnpg.io/cluster: postgres17
+          matchExpressions:
+            - key: cnpg.io/cluster
+              operator: In
+              values: [postgres17, hass-postgres]
       toPorts:
         - ports:
             - port: "5432"
