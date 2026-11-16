@@ -106,6 +106,7 @@ metadata:
   name: cloudnative-pg-postgres18
 spec:
   dependsOn:
+    - name: cloudnative-pg-barman-plugin
     - name: cloudnative-pg-cluster
     - name: openebs
       namespace: openebs-system

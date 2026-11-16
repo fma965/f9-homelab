@@ -1,16 +1,17 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/postgresql.cnpg.io/cluster_v1.json
-# The shared Postgres 18 cluster that replaces postgres17. REHEARSAL STAGE: the active databases and
-# their roles are imported once from the live postgres17 and no app uses this cluster yet. No backup
-# is configured on purpose: the cutover deletes and recreates this cluster for the final import, and
-# CloudNativePG will not archive WAL into a path that already has another history. The Barman Cloud
-# plugin backup and the Service switch arrive with the cutover. hass is not here: it has its own
-# cluster (hass-postgres). forgejo, synapse and app, and the roles of apps that no longer exist, stay
-# behind on postgres17 on purpose.
+# The shared Postgres 18 cluster that replaced postgres17 (cutover: f9-homelab#2722). Backups and WAL
+# archiving go through the Barman Cloud plugin. The bootstrap below is the one-time import from postgres17
+# and only runs when the cluster is created: do not recreate this cluster while postgres17 exists, it would
+# re-import older data. Recover from the barman backups instead. hass is not here: it has its own cluster
+# (hass-postgres). forgejo, synapse and app, and the roles of apps that no longer exist, stay on postgres17.
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: postgres18
+  annotations:
+    # The plugin archives under a prefix that may already hold WAL from before the plugin took over.
+    cnpg.io/skipEmptyWalArchiveCheck: "enabled"
 spec:
   imageCatalogRef:
     apiGroup: postgresql.cnpg.io
@@ -50,6 +51,12 @@ spec:
       memory: 4Gi
   affinity:
     podAntiAffinityType: required
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: postgres18
+        serverName: postgres18-001
   bootstrap:
     initdb:
       import:

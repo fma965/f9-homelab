@@ -80,7 +80,10 @@ spec:
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: database
-            cnpg.io/cluster: postgres17
+          matchExpressions:
+            - key: cnpg.io/cluster
+              operator: In
+              values: [postgres18, hass-postgres]
       toPorts:
         - ports:
             - port: "5432"
@@ -89,4 +92,7 @@ spec:
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: database
-            cnpg.io/cluster: postgres17
+          matchExpressions:
+            - key: cnpg.io/cluster
+              operator: In
+              values: [postgres18, hass-postgres]
