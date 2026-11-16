@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: postgres17-restore
+  name: postgres18-restore
 spec:
   ttlSecondsAfterFinished: 86400
   template:
@@ -22,12 +22,12 @@ spec:
 
       containers:
         - name: postgres
-          # renovate: datasource=docker depName=ghcr.io/tensorchord/cloudnative-vectorchord
-          image: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.4.3
+          # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
+          image: ghcr.io/cloudnative-pg/postgresql:18.7-standard-bookworm@sha256:6669f2fdbc344beb60d307e7aa0a343c510183ac49fd13db8d161d294ed5e141
           command: ["/bin/sh"]
           args:
             - "-c"
-            - "gunzip < /backup/postgres17-cluster.dump.gz | psql -U $PGUSER postgres"
+            - "gunzip < /backup/postgres18-cluster.dump.gz | psql -U $PGUSER postgres"
           env:
             - name: PGHOST
               value: postgres-rw.database

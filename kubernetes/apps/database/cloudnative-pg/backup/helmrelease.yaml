@@ -34,9 +34,9 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/tensorchord/cloudnative-vectorchord
-              # renovate: datasource=docker depName=ghcr.io/tensorchord/cloudnative-vectorchord versioning=redhat
-              tag: 17.5-0.4.3@sha256:acebb38ca309938bc05ce268b019c98aa718cb554dd54e4443654d9d00a0d498
+              repository: ghcr.io/cloudnative-pg/postgresql
+              # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
+              tag: 18.7-standard-bookworm@sha256:6669f2fdbc344beb60d307e7aa0a343c510183ac49fd13db8d161d294ed5e141
             env:
               PGHOST: postgres-rw.database
               PGPORT: "5432"
@@ -55,13 +55,19 @@ spec:
                 set -euo pipefail
                 # Hourly dump into a temp file, checked before it replaces anything, so a failed or
                 # truncated dump can never overwrite a good one. One file per weekday keeps seven
-                # days of history; postgres17-cluster.dump.gz stays the latest (restore.yaml uses it).
-                out="/backup/postgres17-cluster-$(date +%a).dump.gz"
-                pg_dumpall -U "$PGUSER" | gzip > "$out.tmp"
-                gzip -t "$out.tmp"
-                mv "$out.tmp" "$out"
-                cp "$out" /backup/postgres17-cluster.dump.gz.tmp
-                mv /backup/postgres17-cluster.dump.gz.tmp /backup/postgres17-cluster.dump.gz
+                # days of history; <name>.dump.gz stays the latest (restore.yaml uses it).
+                dump() {
+                  name="$1"; shift
+                  out="/backup/$name-$(date +%a).dump.gz"
+                  "$@" | gzip > "$out.tmp"
+                  gzip -t "$out.tmp"
+                  mv "$out.tmp" "$out"
+                  cp "$out" "/backup/$name.dump.gz.tmp"
+                  mv "/backup/$name.dump.gz.tmp" "/backup/$name.dump.gz"
+                }
+                dump postgres18-cluster pg_dumpall -U "$PGUSER"
+                # Home Assistant's recorder has its own cluster
+                PGHOST=hass-postgres-rw.database dump hass-postgres pg_dumpall -U "$PGUSER"
             resources:
               requests:
                 cpu: 50m

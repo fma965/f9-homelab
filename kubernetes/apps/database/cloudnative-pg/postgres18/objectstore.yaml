@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/barmancloud.cnpg.io/objectstore_v1.json
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: postgres18
+spec:
+  configuration:
+    # serverName must NOT be set here (the CRD forbids it). It is a plugin parameter on the Cluster.
+    destinationPath: s3://f9-database
+    endpointURL: http://garage.docker.internal:3900
+    s3Credentials:
+      region:
+        name: cloudnative-pg-secret
+        key: aws-region
+      accessKeyId:
+        name: cloudnative-pg-secret
+        key: aws-access-key-id
+      secretAccessKey:
+        name: cloudnative-pg-secret
+        key: aws-secret-access-key
+    data:
+      compression: gzip
+    wal:
+      compression: gzip
+      maxParallel: 4
+  instanceSidecarConfiguration:
+    resources:
+      requests:
+        cpu: 10m
+      limits:
+        memory: 256Mi
+  retentionPolicy: 7d
