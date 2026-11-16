@@ -1,10 +1,10 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/postgresql.cnpg.io/cluster_v1.json
 # The shared Postgres 18 cluster that replaced postgres17 (cutover: f9-homelab#2722). Backups and WAL
-# archiving go through the Barman Cloud plugin. The bootstrap below is the one-time import from postgres17
-# and only runs when the cluster is created: do not recreate this cluster while postgres17 exists, it would
-# re-import older data. Recover from the barman backups instead. hass is not here: it has its own cluster
-# (hass-postgres). forgejo, synapse and app, and the roles of apps that no longer exist, stay on postgres17.
+# archiving go through the Barman Cloud plugin. The one-time import from postgres17 has been replaced by a
+# recovery stanza (below) so that a recreated cluster restores from the backups. hass is not here: it has its
+# own cluster (hass-postgres). forgejo, synapse and app, and the roles of apps that no longer exist, stayed on
+# postgres17.
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -57,38 +57,16 @@ spec:
       parameters:
         barmanObjectName: postgres18
         serverName: postgres18-001
+  # Permanent disaster-recovery stanza. bootstrap and externalClusters are read ONLY when the Cluster is first
+  # created, so this is inert for the whole life of a running cluster. A recreated cluster recovers from the
+  # latest plugin backup (to recreate it, delete the Cluster and its PVCs; a leftover PVC would be reused).
   bootstrap:
-    initdb:
-      import:
-        type: monolith
-        databases:
-          - debtmanager
-          - games
-          - homebox
-          - immich
-          - litellm
-          - prowlarr-main
-          - radarr-main
-          - sonarr-main
-          - zipline
-        roles:
-          - debtmanager
-          - games
-          - homebox
-          - immich
-          - litellm
-          - prowlarr
-          - radarr
-          - sonarr
-          - zipline
-        source:
-          externalCluster: postgres17
+    recovery:
+      source: postgres18
   externalClusters:
-    - name: postgres17
-      connectionParameters:
-        host: postgres-rw.database.svc.cluster.local
-        user: postgres
-        dbname: postgres
-      password:
-        name: cloudnative-pg-secret
-        key: password
+    - name: postgres18
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: postgres18
+          serverName: postgres18-001

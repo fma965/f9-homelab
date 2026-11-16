@@ -2,8 +2,8 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Home Assistant's Postgres accepts connections only from the default namespace (Home Assistant), from the
 # database namespace itself (replication, operator) and metrics from Prometheus. Probes come from the local
-# node, which Cilium always allows. Egress (M15): the instances reach each other, postgres17 (the import
-# source, until the cutover), the API server and the NAS (from the profile labels), and DNS.
+# node, which Cilium always allows. Egress (M15): the instances reach each other, the API server and the NAS
+# (from the profile labels), and DNS.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -38,15 +38,11 @@ spec:
         - ports:
             - port: "9187"
               protocol: TCP
-    # Replies from the other instances (replication) and from postgres17 (the import's connection through
-    # the postgres-rw Service) are evaluated as new traffic to this pod.
+    # Replies from the other instances (replication) are evaluated as new traffic to this pod.
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: database
             cnpg.io/cluster: hass-postgres
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            cnpg.io/cluster: postgres17
   egress:
     # Replication and the instance manager's status calls between the instances.
     - toEndpoints:
@@ -58,13 +54,4 @@ spec:
             - port: "5432"
               protocol: TCP
             - port: "8000"
-              protocol: TCP
-    # The import reads the hass database from the shared cluster. Remove with the cutover.
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: database
-            cnpg.io/cluster: postgres17
-      toPorts:
-        - ports:
-            - port: "5432"
               protocol: TCP
