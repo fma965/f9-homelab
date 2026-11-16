@@ -29,3 +29,12 @@ spec:
               protocol: TCP
             - port: "8000"
               protocol: TCP
+    # The Barman Cloud plugin controller (gRPC with mutual TLS), which the operator calls for backups.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            app.kubernetes.io/name: plugin-barman-cloud
+      toPorts:
+        - ports:
+            - port: "9090"
+              protocol: TCP
