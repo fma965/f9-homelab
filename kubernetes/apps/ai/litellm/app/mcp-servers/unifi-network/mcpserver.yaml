@@ -44,7 +44,7 @@ spec:
     envFrom:
       - secretRef:
           name: unifi-network-mcp-secret
-    image: ghcr.io/sirkirby/unifi-network-mcp:0.44.0@sha256:de690e741b5713f45c811defd443964bdb6f02ba3c44e6777dbc5fe093e28a92
+    image: ghcr.io/sirkirby/unifi-network-mcp:0.46.0@sha256:77b4b84fa7968fd50a303eb2c2581424cb97dcf894ee9955ac9db0288af6d691
     path: /mcp
     # The UniFi controller (egress.cilium.io, M15).
     podLabels:

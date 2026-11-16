@@ -22,7 +22,7 @@ spec:
         value: http://paperless.default.svc.cluster.local:8000
       - name: TZ
         value: Europe/London
-    image: ghcr.io/baruchiro/paperless-mcp:2.2.1@sha256:7a793eeeb2ef9ea43175bf6b43b2179cc7c5b7e5484b6aecea8984a61d1ffe2d
+    image: ghcr.io/baruchiro/paperless-mcp:2.3.0@sha256:9f27bf5f2fef05f4912e618b0d5fc0e39854328f1b3e40a172aa5c7fe5a9732a
     path: /mcp
     podSecurityContext:
       runAsGroup: 1000
