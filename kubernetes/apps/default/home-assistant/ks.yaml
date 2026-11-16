@@ -9,7 +9,7 @@ spec:
     - ../../../../components/kopiur/backup
   dependsOn:
     - name: mosquitto
-    - name: cloudnative-pg
+    - name: cloudnative-pg-hass
       namespace: database
     - name: multus-networks
       namespace: kube-system
