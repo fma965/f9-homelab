@@ -1,10 +1,10 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/postgresql.cnpg.io/cluster_v1.json
-# Home Assistant's own Postgres 18 cluster. Its recorder is about 95% of the data on postgres17, so it
-# gets its own volume, WAL and backup path. REHEARSAL STAGE: the data is imported once from the live
-# postgres17 and Home Assistant does not use this cluster yet. No barman backup is configured on
-# purpose: CloudNativePG will not archive WAL into a path that already has a different history, and
-# the cutover deletes and recreates this cluster for the final import. Backups arrive with the cutover.
+# Home Assistant's own Postgres 18 cluster. Its recorder was about 95% of the data on postgres17, so it
+# has its own volume, WAL and backup path. Home Assistant uses it since the cutover (f9-homelab#2718).
+# The bootstrap below is the one-time import from the shared postgres17 and only runs when the cluster
+# is created. Do not recreate this cluster while postgres17 still exists: it would re-import the older
+# data and drop everything recorded since. Recover from the barman backups instead.
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -40,6 +40,27 @@ spec:
       memory: 3Gi
   affinity:
     podAntiAffinityType: required
+  backup:
+    retentionPolicy: 7d
+    barmanObjectStore:
+      data:
+        compression: bzip2
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      destinationPath: s3://f9-database
+      endpointURL: http://garage.docker.internal:3900
+      serverName: hass-postgres-001
+      s3Credentials:
+        region:
+          name: cloudnative-pg-secret
+          key: aws-region
+        accessKeyId:
+          name: cloudnative-pg-secret
+          key: aws-access-key-id
+        secretAccessKey:
+          name: cloudnative-pg-secret
+          key: aws-secret-access-key
   bootstrap:
     initdb:
       database: hass
