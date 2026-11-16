@@ -64,6 +64,7 @@ metadata:
   name: cloudnative-pg-hass
 spec:
   dependsOn:
+    - name: cloudnative-pg-barman-plugin
     - name: cloudnative-pg-cluster
     - name: openebs
       namespace: openebs-system
@@ -77,3 +78,23 @@ spec:
   targetNamespace: database
   timeout: 30m
   wait: false
+---
+# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cloudnative-pg-barman-plugin
+spec:
+  dependsOn:
+    - name: cert-manager
+      namespace: cert-manager
+    - name: cloudnative-pg
+  interval: 1h
+  path: ./kubernetes/apps/database/cloudnative-pg/plugin
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: database
+  wait: true

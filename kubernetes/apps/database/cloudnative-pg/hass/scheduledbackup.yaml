@@ -5,8 +5,12 @@ kind: ScheduledBackup
 metadata:
   name: hass-postgres
 spec:
-  schedule: "@daily"
-  immediate: true
   backupOwnerReference: self
   cluster:
     name: hass-postgres
+  immediate: true
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
+  # CNPG cron has six fields: the first is seconds.
+  schedule: "0 0 2 * * *"
