@@ -1,0 +1,87 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/postgresql.cnpg.io/cluster_v1.json
+# The shared Postgres 18 cluster that replaces postgres17. REHEARSAL STAGE: the active databases and
+# their roles are imported once from the live postgres17 and no app uses this cluster yet. No backup
+# is configured on purpose: the cutover deletes and recreates this cluster for the final import, and
+# CloudNativePG will not archive WAL into a path that already has another history. The Barman Cloud
+# plugin backup and the Service switch arrive with the cutover. hass is not here: it has its own
+# cluster (hass-postgres). forgejo, synapse and app, and the roles of apps that no longer exist, stay
+# behind on postgres17 on purpose.
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres18
+spec:
+  imageCatalogRef:
+    apiGroup: postgresql.cnpg.io
+    kind: ImageCatalog
+    name: postgres18
+    major: 18
+  instances: 3
+  # Egress profile labels (M15). CloudNativePG patches them onto the running pods and import Jobs.
+  inheritedMetadata:
+    labels:
+      egress.cilium.io/kube-apiserver: "true"
+      egress.cilium.io/nas: "true"
+  primaryUpdateStrategy: unsupervised
+  primaryUpdateMethod: switchover
+  storage:
+    size: 10Gi
+    storageClass: openebs-hostpath
+  superuserSecret:
+    name: cloudnative-pg-secret
+  enableSuperuserAccess: true
+  postgresql:
+    extensions:
+      - name: vchord
+    shared_preload_libraries:
+      - vchord
+    synchronous:
+      method: any
+      number: 1
+    parameters:
+      max_connections: "400"
+      shared_buffers: 1GB
+  resources:
+    requests:
+      cpu: 50m
+      memory: 1Gi
+    limits:
+      memory: 4Gi
+  affinity:
+    podAntiAffinityType: required
+  bootstrap:
+    initdb:
+      import:
+        type: monolith
+        databases:
+          - debtmanager
+          - games
+          - homebox
+          - immich
+          - litellm
+          - prowlarr-main
+          - radarr-main
+          - sonarr-main
+          - zipline
+        roles:
+          - debtmanager
+          - games
+          - homebox
+          - immich
+          - litellm
+          - prowlarr
+          - radarr
+          - sonarr
+          - zipline
+        source:
+          externalCluster: postgres17
+  externalClusters:
+    - name: postgres17
+      connectionParameters:
+        host: postgres-rw.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+      password:
+        name: cloudnative-pg-secret
+        key: password

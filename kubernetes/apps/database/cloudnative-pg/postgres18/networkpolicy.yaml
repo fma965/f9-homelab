@@ -1,0 +1,74 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# postgres18, the successor of postgres17 (rehearsal stage). It accepts connections only from the namespaces
+# that run clients (ai, default, webdev), from the database namespace itself (replication, operator, backups, pgAdmin) and metrics from Prometheus.
+# Probes come from the local node, which Cilium always allows. Allow-list taken from the Cilium
+# connection table on 13 Oct 2026 (M15). Egress (15 Oct 2026): the instances may reach only each other,
+# the API server, DNS and the NAS (the WAL and backup archive).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: postgres18
+spec:
+  endpointSelector:
+    matchLabels:
+      cnpg.io/cluster: postgres18
+  ingress:
+    - fromEndpoints:
+        - matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: In
+              values: [ai, default, webdev]
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+            - port: "8000"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: prometheus
+      toPorts:
+        - ports:
+            - port: "9187"
+              protocol: TCP
+    # Replies from the other instances to this pod's own connections through the -rw / -r Services
+    # (replication), evaluated the same way.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres18
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+  # The API server and the NAS (WAL archive on Garage) come from the egress.cilium.io/kube-apiserver
+  # and /nas profile labels on the pods (Cluster inheritedMetadata).
+  egress:
+    # Replication and the instance manager's status calls between the instances.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres18
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+            - port: "8000"
+              protocol: TCP
+    # The import reads the databases from the shared postgres17. Remove with the cutover.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres17
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
