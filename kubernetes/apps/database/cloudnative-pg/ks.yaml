@@ -56,3 +56,24 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: database
+---
+# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cloudnative-pg-hass
+spec:
+  dependsOn:
+    - name: cloudnative-pg-cluster
+    - name: openebs
+      namespace: openebs-system
+  interval: 1h
+  path: ./kubernetes/apps/database/cloudnative-pg/hass
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: database
+  timeout: 30m
+  wait: false

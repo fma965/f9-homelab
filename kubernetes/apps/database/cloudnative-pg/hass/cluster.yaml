@@ -1,0 +1,63 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/postgresql.cnpg.io/cluster_v1.json
+# Home Assistant's own Postgres 18 cluster. Its recorder is about 95% of the data on postgres17, so it
+# gets its own volume, WAL and backup path. REHEARSAL STAGE: the data is imported once from the live
+# postgres17 and Home Assistant does not use this cluster yet. No barman backup is configured on
+# purpose: CloudNativePG will not archive WAL into a path that already has a different history, and
+# the cutover deletes and recreates this cluster for the final import. Backups arrive with the cutover.
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: hass-postgres
+spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.7-standard-bookworm@sha256:6669f2fdbc344beb60d307e7aa0a343c510183ac49fd13db8d161d294ed5e141
+  instances: 2
+  # Egress profile labels (M15). CloudNativePG patches them onto the running pods and import Jobs.
+  inheritedMetadata:
+    labels:
+      egress.cilium.io/kube-apiserver: "true"
+      egress.cilium.io/nas: "true"
+  primaryUpdateStrategy: unsupervised
+  primaryUpdateMethod: switchover
+  storage:
+    size: 20Gi
+    storageClass: openebs-hostpath
+  superuserSecret:
+    name: cloudnative-pg-secret
+  enableSuperuserAccess: true
+  postgresql:
+    synchronous:
+      method: any
+      number: 1
+    parameters:
+      max_connections: "100"
+      shared_buffers: 512MB
+  resources:
+    requests:
+      cpu: 50m
+      memory: 1Gi
+    limits:
+      memory: 3Gi
+  affinity:
+    podAntiAffinityType: required
+  bootstrap:
+    initdb:
+      database: hass
+      owner: hass
+      secret:
+        name: hass-postgres-credentials
+      import:
+        type: microservice
+        databases:
+          - hass
+        source:
+          externalCluster: postgres17
+  externalClusters:
+    - name: postgres17
+      connectionParameters:
+        host: postgres-rw.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+      password:
+        name: cloudnative-pg-secret
+        key: password
