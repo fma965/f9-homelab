@@ -33,7 +33,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - name: s3
+    - name: garage-s3
       port: 3900
 ---
 apiVersion: discovery.k8s.io/v1
@@ -47,6 +47,6 @@ endpoints:
   - addresses:
       - garage.docker.internal
 ports:
-  - name: s3
+  - name: garage-s3
     protocol: TCP
     port: 3900
