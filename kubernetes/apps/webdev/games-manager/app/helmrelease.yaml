@@ -57,12 +57,6 @@ spec:
               PUBLIC_URL: "https://gamesdb.f9.casa"
               REDIS_HOST: "dragonfly.database.svc.cluster.local"
               REDIS_PORT: "6379"
-              STORAGE_LOCATIONS: "s3"
-              STORAGE_S3_DRIVER: "s3"
-              STORAGE_S3_KEY: "GK242cc9d55149cdda6a1a465c"
-              STORAGE_S3_BUCKET: "${external.f9.casa//./-}-games-manager-backend"
-              STORAGE_S3_REGION: "eu-west-2"
-              STORAGE_S3_ENDPOINT: "s3.f9.casa"
             envFrom: &envFrom
               - secretRef:
                   name: games-manager-secret
