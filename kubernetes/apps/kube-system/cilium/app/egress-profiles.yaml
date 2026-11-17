@@ -43,7 +43,7 @@ specs:
                 protocol: TCP
   # The NAS and its Docker containers: only the ports the cluster uses, plus ping (the blackbox probe).
   # The union of what the pods with this label call: TrueNAS UI/API 443, NFS probe 2049, node-exporter 9100,
-  # UPS 3493, and the containers (Immich ML 3003, S3 3900, Garage UI 3909, Doco-CD 6584 and 9130, PBS 8007,
+  # UPS 3493, TrueNAS S3 9000, and the containers (Immich ML 3003, Garage S3 3900, Garage UI 3909, Doco-CD 6584 and 9130, PBS 8007,
   # llama 8080, Tdarr 8265, Frigate 8971 and 8554, liquidctl 9530, smartctl 9633, Webtop 3000, Wyoming
   # 10200 and 10300). Check Hubble for `Policy denied DROPPED` when a new NAS service is added.
   - endpointSelector:
@@ -82,6 +82,8 @@ specs:
               - port: "8554"
                 protocol: TCP
               - port: "8971"
+                protocol: TCP
+              - port: "9000"
                 protocol: TCP
               - port: "9100"
                 protocol: TCP
