@@ -20,9 +20,8 @@ spec:
       region: us-east-1
       tls:
         disableTls: true
-  # Without this the repository must already exist in the bucket.
-  create:
-    enabled: true
+  # The repository was copied into the bucket from the NFS one, so it must already exist: no `create`,
+  # a wrong bucket then fails loudly instead of starting an empty repository.
   encryption:
     passwordSecretRef:
       name: kopiur-repository-secret
