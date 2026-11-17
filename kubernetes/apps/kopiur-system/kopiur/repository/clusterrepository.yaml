@@ -35,6 +35,10 @@ spec:
       # applies twice: kopia caps the index-blobs cache at the same size.
       contentCacheSizeMb: 512
       metadataCacheSizeMb: 1024
+    # Every mover (backup, restore, maintenance, the backend probe) talks to the S3 service, and the
+    # pod network is default-deny for egress (M15).
+    podLabels:
+      egress.cilium.io/nas: "true"
   parameters:
     epoch:
       minDuration: 1h
