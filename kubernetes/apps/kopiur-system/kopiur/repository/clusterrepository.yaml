@@ -7,13 +7,22 @@ metadata:
 spec:
   allowedNamespaces:
     all: true
+  # The TrueNAS S3 service on the NAS, straight to port 9000 (not through the gateway) as the other
+  # home-ops repositories do. The movers reach it through the egress.cilium.io/nas label below.
   backend:
-    filesystem:
-      path: /repo
-      volume:
-        nfs:
-          server: nas.homelab.internal
-          path: /mnt/Boot/Kubernetes/Kopiur
+    s3:
+      auth:
+        secretRef:
+          name: kopiur-repository-secret
+          namespace: kopiur-system
+      bucket: kopiur
+      endpoint: nas.homelab.internal:9000
+      region: us-east-1
+      tls:
+        disableTls: true
+  # Without this the repository must already exist in the bucket.
+  create:
+    enabled: true
   encryption:
     passwordSecretRef:
       name: kopiur-repository-secret

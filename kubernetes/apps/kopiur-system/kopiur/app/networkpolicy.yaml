@@ -3,7 +3,8 @@
 # Kopiur controller and webhook (operator for the app backups). Egress only (M15, 15 Oct 2026): they
 # hold broad RBAC and the repository password, so they may reach DNS, the API server and the mover
 # pods they start, and nothing else. Ingress is not limited here (the API server calls the webhook).
-# The backup repository is an NFS volume mounted by the node, not a connection from these pods.
+# The backup repository is the TrueNAS S3 service, reached by the mover pods (they carry the
+# egress.cilium.io/nas label from the ClusterRepository moverDefaults), not by these pods.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -30,8 +31,9 @@ spec:
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
 # Kopiur mover Jobs (backup, restore, maintenance, snapshot delete). They run in the namespace of the
 # app being backed up, so this is cluster-wide. Egress only (M15, 15 Oct 2026): a mover reads the
-# app's volume and writes the repository, both through volumes, and reports progress by patching the
-# Snapshot / Restore status, so it needs only DNS and the API server. Selects only pods the
+# app's volume, writes the repository over S3 and reports progress by patching the Snapshot / Restore
+# status, so it needs DNS and the API server here, plus the NAS S3 port from the egress.cilium.io/nas
+# label (ClusterRepository moverDefaults.podLabels). Selects only pods the
 # controller labels `managed-by: kopiur`; it does not change ingress or any other pod.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
