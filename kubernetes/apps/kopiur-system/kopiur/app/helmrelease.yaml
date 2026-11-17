@@ -10,14 +10,6 @@ spec:
     name: kopiur
   interval: 1h
   values:
-    extraVolumes:
-      - name: repo
-        nfs:
-          server: nas.homelab.internal
-          path: /mnt/Boot/Kubernetes/Kopiur
-    extraVolumeMounts:
-      - name: repo
-        mountPath: /repo
     monitoring:
       dashboards:
         enabled: true

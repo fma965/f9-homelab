@@ -52,6 +52,8 @@ spec:
               limits:
                 memory: 1Gi
     defaultPodOptions:
+      labels:
+        egress.cilium.io/nas: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
@@ -82,9 +84,13 @@ spec:
           repository.config: |-
             {
               "storage": {
-                "type": "filesystem",
+                "type": "s3",
                 "config": {
-                  "path": "/repository"
+                  "bucket": "f9-kubernetes",
+                  "endpoint": "nas.homelab.internal:9000",
+                  "region": "us-east-1",
+                  "doNotUseTLS": true,
+                  "doNotVerifyTLS": false
                 }
               },
               "hostname": "kopiur.{{ .Release.Namespace }}.svc.cluster.local",
@@ -99,12 +105,6 @@ spec:
         globalMounts:
           - path: /config/repository.config
             subPath: repository.config
-      repository:
-        type: nfs
-        server: nas.homelab.internal
-        path: /mnt/Boot/Kubernetes/Kopiur
-        globalMounts:
-          - path: /repository
       tmpfs:
         type: emptyDir
         advancedMounts:
