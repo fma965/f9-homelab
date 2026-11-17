@@ -86,7 +86,7 @@ spec:
               "storage": {
                 "type": "s3",
                 "config": {
-                  "bucket": "kopiur",
+                  "bucket": "f9-kubernetes",
                   "endpoint": "nas.homelab.internal:9000",
                   "region": "us-east-1",
                   "doNotUseTLS": true,

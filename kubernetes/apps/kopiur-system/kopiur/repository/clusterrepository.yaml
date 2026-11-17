@@ -15,7 +15,7 @@ spec:
         secretRef:
           name: kopiur-repository-secret
           namespace: kopiur-system
-      bucket: kopiur
+      bucket: f9-kubernetes
       endpoint: nas.homelab.internal:9000
       region: us-east-1
       tls:
