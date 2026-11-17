@@ -1,0 +1,52 @@
+---
+# The web UI and the S3 API are separate containers on the NAS Docker network, each with its own
+# address, so each gets its own Service.
+apiVersion: v1
+kind: Service
+metadata:
+  name: s3-external
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 9000
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: s3-external
+  labels:
+    kubernetes.io/service-name: s3-external
+addressType: FQDN
+endpoints:
+  - addresses:
+      - nas.homelab.internal
+ports:
+  - name: http
+    protocol: TCP
+    port: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: s3-external
+spec:
+  type: ClusterIP
+  ports:
+    - name: s3
+      port: 9000
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: s3-external
+  labels:
+    kubernetes.io/service-name: s3-external
+addressType: FQDN
+endpoints:
+  - addresses:
+      - nas.homelab.internal
+ports:
+  - name: s3
+    protocol: TCP
+    port: 9000
