@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kopiur.home-operations.com/repositoryreplication_v1alpha1.json
+# Temporary: copies the NFS repository `nas` into the S3 bucket (kopia repository sync-to, blob for blob,
+# same password) so the history survives the move. Run it with `kubectl kopiur replication run nas-to-s3`.
+# Delete it in the change that points `nas` at the bucket: the webhook rejects a destination that
+# matches the source's backend. The mover inherits the egress label from the source's moverDefaults.
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: RepositoryReplication
+metadata:
+  name: nas-to-s3
+spec:
+  destination:
+    s3:
+      auth:
+        secretRef:
+          name: kopiur-repository-secret
+      bucket: f9-kubernetes
+      endpoint: nas.homelab.internal:9000
+      region: us-east-1
+      tls:
+        disableTls: true
+  # Reads the NFS repository, whose files the backup movers wrote as 1000:1000.
+  mover:
+    securityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+  schedule:
+    cron: 30 4 * * *
+  sourceRef:
+    kind: ClusterRepository
+    name: nas
+  sync:
+    parallel: 8
