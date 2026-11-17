@@ -7,7 +7,7 @@ kind: Kustomization
 resources:
   - ./doco-cd
   - ./frigate
-  # - ./garage
+  - ./garage
   - ./s3
   - ./nanokvm
   - ./pbs

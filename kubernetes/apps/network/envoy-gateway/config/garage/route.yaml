@@ -29,9 +29,8 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - "s3.f9.casa"
-    - "*.s3.f9.casa"
-    - "community.f9.casa" # https://meta.discourse.org/t/s3-not-aws-backups-stopped-working-presumably-since-an-update/382582
+    - "garage-s3.f9.casa"
+    - "*.garage-s3.f9.casa"
   rules:
     - backendRefs:
         - name: garage-s3-external
