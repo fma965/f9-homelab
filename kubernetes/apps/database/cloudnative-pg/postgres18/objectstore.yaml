@@ -8,7 +8,7 @@ spec:
   configuration:
     # serverName must NOT be set here (the CRD forbids it). It is a plugin parameter on the Cluster.
     destinationPath: s3://f9-database
-    endpointURL: http://garage.docker.internal:3900
+    endpointURL: http://nas.homelab.internal:9000
     s3Credentials:
       region:
         name: cloudnative-pg-secret
