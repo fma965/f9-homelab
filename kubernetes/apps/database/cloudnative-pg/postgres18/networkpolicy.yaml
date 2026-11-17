@@ -46,7 +46,7 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: database
             cnpg.io/cluster: postgres18
-  # The API server and the NAS (WAL archive on Garage) come from the egress.cilium.io/kube-apiserver
+  # The API server and the NAS (WAL archive on TrueNAS S3) come from the egress.cilium.io/kube-apiserver
   # and /nas profile labels on the pods (Cluster inheritedMetadata).
   egress:
     # Replication and the instance manager's status calls between the instances.
