@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kopiur.home-operations.com/repositoryreplication_v1alpha1.json
+# Daily off-site mirror of the Kopia repository to Backblaze B2 (`kopia repository sync-to`, blob level).
+# The destination inherits the repository's format and encryption password, so restoring is
+# `kopia repository connect s3 ...` with the same KOPIA_PASSWORD. Additive on purpose (no deleteExtra):
+# a source that was lost or emptied must not be able to delete the off-site copy.
+# The bucket, endpoint and region are the ones created for it in Backblaze (see the pull request).
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: RepositoryReplication
+metadata:
+  name: nas-offsite
+spec:
+  sourceRef:
+    kind: ClusterRepository
+    name: nas
+  destination:
+    s3:
+      auth:
+        secretRef:
+          name: kopiur-offsite-secret
+      bucket: f9-kubernetes
+      endpoint: s3.eu-central-003.backblazeb2.com
+      region: eu-central-003
+  schedule:
+    cron: "0 5 * * *"
+    jitter: 15m
+    timezone: Europe/London
+  sync:
+    # The default is one blob at a time, which makes the first copy of the repository take hours.
+    parallel: 8

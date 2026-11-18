@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
+# The replication mover reaches the external Garage S3 server (its hostname comes from the Flux substitution
+# NC_NAS_ENDPOINT) on 443. Added to the kopiur-mover policy's rules for pods the controller labels
+# `managed-by: kopiur`; no other pod gets it, and the backup movers never call the host.
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: kopiur-mover-offsite-nc
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/managed-by: kopiur
+  egress:
+    - toFQDNs:
+        - matchName: ${NC_NAS_ENDPOINT}
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

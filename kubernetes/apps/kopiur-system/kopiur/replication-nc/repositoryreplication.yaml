@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kopiur.home-operations.com/repositoryreplication_v1alpha1.json
+# The second off-site copy, to an external Garage S3 server, half an hour after the Backblaze run. The
+# hostname is not in this public repository: it comes from the ENDPOINT field of the 1Password item
+# `kopiur-nc-nas` through the Flux substitution NC_NAS_ENDPOINT (see ks.yaml).
+# The server's region is eu-west-2 (a wrong name is rejected with "unexpected scope"). Checked 18 Nov 2026 with
+# Kopia's own S3 client: a 21 MiB pack uploads fine, so the proxy's size limit that affects the rclone tasks
+# (413 on large bodies, hence their 8 MiB chunk size and accept-encoding flags) does not bite here.
+# Capped at 20 MiB/s, the same limit as the TrueNAS tasks it replaces, and gentler on parallelism.
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: RepositoryReplication
+metadata:
+  name: nas-offsite-nc
+spec:
+  sourceRef:
+    kind: ClusterRepository
+    name: nas
+  destination:
+    s3:
+      auth:
+        secretRef:
+          name: kopiur-offsite-nc-secret
+      bucket: f9-kubernetes
+      endpoint: ${NC_NAS_ENDPOINT}
+      region: eu-west-2
+  schedule:
+    cron: "30 5 * * *"
+    jitter: 15m
+    timezone: Europe/London
+  sync:
+    maxUploadSpeedBytesPerSecond: 20971520
+    parallel: 2

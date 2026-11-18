@@ -76,3 +76,67 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: false
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+# Its own Kustomization: kopiur's webhook rejects a RepositoryReplication whose ClusterRepository does not
+# exist yet, so it must wait for kopiur-repository. wait is false so a failing off-site sync (for example
+# an unset B2 key) never blocks the apps' reconciliation.
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kopiur-replication
+spec:
+  dependsOn:
+    - name: kopiur-repository
+  interval: 1h
+  path: ./kubernetes/apps/kopiur-system/kopiur/replication
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: kopiur-system
+  wait: false
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+# The hostname of the external S3 server, as a Secret in flux-system for the substitution below. Its own
+# Kustomization so the substitution can read it before kopiur-replication-nc builds.
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kopiur-replication-nc-endpoint
+spec:
+  interval: 1h
+  path: ./kubernetes/apps/kopiur-system/kopiur/replication-nc-endpoint
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: flux-system
+  wait: true
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+# The second off-site copy (external Garage S3). Separate from kopiur-replication so a missing 1Password item
+# for it never holds back the Backblaze copy. NC_NAS_ENDPOINT is the hostname from the 1Password item.
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kopiur-replication-nc
+spec:
+  dependsOn:
+    - name: kopiur-repository
+    - name: kopiur-replication-nc-endpoint
+  interval: 1h
+  path: ./kubernetes/apps/kopiur-system/kopiur/replication-nc
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: kopiur-nc-nas-endpoint
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: kopiur-system
+  wait: false
