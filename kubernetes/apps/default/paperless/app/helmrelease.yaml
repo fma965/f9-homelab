@@ -29,6 +29,10 @@ spec:
                     name: paperless-secret
                     key: PAPERLESS_SECRET_KEY
               PAPERLESS_URL: https://docs.f9.casa
+              # Since 3.5 a set PAPERLESS_URL makes Paperless accept only that hostname and localhost. The
+              # LiteLLM Paperless MCP server calls the Service name and the Homepage widget the short name,
+              # so both are listed (the port is ignored).
+              PAPERLESS_ALLOWED_HOSTS: paperless.default,paperless.default.svc.cluster.local
               PAPERLESS_PORT: "8000"
               PAPERLESS_TIME_ZONE: Europe/London
               PAPERLESS_WEBSERVER_WORKERS: "2"
