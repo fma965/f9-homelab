@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+# Kopiur's own rules cover snapshots, restores and repositories but not RepositoryReplication. The counter has
+# no per-replication label, so these alerts cover both copies (Backblaze and NC-NAS): find which one with
+# `kubectl -n kopiur-system get repositoryreplication` and the Job logs. A Job that fails also raises KubeJobFailed.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kopiur-replication-rules
+spec:
+  groups:
+    - name: kopiur-replication.rules
+      rules:
+        - alert: KopiurReplicationFailed
+          expr: |-
+            sum(increase(kopiur_replication_runs_total{outcome!="succeeded"}[2h])) > 0
+          for: 5m
+          annotations:
+            summary: >-
+              A Kopiur off-site replication run did not succeed in the last two hours
+              (kubectl -n kopiur-system get repositoryreplication; read the Job logs)
+          labels:
+            severity: critical
+        - alert: KopiurReplicationStale
+          # Two copies run daily, so fewer than two successes in 36 hours means one has stopped. Only evaluated
+          # once the counter has about 33 hours of samples (it starts from nothing after a controller restart),
+          # so a restart silences it for that long rather than firing falsely.
+          expr: |-
+            sum(increase(kopiur_replication_runs_total{outcome="succeeded"}[36h])) < 2
+            and on()
+            count_over_time(kopiur_replication_runs_total{outcome="succeeded"}[36h:5m]) > 400
+          for: 30m
+          annotations:
+            summary: >-
+              Fewer than two successful Kopiur off-site replication runs in 36 hours: one copy has stopped
+              (kubectl -n kopiur-system get repositoryreplication)
+          labels:
+            severity: warning
