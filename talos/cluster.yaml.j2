@@ -44,12 +44,31 @@ name: net0
 selector:
   match: glob("00:e0:4c:*", mac(link.permanent_addr)) # The Common Expression Language (CEL) expression to match the link.
 ---
+# The onboard NIC of each node, a second path for bond0 (its MAC prefix differs from the net0 adapter's).
+apiVersion: v1alpha1
+kind: LinkAliasConfig
+name: net1
+selector:
+  match: glob("b8:85:84:*", mac(link.permanent_addr)) || glob("54:bf:64:*", mac(link.permanent_addr))
+---
 apiVersion: v1alpha1
 kind: BondConfig
 name: bond0
 links:
   - net0
+  - net1
 bondMode: active-backup
+# Detect failure by ARP, not only by link state: a link can stay up while the switch behind it is not forwarding.
+# A slave counts as up while ANY target answers (the gateway or a peer node), so the loss of one node or of the
+# gateway alone never takes the bond down.
+arpInterval: 1000
+arpValidate: all
+arpAllTargets: any
+arpIpTargets:
+  - 10.10.100.254
+  - 10.10.100.1
+  - 10.10.100.2
+  - 10.10.100.3
 ---
 apiVersion: v1alpha1
 kind: DHCPv4Config
