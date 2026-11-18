@@ -99,8 +99,8 @@ spec:
   wait: false
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-# The hostname of the external S3 server, as a Secret in flux-system for the substitution below. Its own
-# Kustomization so the substitution can read it before kopiur-replication-nc builds.
+# The hostname of the external S3 server, as a Secret in kopiur-system (the namespace of these Kustomizations,
+# where the substitution below reads it). Its own Kustomization so it exists before kopiur-replication-nc builds.
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -113,7 +113,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: flux-system
+  targetNamespace: kopiur-system
   wait: true
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
