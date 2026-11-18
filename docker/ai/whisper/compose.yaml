@@ -1,7 +1,7 @@
 services:
   piper:
     container_name: piper
-    image: rhasspy/wyoming-piper:latest@sha256:0f4598a8f8a984275f67c066d7cd96d26ef2601947d0372b8f32c82ae18fb7cd
+    image: rhasspy/wyoming-piper:latest@sha256:333622ab9e4bcd00c80a37219b90a1a9d6aa3fd1ad34e0a6e3bddd36ee999efd
     hostname: piper
     mac_address: f2:f9:00:00:68:01
     networks:
