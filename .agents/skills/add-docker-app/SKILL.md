@@ -15,7 +15,6 @@ Stacks live in `docker/<group>/<app>/compose.yaml` and are deployed GitOps-style
 | `observability` | `node-exporter`, `smartctl-exporter`, `liquidctl-exporter`                |
 | `security`      | `frigate` (config directory, README)                                      |
 | `system`        | `cups`, `scanner` (locally built images)                                  |
-| `backup`        | `garage`                                                                  |
 
 ## Steps
 

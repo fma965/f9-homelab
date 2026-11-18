@@ -66,11 +66,6 @@ working_dir: docker/system/pbs
 reference: refs/heads/main
 webhook_filter: "^refs/heads/main$"
 ---
-name: backup
-working_dir: docker/backup/garage
-reference: refs/heads/main
-webhook_filter: "^refs/heads/main$"
----
 name: frigate
 working_dir: docker/security/frigate
 reference: refs/heads/main
