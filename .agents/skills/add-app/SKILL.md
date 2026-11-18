@@ -24,7 +24,7 @@ Ask the user for anything not already given:
 3. **Port** the app listens on, and whether it gets a **route**: `envoy-internal` (default; admin and management tools) or `envoy-external` (public). Routes without a login of their own need the `oidc` component.
 4. **Persistence**: does the app store state? Local state → kopiur backup component. Files on the NAS → an NFS mount (then the `zeroscaler` component).
 5. **Secrets**: env vars from 1Password → ExternalSecret. Get the 1Password item name AND its exact field names; never guess them.
-6. **Database**: a Postgres database on the shared `postgres17` cluster, or Dragonfly (Redis)?
+6. **Database**: a Postgres database on the shared `postgres18` cluster, or Dragonfly (Redis)?
 7. **Config files**: mounted config → `configMapGenerator` + `resources/`.
 8. **Dependencies**: other Flux Kustomizations this app needs (`cloudnative-pg` in `database`, `csi-driver-nfs` in `kube-system`, ...).
 9. **Who calls it / what it calls**, for the network policy (Step 4).
@@ -298,7 +298,7 @@ Add `./<app>/ks.yaml` to `kubernetes/apps/<namespace>/kustomization.yaml` `resou
 Add `networkpolicy.yaml` for any app that is routed or reachable from other pods. Copy zipline's (an app with a database and OIDC) or seerr's, and read the network-policy bullet in `AGENTS.md`. Minimum for a routed app:
 
 - ingress from the gateway pods (`envoy-external` or `envoy-internal`, namespace `network`) on the container port;
-- the pods it calls through Services (`kube-dns`, `postgres17` in `database`, `dragonfly`, other apps), because the replies come back as "new" traffic to the pod, or `fromEntities: cluster` on `32768`-`60999` for an app that calls many Services;
+- the pods it calls through Services (`kube-dns`, `postgres18` in `database`, `dragonfly`, other apps), because the replies come back as "new" traffic to the pod, or `fromEntities: cluster` on `32768`-`60999` for an app that calls many Services;
 - the specific in-cluster callers (Homepage widget, Home Assistant, Prometheus, ...);
 - for an app that does OIDC against `id.f9.casa`, the gateway pods on any port (their replies come from the listener port).
 
