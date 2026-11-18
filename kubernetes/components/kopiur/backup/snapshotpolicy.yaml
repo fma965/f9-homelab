@@ -32,3 +32,20 @@ spec:
     - pvc:
         name: ${APP}
   volumeSnapshotClassName: ${KOPIUR_SNAPSHOTCLASS:=csi-ceph-blockpool}
+  # Verification is opt-in; without it Kopiur's doctor reports every policy as "Never verified (Degraded)".
+  # quick: weekly blob-level check of the latest snapshot plus a 5% sample of its files. deep: a monthly
+  # scratch restore (the test that proves a snapshot can actually be restored), into a scratch volume sized
+  # like the app's backup cache. Jitter spreads the runs so the 19 policies do not all start together.
+  verification:
+    quick:
+      schedule:
+        cron: "0 4 * * 0"
+        jitter: 2h
+        timezone: Europe/London
+    deep:
+      capacity: ${KOPIUR_CAPACITY:=5Gi}
+      schedule:
+        cron: "0 5 1 * *"
+        jitter: 6h
+        timezone: Europe/London
+    verifyFilesPercent: 5
