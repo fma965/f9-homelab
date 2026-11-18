@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+# Kopiur's own rules do not alert when verification stops. The quick check runs weekly (Sunday, up to 2 h of
+# jitter, component kubernetes/components/kopiur/backup), so eight days without a pass means it stopped or fails.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kopiur-verification-rules
+spec:
+  groups:
+    - name: kopiur-verification.rules
+      rules:
+        - alert: KopiurVerificationStale
+          expr: |-
+            time() - kopiur_snapshot_verified_timestamp_seconds > 8 * 24 * 3600
+          for: 1h
+          annotations:
+            summary: >-
+              Kopiur has not verified the backups of {{ $labels.namespace }}/{{ $labels.name }} for over eight days
+              (kubectl -n {{ $labels.namespace }} get snapshotpolicy {{ $labels.name }}; check the verify Jobs)
+          labels:
+            severity: warning
