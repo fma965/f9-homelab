@@ -27,6 +27,17 @@ spec:
   superuserSecret:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true
+  # Home Assistant connects as `hass` with HASS_DB_PASS (1Password). The recovery bootstrap below made the
+  # operator generate a different password for the owner (the hass-postgres-app Secret), and after the
+  # failover on 17 Nov 2026 the role carried that one: the recorder got "password authentication failed" for
+  # 21 hours. Managing the role keeps its password equal to the Secret.
+  managed:
+    roles:
+      - name: hass
+        ensure: present
+        login: true
+        passwordSecret:
+          name: hass-postgres-credentials
   postgresql:
     synchronous:
       method: any
