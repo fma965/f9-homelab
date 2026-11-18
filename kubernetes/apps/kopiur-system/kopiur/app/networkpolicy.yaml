@@ -33,7 +33,7 @@ spec:
 # app being backed up, so this is cluster-wide. Egress only (M15, 15 Oct 2026): a mover reads the
 # app's volume, writes the repository over S3 and reports progress by patching the Snapshot / Restore
 # status, so it needs DNS and the API server here, plus the NAS S3 port from the egress.cilium.io/nas
-# label (ClusterRepository moverDefaults.podLabels). Selects only pods the
+# label (ClusterRepository moverDefaults.podLabels). The off-site replication mover also reaches Backblaze B2. Selects only pods the
 # controller labels `managed-by: kopiur`; it does not change ingress or any other pod.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
@@ -53,6 +53,15 @@ spec:
       toPorts:
         - ports:
             - port: "6443"
+              protocol: TCP
+    # The off-site replication mover writes the repository to Backblaze B2 over its S3 API. Only the S3
+    # hostnames, on 443; the backup movers never call them. (The external Garage server has its own policy in
+    # ../replication-nc.)
+    - toFQDNs:
+        - matchPattern: "s3.*.backblazeb2.com"
+      toPorts:
+        - ports:
+            - port: "443"
               protocol: TCP
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
