@@ -23,7 +23,7 @@ spec:
         value: http
       - name: VL_INSTANCE_ENTRYPOINT
         value: http://victoria-logs.o11y.svc.cluster.local:9428
-    image: ghcr.io/victoriametrics/mcp-victorialogs:v1.9.0@sha256:753bb4fbe402ca1a782842f44636830f9895736f11d7fe783b924f8a0daf083d
+    image: ghcr.io/victoriametrics/mcp-victorialogs:v1.10.0@sha256:e4b1f38f708a5c99606395ba2de514eab6730ec67440f929c6e3b6f261945d4b
     path: /mcp
     podSecurityContext:
       runAsGroup: 65532
