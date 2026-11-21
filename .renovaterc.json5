@@ -132,6 +132,19 @@
       ],
       automerge: false,
     },
+    {
+      // A Postgres major is a planned migration (the data directory and the backup prefix are per major), never a tag
+      // change. Both images carry the major, so block it for both; minor and patch updates still flow. Lift this when
+      // the shared clusters move to a new major (the same approach as bjw-s-labs/home-ops).
+      description: "Never bump Postgres across a major version (the server image and the init image move together, by hand)",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "ghcr.io/cloudnative-pg/postgresql",
+        "ghcr.io/home-operations/postgres-init",
+      ],
+      matchUpdateTypes: ["major"],
+      enabled: false,
+    },
     // Grouping rules
     {
       description: "Actions Runner Controller Group",
