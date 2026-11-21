@@ -92,6 +92,7 @@ spec:
       # server each. Callers are Open WebUI and claude.ai (through the public door mcp.f9.casa), each with its own key;
       # claude.ai reaches Home Assistant only through its own connector on `/mcp/home-assistant`. The tools of a server
       # are prefixed with its target name (flux_..., unifi-network_...); a target name cannot contain an underscore.
+    config:
       config:
         adminAddr: "off"
         readinessAddr: 0.0.0.0:15021
