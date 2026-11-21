@@ -20,6 +20,10 @@ spec:
             io.kubernetes.pod.namespace: ai
             app.kubernetes.io/instance: litellm
             app.kubernetes.io/name: litellm
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/instance: agentgateway
+            app.kubernetes.io/name: agentgateway
       toPorts:
         - ports:
             - port: "8000"
