@@ -20,7 +20,7 @@ spec:
             - port: "3000"
               protocol: TCP
     # Homepage's widgets and site monitors call a changing set of Services (arr apps,
-    # downloaders, paperless, jellyfin, immich, Home Assistant, ESPHome, Gatus, pgAdmin,
+    # downloaders, paperless, jellyfin, immich, Home Assistant, ESPHome, Gatus,
     # ...). Their replies come back through the Service and Cilium evaluates them as new
     # traffic to this pod, so they are dropped without a rule ("Policy denied DROPPED" in
     # Hubble). Rather than list every target, allow any pod in the cluster to reach this pod
@@ -50,8 +50,8 @@ spec:
   # Access to the NAS and UniFi (egress.cilium.io/nas, /unifi) comes from the profile label(s) on the pod, set in the HelmRelease.
   egress:
     # Widgets, site monitors and service discovery: about a dozen Services that change as apps are
-    # added (arr apps, downloaders, paperless, jellyfin, immich, Home Assistant, ESPHome, Gatus,
-    # pgAdmin), plus the Kubernetes widget's API server calls. Replies are already allowed in above.
+    # added (arr apps, downloaders, paperless, jellyfin, immich, Home Assistant, ESPHome, Gatus),
+    # plus the Kubernetes widget's API server calls. Replies are already allowed in above.
     - toEntities:
         - cluster
     # The NanoKVM's site monitor (`kvm.not.internal`): the device's web UI on the NoT network.

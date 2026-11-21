@@ -12,4 +12,3 @@ resources:
   - ./namespace.yaml
   - ./dragonfly/ks.yaml
   - ./cloudnative-pg/ks.yaml
-  - ./pgadmin/ks.yaml
