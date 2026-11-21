@@ -75,7 +75,7 @@ spec:
     # not by Flux (this Kustomization has no postBuild). The LLM listener is on 8080 and the MCP listener on 8081:
     # `/mcp` is one endpoint over seven servers (not Home Assistant, which can operate locks), `/mcp/<server>` is one
     # server each. Callers are Open WebUI and claude.ai (through the public door, added in a later change), each with its
-    # own key. The tools of a server are prefixed with its name (flux_..., grafana_...).
+    # own key. The tools of a server are prefixed with its target name (flux_..., unifi-network_...); a target name cannot contain an underscore.
     config:
       config:
         adminAddr: "off"
@@ -144,10 +144,10 @@ spec:
                   - name: truenas
                     mcp:
                       host: http://truenas-mcp.ai.svc.cluster.local:8080/mcp
-                  - name: unifi_network
+                  - name: unifi-network
                     mcp:
                       host: http://unifi-network-mcp.ai.svc.cluster.local:3000/mcp
-                  - name: victoria_logs
+                  - name: victoria-logs
                     mcp:
                       host: http://victoria-logs-mcp.ai.svc.cluster.local:8080/mcp
           policies:
@@ -346,7 +346,7 @@ spec:
           backends:
             - mcp:
                 targets:
-                  - name: unifi_network
+                  - name: unifi-network
                     mcp:
                       host: http://unifi-network-mcp.ai.svc.cluster.local:3000/mcp
           policies:
@@ -375,7 +375,7 @@ spec:
           backends:
             - mcp:
                 targets:
-                  - name: victoria_logs
+                  - name: victoria-logs
                     mcp:
                       host: http://victoria-logs-mcp.ai.svc.cluster.local:8080/mcp
           policies:
