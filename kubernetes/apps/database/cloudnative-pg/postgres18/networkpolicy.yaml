@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # postgres18, the successor of postgres17. It accepts connections only from the namespaces
-# that run clients (ai, default, webdev), from the database namespace itself (replication, operator, backups, pgAdmin) and metrics from Prometheus.
+# that run clients (ai, default, webdev), from the database namespace itself (replication, operator, backups) and metrics from Prometheus.
 # Probes come from the local node, which Cilium always allows. Allow-list taken from the Cilium
 # connection table on 13 Oct 2026 (M15). Egress (15 Oct 2026): the instances may reach only each other,
 # the API server, DNS and the NAS (the WAL and backup archive).
