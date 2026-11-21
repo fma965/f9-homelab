@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-  - ./litellm.yaml
   - ./networkpolicy.yaml
   - ./ocirepository.yaml
   - ./oidcclient.yaml

@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # KitchenOwl (grocery lists, internal gateway only, own login through Pocket ID). Ingress: the internal gateway and
 # Home Assistant (integration) on the container port. Egress: DNS (cluster-wide), the `gateway-external` (Pocket ID sign-in) and `web` (recipe import)
-# profile labels, and the LiteLLM proxy on 4000. Allow-list written from the manifests, not yet from the Cilium
+# profile labels, and the Agent Gateway on 8080. Allow-list written from the manifests, not yet from the Cilium
 # connection table (M15): check Hubble for `Policy denied DROPPED` after it lands. Probes come from the local node,
 # which Cilium always allows.
 apiVersion: cilium.io/v2
@@ -40,20 +40,20 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: network
             gateway.envoyproxy.io/owning-gateway-name: envoy-internal
-    # KitchenOwl calls LiteLLM through its Service, so LiteLLM's replies come back as new traffic to this pod
-    # (from the LiteLLM pod to this pod's ephemeral port). No port can be listed.
+    # KitchenOwl calls the Agent Gateway through its Service, so its replies come back as new traffic to this pod
+    # (from the gateway pod to this pod's ephemeral port). No port can be listed.
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: ai
-            app.kubernetes.io/instance: litellm
-            app.kubernetes.io/name: litellm
+            app.kubernetes.io/instance: agentgateway
+            app.kubernetes.io/name: agentgateway
   egress:
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: ai
-            app.kubernetes.io/instance: litellm
-            app.kubernetes.io/name: litellm
+            app.kubernetes.io/instance: agentgateway
+            app.kubernetes.io/name: agentgateway
       toPorts:
         - ports:
-            - port: "4000"
+            - port: "8080"
               protocol: TCP
