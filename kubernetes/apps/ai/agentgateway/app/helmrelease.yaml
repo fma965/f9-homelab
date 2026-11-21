@@ -36,6 +36,21 @@ spec:
           secretKeyRef:
             name: agentgateway-secret
             key: HOME_ASSISTANT_API_KEY
+      - name: GRAFANA_MCP_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: agentgateway-secret
+            key: GRAFANA_MCP_TOKEN
+      - name: PAPERLESS_MCP_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: agentgateway-secret
+            key: PAPERLESS_MCP_TOKEN
+      - name: TRUENAS_MCP_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: agentgateway-secret
+            key: TRUENAS_MCP_API_KEY
       - name: CLAUDE_AI_API_KEY
         valueFrom:
           secretKeyRef:
@@ -135,15 +150,24 @@ spec:
                   - name: grafana
                     mcp:
                       host: http://grafana-mcp.ai.svc.cluster.local:8000/mcp
+                    policies:
+                      backendAuth:
+                        key: ${GRAFANA_MCP_TOKEN}
                   - name: kubernetes
                     mcp:
                       host: http://kubernetes-mcp.ai.svc.cluster.local:8080/mcp
                   - name: paperless
                     mcp:
                       host: http://paperless-mcp.ai.svc.cluster.local:3000/mcp
+                    policies:
+                      backendAuth:
+                        key: ${PAPERLESS_MCP_TOKEN}
                   - name: truenas
                     mcp:
                       host: http://truenas-mcp.ai.svc.cluster.local:8080/mcp
+                    policies:
+                      backendAuth:
+                        key: ${TRUENAS_MCP_API_KEY}
                   - name: unifi-network
                     mcp:
                       host: http://unifi-network-mcp.ai.svc.cluster.local:3000/mcp
@@ -208,6 +232,9 @@ spec:
                   - name: grafana
                     mcp:
                       host: http://grafana-mcp.ai.svc.cluster.local:8000/mcp
+                    policies:
+                      backendAuth:
+                        key: ${GRAFANA_MCP_TOKEN}
           policies:
             urlRewrite:
               path:
@@ -291,6 +318,9 @@ spec:
                   - name: paperless
                     mcp:
                       host: http://paperless-mcp.ai.svc.cluster.local:3000/mcp
+                    policies:
+                      backendAuth:
+                        key: ${PAPERLESS_MCP_TOKEN}
           policies:
             urlRewrite:
               path:
@@ -320,6 +350,9 @@ spec:
                   - name: truenas
                     mcp:
                       host: http://truenas-mcp.ai.svc.cluster.local:8080/mcp
+                    policies:
+                      backendAuth:
+                        key: ${TRUENAS_MCP_API_KEY}
           policies:
             urlRewrite:
               path:
