@@ -19,7 +19,7 @@ Scaffolds `kubernetes/apps/<namespace>/<app>/` with a Flux Kustomization (`ks.ya
 
 Ask the user for anything not already given:
 
-1. **App name** and **namespace** (existing folders: `ls kubernetes/apps/`). Home and household apps go in `default`, the owner's own dev projects in `webdev`. MCP servers are not apps of their own: add a `LiteLLMMCPServer` under `kubernetes/apps/ai/litellm/app/mcp-servers/` (the public door is `mcp.f9.casa` on LiteLLM).
+1. **App name** and **namespace** (existing folders: `ls kubernetes/apps/`). Home and household apps go in `default`, the owner's own dev projects in `webdev`. MCP servers are not apps of their own: add a `LiteLLMMCPServer` under `kubernetes/apps/ai/litellm/app/mcp-servers/` (the public door is `mcp.f9.casa`, on Agent Gateway).
 2. **Image** repository + tag (upstream's current release; never from memory).
 3. **Port** the app listens on, and whether it gets a **route**: `envoy-internal` (default; admin and management tools) or `envoy-external` (public). Routes without a login of their own need the `oidc` component.
 4. **Persistence**: does the app store state? Local state → kopiur backup component. Files on the NAS → an NFS mount (then the `zeroscaler` component).

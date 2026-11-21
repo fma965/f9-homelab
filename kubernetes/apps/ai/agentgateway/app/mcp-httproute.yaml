@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/httproute_v1.json
+# The public door for claude.ai's connectors: mcp.f9.casa on the external gateway, passing ONLY `/mcp` to Agent Gateway's
+# MCP listener (8081). `/mcp` is one endpoint over seven servers; `/mcp/<server>` is one server, so a connector can be
+# added per server. Everything else on this name matches no rule and gets a 404 from the gateway. Access is limited to
+# Anthropic's addresses (mcp-securitypolicy.yaml) and then to the gateway's own API key check (`Authorization: Bearer`,
+# the CLAUDE_AI_API_KEY field of the 1Password item `agentgateway`). That key may use seven servers; the gateway denies
+# it on `/mcp/home-assistant` (read-write, can operate locks). Replaces the LiteLLM door of the same name.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: agentgateway-mcp
+  annotations:
+    gatus.home-operations.com/endpoint: |-
+      conditions: ["[STATUS] == any(200,401,403,404,406)"]
+spec:
+  hostnames:
+    - mcp.f9.casa
+  parentRefs:
+    - name: envoy-external
+      namespace: network
+  rules:
+    - backendRefs:
+        - name: agentgateway
+          port: 8081
+      matches:
+        - path:
+            type: PathPrefix
+            value: /mcp

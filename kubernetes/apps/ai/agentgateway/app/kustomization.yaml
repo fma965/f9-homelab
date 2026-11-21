@@ -6,5 +6,7 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./httproute.yaml
+  - ./mcp-httproute.yaml
+  - ./mcp-securitypolicy.yaml
   - ./networkpolicy.yaml
   - ./ocirepository.yaml
