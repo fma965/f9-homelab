@@ -123,6 +123,7 @@ spec:
     # (checked against the registries: GHCR -> pkg-containers.githubusercontent.com, Quay ->
     # cdn01.quay.io, the Giant Swarm registry -> an Azure blob account). `mirror.gcr.io` redirects
     # on its own host. Sources reconcile every 10-15 minutes, so a short capture does not see them.
+    # `cr.agentgateway.dev` is the Agent Gateway chart registry; its blobs redirect to GHCR's host (checked 21 Nov 2026).
     - toFQDNs:
         - matchName: ghcr.io
         - matchName: pkg-containers.githubusercontent.com
@@ -130,6 +131,7 @@ spec:
         - matchPattern: "cdn*.quay.io"
         - matchName: mirror.gcr.io
         - matchName: gsoci.azurecr.io
+        - matchName: cr.agentgateway.dev
         - matchPattern: "*.blob.core.windows.net"
       toPorts:
         - ports:
