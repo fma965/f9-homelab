@@ -1,6 +1,5 @@
 [env]
 FLATE_PATH = '{{config_root}}/kubernetes/apps'
-FLATE_SUPPLY = '{{config_root}}/kubernetes/offline-inputs.yaml'
 KUBECONFIG = "{{config_root}}/kubeconfig"
 MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
 TALOSCONFIG = "{{config_root}}/talosconfig"
