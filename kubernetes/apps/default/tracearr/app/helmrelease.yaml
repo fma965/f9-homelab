@@ -75,7 +75,7 @@ spec:
               limits:
                 memory: 2Gi
           # TimescaleDB for Tracearr's time-series data. It listens on 127.0.0.1 only and trusts local
-          # connections, so nothing outside this pod can reach it. The shared postgres17 cluster has
+          # connections, so nothing outside this pod can reach it. The shared Postgres cluster has
           # no TimescaleDB extension, which is why this is a sidecar.
           timescale:
             image:
