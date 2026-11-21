@@ -31,9 +31,6 @@ spec:
             app.kubernetes.io/name: home-assistant
         - matchLabels:
             io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: kitchenowl
-        - matchLabels:
-            io.kubernetes.pod.namespace: default
             app.kubernetes.io/name: openwebui
         - matchLabels:
             io.kubernetes.pod.namespace: default

@@ -34,11 +34,6 @@ spec:
           secretKeyRef:
             name: agentgateway-secret
             key: HOME_ASSISTANT_API_KEY
-      - name: KITCHENOWL_API_KEY
-        valueFrom:
-          secretKeyRef:
-            name: agentgateway-secret
-            key: KITCHENOWL_API_KEY
       - name: OPENWEBUI_API_KEY
         valueFrom:
           secretKeyRef:
@@ -87,11 +82,6 @@ spec:
               - key: ${HOME_ASSISTANT_API_KEY}
                 metadata:
                   client: home-assistant
-                allowedModels:
-                  - gemma-4-12b-ha
-              - key: ${KITCHENOWL_API_KEY}
-                metadata:
-                  client: kitchenowl
                 allowedModels:
                   - gemma-4-12b-ha
               - key: ${OPENWEBUI_API_KEY}
