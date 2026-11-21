@@ -133,6 +133,7 @@ spec:
     substituteFrom:
       - kind: Secret
         name: kopiur-nc-nas-endpoint
+        optional: true
   prune: true
   sourceRef:
     kind: GitRepository
