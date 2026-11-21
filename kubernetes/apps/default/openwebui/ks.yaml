@@ -8,7 +8,7 @@ spec:
   components:
     - ../../../../components/kopiur/backup
   dependsOn:
-    - name: litellm # the team and virtual key are created on the LiteLLM proxy
+    - name: litellm # the team and virtual key (for the MCP tool servers) are created on the LiteLLM proxy
       namespace: ai
     - name: pocket-id
       namespace: security
