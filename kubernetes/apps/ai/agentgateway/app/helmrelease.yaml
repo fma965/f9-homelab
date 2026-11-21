@@ -1,0 +1,115 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: agentgateway
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: agentgateway
+  values:
+    nameOverride: agentgateway
+    image:
+      tag: v1.7.0
+    mode: readonly
+    replicaCount: 1
+    # Egress (M15): the `nas` profile reaches the llama.cpp server on the NAS (8080); DNS comes from the cluster-wide policy.
+    podLabels:
+      egress.cilium.io/nas: "true"
+    extraEnv:
+      - name: LLAMA_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: agentgateway-secret
+            key: LLAMA_API_KEY
+      - name: FRIGATE_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: agentgateway-secret
+            key: FRIGATE_API_KEY
+      - name: HOME_ASSISTANT_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: agentgateway-secret
+            key: HOME_ASSISTANT_API_KEY
+      - name: KITCHENOWL_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: agentgateway-secret
+            key: KITCHENOWL_API_KEY
+      - name: OPENWEBUI_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: agentgateway-secret
+            key: OPENWEBUI_API_KEY
+      - name: PAPERLESS_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: agentgateway-secret
+            key: PAPERLESS_API_KEY
+    gateway:
+      service:
+        type: ClusterIP
+        ports:
+          - name: llm
+            port: 8080
+            targetPort: 8080
+            protocol: TCP
+    monitoring:
+      enabled: true
+    resources:
+      requests:
+        cpu: 10m
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+    # The standalone configuration, in agentgateway's own format. ${NAME} is read from the environment by the gateway,
+    # not by Flux (this Kustomization has no postBuild). Stage 1 serves the LLM listener only; the MCP listener is added
+    # when the MCP servers move behind it.
+    config:
+      config:
+        adminAddr: "off"
+        readinessAddr: 0.0.0.0:15021
+        statsAddr: 0.0.0.0:15020
+      llm:
+        port: 8080
+        policies:
+          apiKey:
+            mode: strict
+            keys:
+              - key: ${FRIGATE_API_KEY}
+                metadata:
+                  client: frigate
+                allowedModels:
+                  - gemma-4-12b-ha
+              - key: ${HOME_ASSISTANT_API_KEY}
+                metadata:
+                  client: home-assistant
+                allowedModels:
+                  - gemma-4-12b-ha
+              - key: ${KITCHENOWL_API_KEY}
+                metadata:
+                  client: kitchenowl
+                allowedModels:
+                  - gemma-4-12b-ha
+              - key: ${OPENWEBUI_API_KEY}
+                metadata:
+                  client: openwebui
+                allowedModels:
+                  - gemma-4-12b-ha
+              - key: ${PAPERLESS_API_KEY}
+                metadata:
+                  client: paperless
+                allowedModels:
+                  - gemma-4-12b-ha
+        models:
+          # The llama.cpp server on the NAS (docker/ai/llamacpp: --alias gemma-4-12b-ha, vision enabled), the same
+          # backend LiteLLM serves today.
+          - name: gemma-4-12b-ha
+            provider: openAI
+            params:
+              apiKey: ${LLAMA_API_KEY}
+              baseUrl: http://llamacpp.docker.internal:8080/v1
+              model: gemma-4-12b-ha

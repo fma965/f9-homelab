@@ -9,5 +9,6 @@ components:
 
 resources:
   - ./namespace.yaml
+  - ./agentgateway/ks.yaml
   - ./litellm/ks.yaml
   - ./litellm-operator/ks.yaml
