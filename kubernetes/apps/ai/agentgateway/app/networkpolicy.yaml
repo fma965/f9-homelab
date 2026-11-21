@@ -4,7 +4,8 @@
 # the Cilium connection table (M15): check Hubble for `Policy denied DROPPED` after it lands. Probes come from the local
 # node, which Cilium always allows. Egress (M15): DNS and the `nas` profile (the llama.cpp server on the NAS), from the
 # cluster-wide policy and the label on the pod; nothing else. A new in-cluster caller needs its own ingress rule here.
-# This pod calls the NAS directly (not through a Service), so no reply rule is needed.
+# The pod calls the NAS directly (no reply rule needed) and the MCP servers through their Services (reply rule below).
+# Egress to the MCP servers is its own rule; their pods take calls from the gateway through their own policies.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -39,6 +40,21 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
+    # Open WebUI's MCP tool connections (8081; its chat is on 8080 above).
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: openwebui
+      toPorts:
+        - ports:
+            - port: "8081"
+              protocol: TCP
+    # The gateway calls the MCP servers through their Services, so their replies come back as new traffic to this pod
+    # (from the MCP pod to this pod's ephemeral port). No port can be listed.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/component: mcp-server
     # Metrics from Prometheus.
     - fromEndpoints:
         - matchLabels:
@@ -47,4 +63,23 @@ spec:
       toPorts:
         - ports:
             - port: "15020"
+              protocol: TCP
+  egress:
+    # The MCP servers (the operator creates the pods and Services; see litellm/app/mcp-servers). Ports are the
+    # containers' own.
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/component: mcp-server
+      toPorts:
+        - ports:
+            - port: "9090"
+              protocol: TCP
+            - port: "8000"
+              protocol: TCP
+            - port: "8086"
+              protocol: TCP
+            - port: "8080"
+              protocol: TCP
+            - port: "3000"
               protocol: TCP

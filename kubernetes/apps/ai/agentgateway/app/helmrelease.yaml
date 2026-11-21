@@ -18,6 +18,8 @@ spec:
     # Egress (M15): the `nas` profile reaches the llama.cpp server on the NAS (8080); DNS comes from the cluster-wide policy.
     podLabels:
       egress.cilium.io/nas: "true"
+    session:
+      secretName: agentgateway-session
     extraEnv:
       - name: LLAMA_API_KEY
         valueFrom:
@@ -34,6 +36,11 @@ spec:
           secretKeyRef:
             name: agentgateway-secret
             key: HOME_ASSISTANT_API_KEY
+      - name: CLAUDE_AI_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: agentgateway-secret
+            key: CLAUDE_AI_API_KEY
       - name: OPENWEBUI_API_KEY
         valueFrom:
           secretKeyRef:
@@ -52,6 +59,10 @@ spec:
             port: 8080
             targetPort: 8080
             protocol: TCP
+          - name: mcp
+            port: 8081
+            targetPort: 8081
+            protocol: TCP
     monitoring:
       enabled: true
     resources:
@@ -61,8 +72,10 @@ spec:
       limits:
         memory: 512Mi
     # The standalone configuration, in agentgateway's own format. ${NAME} is read from the environment by the gateway,
-    # not by Flux (this Kustomization has no postBuild). Stage 1 serves the LLM listener only; the MCP listener is added
-    # when the MCP servers move behind it.
+    # not by Flux (this Kustomization has no postBuild). The LLM listener is on 8080 and the MCP listener on 8081:
+    # `/mcp` is one endpoint over seven servers (not Home Assistant, which can operate locks), `/mcp/<server>` is one
+    # server each. Callers are Open WebUI and claude.ai (through the public door, added in a later change), each with its
+    # own key. The tools of a server are prefixed with its name (flux_..., grafana_...).
     config:
       config:
         adminAddr: "off"
@@ -103,3 +116,282 @@ spec:
               apiKey: ${LLAMA_API_KEY}
               baseUrl: http://llamacpp.docker.internal:8080/v1
               model: gemma-4-12b-ha
+      gateways:
+        mcp:
+          port: 8081
+      routes:
+        - name: mcp-all
+          gateways:
+            - mcp
+          matches:
+            - path:
+                pathPrefix: /mcp
+          backends:
+            - mcp:
+                targets:
+                  - name: flux
+                    mcp:
+                      host: http://flux-mcp.ai.svc.cluster.local:9090/mcp
+                  - name: grafana
+                    mcp:
+                      host: http://grafana-mcp.ai.svc.cluster.local:8000/mcp
+                  - name: kubernetes
+                    mcp:
+                      host: http://kubernetes-mcp.ai.svc.cluster.local:8080/mcp
+                  - name: paperless
+                    mcp:
+                      host: http://paperless-mcp.ai.svc.cluster.local:3000/mcp
+                  - name: truenas
+                    mcp:
+                      host: http://truenas-mcp.ai.svc.cluster.local:8080/mcp
+                  - name: unifi_network
+                    mcp:
+                      host: http://unifi-network-mcp.ai.svc.cluster.local:3000/mcp
+                  - name: victoria_logs
+                    mcp:
+                      host: http://victoria-logs-mcp.ai.svc.cluster.local:8080/mcp
+          policies:
+            urlRewrite:
+              path:
+                prefix: /mcp
+            apiKey:
+              mode: strict
+              keys:
+                - key: ${OPENWEBUI_API_KEY}
+                  metadata:
+                    client: openwebui
+                - key: ${CLAUDE_AI_API_KEY}
+                  metadata:
+                    client: claude-ai
+            mcpAuthorization:
+              rules:
+                - allow: apiKey.client == "openwebui"
+                - allow: apiKey.client == "claude-ai"
+        - name: mcp-flux
+          gateways:
+            - mcp
+          matches:
+            - path:
+                pathPrefix: /mcp/flux
+          backends:
+            - mcp:
+                targets:
+                  - name: flux
+                    mcp:
+                      host: http://flux-mcp.ai.svc.cluster.local:9090/mcp
+          policies:
+            urlRewrite:
+              path:
+                prefix: /mcp
+            apiKey:
+              mode: strict
+              keys:
+                - key: ${OPENWEBUI_API_KEY}
+                  metadata:
+                    client: openwebui
+                - key: ${CLAUDE_AI_API_KEY}
+                  metadata:
+                    client: claude-ai
+            mcpAuthorization:
+              rules:
+                - allow: apiKey.client == "openwebui"
+                - allow: apiKey.client == "claude-ai"
+        - name: mcp-grafana
+          gateways:
+            - mcp
+          matches:
+            - path:
+                pathPrefix: /mcp/grafana
+          backends:
+            - mcp:
+                targets:
+                  - name: grafana
+                    mcp:
+                      host: http://grafana-mcp.ai.svc.cluster.local:8000/mcp
+          policies:
+            urlRewrite:
+              path:
+                prefix: /mcp
+            apiKey:
+              mode: strict
+              keys:
+                - key: ${OPENWEBUI_API_KEY}
+                  metadata:
+                    client: openwebui
+                - key: ${CLAUDE_AI_API_KEY}
+                  metadata:
+                    client: claude-ai
+            mcpAuthorization:
+              rules:
+                - allow: apiKey.client == "openwebui"
+                - allow: apiKey.client == "claude-ai"
+        - name: mcp-home-assistant
+          gateways:
+            - mcp
+          matches:
+            - path:
+                pathPrefix: /mcp/home-assistant
+          backends:
+            - mcp:
+                targets:
+                  - name: home_assistant
+                    mcp:
+                      host: http://home-assistant-mcp.ai.svc.cluster.local:8086/mcp
+          policies:
+            urlRewrite:
+              path:
+                prefix: /mcp
+            apiKey:
+              mode: strict
+              keys:
+                - key: ${OPENWEBUI_API_KEY}
+                  metadata:
+                    client: openwebui
+            mcpAuthorization:
+              rules:
+                - allow: apiKey.client == "openwebui"
+        - name: mcp-kubernetes
+          gateways:
+            - mcp
+          matches:
+            - path:
+                pathPrefix: /mcp/kubernetes
+          backends:
+            - mcp:
+                targets:
+                  - name: kubernetes
+                    mcp:
+                      host: http://kubernetes-mcp.ai.svc.cluster.local:8080/mcp
+          policies:
+            urlRewrite:
+              path:
+                prefix: /mcp
+            apiKey:
+              mode: strict
+              keys:
+                - key: ${OPENWEBUI_API_KEY}
+                  metadata:
+                    client: openwebui
+                - key: ${CLAUDE_AI_API_KEY}
+                  metadata:
+                    client: claude-ai
+            mcpAuthorization:
+              rules:
+                - allow: apiKey.client == "openwebui"
+                - allow: apiKey.client == "claude-ai"
+        - name: mcp-paperless
+          gateways:
+            - mcp
+          matches:
+            - path:
+                pathPrefix: /mcp/paperless
+          backends:
+            - mcp:
+                targets:
+                  - name: paperless
+                    mcp:
+                      host: http://paperless-mcp.ai.svc.cluster.local:3000/mcp
+          policies:
+            urlRewrite:
+              path:
+                prefix: /mcp
+            apiKey:
+              mode: strict
+              keys:
+                - key: ${OPENWEBUI_API_KEY}
+                  metadata:
+                    client: openwebui
+                - key: ${CLAUDE_AI_API_KEY}
+                  metadata:
+                    client: claude-ai
+            mcpAuthorization:
+              rules:
+                - allow: apiKey.client == "openwebui"
+                - allow: apiKey.client == "claude-ai"
+        - name: mcp-truenas
+          gateways:
+            - mcp
+          matches:
+            - path:
+                pathPrefix: /mcp/truenas
+          backends:
+            - mcp:
+                targets:
+                  - name: truenas
+                    mcp:
+                      host: http://truenas-mcp.ai.svc.cluster.local:8080/mcp
+          policies:
+            urlRewrite:
+              path:
+                prefix: /mcp
+            apiKey:
+              mode: strict
+              keys:
+                - key: ${OPENWEBUI_API_KEY}
+                  metadata:
+                    client: openwebui
+                - key: ${CLAUDE_AI_API_KEY}
+                  metadata:
+                    client: claude-ai
+            mcpAuthorization:
+              rules:
+                - allow: apiKey.client == "openwebui"
+                - allow: apiKey.client == "claude-ai"
+        - name: mcp-unifi-network
+          gateways:
+            - mcp
+          matches:
+            - path:
+                pathPrefix: /mcp/unifi-network
+          backends:
+            - mcp:
+                targets:
+                  - name: unifi_network
+                    mcp:
+                      host: http://unifi-network-mcp.ai.svc.cluster.local:3000/mcp
+          policies:
+            urlRewrite:
+              path:
+                prefix: /mcp
+            apiKey:
+              mode: strict
+              keys:
+                - key: ${OPENWEBUI_API_KEY}
+                  metadata:
+                    client: openwebui
+                - key: ${CLAUDE_AI_API_KEY}
+                  metadata:
+                    client: claude-ai
+            mcpAuthorization:
+              rules:
+                - allow: apiKey.client == "openwebui"
+                - allow: apiKey.client == "claude-ai"
+        - name: mcp-victoria-logs
+          gateways:
+            - mcp
+          matches:
+            - path:
+                pathPrefix: /mcp/victoria-logs
+          backends:
+            - mcp:
+                targets:
+                  - name: victoria_logs
+                    mcp:
+                      host: http://victoria-logs-mcp.ai.svc.cluster.local:8080/mcp
+          policies:
+            urlRewrite:
+              path:
+                prefix: /mcp
+            apiKey:
+              mode: strict
+              keys:
+                - key: ${OPENWEBUI_API_KEY}
+                  metadata:
+                    client: openwebui
+                - key: ${CLAUDE_AI_API_KEY}
+                  metadata:
+                    client: claude-ai
+            mcpAuthorization:
+              rules:
+                - allow: apiKey.client == "openwebui"
+                - allow: apiKey.client == "claude-ai"
