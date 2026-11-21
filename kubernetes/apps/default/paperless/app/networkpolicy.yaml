@@ -48,13 +48,13 @@ spec:
             - port: "8000"
               protocol: TCP
     # Access to the NAS (egress.cilium.io/nas) comes from the profile label(s) on the pod, set in the HelmRelease.
-    # AI suggestions call LiteLLM through its Service, so LiteLLM's replies come back as new traffic to this pod
-    # (from the LiteLLM pod to this pod's ephemeral port). No port can be listed.
+    # AI suggestions call the Agent Gateway through its Service, so its replies come back as new traffic to this pod
+    # (from the gateway pod to this pod's ephemeral port). No port can be listed.
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: ai
-            app.kubernetes.io/instance: litellm
-            app.kubernetes.io/name: litellm
+            app.kubernetes.io/instance: agentgateway
+            app.kubernetes.io/name: agentgateway
   egress:
     # The embedding model (sentence-transformers/all-MiniLM-L6-v2) is downloaded from Hugging Face
     # into HF_HOME on first use; the cache is still empty, so this was not seen in a capture.
@@ -66,13 +66,13 @@ spec:
         - ports:
             - port: "443"
               protocol: TCP
-    # AI suggestions: the LiteLLM gateway, which replaced the direct connection to the llama server on the NAS.
+    # AI suggestions: the Agent Gateway (was LiteLLM until 21 Nov 2026).
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: ai
-            app.kubernetes.io/instance: litellm
-            app.kubernetes.io/name: litellm
+            app.kubernetes.io/instance: agentgateway
+            app.kubernetes.io/name: agentgateway
       toPorts:
         - ports:
-            - port: "4000"
+            - port: "8080"
               protocol: TCP
