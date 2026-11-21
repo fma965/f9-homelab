@@ -1,0 +1,53 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Agent Gateway (LLM gateway; the login is its own API key check). Allow-list written from the manifests, not yet from
+# the Cilium connection table (M15): check Hubble for `Policy denied DROPPED` after it lands. Probes come from the local
+# node, which Cilium always allows. Egress (M15): DNS and the `nas` profile (the llama.cpp server on the NAS), from the
+# cluster-wide policy and the label on the pod; nothing else. A new in-cluster caller needs its own ingress rule here.
+# This pod calls the NAS directly (not through a Service), so no reply rule is needed.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: agentgateway
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: agentgateway
+      app.kubernetes.io/name: agentgateway
+  ingress:
+    # The route for callers outside the cluster (Frigate on the NAS): the internal gateway.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # In-cluster callers (default namespace), through the Service, with their own API keys.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: home-assistant
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: kitchenowl
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: openwebui
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: paperless
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # Metrics from Prometheus.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: prometheus
+      toPorts:
+        - ports:
+            - port: "15020"
+              protocol: TCP
