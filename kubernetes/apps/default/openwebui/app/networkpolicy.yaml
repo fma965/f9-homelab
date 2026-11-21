@@ -63,3 +63,6 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
+            # The MCP tool connections (admin UI > External Tool Servers): the gateway's MCP listener.
+            - port: "8081"
+              protocol: TCP
