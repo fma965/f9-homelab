@@ -86,11 +86,12 @@ spec:
         memory: 128Mi
       limits:
         memory: 512Mi
-    # The standalone configuration, in agentgateway's own format. ${NAME} is read from the environment by the gateway,
-    # not by Flux (this Kustomization has no postBuild). The LLM listener is on 8080 and the MCP listener on 8081:
-    # `/mcp` is one endpoint over seven servers (not Home Assistant, which can operate locks), `/mcp/<server>` is one
-    # server each. Callers are Open WebUI and claude.ai (through the public door, added in a later change), each with its
-    # own key. The tools of a server are prefixed with its target name (flux_..., unifi-network_...); a target name cannot contain an underscore.
+      # The standalone configuration, in agentgateway's own format. ${NAME} is read from the environment by the gateway,
+      # not by Flux (this Kustomization has no postBuild). The LLM listener is on 8080 and the MCP listener on 8081:
+      # `/mcp` is one endpoint over seven servers (not Home Assistant, which can operate locks); `/mcp/<server>` is one
+      # server each. Callers are Open WebUI and claude.ai (through the public door mcp.f9.casa), each with its own key;
+      # claude.ai reaches Home Assistant only through its own connector on `/mcp/home-assistant`. The tools of a server
+      # are prefixed with its target name (flux_..., unifi-network_...); a target name cannot contain an underscore.
     config:
       config:
         adminAddr: "off"
@@ -274,9 +275,13 @@ spec:
                 - key: ${OPENWEBUI_API_KEY}
                   metadata:
                     client: openwebui
+                - key: ${CLAUDE_AI_API_KEY}
+                  metadata:
+                    client: claude-ai
             mcpAuthorization:
               rules:
                 - allow: apiKey.client == "openwebui"
+                - allow: apiKey.client == "claude-ai"
         - name: mcp-kubernetes
           gateways:
             - mcp
