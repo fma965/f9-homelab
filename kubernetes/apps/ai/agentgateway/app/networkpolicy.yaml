@@ -40,6 +40,15 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
+    # The public MCP door for claude.ai (mcp.f9.casa, MCP listener 8081): the external gateway.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "8081"
+              protocol: TCP
     # Open WebUI's MCP tool connections (8081; its chat is on 8080 above).
     - fromEndpoints:
         - matchLabels:

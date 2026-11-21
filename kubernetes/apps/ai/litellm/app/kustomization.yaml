@@ -11,4 +11,3 @@ resources:
   - ./models/
   - ./networkpolicy.yaml
   - ./oidcclient.yaml
-  - ./public/
