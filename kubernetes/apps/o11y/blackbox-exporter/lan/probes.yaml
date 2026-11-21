@@ -19,6 +19,9 @@ spec:
         - k8s-01.internal
         - k8s-02.internal
         - k8s-03.internal
+        - ups.not.internal
+        - garage-camera.not.internal
+        - garage-door.not.internal
   metricRelabelings:
     - targetLabel: service
       replacement: blackbox-exporter-lan
