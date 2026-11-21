@@ -332,8 +332,8 @@ semantic_search:
   device: CPU
 genai:
   newKey:
-    api_key: "{FRIGATE_LITELLM_API_KEY}"
-    base_url: https://litellm.f9.casa/v1
+    api_key: "{FRIGATE_LLM_API_KEY}"
+    base_url: https://agentgateway.f9.casa/v1
     provider: openai
     roles:
       - descriptions
