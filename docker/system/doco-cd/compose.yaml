@@ -24,6 +24,10 @@ services:
           reference: main
           interval: 180
       GIT_ACCESS_TOKEN_FILE: /run/secrets/git_access_token
+      # Since 0.130 a global Git credential is only sent to the hosts listed here, and Doco-CD refuses to start
+      # without the list (GHSA-ggcr-c46c-q2gj). Without it every self-update fails its health check and rolls back.
+      GIT_AUTH_DOMAINS: |
+        - domains: [github.com]
       WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       SECRET_PROVIDER: 1password
       # Set in this stack's entry in .doco-cd.yaml (a URL, not a secret).
