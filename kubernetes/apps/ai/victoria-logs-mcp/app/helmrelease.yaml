@@ -1,0 +1,64 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app victoria-logs-mcp
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      victoria-logs-mcp:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/victoriametrics/mcp-victorialogs
+              tag: v1.9.0@sha256:753bb4fbe402ca1a782842f44636830f9895736f11d7fe783b924f8a0daf083d
+            env:
+              MCP_HEARTBEAT_INTERVAL: 30s
+              MCP_LISTEN_ADDR: 0.0.0.0:8080
+              MCP_SERVER_MODE: http
+              VL_INSTANCE_ENTRYPOINT: http://victoria-logs.o11y.svc.cluster.local:9428
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      # Read by the gateway's policy and by Agent Gateway's egress rule (the label the LiteLLM operator used to set).
+      labels:
+        app.kubernetes.io/component: mcp-server
+      # The image runs as the user name `mcp`, which Kubernetes cannot check is non-root, hence the numeric user.
+      securityContext:
+        runAsGroup: 65532
+        runAsNonRoot: true
+        runAsUser: 65532
+        seccompProfile:
+          type: RuntimeDefault
+    service:
+      app:
+        ports:
+          http:
+            port: 8080
+    persistence:
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp

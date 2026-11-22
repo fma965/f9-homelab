@@ -11,4 +11,3 @@ resources:
   - ./rbac.yaml
   - ./truenas/
   - ./unifi-network/
-  - ./victoria-logs/
