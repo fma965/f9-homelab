@@ -2,8 +2,9 @@
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 # Open WebUI (AI chat, public, OIDC login). Allow-list from the manifests and the Cilium
 # connection table on 15 Oct 2026 (M15). Probes come from the local node, which Cilium always
-# allows. Egress (15 Oct 2026): DNS, the gateway (OIDC) and the public internet on 80/443; since 31 Oct 2026 also the
-# LiteLLM gateway on 4000 (still used for the MCP tool servers), and since 21 Nov 2026 the Agent Gateway on 8080 for chat.
+# allows. Egress (15 Oct 2026): DNS, the gateway (OIDC) and the public internet on 80/443; since 21 Nov 2026 also the
+# Agent Gateway, on 8080 for chat and 8081 for the MCP tool connections (it replaced LiteLLM, which was removed on
+# 22 Nov 2026).
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -31,29 +32,14 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: network
             gateway.envoyproxy.io/owning-gateway-name: envoy-internal
-    # Open WebUI calls LiteLLM through its Service, so LiteLLM's replies come back as new traffic to this pod
-    # (from the LiteLLM pod to this pod's ephemeral port). No port can be listed.
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: ai
-            app.kubernetes.io/instance: litellm
-            app.kubernetes.io/name: litellm
-    # Same for the Agent Gateway, which Open WebUI also calls through its Service.
+    # Open WebUI calls the Agent Gateway through its Service (chat on 8080, MCP tools on 8081), so the gateway's replies
+    # come back as new traffic to this pod (from the gateway pod to this pod's ephemeral port). No port can be listed.
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: ai
             app.kubernetes.io/instance: agentgateway
             app.kubernetes.io/name: agentgateway
   egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: ai
-            app.kubernetes.io/instance: litellm
-            app.kubernetes.io/name: litellm
-      toPorts:
-        - ports:
-            - port: "4000"
-              protocol: TCP
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: ai
