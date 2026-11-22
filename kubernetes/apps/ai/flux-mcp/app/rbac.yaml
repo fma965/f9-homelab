@@ -1,6 +1,6 @@
 ---
 # Read-only: the built-in `view` role (no Secrets; it covers the Flux resources) plus mcp-readonly-cluster
-# (../../litellm/app/mcp-servers/rbac.yaml). The upstream chart's own RBAC option is cluster-admin, which is why this is written by hand
+# (../../kubernetes-mcp/app/clusterrole.yaml). The upstream chart's own RBAC option is cluster-admin, which is why this is written by hand
 # (closed PR #1835). The server's --read-only flag is a second guard, not the only one.
 # The service account itself is the default one app-template creates for the release (same name).
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/rbac.authorization.k8s.io/clusterrolebinding_v1.json

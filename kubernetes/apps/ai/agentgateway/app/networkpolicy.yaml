@@ -74,7 +74,7 @@ spec:
             - port: "15020"
               protocol: TCP
   egress:
-    # The MCP servers (the operator creates the pods and Services; see litellm/app/mcp-servers). Ports are the
+    # The MCP servers (the `*-mcp` apps in this namespace, labelled `component: mcp-server`). Ports are the
     # containers' own.
     - toEndpoints:
         - matchLabels:

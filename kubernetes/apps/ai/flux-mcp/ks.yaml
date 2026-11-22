@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: &app flux-mcp
 spec:
+  dependsOn:
+    - name: kubernetes-mcp # owns the ClusterRole mcp-readonly-cluster that this app binds to
   interval: 1h
   path: ./kubernetes/apps/ai/flux-mcp/app
   prune: true

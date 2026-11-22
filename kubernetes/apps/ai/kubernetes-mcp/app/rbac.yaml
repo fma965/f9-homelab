@@ -1,5 +1,5 @@
 ---
-# Read-only: the built-in `view` role (no Secrets) plus mcp-readonly-cluster (../../litellm/app/mcp-servers/rbac.yaml). The server's own
+# Read-only: the built-in `view` role (no Secrets) plus mcp-readonly-cluster (../../kubernetes-mcp/app/clusterrole.yaml). The server's own
 # read_only setting and its Secret deny-list (resources/config.toml) are a second guard, not the only one.
 # The service account itself is the default one app-template creates for the release (same name).
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/rbac.authorization.k8s.io/clusterrolebinding_v1.json

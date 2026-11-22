@@ -42,7 +42,7 @@ spec:
                 drop: ["ALL"]
     defaultPodOptions:
       automountServiceAccountToken: false
-      # Read by the gateway's policy and by Agent Gateway's egress rule (the label the LiteLLM operator used to set).
+      # Selected by Agent Gateway's egress rule.
       labels:
         app.kubernetes.io/component: mcp-server
       # The image runs as the user name `mcp`, which Kubernetes cannot check is non-root, hence the numeric user.

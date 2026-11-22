@@ -38,7 +38,7 @@ spec:
         - ports:
             - port: "8000"
               protocol: TCP
-    # The Paperless MCP behind LiteLLM (ai namespace), with the owner's Paperless API token.
+    # The Paperless MCP server (ai namespace), with the owner's Paperless API token.
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: ai
@@ -66,7 +66,7 @@ spec:
         - ports:
             - port: "443"
               protocol: TCP
-    # AI suggestions: the Agent Gateway (was LiteLLM until 21 Nov 2026).
+    # AI suggestions: the Agent Gateway.
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: ai
