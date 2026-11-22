@@ -1,0 +1,72 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app grafana-mcp
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      grafana-mcp:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.io/grafana/mcp-grafana
+              tag: 2.3.0@sha256:c27248b5919d09d64ea273ca1b128b32902c6796f6e2dfcd11849d4f1363f9ed
+            # Read-only (--disable-write). The allowed hosts are the names the gateway calls it by.
+            args:
+              - --transport=streamable-http
+              - --address=0.0.0.0:8000
+              - --disable-write
+              - "--allowed-hosts=grafana-mcp,grafana-mcp:8000,grafana-mcp.ai.svc.cluster.local,grafana-mcp.ai.svc.cluster.local:8000,localhost,localhost:8000,127.0.0.1,127.0.0.1:8000"
+            env:
+              GRAFANA_URL: http://grafana-service.o11y.svc.cluster.local:3000
+              HOME: /tmp
+            envFrom:
+              - secretRef:
+                  name: grafana-mcp-secret
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      # Selected by Agent Gateway's egress rule (the label the LiteLLM operator used to set).
+      labels:
+        app.kubernetes.io/component: mcp-server
+      securityContext:
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+    service:
+      app:
+        ports:
+          http:
+            port: 8000
+    persistence:
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
