@@ -278,10 +278,13 @@ spec:
                 - key: ${CLAUDE_AI_API_KEY}
                   metadata:
                     client: claude-ai
+            # Open WebUI's local model drowns in all 77 tools (about 70,000 tokens of descriptions, a 90 s first token) and
+            # misuses them, so it gets twelve: read tools plus call_service and bulk_control (which can operate locks).
+            # claude.ai keeps the full set on its own connector.
             mcpAuthorization:
               rules:
-                - allow: apiKey.client == "openwebui"
                 - allow: apiKey.client == "claude-ai"
+                - allow: apiKey.client == "openwebui" && (!has(mcp.tool.name) || mcp.tool.name in ["ha_search", "ha_get_state", "ha_get_entity", "ha_get_overview", "ha_list_floors_areas", "ha_get_history", "ha_get_todo", "ha_get_logs", "ha_list_services", "ha_eval_template", "ha_call_service", "ha_bulk_control"])
         - name: mcp-kubernetes
           gateways:
             - mcp
