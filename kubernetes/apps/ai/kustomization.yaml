@@ -10,6 +10,9 @@ components:
 resources:
   - ./namespace.yaml
   - ./agentgateway/ks.yaml
-  - ./litellm/ks.yaml
+  - ./flux-mcp/ks.yaml
+  - ./grafana-mcp/ks.yaml
+  - ./kubernetes-mcp/ks.yaml
   - ./litellm-operator/ks.yaml
+  - ./litellm/ks.yaml
   - ./victoria-logs-mcp/ks.yaml

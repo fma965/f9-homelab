@@ -1,0 +1,68 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app flux-mcp
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      flux-mcp:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/controlplaneio-fluxcd/flux-operator-mcp
+              tag: v0.62.1@sha256:0b4181bc9ada80eedf3e9df3355153abc9c3e6d8b913bddebe0b12908309bff6
+            args:
+              - serve
+              - --transport=http
+              - --port=9090
+              - --read-only=true
+            env:
+              # Where the Flux controllers and the FluxInstance live. The chart sets this to the pod's own namespace, which
+              # is right when it is deployed next to Flux, but this pod runs in ai.
+              RUNTIME_NAMESPACE: flux-system
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
+    defaultPodOptions:
+      automountServiceAccountToken: true
+      # The API server (egress.cilium.io, M15), and the label Agent Gateway's egress rule selects.
+      labels:
+        app.kubernetes.io/component: mcp-server
+        egress.cilium.io/kube-apiserver: "true"
+      securityContext:
+        runAsGroup: 65532
+        runAsNonRoot: true
+        runAsUser: 65532
+        seccompProfile:
+          type: RuntimeDefault
+    service:
+      app:
+        ports:
+          http:
+            port: 9090
+    persistence:
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp

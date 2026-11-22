@@ -1,0 +1,24 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Flux MCP (read-only: --read-only turns off the mutating tools and the service account cannot write). It has no
+# inbound authentication, so only Agent Gateway may call it; its only egress is the API server, from the
+# `kube-apiserver` label on the pod (that profile also lets the API server's replies back in). Written from the
+# manifests (M15): check Hubble for `Policy denied DROPPED` after it lands.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: flux-mcp
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: flux-mcp
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/instance: agentgateway
+            app.kubernetes.io/name: agentgateway
+      toPorts:
+        - ports:
+            - port: "9090"
+              protocol: TCP

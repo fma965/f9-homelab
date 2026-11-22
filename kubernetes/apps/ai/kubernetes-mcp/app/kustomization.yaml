@@ -3,8 +3,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./mcpserver.yaml
+  - ./helmrelease.yaml
   - ./networkpolicy.yaml
+  - ./ocirepository.yaml
   - ./rbac.yaml
 configMapGenerator:
   - name: kubernetes-mcp-config
