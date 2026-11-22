@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Home Assistant MCP, READ-WRITE: it can call services, including locks. It has no inbound authentication, so only Agent
+# Gateway may call it (which tools each client gets is decided there), and it calls only Home Assistant (8123). Home
+# Assistant is called through its Service, so its reply comes back as new traffic to this pod and is let in with no port;
+# Home Assistant's own policy admits this pod. Written from the manifests (M15): check Hubble for
+# `Policy denied DROPPED` after it lands.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: home-assistant-mcp
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: home-assistant-mcp
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/instance: agentgateway
+            app.kubernetes.io/name: agentgateway
+      toPorts:
+        - ports:
+            - port: "8086"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: home-assistant
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: home-assistant
+      toPorts:
+        - ports:
+            - port: "8123"
+              protocol: TCP

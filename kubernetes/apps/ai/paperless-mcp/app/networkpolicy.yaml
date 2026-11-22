@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# Paperless MCP (baruchiro/paperless-mcp). It demands a Paperless API token on every request and uses it for its own
+# Paperless calls; Agent Gateway sends that token (`backendAuth`). Only Agent Gateway may call this pod, and it calls only
+# Paperless (8000), through its Service, so Paperless's reply comes back as new traffic to this pod and is let in with no
+# port; Paperless's own policy admits this pod. Written from the manifests (M15): check Hubble for
+# `Policy denied DROPPED` after it lands.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: paperless-mcp
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: paperless-mcp
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/instance: agentgateway
+            app.kubernetes.io/name: agentgateway
+      toPorts:
+        - ports:
+            - port: "3000"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: paperless
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: paperless
+      toPorts:
+        - ports:
+            - port: "8000"
+              protocol: TCP

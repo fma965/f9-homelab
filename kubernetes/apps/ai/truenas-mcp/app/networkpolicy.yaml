@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# TrueNAS MCP. WRITES ARE ENABLED in the server; the API key Agent Gateway sends decides what it can do on the NAS. It
+# has no inbound authentication, so only Agent Gateway may call it; its egress to the NAS comes from the `nas` label on
+# the pod. Written from the manifests (M15): check Hubble for `Policy denied DROPPED` after it lands.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: truenas-mcp
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: truenas-mcp
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/instance: agentgateway
+            app.kubernetes.io/name: agentgateway
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
