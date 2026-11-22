@@ -15,7 +15,6 @@ resources:
   - ./home-assistant-mcp/ks.yaml
   - ./kubernetes-mcp/ks.yaml
   - ./litellm-operator/ks.yaml
-  - ./litellm/ks.yaml
   - ./paperless-mcp/ks.yaml
   - ./truenas-mcp/ks.yaml
   - ./unifi-network-mcp/ks.yaml

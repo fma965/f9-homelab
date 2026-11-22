@@ -7,19 +7,19 @@ description: Use when deploying a new application to the cluster — scaffolding
 
 Scaffolds `kubernetes/apps/<namespace>/<app>/` with a Flux Kustomization (`ks.yaml`) and an app-template HelmRelease. Every value below comes from current repo conventions; when in doubt, mirror a real neighbouring app instead of inventing structure:
 
-| Reference app                                        | Shows                                                                                         |
-| ---------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `kubernetes/apps/default/help`                       | Stateless app, multiple containers, config from a ConfigMap, public route behind `oidc`       |
-| `kubernetes/apps/default/zipline`                    | Postgres (`init-db`), ExternalSecret, NFS media with `zeroscaler`, OIDC login, network policy |
-| `kubernetes/apps/default/jellyfin`                   | kopiur-backed persistence, GPU component, dependencies                                        |
-| `kubernetes/apps/default/seerr`                      | Small app with an ExternalSecret and a network policy                                         |
-| `kubernetes/apps/ai/litellm/app/mcp-servers/grafana` | MCP server: a `LiteLLMMCPServer` behind the LiteLLM gateway, not its own app                  |
+| Reference app                      | Shows                                                                                         |
+| ---------------------------------- | --------------------------------------------------------------------------------------------- |
+| `kubernetes/apps/default/help`     | Stateless app, multiple containers, config from a ConfigMap, public route behind `oidc`       |
+| `kubernetes/apps/default/zipline`  | Postgres (`init-db`), ExternalSecret, NFS media with `zeroscaler`, OIDC login, network policy |
+| `kubernetes/apps/default/jellyfin` | kopiur-backed persistence, GPU component, dependencies                                        |
+| `kubernetes/apps/default/seerr`    | Small app with an ExternalSecret and a network policy                                         |
+| `kubernetes/apps/ai/grafana-mcp`   | MCP server: an ordinary app behind Agent Gateway (route and keys are in `ai/agentgateway`)    |
 
 ## Step 1: Gather details
 
 Ask the user for anything not already given:
 
-1. **App name** and **namespace** (existing folders: `ls kubernetes/apps/`). Home and household apps go in `default`, the owner's own dev projects in `webdev`. MCP servers are not apps of their own: add a `LiteLLMMCPServer` under `kubernetes/apps/ai/litellm/app/mcp-servers/` (the public door is `mcp.f9.casa`, on Agent Gateway).
+1. **App name** and **namespace** (existing folders: `ls kubernetes/apps/`). Home and household apps go in `default`, the owner's own dev projects in `webdev`. An MCP server is an ordinary app in `ai` named `<name>-mcp` (see `ai/grafana-mcp`), labelled `app.kubernetes.io/component: mcp-server`, with no route of its own: add a target and route for it in `ai/agentgateway`'s config, and allow the gateway in its network policy (the public door is `mcp.f9.casa`, on Agent Gateway).
 2. **Image** repository + tag (upstream's current release; never from memory).
 3. **Port** the app listens on, and whether it gets a **route**: `envoy-internal` (default; admin and management tools) or `envoy-external` (public). Routes without a login of their own need the `oidc` component.
 4. **Persistence**: does the app store state? Local state → kopiur backup component. Files on the NAS → an NFS mount (then the `zeroscaler` component).

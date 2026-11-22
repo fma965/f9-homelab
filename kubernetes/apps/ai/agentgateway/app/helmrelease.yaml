@@ -124,8 +124,7 @@ spec:
                 allowedModels:
                   - gemma-4-12b-ha
         models:
-          # The llama.cpp server on the NAS (docker/ai/llamacpp: --alias gemma-4-12b-ha, vision enabled), the same
-          # backend LiteLLM serves today.
+          # The llama.cpp server on the NAS (docker/ai/llamacpp: --alias gemma-4-12b-ha, vision enabled).
           - name: gemma-4-12b-ha
             provider: openAI
             params:

@@ -40,7 +40,7 @@ spec:
                 drop: ["ALL"]
     defaultPodOptions:
       automountServiceAccountToken: false
-      # `component` is selected by Agent Gateway's egress rule (the label the LiteLLM operator used to set).
+      # `component` is selected by Agent Gateway's egress rule.
       labels:
         app.kubernetes.io/component: mcp-server
       securityContext:
