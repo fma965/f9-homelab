@@ -24,7 +24,7 @@ spec:
               # The Agent Gateway (ai namespace); chat goes through it, with OPENAI_API_KEY from the Secret (the
               # OPENWEBUI_API_KEY field of the 1Password item agentgateway). Open WebUI keeps its connection in its
               # database once it has started, so these only apply to a fresh database; an existing one is changed in
-              # Admin Settings > Connections (URL and key). The MCP tool servers still go through LiteLLM until they move.
+              # Admin Settings > Connections (URL and key). The MCP tool servers are added in the admin UI (Integrations > External Tool Servers), against the gateway's MCP listener.
               OPENAI_API_BASE_URL: "http://agentgateway.ai.svc.cluster.local:8080/v1"
               OPENAI_API_CONFIGS: '{"0": {"enable": true, "tags": [], "prefix_id": "", "model_ids": [], "connection_type": "external", "auth_type": "bearer"}}'
               OAUTH_PROVIDER_NAME: "Home"
