@@ -12,3 +12,4 @@ resources:
   - ./agentgateway/ks.yaml
   - ./litellm/ks.yaml
   - ./litellm-operator/ks.yaml
+  - ./victoria-logs-mcp/ks.yaml

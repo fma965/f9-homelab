@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# VictoriaLogs MCP (read-only: query, exploration and stats APIs of VictoriaLogs). It has no inbound authentication, so
+# only Agent Gateway may call it, and it calls only VictoriaLogs (victoria-logs.o11y.svc:9428). Written from the
+# manifests (M15): check Hubble for `Policy denied DROPPED` after it lands. The pod calls VictoriaLogs through its
+# Service, so VictoriaLogs' reply comes back as new traffic to this pod and is let in with no port. Agent Gateway's
+# own policy allows it to call this pod and takes the reply.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: victoria-logs-mcp
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: victoria-logs-mcp
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
+            app.kubernetes.io/instance: agentgateway
+            app.kubernetes.io/name: agentgateway
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: victoria-logs-single
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: o11y
+            app.kubernetes.io/name: victoria-logs-single
+      toPorts:
+        - ports:
+            - port: "9428"
+              protocol: TCP
