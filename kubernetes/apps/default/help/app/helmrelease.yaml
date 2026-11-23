@@ -28,7 +28,7 @@ spec:
           build:
             image: &builder
               repository: squidfunk/mkdocs-material
-              tag: 9.8.1@sha256:f797da217ff01b20b298d2185eb9d88fb81f5a322c439eba854f2e4de8a48e65
+              tag: 9.8.2@sha256:fd13d78a4b1da637405c0336c9f0a4e0594b59271df106bd9cd64cae56cd1f38
             command: ["/bin/sh", "/config/builder.sh", "init"]
             securityContext: &securityContext
               allowPrivilegeEscalation: false
