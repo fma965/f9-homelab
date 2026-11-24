@@ -187,6 +187,15 @@ cameras:
           roles:
             - detect
 
+    detect:
+      # Keep a car alive through low-confidence or occluded frames instead of
+      # ending it and starting a new one, which made vehicle detection flap.
+      # Counted in detect frames (default is 5x the fps, 25 at 5 fps, about 5 s);
+      # 100 is about 20 s at 5 fps. This is per camera, Frigate cannot set it per
+      # object, so it applies to every tracked object on this camera. Lower it if
+      # something that has really left keeps showing as present.
+      max_disappeared: 100
+
     objects:
       mask:
         object_mask_1:
@@ -320,12 +329,6 @@ proxy:
   default_role: viewer
 detect:
   enabled: true
-  # Hold a tracked object through low-confidence or occluded frames instead of
-  # ending it and starting a new one, which is what made vehicle detection flap.
-  # Counted in detect frames, default is 5x the fps (25 at 5 fps, about 5 s);
-  # 100 is about 20 s at 5 fps. Applies to every camera. Lower it if a car that
-  # has really left keeps showing as present for too long.
-  max_disappeared: 100
 # Enrichment models stay on CPU: with device AUTO the -rocm image loads them on
 # MIGraphX, and the LPR model segfaults there (embeddings process dies, Frigate exits).
 semantic_search:
