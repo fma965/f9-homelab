@@ -62,7 +62,7 @@ objects:
     # lower it if real ones get missed.
     car:
       min_area: 3000
-      min_score: 0.8
+      min_score: 0.7
       threshold: 0.85
     motorcycle:
       min_area: 2000
@@ -186,11 +186,6 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - detect
-
-    detect:
-      # Keep a car alive through a few seconds of low-confidence frames at night
-      # instead of ending it and starting a new one (default is 5x the fps).
-      max_disappeared: 50
 
     objects:
       mask:
@@ -325,6 +320,12 @@ proxy:
   default_role: viewer
 detect:
   enabled: true
+  # Hold a tracked object through low-confidence or occluded frames instead of
+  # ending it and starting a new one, which is what made vehicle detection flap.
+  # Counted in detect frames, default is 5x the fps (25 at 5 fps, about 5 s);
+  # 100 is about 20 s at 5 fps. Applies to every camera. Lower it if a car that
+  # has really left keeps showing as present for too long.
+  max_disappeared: 100
 # Enrichment models stay on CPU: with device AUTO the -rocm image loads them on
 # MIGraphX, and the LPR model segfaults there (embeddings process dies, Frigate exits).
 semantic_search:
