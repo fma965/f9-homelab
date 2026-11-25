@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/postgresql.cnpg.io/clusterimagecatalog_v1.json
+# The one place the PostgreSQL image of every cluster is pinned (both clusters here use major 18). A cluster picks it
+# with `imageCatalogRef`; an extension a cluster needs (vchord) is declared in that cluster, not here, so the
+# catalog carries only the base images. A new image digest restarts every database, so Renovate offers it weekly.
+apiVersion: postgresql.cnpg.io/v1
+kind: ClusterImageCatalog
+metadata:
+  name: postgresql
+spec:
+  images:
+    - major: 18
+      image: ghcr.io/cloudnative-pg/postgresql:18.7-standard-bookworm@sha256:6669f2fdbc344beb60d307e7aa0a343c510183ac49fd13db8d161d294ed5e141
