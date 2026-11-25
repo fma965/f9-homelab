@@ -28,6 +28,8 @@ spec:
               DISPLAY_WIDTH: "1680"
               DISPLAY_HEIGHT: "800"
               KEEP_APP_RUNNING: "0"
+              # Unset, the JVM heap is sized from the node's RAM, far above the container limit (OOMKilled).
+              JDOWNLOADER_MAX_MEM: 1G
               # TLS is terminated at the gateway; the VNC port is not exposed by a Service.
               SECURE_CONNECTION: "0"
               ENABLE_CJK_FONT: "0"
@@ -57,9 +59,9 @@ spec:
             resources:
               requests:
                 cpu: 100m
-                memory: 400Mi
+                memory: 768Mi
               limits:
-                memory: 800Mi
+                memory: 2Gi
     defaultPodOptions:
       automountServiceAccountToken: false
       enableServiceLinks: false
