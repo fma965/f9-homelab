@@ -9,6 +9,19 @@
   // The Protect Main ruleset does not require up-to-date branches, and the default `auto` would rebase every
   // open pull request, rerunning CI, each time main moves. Rebase only when a branch conflicts.
   rebaseWhen: "conflicted",
+  customManagers: [
+    {
+      // CloudNativePG extension images (vchord) are named in a Cluster's `extensions[].image.reference`, which no
+      // built-in manager reads.
+      description: "Process CNPG extension image references",
+      customType: "regex",
+      managerFilePatterns: ["/\\.ya?ml$/"],
+      matchStrings: [
+        "reference:\\s+(?<depName>[^@\\s]+):(?<currentValue>[^@\\s/]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?",
+      ],
+      datasourceTemplate: "docker",
+    },
+  ],
   lockFileMaintenance: {
     enabled: true,
     schedule: ["before 3am on the first day of the month"],
@@ -144,6 +157,13 @@
       ],
       matchUpdateTypes: ["major"],
       enabled: false,
+    },
+    {
+      description: "Postgres image rebuilds restart every database, so offer them weekly",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/cloudnative-pg/postgresql"],
+      matchUpdateTypes: ["digest"],
+      schedule: ["before 6am on Monday"],
     },
     // Grouping rules
     {
