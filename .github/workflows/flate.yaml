@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Flate
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - kubernetes/**
+      - .github/workflows/flate.yaml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Flate - Test
+    # Renders every Flux object offline and reports anything that does not reconcile (a missing dependency, a chart
+    # that does not render). It needs no cluster or Talos access, so there is no self-hosted runner and no
+    # cluster credentials here. A full run on purpose: a diff against the base never renders the shared components.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Mise
+        uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5.3.0
+        with:
+          cache: false
+          install_args: github:home-operations/flate@v0.8.0
+
+      - name: Run Flate
+        run: flate test all -p ./kubernetes/apps
