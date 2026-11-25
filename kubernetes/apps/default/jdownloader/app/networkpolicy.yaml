@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+# JDownloader (direct download manager, internal). Egress comes from the `internet` profile label (it fetches from
+# arbitrary hosts and my.jdownloader.org); this policy only limits ingress to the internal gateway on the web UI port.
+# The image also listens on VNC (5900), which no Service exposes and this policy keeps unreachable (M15).
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: jdownloader
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: jdownloader
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+            gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+      toPorts:
+        - ports:
+            - port: "5800"
+              protocol: TCP
+    # Replies to the app's DNS lookups come back through the kube-dns Service and are evaluated as new traffic.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
