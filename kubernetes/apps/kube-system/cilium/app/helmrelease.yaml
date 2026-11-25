@@ -41,15 +41,23 @@ spec:
         egress.cilium.io/kube-apiserver: "true"
     hubble:
       enabled: true
+      # How many flows each agent keeps for `hubble observe` and the UI. The default (4095) holds only a few minutes
+      # on this cluster, too little to look back at a denied connection; 65535 is what home-ops uses.
+      eventBufferCapacity: "65535"
       # Chart default generates the certificates at render time, so they would change on every
       # upgrade; the cron job keeps them stable and rotates them on a schedule
       tls:
         auto:
           method: cronJob
       metrics:
+        dashboards:
+          enabled: true
+        # Labelled by namespace and app, not by workload name, to keep the number of series bounded.
         enabled:
-          - drop
-          - flow:sourceContext=workload-name|reserved-identity;destinationContext=workload-name|reserved-identity
+          - drop:labelsContext=source_namespace,destination_namespace;sourceContext=app|reserved-identity;destinationContext=app|reserved-identity
+          - flow:labelsContext=source_namespace,destination_namespace;sourceContext=app|reserved-identity;destinationContext=app|reserved-identity
+          - icmp:labelsContext=source_namespace,destination_namespace;sourceContext=app|reserved-identity;destinationContext=app|reserved-identity
+          - tcp:labelsContext=source_namespace,destination_namespace;sourceContext=app|reserved-identity;destinationContext=app|reserved-identity
         serviceMonitor:
           enabled: true
       relay:
