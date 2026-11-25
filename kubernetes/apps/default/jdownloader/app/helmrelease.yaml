@@ -1,0 +1,106 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app jdownloader
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: jdownloader
+  values:
+    controllers:
+      jdownloader:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/jlesage/jdownloader-2
+              tag: v26.11.1@sha256:2619aae2d501abfcaba01862882716840068fcc25b4584b656ff0cc16d76f2c0
+            env:
+              # The image starts as root (its init chowns /config and /output), then runs the app as this user.
+              USER_ID: "1000"
+              GROUP_ID: "1000"
+              TZ: Europe/London
+              DARK_MODE: "1"
+              DISPLAY_WIDTH: "1680"
+              DISPLAY_HEIGHT: "800"
+              KEEP_APP_RUNNING: "0"
+              # TLS is terminated at the gateway; the VNC port is not exposed by a Service.
+              SECURE_CONNECTION: "0"
+              ENABLE_CJK_FONT: "0"
+              VNC_PASSWORD: ""
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: &port 5800
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: *port
+                  periodSeconds: 5
+                  failureThreshold: 30
+            securityContext:
+              allowPrivilegeEscalation: false
+            resources:
+              requests:
+                cpu: 100m
+                memory: 400Mi
+              limits:
+                memory: 800Mi
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      labels:
+        egress.cilium.io/internet: "true"
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsNonRoot: false
+        runAsUser: 0
+        seccompProfile:
+          type: RuntimeDefault
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Downloads Service
+          gethomepage.dev/name: JDownloader
+          gethomepage.dev/description: "Direct download manager (admin)"
+          gethomepage.dev/icon: jdownloader
+        hostnames: ["{{ .Release.Name }}.f9.casa"]
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}"
+        globalMounts:
+          - path: /config
+      output:
+        type: nfs
+        server: nas.homelab.internal
+        path: /mnt/Media/Library/Downloads
+        globalMounts:
+          - path: /output
