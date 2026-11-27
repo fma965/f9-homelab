@@ -13,7 +13,7 @@ services:
 
   whisper:
     container_name: whisper
-    image: rhasspy/wyoming-whisper:latest@sha256:3cc01f646c8b149fe47b2a5e8bfaf31866e1bc18faffadb26c9b8be58cbe5703
+    image: rhasspy/wyoming-whisper:latest@sha256:ac3fdbdb4d6d7c5899634a63cfe4bac78634d27c7a1b061b2bb5d8f1054853b5
     hostname: whisper
     mac_address: f2:f9:00:00:68:02
     networks:
